@@ -1,12 +1,11 @@
-[[plugins]]
-package = "@netlify/plugin-nextjs"
-
-[build.environment]
-  GIT_SSH_COMMAND = "ssh -o StrictHostKeyChecking=no"
-  NODE_VERSION = "18"
-  NPM_FLAGS = "--version"
-
 [build]
-  command = "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm run build"
+  command = "corepack enable && corepack prepare pnpm@8.15.4 --activate && pnpm install && pnpm exec next build"
   publish = ".next"
 
+[build.environment]
+  NODE_VERSION = "18"
+  NPM_FLAGS = "--version" # evita que Netlify intente usar npm por defecto
+  NEXT_PRIVATE_TARGET = "server" # asegura compatibilidad con funciones lambda
+
+[[plugins]]
+  package = "@netlify/next"
