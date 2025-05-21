@@ -1,0 +1,1 @@
+export default class AccessDeniedError extends Error {}

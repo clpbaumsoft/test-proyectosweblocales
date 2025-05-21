@@ -1,0 +1,22 @@
+version: '3.8'
+
+name: weblocal_front
+
+services:
+  front_reactjs:
+    container_name: weblocal_front_reactjs
+    build:
+      context: .
+      args:
+        - NODE_VERSION=22.11.0
+    volumes:
+      - '.:/home/app'
+    ports:
+      - "3000:3000"
+    networks:
+      - weblocal_front_net
+
+networks:
+  weblocal_front_net:
+    name: weblocal_front_net_name
+    driver: bridge

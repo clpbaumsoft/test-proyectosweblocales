@@ -1,0 +1,30 @@
+.visitRow {
+	.labelStatus {
+		padding: 5px;
+		border-radius: 5px;
+		border-width: 1px;
+		border-style: solid;
+		color: var(--mui-palette-common-white);
+
+		&.ref1{
+			border-color: var(--mui-palette-info-light);
+			background-color: var(--mui-palette-info-light);
+		}
+		&.ref2 {
+			border-color: var(--mui-palette-success-light);
+			background-color: var(--mui-palette-success-light);
+		}
+		&.ref3 {
+			border-color: var(--mui-palette-error-light);
+			background-color: var(--mui-palette-error-light);
+		}
+		&.ref4 {
+			border-color: var(--mui-palette-warning-light);
+			background-color: var(--mui-palette-warning-light);
+		}
+		&.ref5 {
+			border-color: var(--mui-palette-common-black);
+			background-color: var(--mui-palette-common-black);
+		}
+	}
+}

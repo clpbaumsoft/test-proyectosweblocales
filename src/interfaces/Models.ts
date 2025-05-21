@@ -1,0 +1,207 @@
+export type BaseModel = {
+	id: number;
+	creator_date: string;
+	id_creator_user: number;
+	creator?: UserType;
+	modifier_date: string | null;
+	id_modifier_user: number | null;
+	soft_delete: string;
+	status: string;
+}
+
+//-------- Pivots ----
+export type VisitVisitorPivot = BaseModel & {
+	id_visit: number;
+	id_visitor: number;
+	id_visitor_type: number;
+	visitor_type?: VisitorType;
+}
+
+//----------------------------
+
+export type Gate = BaseModel & {
+	description: string;
+}
+
+export type Branch = BaseModel & {
+	short_description: string;
+	long_description: string;
+	gates?: Gate[];
+}
+
+export type Company = BaseModel & {
+	short_description: string;
+	long_description: string;
+	branches?: Branch[];
+}
+
+export type Visit = BaseModel & {
+	start_date: string;
+	end_date: string;
+	reason: string;
+	reason_cancel: string | null;
+	id_cancelled_user: number | null;
+	cancelled_at: string | null;
+	company: Company;
+	branch: Branch;
+	gate: Gate;
+	approver_docs?: UserType | null;
+	canceller?: UserType | null;
+	visitors_count?: number;
+	pivot?: VisitVisitorPivot;
+}
+
+export type VisitorType = BaseModel & {
+	short_description: string;
+	long_description: string;
+	requirements: string | null;
+}
+
+export type IdentificationType = BaseModel & {
+	code: string;
+	description: string;
+}
+
+export type VisitVisitor = BaseModel & {
+	id_visit: number;
+	id_visitor: number;
+	id_visitor_type: number;
+	visitor: Visitor;
+	visitor_type: VisitorType;
+	visit: Visit;
+}
+
+export type Visitor = BaseModel & {
+	fullname: string;
+	first_name: string;
+	middle_name: string;
+	first_last_name: string;
+	second_last_name: string;
+	address: string;
+	phone: string;
+	emergency_contact_name: string;
+	emergency_contact_phone: string;
+	startdate_sgsst: string;
+	enddate_sgsst: string;
+	id_carecompany: number | null;
+	id_arlcompany: number | null;
+	id_city: number | null;
+	photo_url: string;
+	identification_number: string;
+	id_identification_type: number;
+	identification_type: IdentificationType;
+	visits?: Visit[];
+	id_active_entry: number | null;
+	id_active_entry_vehicle: number | null;
+	active_entry?: Entry | null;
+	active_entry_vehicle?: EntryVehicle | null;
+}
+
+export type DocumentType = BaseModel & {
+	description: string;
+}
+
+export type VisitDocument = BaseModel & {
+	description: string;
+	document_url: string;
+	file_location: string;
+	approver_observations: string;
+	id_visit: number;
+	id_visitor: number;
+	id_document_type: number;
+	id_approver_user: number;
+	document_type: DocumentType;
+}
+
+export type UserType = Omit<BaseModel, 'id'> & {
+	identification_number: string;
+	fullname: string;
+	first_name: string;
+	middle_name: string | null;
+	first_last_name: string;
+	second_last_name: string | null;
+	phone: string;
+	email: string;
+	role: Role;
+}
+
+export type Permission = BaseModel & {
+	name: string;
+	uuid: string;
+}
+
+export type Role = BaseModel & {
+	name: string;
+	description: string | null;
+	permissions?: Permission[];
+	list_permissions: string[];
+}
+
+export type City = BaseModel & {
+	name: string;
+}
+
+export type ArlCompany = BaseModel & {
+	name: string;
+}
+
+export type CareCompany = BaseModel & {
+	name: string;
+}
+
+export type Entry = BaseModel & {
+	card_number: string;
+	left_at: string | null;
+	emergency_contact_name: string;
+	emergency_contact_phone: string;
+	id_carecompany: number;
+	id_arlcompany: number;
+	id_gaveleave_user: number;
+	id_visit_visitor: number;
+	visit_visitor?: VisitVisitor;
+}
+
+export type EntryVehicle = BaseModel & {
+	number: string;
+	left_at: string;
+	comments_entry: string;
+	comments_leave: string;
+	id_vehicle_type: number;
+	id_visit_visitor: number;
+	id_gate: number;
+	id_gaveleave_user: number;
+	gate?: Gate;
+	inspect_points?: VehicleInspectPoint[];
+	visit_visitor?: VisitVisitor;
+}
+
+export type VehicleType = BaseModel & {
+	description: string;
+}
+
+export type VehicleInspectPoint = BaseModel & {
+	description: string;
+}
+
+export type EntryEmployee = BaseModel & {
+	employee_code: string | null;
+	employee_document: string | null;
+	employee_name: string;
+	left_at: string | null;
+	comments: string | null;
+	id_employee_receiver: number | null;
+	id_company: number;
+	id_gaveleave_user: number | null;
+	gaveleave_user?: UserType | null;
+	receiver?: Employee | null;
+	company?: Company | null;
+}
+
+export type Employee = BaseModel & {
+	code: string | null;
+	identification_number: string;
+	name: string;
+	id_identification_type: number;
+	identification_type?: IdentificationType | null;
+	active_entry_employee?: EntryEmployee | null;
+}

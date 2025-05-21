@@ -1,0 +1,85 @@
+import { Employee } from "./Models";
+
+export type LoginFormType = {
+	dni_type: string;
+	dni: string;
+	password: string;
+}
+
+export type VisitFormType = {
+	id_visit?: number;
+	entry_date: string;
+	departure_date: string;
+	reason: string;
+	email_approver?: string;
+	company_selected: string | number;
+	branch_selected: string | number;
+	gate_selected: string | number;
+}
+
+export type RejectVisitDocumentFormType = {
+	reject_reason: string;
+}
+
+export type ChangeDocumentFormType = {
+	description: string;
+	document: File;
+	document_type: number;
+}
+
+export type SearchPersonFormType = {
+	document_type: number | string;
+	document_or_name: string;
+}
+
+export type RegisterTalkVisitorFormType = {
+	start_date: string;
+	end_date: string;
+}
+
+export type CreateEntryFormType = {
+	card_number: string;
+	eps: number | string | null;
+	arl: number | string | null;
+	emergency_name: string;
+	emergency_phone: string;
+}
+
+export type GiveEntryVehicleFormType = {
+	number: string;
+	vehicle_type: number | string;
+	gate: number | string;
+	vehicle_inspect_points: number[] | string[];
+	entry_comments: string;
+}
+
+export type GiveLeaveVehicleFormType = {
+	vehicle_inspect_points: number[] | string[];
+	gate: string;
+	leave_comments: string;
+}
+
+export type FormGiveEntryEmployeeProps = {
+	employee: Employee;
+	onCancel?: () => void;
+}
+
+export type FormGiveEntryExternalEmployeeType = {
+	card_number: string;
+	company: string | number;
+	code: string | number;
+	document: string | number;
+	identity_type: string | number;
+	fullname: string;
+	email: string;
+	receiver: string;
+	comments: string;
+}
+
+export type FormGiveEntryEmployeeType = {
+	card_number: string;
+	company: string | number;
+	comments: string;
+}
+
+
