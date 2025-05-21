@@ -34,7 +34,6 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@netlify/next": "^1.4.9",
     "@types/mime-types": "^2.1.4",
     "@types/node": "^20",
     "@types/nprogress": "^0.2.3",
