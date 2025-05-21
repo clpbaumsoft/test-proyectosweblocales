@@ -1,6 +1,6 @@
 
 //React and Modules
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import moment from "moment";
 import type { Moment } from "moment";
 
@@ -23,10 +23,13 @@ import FormMessages from "@/components/atoms/FormMessages";
 import FullLoader from "@/components/atoms/FullLoader";
 import InputAutocomplete from "@/components/atoms/InputAutocomplete";
 import LabelForm from "@/components/atoms/LabelForm";
-const DateTimePicker = dynamic(
-	() => import("@/components/atoms/DateTimePicker"),
-	{ ssr: false }
-)
+// const DateTimePicker = dynamic(
+// 	() => import("@/components/atoms/DateTimePicker"),
+// 	{ ssr: false }
+// )
+
+import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 
 //Constants
 import { GTRANS } from "@/constants/Globals";
@@ -127,9 +130,10 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 					)
 				}
 				<DialogContent>
-					<form onSubmit={handleSubmit(onSubmit)}>
-						<HeadingForm>{TEXTS.title}</HeadingForm>
-						<Grid container spacing={3}>
+					<LocalizationProvider dateAdapter={AdapterMoment}>
+						<form onSubmit={handleSubmit(onSubmit)}>
+							<HeadingForm>{TEXTS.title} HOLA</HeadingForm>
+							<Grid container spacing={3}>
 							{ /* Field: Entry date */}
 							<Grid size={{ xs: 12, md: 6 }}>
 								<LabelForm
@@ -146,6 +150,7 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 									}}
 									minDate={moment()}
 								/>
+								{/* <DateTimePicker /> */}
 							</Grid>
 							{ /* Field: Departure date */}
 							<Grid size={{ xs: 12, md: 6 }}>
@@ -237,6 +242,7 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 							</Button>
 						</DialogActions>
 					</form>
+					</LocalizationProvider>
 				</DialogContent>
 			</Dialog>
 		</>

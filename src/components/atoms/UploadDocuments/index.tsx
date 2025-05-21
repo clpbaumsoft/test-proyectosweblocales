@@ -45,7 +45,7 @@ export default function UploadDocuments({ files, actions, documentTypes, maxFile
 
 	return (
 		<>
-			<Box>
+			<Box sx={{paddingBottom: '6rem'}}>
 				<div {...getRootProps({ className: styles.dropZone })}>
 					<input {...getInputProps()} />
 					{

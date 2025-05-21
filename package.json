@@ -18,7 +18,6 @@
     "@netlify/plugin-nextjs": "^5.11.1",
     "axios": "^1.7.9",
     "iron-session": "^8.0.4",
-    "material-datetime-picker": "^2.4.0",
     "mime-types": "^3.0.1",
     "mitt": "^3.0.1",
     "moment": "^2.30.1",

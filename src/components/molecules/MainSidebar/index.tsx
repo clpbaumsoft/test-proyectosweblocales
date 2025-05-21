@@ -224,7 +224,9 @@ export default function MainSidebar({ children }: BaseComponentProps) {
 								onClick={onClickOpenModalRegisterVisit} 
 								sx={{ justifyContent: 'flex-start', color: 'black', fontWeight: 'bold' }}
 								startIcon={<EventIcon />}
-							>{TEXTS.create_visit}</Button>
+							>
+								{TEXTS.create_visit}
+							</Button>
 						)
 					}
 					{
@@ -234,7 +236,9 @@ export default function MainSidebar({ children }: BaseComponentProps) {
 									fullWidth 
 									sx={{ justifyContent: 'flex-start', color: 'black', fontWeight: 'bold' }}
 									startIcon={<MeetingRoomIcon />}
-								>{TEXTS.control_entry}</Button>
+								>
+									{TEXTS.control_entry}
+								</Button>
 							</Link>
 						)
 					}

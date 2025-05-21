@@ -190,6 +190,7 @@ export default function VisitorRowActions({ visitVisitor, documentTypes }: Visit
 				handleClose={toggleModalAddDocuments}
 				textAction={TEXTS.save}
 				handleAction={uploadAllDocuments}
+				addFixedRowSave={true}
 			>
 				<Container maxWidth={false}>
 					<UploadDocuments 

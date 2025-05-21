@@ -58,6 +58,7 @@ export type ModalFullScreenProps = BaseComponentProps & {
 	textAction: string;
 	handleClose: () => void;
 	handleAction: () => void;
+	addFixedRowSave?: boolean;
 }
 
 export type RowUploadFile = {
