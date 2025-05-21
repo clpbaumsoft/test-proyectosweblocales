@@ -1,2 +1,11 @@
 [[plugins]]
 package = "@netlify/plugin-nextjs"
+
+[build.environment]
+  GIT_SSH_COMMAND = "ssh -o StrictHostKeyChecking=no"
+  NODE_VERSION = "18"
+  NPM_FLAGS = "--version"
+
+[build]
+  command = "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm run build"
+
