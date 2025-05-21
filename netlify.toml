@@ -4,8 +4,8 @@
 
 [build.environment]
   NODE_VERSION = "18"
-  NPM_FLAGS = "--version" # evita que Netlify intente usar npm por defecto
-  NEXT_PRIVATE_TARGET = "server" # asegura compatibilidad con funciones lambda
+  NPM_FLAGS = "--version" # evita que Netlify use npm por defecto
+  NETLIFY_USE_PNPM = "true"
 
 [[plugins]]
   package = "@netlify/next"
