@@ -132,7 +132,7 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 				<DialogContent>
 					<LocalizationProvider dateAdapter={AdapterMoment}>
 						<form onSubmit={handleSubmit(onSubmit)}>
-							<HeadingForm>{TEXTS.title} HOLA</HeadingForm>
+							<HeadingForm>{TEXTS.title}</HeadingForm>
 							<Grid container spacing={3}>
 							{ /* Field: Entry date */}
 							<Grid size={{ xs: 12, md: 6 }}>
