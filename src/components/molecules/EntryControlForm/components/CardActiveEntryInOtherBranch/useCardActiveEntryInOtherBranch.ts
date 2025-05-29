@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 
 //Constants
@@ -9,7 +10,7 @@ import LocalError from "@/errors/LocalError";
 import ValidationError from "@/errors/ValidationError";
 
 //Events
-import EntryControlEvents from "@/events/EntryControlEvents";
+// import EntryControlEvents from "@/events/EntryControlEvents";
 
 //Interfaces and types
 import { Visitor } from "@/interfaces/Models";
@@ -17,7 +18,6 @@ import { Visitor } from "@/interfaces/Models";
 //Hooks
 import useSessionProviderHook from "@/providers/SessionProvider/hooks";
 import useFormMessages from "@/hooks/useFormMessages";
-import useToggleBoolean from "@/hooks/useToggleBoolean";
 import useTranslation from "@/hooks/useTranslation";
 
 //Packages
@@ -35,7 +35,7 @@ const TRANS = {
 	},
 }
 
-export default function useCardActiveEntry(visitor: Visitor) {
+export default function useCardActiveEntryInOtherBranch(visitor: Visitor) {
 
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
@@ -47,9 +47,7 @@ export default function useCardActiveEntry(visitor: Visitor) {
 
 	const [isInnerLoading, setIsInnerLoading] = useState(false)
 	const [okMessage, errorMessage, changeOkMessage, changeErrorMessage, hideMessages] = useFormMessages()
-	const [isOpenModalEntryVehicle, toggleModalEntryVehicle] = useToggleBoolean(false)
-	const [isOpenModalEntryToOtherBranch, toggleModalEntryToOtherBranch] = useToggleBoolean(false)
-	
+
 
 	/**
 	 * 
@@ -66,10 +64,13 @@ export default function useCardActiveEntry(visitor: Visitor) {
 			setIsInnerLoading(true)
 			hideMessages()
 
-			await Orchestra.entryService.leave(visitor.id)
+			await Orchestra.visitToOtherBranchService.leave(visitor?.id)
 			changeOkMessage(TEXTS.success_give_leave_entry)
-			hideMessages(5*1000, () => {
-				EntryControlEvents.updateVisitor.emit('update_visitor', { ...visitor, active_entry: null })
+			hideMessages(2*1000, ()=> {
+				const buttonSearch: HTMLButtonElement | null = document.getElementById('search-person-button') as HTMLButtonElement | null;
+				if (buttonSearch) {
+					buttonSearch.click();
+				}
 			})
 			setIsInnerLoading(false)
 		} catch(catchError) {
@@ -89,10 +90,6 @@ export default function useCardActiveEntry(visitor: Visitor) {
 		isInnerLoading,
 		message: okMessage,
 		error: errorMessage,
-		isOpenModalEntryToOtherBranch,
-		toggleModalEntryToOtherBranch,
-		isOpenModalEntryVehicle,
-		toggleModalEntryVehicle,
 		onClickGiveLeave,
 	}
 }

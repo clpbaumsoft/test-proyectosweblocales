@@ -133,6 +133,7 @@ export default function SearchPersonForm({ onSearch, onResult, onFail }: SearchP
 						</BoxSearchPerson>
 					</div>
 					<Button 
+						id="search-person-button"
 						type="submit" 
 						variant="contained"
 						fullWidth

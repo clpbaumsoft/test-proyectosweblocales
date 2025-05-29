@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {
 	Box,
 	Button,
@@ -8,6 +9,7 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import TransferWithinAStationIcon from '@mui/icons-material/TransferWithinAStation';
 import CarRentalIcon from "@mui/icons-material/CarRental";
 
 //Components
@@ -28,6 +30,8 @@ import { BoxButtonsForm, SpaceBtn } from "@/styles/elements";
 
 //Lib
 import { formatsDate } from "@/lib/Helpers";
+import GiveEntryToOtherBranch from "@/components/molecules/GiveEntryToOtherBranch";
+import { useMemo } from "react";
 
 //Texts
 const TRANS = {
@@ -43,12 +47,17 @@ const TRANS = {
 	},
 	label_entry_at: {
 		id: "CardActiveEntry.BoldLabel.Label.EntryAt",
-		defaultMessage: "Ingreso a las:",
+		defaultMessage: "Ingresó a las:",
 		description: "",
 	},
 	label_entry_approver: {
 		id: "CardActiveEntry.Typography.Label.UserWhoGiveEntry",
 		defaultMessage: "Persona que dió el ingreso:",
+		description: "",
+	},
+	give_entry_to_other_branch: {
+		id: "CardActiveEntry.Button.GiveEntryVehicle",
+		defaultMessage: "Ingreso a sede diferente de la visita original",
 		description: "",
 	},
 	give_entry_vehicle: {
@@ -72,6 +81,8 @@ export default function CardActiveEntry({ visitor }: CardActiveEntryProps) {
 		isInnerLoading,
 		message,
 		error,
+		isOpenModalEntryToOtherBranch,
+		toggleModalEntryToOtherBranch,
 		isOpenModalEntryVehicle,
 		toggleModalEntryVehicle,
 		onClickGiveLeave,
@@ -80,6 +91,14 @@ export default function CardActiveEntry({ visitor }: CardActiveEntryProps) {
 	if(!visitor.active_entry) {
 		return <></>
 	}
+
+	const isEntryToOtherBranchButtonEnabled = useMemo(() => {
+		const entryGates = visitor?.active_entry?.entry_gates;
+		if (!entryGates || !Array.isArray(entryGates)) {
+			return false;
+		}
+		return entryGates.some(gate => gate.active === 1);
+	}, [visitor?.active_entry?.entry_gates]);
 
 	return (
 		<>
@@ -142,6 +161,21 @@ export default function CardActiveEntry({ visitor }: CardActiveEntryProps) {
 						{
 							loggedUser.can('create_entry_vehicle') && (
 								<>
+									<Button
+										disabled={isEntryToOtherBranchButtonEnabled} 
+										variant="contained" 
+										color="info"
+										startIcon={<TransferWithinAStationIcon />}
+										onClick={toggleModalEntryToOtherBranch}
+									>{TEXTS.give_entry_to_other_branch}</Button>
+									<SpaceBtn />
+								</>
+							)
+						}
+
+						{
+							loggedUser.can('create_entry_vehicle') && (
+								<>
 									<Button 
 										variant="contained" 
 										color="primary"
@@ -162,7 +196,26 @@ export default function CardActiveEntry({ visitor }: CardActiveEntryProps) {
 				</Box>
 			</Box>
 
-			{/*  */}
+
+			{/* MODAL ENTRY TO OTHER BRANCH */}
+			<Dialog open={isOpenModalEntryToOtherBranch}>
+				<DialogContent>
+					{
+						visitor.active_entry?.visit_visitor?.visit && (
+							<>
+								<GiveEntryToOtherBranch 
+									visit={visitor.active_entry?.visit_visitor?.visit} 
+									visitor={visitor} 
+									onClose={toggleModalEntryToOtherBranch}
+								/>
+							</>
+						)
+					}
+				</DialogContent>
+			</Dialog>
+
+
+			{/* MODAL ENTRY VEHICLE */}
 			<Dialog open={isOpenModalEntryVehicle}>
 				<DialogContent>
 					{

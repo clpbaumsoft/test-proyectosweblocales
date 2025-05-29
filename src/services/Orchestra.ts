@@ -20,6 +20,7 @@ import VisitorTypeService from "./VisitorType";
 import VisitorService from "./Visitor";
 import VisitDocumentService from "./VisitDocument";
 import VisitVisitorService from "./VisitVisitor";
+import VisitToOtherBranchService from "./VisitToOtherBranch";
 
 const Orchestra = {
   authService: new AuthService(),
@@ -39,6 +40,7 @@ const Orchestra = {
   vehicleInspectPointService: new VehicleInspectPointService(),
   vehicleTypeService: new VehicleTypeService(),
   visitService: new VisitService(),
+  visitToOtherBranchService: new VisitToOtherBranchService(),
   visitorTypeService: new VisitorTypeService(),
   visitorService: new VisitorService(),
   visitDocumentService: new VisitDocumentService(),

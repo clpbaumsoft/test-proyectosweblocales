@@ -150,7 +150,6 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 									}}
 									minDate={moment()}
 								/>
-								{/* <DateTimePicker /> */}
 							</Grid>
 							{ /* Field: Departure date */}
 							<Grid size={{ xs: 12, md: 6 }}>
@@ -206,6 +205,7 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 								/>
 							</Grid>
 							{
+								// Dropdowns in Form Register visit
 								<DropdownsCompany
 									isLoadingCompanies={isLoadingCompanies}
 									errors={errors}

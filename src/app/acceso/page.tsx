@@ -11,7 +11,6 @@ import { getSessionToken } from "@/lib/Server";
 
 //Services
 import Orchestra from "@/services/Orchestra";
-// import ClearClientStorage from "@/components/ClearClientStorage";
 
 export default async function Acceso() {
 
@@ -27,7 +26,6 @@ export default async function Acceso() {
 
 	return (
 		<>
-			{/* <ClearClientStorage /> */}
 			<PageLogin />
 		</>
 	)

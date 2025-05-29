@@ -23,6 +23,8 @@ import { GTRANS } from "@/constants/Globals";
 //Hooks
 import useEntryControlForm from "./useEntryControlForm";
 import useTranslation from "@/hooks/useTranslation";
+import CardActiveEntryInOtherBranch from "./components/CardActiveEntryInOtherBranch";
+import { AccordeonHistoryVisits } from "./components/AccordeonHistoryVisits";
 
 //Texts
 const TRANS = {
@@ -69,6 +71,7 @@ export default function EntryControlForm() {
 		onLoadResult,
 		onSearchVisitor,
 	} = useEntryControlForm()
+		// console.log("✅✅✅✅✅✅✅✅✅✅✅✅✅✅ ~ EntryControlForm ~ visitor:", visitor)
 
 	return (
 		<>
@@ -87,9 +90,13 @@ export default function EntryControlForm() {
 					<>
 						<Typography variant="h6" sx={{ mb: '10px' }}>{TEXTS.heading_results_for.replace('[NAME]', visitor.fullname)}</Typography>
 						<Box>
+							
 							<CardVisitorPhoto visitor={visitor} />
 							<CardActiveEntry visitor={visitor} />
+							<CardActiveEntryInOtherBranch visitor={visitor} />
+							<AccordeonHistoryVisits visitor={visitor}/>
 							<CardActiveEntryVehicle visitor={visitor} />
+
 						</Box>
 						{
 							visitor.visits && visitor.visits.length > 0 ? (

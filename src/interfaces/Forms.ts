@@ -17,6 +17,14 @@ export type VisitFormType = {
 	gate_selected: string | number;
 }
 
+export type VisitFormToOtherBranchType = {
+	visitor_id: number | string;
+	id_visit?: number | string;
+	company_selected?: string | number;
+	branch_selected?: string | number;
+	gate_selected: string | number;
+}
+
 export type RejectVisitDocumentFormType = {
 	reject_reason: string;
 }
@@ -55,7 +63,7 @@ export type GiveEntryVehicleFormType = {
 
 export type GiveLeaveVehicleFormType = {
 	vehicle_inspect_points: number[] | string[];
-	gate: string;
+	gate: string | number;
 	leave_comments: string;
 }
 

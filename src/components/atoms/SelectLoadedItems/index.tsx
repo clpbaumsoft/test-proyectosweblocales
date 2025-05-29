@@ -39,10 +39,11 @@ export default function SelectLoadedItems(props: SelectLoadedItemsProps) {
 	return (
 		<>
 			{
-				items.length === 0 ? (
+				items?.length === 0 ? (
 					<Typography variant="body2">{GTEXTS.no_results}</Typography>
 				) : (
 					<Autocomplete
+						disabled={props?.disabled || false}
 						value={value}
 						options={items}
 						onChange={onChange}

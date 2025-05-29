@@ -99,7 +99,7 @@ export default class AuthService {
 			const dataResponse = (error?.response?.data as ErrorResponseDataType) || { error: "" }
 			const message = dataResponse.error || dataResponse.message || GERRORS.error_something_went_wrong
 			if(status === 401) {
-				throw new AuthError(GERRORS?.session_has_not_started)
+				throw new AuthError(GERRORS.session_has_not_started)
 			}
 			throw new LocalError(message)
 		}

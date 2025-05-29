@@ -126,6 +126,7 @@ export type SelectLoadedItemsProps = BaseComponentProps & {
 	defaultValue?: string | number | null;
 	inputProps?: Pick<InputProps, 'fullWidth' | 'size'>;
 	cachedKey?: string;
+	disabled?: boolean;
 }
 
 export type TakePhotoProps = BaseComponentProps & {

@@ -50,7 +50,7 @@ const TRANS = {
 	},
 	label_entry_at: {
 		id: "CardActiveEntryVehicle.BoldLabel.Label.EntryAt",
-		defaultMessage: "Ingreso a las:",
+		defaultMessage: "Ingresó a las:",
 		description: "",
 	},
 	label_gate: {
@@ -123,7 +123,7 @@ export default function CardActiveEntryVehicle({ visitor }: CardActiveEntryVehic
 						bgcolor: 'info.light',
 					}}
 					variant="h6"
-				>{TEXTS.label_entry_visitor}</Typography>
+				>{TEXTS.label_entry_visitor + ' - HOLAAA VEHICULO'}</Typography>
 				<Box sx={{ p: '10px' }}>
 					<Grid container>
 						<Grid size={{ xs: 12, md: 4 }}>

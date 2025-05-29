@@ -30,6 +30,7 @@ export default function useEntryControlForm() {
 			'active_entry_vehicle.gate',
 			'active_entry_vehicle.inspect_points',
 			'creator',
+			'active_entry.entry_gates'
 		])
 	}
 

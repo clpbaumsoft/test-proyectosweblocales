@@ -52,7 +52,7 @@ export default function useGiveLeaveVehicleForm(visitor: Visitor, onCancel: () =
 		handleSubmit,
 		formState: { errors, isValid },
 	} = useForm<GiveLeaveVehicleFormType>({ defaultValues: {
-		gate: "",
+		gate: visitor?.active_entry_vehicle?.gate?.id || "",
 		vehicle_inspect_points: [],
 		leave_comments: "",
 	} })
@@ -82,10 +82,12 @@ export default function useGiveLeaveVehicleForm(visitor: Visitor, onCancel: () =
 			reset()
 			changeOkMessage(TEXTS.success_give_leave)
 			hideMessages(5*1000, () => {
+
 				visitor.id_active_entry_vehicle = null
 				visitor.active_entry_vehicle = null
 				EntryControlEvents.updateVisitor.emit('update_visitor', { ...visitor })
 				onCancel()
+				
 			}) 
 			setIsInnerLoading(false)
 		} catch(catchError) {

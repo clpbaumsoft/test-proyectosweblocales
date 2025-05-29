@@ -117,3 +117,34 @@ export const waiting = (seconds = 5) => {
     setTimeout(resolve, seconds * 1000)
   })
 }
+
+export function getTimeDiff(dateString: string): string {
+    const date = new Date(dateString.replace(' ', 'T'));
+    const now = new Date();
+    const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+    let interval = seconds / 31536000; // years
+    if (interval > 1) {
+        return Math.floor(interval) + " años";
+    }
+    interval = seconds / 2592000; // months
+    if (interval > 1) {
+        return Math.floor(interval) + " meses";
+    }
+    interval = seconds / 86400; // days
+    if (interval > 1) {
+      const days = Math.floor(interval);
+        return days + days > 1 ? " días" : " día";
+    }
+    interval = seconds / 3600; // hours
+    if (interval > 1) {
+        const hours = Math.floor(interval);
+        return hours + `${hours < 1 ? " horas" : " hora"}`;
+    }
+    interval = seconds / 60; // minutes
+    if (interval > 1) {
+        const minutes = Math.floor(interval);
+        return minutes + `${minutes < 1 ? " minuto" : " minutos"}`;
+    }
+    return Math.floor(seconds) + " segundos";
+}

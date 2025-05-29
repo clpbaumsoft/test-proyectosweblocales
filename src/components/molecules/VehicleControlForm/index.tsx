@@ -96,7 +96,7 @@ export default function VehicleControlForm() {
 							<CardActiveEntryVehicle visitor={visitor} />
 						</Box>
 						{
-							visitor.visits && visitor.visits.length > 0 ? (
+							visitor?.visits && visitor?.visits?.length > 0 ? (
 								<TableContainer component={Paper}>
 									<Table sx={{ minWidth: 650 }} aria-label="simple table">
 										<TableHead>

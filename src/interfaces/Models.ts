@@ -21,6 +21,7 @@ export type VisitVisitorPivot = BaseModel & {
 
 export type Gate = BaseModel & {
 	description: string;
+	branch?: object | null;
 }
 
 export type Branch = BaseModel & {
@@ -150,6 +151,7 @@ export type CareCompany = BaseModel & {
 }
 
 export type Entry = BaseModel & {
+	entry_gates?: EntryGates[] | null;
 	card_number: string;
 	left_at: string | null;
 	emergency_contact_name: string;
@@ -160,6 +162,45 @@ export type Entry = BaseModel & {
 	id_visit_visitor: number;
 	visit_visitor?: VisitVisitor;
 }
+
+export interface EntryGates {
+    entry_id: number;
+    gate_id: number;
+    active: number;
+    status: string;
+    soft_delete: boolean;
+    id_creator_user: number;
+    creator_date: string;
+    id_modifier_user: number | null;
+    modifier_date: string;
+    creator: Creator;
+    modifier: {
+        first_name: string;
+        first_last_name: string;
+        fullname: string;
+	} | null;
+    gate: EntryGateToOtherBranchs | null;
+};
+
+export interface EntryGateToOtherBranchs {
+	branch?: {
+		company: {
+			short_description?: string;
+			id: number;
+		}
+		id: number;
+		short_description: string;
+	} | null;
+	description: string;
+	id: number;
+}
+
+export interface Creator {
+    first_name: string;
+    first_last_name: string;
+    fullname: string;
+}
+
 
 export type EntryVehicle = BaseModel & {
 	number: string;

@@ -86,6 +86,10 @@ export type CardActiveEntryProps = BaseComponentProps & {
 	visitor: Visitor;
 }
 
+export type CardActiveEntryToOtherBranchProps = BaseComponentProps & {
+	visitor: Visitor;
+}
+
 export type CreateEntryFormProps = BaseComponentProps & {
 	visitor: Visitor;
 	visit: Visit;
@@ -103,6 +107,12 @@ export type GiveEntryVehicleFormProps = BaseComponentProps & {
 	visit: Visit;
 	onClose?: () => void;
 	onSuccessEntryVehicle?: (entryVehicle: EntryVehicle) => void
+}
+
+export type GiveEntryToOtherBranchProps = BaseComponentProps & {
+	visitor: Visitor;
+	visit: Visit;
+	onClose?: () => void;
 }
 
 export type CardActiveEntryVehicleProps = BaseComponentProps & {

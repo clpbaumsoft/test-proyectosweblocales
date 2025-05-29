@@ -81,7 +81,7 @@ export default function GiveLeaveVehicleForm({ visitor, onCancel }: GiveLeaveVeh
 				}
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<Grid container spacing={3}>
-						{ /* Field: Gate */}
+						{ /* Field: Gate / Portería: */}
 						<Grid size={12}>
 							<LabelForm
 								label={TEXTS.label_gate}
@@ -94,12 +94,13 @@ export default function GiveLeaveVehicleForm({ visitor, onCancel }: GiveLeaveVeh
 								}}
 								render={({ field }) => (
 									<SelectLoadedItems
+										disabled={true}
 										fetchItems={loadGates} 
 										onChangeValue={(itemValue) => field.onChange(itemValue ? parseInt(String(itemValue.value)) : itemValue)}
 										defaultValue={field.value}
 										inputProps={{
 											fullWidth: true,
-											size: 'small',
+											size: 'small'
 										}}
 									/>
 								)}
