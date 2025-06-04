@@ -58,7 +58,7 @@ const TRANS = {
 }
 
 
-export default function DuplicateVisitForm({ visitId, open = false, onClose, preFillFormData, onSaved }: DuplicateVisitFormProps) {
+export default function DuplicateVisitForm({ visitId, open = false, onClose, preFillFormData }: DuplicateVisitFormProps) {
 	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
@@ -76,7 +76,7 @@ export default function DuplicateVisitForm({ visitId, open = false, onClose, pre
 		onChangeInputDate,
 		setMinDateDeparture,
 		isValidForm,
-	} = useDuplicateVisitForm(onClose, preFillFormData, visitId, onSaved)
+	} = useDuplicateVisitForm(onClose, preFillFormData, visitId)
 
 
   return (
