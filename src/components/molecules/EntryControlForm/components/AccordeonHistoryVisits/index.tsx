@@ -19,8 +19,13 @@ const TRANS = {
 		description: "",
 	},
 	label_other_brachs: {
-		id: "AccordeonHistoryVisits.BoldLabel.Label.CardNumber",
+		id: "AccordeonHistoryVisits.BoldLabel.Label.oyher_branch",
 		defaultMessage: "Sede",
+		description: "",
+	},
+    label_other_gate: {
+		id: "AccordeonHistoryVisits.BoldLabel.Label.other_gate",
+		defaultMessage: "Portería",
 		description: "",
 	},
 	label_entry_at: {
@@ -124,7 +129,17 @@ export const AccordeonHistoryVisits = ({ visitor }: CardActiveEntryToOtherBranch
                                                     />
                                                 </Box>
                                             </Grid>
-                                            <Grid size={{ xs: 12, md: 3 }}>
+
+                                            <Grid size={{ xs: 12, md: 2 }}>
+                                                <Box sx={{ mb: '10px' }}>
+                                                    <BoldLabel
+                                                        label={TEXTS.label_other_gate}
+                                                        value={item_entry_gates?.gate?.description || ''}
+                                                    />
+                                                </Box>
+                                            </Grid>
+
+                                            <Grid size={{ xs: 12, md: 2 }}>
                                                 <Box sx={{ mb: '10px' }}>
                                                     <BoldLabel
                                                         label={TEXTS.label_entry_at}
@@ -132,7 +147,7 @@ export const AccordeonHistoryVisits = ({ visitor }: CardActiveEntryToOtherBranch
                                                     />
                                                 </Box>
                                             </Grid>
-                                            <Grid size={{ xs: 12, md: 3 }}>
+                                            <Grid size={{ xs: 12, md: 2 }}>
                                                 <Box sx={{ mb: '10px' }}>
                                                     <BoldLabel
                                                         label={TEXTS.label_leave_entry_at}

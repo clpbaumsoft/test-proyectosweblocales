@@ -6,7 +6,9 @@ import {
 	Button,
 	Dialog,
 	DialogContent,
+	Tooltip,
 } from "@mui/material";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import EditIcon from "@mui/icons-material/Edit";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import DoNotDisturbOnIcon from "@mui/icons-material/DoNotDisturbOn";
@@ -31,28 +33,35 @@ import useTranslation from "@/hooks/useTranslation";
 import { VisitRowActionsProps } from "@/interfaces/Molecules";
 
 //Styles
-import { BoxButtons, SpaceBtn } from "@/styles/elements";
+import { BoxButtons } from "@/styles/elements";
+import DuplicateVisitForm from "@/components/molecules/DuplicateVisitForm";
+import styles from "./VisitRowActions.module.scss";
 
 //Texts
 const TRANS = {
 	see: {
 		id: "VisitRowActions.Button.See",
-		defaultMessage: "Ver",
+		defaultMessage: "Ver detalles de la visita",
+		description: "",
+	},
+	duplicateVisit: {
+		id: "VisitRowActions.Button.DuplicateVisit",
+		defaultMessage: "Duplicar visita",
 		description: "",
 	},
 	edit: {
 		id: "VisitRowActions.Button.Edit",
-		defaultMessage: "Editar",
+		defaultMessage: "Editar visita",
 		description: "",
 	},
 	cancel: {
 		id: "VisitRowActions.Button.Cancel",
-		defaultMessage: "Cancelar",
+		defaultMessage: "Cancelar visita",
 		description: "",
 	},
 	add_visitor: {
 		id: "VisitRowActions.Button.AddVisitor",
-		defaultMessage: "Agregar",
+		defaultMessage: "Agregar visitante",
 		description: "",
 	},
 	help_text_add_visitor: {
@@ -63,6 +72,7 @@ const TRANS = {
 }
 
 export default function VisitRowActions({ setRowData, rowData }: VisitRowActionsProps) {
+console.log("👋👋👋👋👋👋👋👋👋👋👋👋👋👋 ~ VisitRowActions ~ rowData:", rowData)
 
 	const TEXTS = useTranslation(TRANS)
 
@@ -71,25 +81,45 @@ export default function VisitRowActions({ setRowData, rowData }: VisitRowActions
 		isOpenModalEdit,
 		isOpenModalAddVisitor,
 		isOpenCancelForm,
+		isOpenDuplicateForm,
 		toggleModalEdit,
 		onCloseModalEdit,
 		toggleModalAddVisitor,
 		onUpdateRowData,
 		onIncreaseVisitorsCounter,
 		toggleIsOpenCancelForm,
+		toggleModalDuplicateVisit,
 	} = useVisitRowActions(setRowData, rowData)
+
+
+	const end_date = rowData.end_date ? new Date(rowData.end_date) : null;
+
+	const isVisitExpired = (): boolean => {
+		if (!end_date) return false;
+		
+		const currentDate = new Date();
+		// currentDate.setHours(0, 0, 0, 0);
+		const compareDate = new Date(end_date);
+		// compareDate.setHours(0, 0, 0, 0);
+		
+		return currentDate >= compareDate;
+	}
 
 	return (
 		<>
-			<BoxButtons>
+			<BoxButtons sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 1}}>
 				{
 					loggedUser.canOr(['approvedocs_visit', 'read_visit']) && (
 						<Link href={PAGES.visits_id.replace('[id]', String(rowData.id))} passHref>
-							<Button 
-								variant="outlined" 
-								color="info"
-								startIcon={<VisibilityIcon color="info" />}
-							>{TEXTS.see}</Button>
+							<Tooltip title={TEXTS.see} placement="top">
+								<Button
+									className={`${styles.button_action_icon}`} 
+									variant="outlined" 
+									color="info"
+									startIcon={<VisibilityIcon color="info" />}
+								>
+								</Button>
+							</Tooltip>
 						</Link>
 					)
 				}
@@ -97,38 +127,66 @@ export default function VisitRowActions({ setRowData, rowData }: VisitRowActions
 				{
 					loggedUser.can('update_visit') && (
 						<>
-							<SpaceBtn />
-							<Button 
-								variant="outlined" 
-								onClick={toggleModalEdit}
-								startIcon={<EditIcon />}
-								>{TEXTS.edit}</Button>
+							<Tooltip title={TEXTS.edit} placement="top">
+								<Button 
+									className={`${styles.button_action_icon}`}
+									variant="outlined" 
+									onClick={toggleModalEdit}
+									startIcon={<EditIcon />}
+								>
+								</Button>
+							</Tooltip>
+						    {
+								isVisitExpired() && (
+									<Tooltip title={TEXTS.duplicateVisit} placement="top">
+										<Button
+											className={`${styles.button_action_icon}`}
+											variant="outlined" 
+											onClick={toggleModalDuplicateVisit}
+											startIcon={<ContentCopyIcon sx={{margin: '0 !important'}}/>}
+											sx={{
+												margin: '0px !important',
+											}}			
+										>
+										</Button>
+									</Tooltip>
+								)
+							}
+
 							{
 								(rowData.status !== VISIT_STATUS_CANCELLED) && (
 									<>
-										<SpaceBtn />
-										<Button 
-											variant="outlined" 
-											onClick={toggleIsOpenCancelForm}
-											startIcon={<DoNotDisturbOnIcon color="error" />}
-											color="error"
-										>{TEXTS.cancel}</Button>
+										<Tooltip title={TEXTS.cancel} placement="top">
+											<Button 
+												className={`${styles.button_action_icon}`}
+												variant="outlined" 
+												onClick={toggleIsOpenCancelForm}
+												startIcon={<DoNotDisturbOnIcon color="error" />}
+												color="error"
+											>
+											</Button>
+										</Tooltip>
 									</>
 								)
 							}
+
 							{
 								(rowData.status !== VISIT_STATUS_CANCELLED) && (
 									<>
-										<SpaceBtn />
-										<Badge badgeContent={rowData.visitors_count} color="primary">
-											<Button 
-												variant="outlined" 
-												onClick={toggleModalAddVisitor}
-												startIcon={<PersonAddIcon color="success" />}
-												color="success"
-												title={TEXTS.help_text_add_visitor}
-											>{TEXTS.add_visitor}</Button>
-										</Badge>
+										<Tooltip title={TEXTS.add_visitor} placement="top">
+											<Badge badgeContent={rowData.visitors_count} color="primary">
+												<Button 
+													className={`${styles.button_action_icon}`}
+													variant="outlined" 
+													onClick={toggleModalAddVisitor}
+													startIcon={<PersonAddIcon color="success" />}
+													color="success"
+													title={TEXTS.help_text_add_visitor}
+												>
+												</Button>
+											</Badge>
+										</Tooltip>
+
 									</>
 								)
 							}
@@ -136,7 +194,19 @@ export default function VisitRowActions({ setRowData, rowData }: VisitRowActions
 					)
 				}
 			</BoxButtons>
-			
+
+
+			{ /* Form duplicate Visit */}
+			{ isOpenDuplicateForm &&
+				<DuplicateVisitForm 
+					visitId={rowData.id} 
+					open={isOpenDuplicateForm}
+					onClose={toggleModalDuplicateVisit}
+					// onSaved={onUpdateRowData}
+				/>
+			}
+
+
 			{ /* Form used to update the visit information */}
 			{
 				isOpenModalEdit && (

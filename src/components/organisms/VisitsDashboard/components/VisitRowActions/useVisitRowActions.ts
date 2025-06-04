@@ -13,6 +13,7 @@ import Orchestra from "@/services/Orchestra"
 
 export default function useVisitRowActions(setRowData: (key: keyof VisitRow, newValue: unknown) => void, rowData: VisitRow) {
 
+	const [isOpenDuplicateForm, setIsOpenDuplicateForm] = useState(false)
 	const [isOpenModalEdit, setIsOpenModalEdit] = useState(false)
 	const [isOpenModalAddVisitor, setIsOpenModalAddVisitor] = useState(false)
 	const [isOpenCancelForm, toggleIsOpenCancelForm] = useToggleBoolean(false)
@@ -23,6 +24,10 @@ export default function useVisitRowActions(setRowData: (key: keyof VisitRow, new
 
 	const onCloseModalEdit = () => {
 		setIsOpenModalEdit(false)
+	}
+	
+	const toggleModalDuplicateVisit = () => {
+		setIsOpenDuplicateForm(!isOpenDuplicateForm)
 	}
 
 	const toggleModalEdit = () => {
@@ -68,11 +73,13 @@ export default function useVisitRowActions(setRowData: (key: keyof VisitRow, new
 		isOpenModalEdit,
 		isOpenModalAddVisitor,
 		isOpenCancelForm,
+		isOpenDuplicateForm,
 		toggleModalEdit,
 		onCloseModalEdit,
 		toggleModalAddVisitor,
 		onUpdateRowData,
 		onIncreaseVisitorsCounter,
 		toggleIsOpenCancelForm,
+		toggleModalDuplicateVisit,
 	}
 }

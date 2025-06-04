@@ -17,6 +17,13 @@ export type VisitFormType = {
 	gate_selected: string | number;
 }
 
+export type DuplicateVisitFormType = {
+	id_visit?: number;
+	entry_date: string;
+	departure_date: string;
+	onSaved?: (data: VisitFormType) => Promise<void>;
+}
+
 export type VisitFormToOtherBranchType = {
 	visitor_id: number | string;
 	id_visit?: number | string;

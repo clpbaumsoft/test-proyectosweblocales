@@ -11,7 +11,7 @@ import ValidationError from "@/errors/ValidationError";
 
 //Interfaces and types
 import { PaginateVisits } from "@/interfaces/Molecules";
-import { VisitFormType } from "@/interfaces/Forms";
+import { DuplicateVisitFormType, VisitFormType } from "@/interfaces/Forms";
 import { ErrorResponseDataType } from "@/interfaces/General";
 import { Visit } from "@/interfaces/Models";
 
@@ -132,5 +132,36 @@ export default class VisitService {
 			throw new LocalError(message)
 		}
 	}
+
+
+	/**
+	 * Duplicate a visit
+	 * @returns 
+	 */
+	async duplicateVisit(visitDataToDuplicate: DuplicateVisitFormType) {
+		
+		const data = {
+			start_date: visitDataToDuplicate.entry_date,
+			end_date: visitDataToDuplicate.departure_date,
+		}
+
+		try {
+			await apiRequest().post(`/visit/${visitDataToDuplicate.id_visit}/duplicate`, data);
+			return true
+		} catch(catchError) {
+			const error = catchError as AxiosError
+			const status = error?.status || 500
+			const dataResponse = (error?.response?.data as ErrorResponseDataType) || { error: "", message: "" }
+			const message = dataResponse.error || dataResponse.message || GERRORS.error_something_went_wrong
+			if(status === 401) {
+				throw new AuthError(GERRORS.your_session_has_finished)
+			}
+			if(status === 422) {
+				throw new ValidationError(dataResponse.message)
+			}
+			throw new LocalError(message)
+		}
+	}
+
 
 }

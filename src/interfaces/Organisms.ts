@@ -12,6 +12,14 @@ export type RegisterVisitFormProps = BaseComponentProps & {
 	onSaved?: (data: VisitFormType) => Promise<void>;
 }
 
+export type DuplicateVisitFormProps = BaseComponentProps & {
+	visitId?: number;
+	open?: boolean | null;
+	preFillFormData?: VisitFormType;
+	onClose: () => void;
+	onSaved?: (data: VisitFormType) => Promise<void>;
+}
+
 export type VisitorFormType = {
 	id_visitor_type: number | string;
 	identity_number: string;

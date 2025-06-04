@@ -136,6 +136,16 @@ export default function CardActiveEntry({ visitor }: CardActiveEntryProps) {
 								/>
 							</Box>
 						</Grid>
+						
+						{/* <Grid size={{ xs: 12, md: 3 }}>
+							<Box sx={{ mb: '10px' }}>
+								<BoldLabel
+									label={TEXTS.label_card_number + 'Potería'}
+									value={visitor.active_entry.card_number}
+								/>
+							</Box>
+						</Grid> */}
+
 						<Grid size={{ xs: 12, md: 4 }}>
 							<Box sx={{ mb: '10px' }}>
 								<BoldLabel
