@@ -105,14 +105,14 @@ export default function RegisterTalkVisitor({ visitor }: RegisterTalkVisitorProp
 						<Box sx={{ mb: '10px' }}>
 							<Box sx={{ mb: '5px' }}>
 								<Avatar 
-									alt={stateVisitor.first_name}
-									src={mediaUrl(stateVisitor.id, 'foto-visitante')}
+									alt={stateVisitor?.first_name}
+									src={mediaUrl(stateVisitor?.id ? stateVisitor?.id : 0, 'foto-visitante')}
 									sx={{ width: 70, height: 70 }}
 								/>
-								<Typography>{stateVisitor.fullname}</Typography>
+								<Typography>{stateVisitor?.fullname}</Typography>
 							</Box>
 							{
-								stateVisitor.startdate_sgsst && (
+								stateVisitor?.startdate_sgsst && (
 									<>
 										<LabelForm
 											label={TEXTS.label_startdate_sgsst}

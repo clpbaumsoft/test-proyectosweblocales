@@ -66,12 +66,15 @@ export default function useCardActiveEntry(visitor: Visitor) {
 			setIsInnerLoading(true)
 			hideMessages()
 
-			await Orchestra.entryService.leave(visitor.id)
-			changeOkMessage(TEXTS.success_give_leave_entry)
-			hideMessages(5*1000, () => {
-				EntryControlEvents.updateVisitor.emit('update_visitor', { ...visitor, active_entry: null })
-			})
-			setIsInnerLoading(false)
+			if(visitor) {
+				await Orchestra.entryService.leave(visitor.id)
+				changeOkMessage(TEXTS.success_give_leave_entry)
+				hideMessages(5*1000, () => {
+					EntryControlEvents.updateVisitor.emit('update_visitor', { ...visitor, active_entry: null })
+				})
+				setIsInnerLoading(false)
+			}
+			
 		} catch(catchError) {
 			setIsInnerLoading(false)
 			if(catchError instanceof AuthError) {

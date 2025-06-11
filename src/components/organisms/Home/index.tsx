@@ -11,6 +11,7 @@ import { GTRANS } from "@/constants/Globals";
 //Hooks
 import useHome from "./useHome";
 import useTranslation from "@/hooks/useTranslation";
+import RestrictedUsersDashboard from "../RestrictedUsersDashboard";
 
 
 export default function Home() {
@@ -20,9 +21,15 @@ export default function Home() {
 	const {
 		loggedUser,
 	} = useHome()
+	
+	console.log("🪪🪪🪪🪪🪪🪪🪪🪪🪪 --->  ~ Home ~ loggedUser:", loggedUser)
 
 	if(loggedUser.can('create_entry')) {
 		return <EntryDashboard />
+	}
+
+	if(loggedUser.can('restricted_users')) {
+		return <RestrictedUsersDashboard />
 	}
 
 	if(loggedUser.can('read_visit')) {

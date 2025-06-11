@@ -23,6 +23,7 @@ import EventIcon from "@mui/icons-material/Event";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import ModelTrainingIcon from "@mui/icons-material/ModelTraining";
 import BadgeIcon from "@mui/icons-material/Badge";
+import PersonOffIcon from '@mui/icons-material/PersonOff';
 
 //Components
 import RegisterVisitForm from "@/components/molecules/RegisterVisitForm";
@@ -71,6 +72,11 @@ const TRANS = {
 	control_employees: {
 		id: "MainSidebar.Button.ControlEmployees",
 		defaultMessage: "Control Empleados",
+		description: "",
+	},
+	restricted_users: {
+		id: "MainSidebar.Button.ControlEmployees",
+		defaultMessage: "Restringir/Habilitar usuarios",
 		description: "",
 	},
 	trainings: {
@@ -200,7 +206,7 @@ export default function MainSidebar({ children }: BaseComponentProps) {
 
 			<RegisterVisitForm open={showForm} onClose={handleCloseForm} />
 			<Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
-				<Box sx={{ width: 240 }}>
+				<Box sx={{ width: 300 }}>
 					<Box
 						sx={{ display: 'flex', justifyContent: 'center', alignSelf: 'center', paddingY: 2, }}
 					>
@@ -242,6 +248,31 @@ export default function MainSidebar({ children }: BaseComponentProps) {
 							</Link>
 						)
 					}
+
+
+
+
+
+					{/* Crear el boton para dashboard de Baneados */}
+					{
+						(loggedUser.can('restricted_users') || loggedUser.can('create_entry') ) && (
+							<Link className="btn" href={PAGES.dashboard_restricted_users} passHref>
+								<Button 
+									fullWidth 
+									sx={{ justifyContent: 'flex-start', color: 'black', fontWeight: 'bold' }}
+									startIcon={<PersonOffIcon />}
+								>
+									{TEXTS.restricted_users}
+								</Button>
+							</Link>
+						)
+					}
+
+
+
+
+
+
 					{
 						loggedUser.can('create_entry_employee') && (
 							<Link className="btn" href={PAGES.dashboard_employees} passHref>

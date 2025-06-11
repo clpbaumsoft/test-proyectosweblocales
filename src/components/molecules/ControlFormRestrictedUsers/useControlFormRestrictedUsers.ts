@@ -11,7 +11,7 @@ import { Visitor } from "@/interfaces/Models";
 import Orchestra from "@/services/Orchestra";
 import { Person } from "@/interfaces/General";
 
-export default function useEntryControlForm() {
+export default function useControlFormRestrictedUsers() {
 	
 	const [visitor, setVisitor] = useState<Visitor | null>(null)
 	const [hasFinished, setHasFinished] = useState(false)
@@ -45,7 +45,7 @@ export default function useEntryControlForm() {
 	
 	useEffect(() => {
     const handlerUpdateVisitor = (visitor: Visitor) => {
-		setVisitor(visitor ? { ...visitor } : null)
+			setVisitor(visitor ? { ...visitor } : null)
     }
 
     EntryControlEvents.updateVisitor.on('update_visitor', handlerUpdateVisitor)

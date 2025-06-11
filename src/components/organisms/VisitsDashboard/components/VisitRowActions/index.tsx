@@ -72,7 +72,6 @@ const TRANS = {
 }
 
 export default function VisitRowActions({ setRowData, rowData }: VisitRowActionsProps) {
-console.log("👋👋👋👋👋👋👋👋👋👋👋👋👋👋 ~ VisitRowActions ~ rowData:", rowData)
 
 	const TEXTS = useTranslation(TRANS)
 

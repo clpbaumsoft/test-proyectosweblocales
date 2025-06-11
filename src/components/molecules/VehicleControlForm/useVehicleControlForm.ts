@@ -44,7 +44,7 @@ export default function useVehicleControlForm() {
 
 	useEffect(() => {
 		const handlerUpdateVisitor = (visitor: Visitor) => {
-			setVisitor({ ...visitor })
+			setVisitor(visitor ? { ...visitor } : null)
 		}
 
 		//Events

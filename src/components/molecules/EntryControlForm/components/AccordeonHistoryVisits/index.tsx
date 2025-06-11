@@ -118,59 +118,59 @@ export const AccordeonHistoryVisits = ({ visitor }: CardActiveEntryToOtherBranch
                             if(!item_entry_gates || item_entry_gates.active === 1) return null
 
                             return (
-                                <>
-                                    <Box key={item_entry_gates?.entry_id || index} sx={{ p: '10px'}}>
-                                        <Grid container>
-                                            <Grid size={{ xs: 12, md: 2 }}>
-                                                <Box sx={{ mb: '10px' }}>
-                                                    <BoldLabel
-                                                        label={TEXTS.label_other_brachs}
-                                                        value={item_entry_gates?.gate?.branch?.short_description || ''}
-                                                    />
-                                                </Box>
-                                            </Grid>
-
-                                            <Grid size={{ xs: 12, md: 2 }}>
-                                                <Box sx={{ mb: '10px' }}>
-                                                    <BoldLabel
-                                                        label={TEXTS.label_other_gate}
-                                                        value={item_entry_gates?.gate?.description || ''}
-                                                    />
-                                                </Box>
-                                            </Grid>
-
-                                            <Grid size={{ xs: 12, md: 2 }}>
-                                                <Box sx={{ mb: '10px' }}>
-                                                    <BoldLabel
-                                                        label={TEXTS.label_entry_at}
-                                                        value={formatsDate(item_entry_gates?.creator_date || '' )}
-                                                    />
-                                                </Box>
-                                            </Grid>
-                                            <Grid size={{ xs: 12, md: 2 }}>
-                                                <Box sx={{ mb: '10px' }}>
-                                                    <BoldLabel
-                                                        label={TEXTS.label_leave_entry_at}
-                                                        value={formatsDate(item_entry_gates?.modifier_date || '' )}
-                                                    />
-                                                </Box>
-                                            </Grid>
-                                            <Grid size={{ xs: 12, md: 2 }}>
-                                                <Box>
-                                                    <Typography component="label">{TEXTS.label_entry_approver}</Typography><br/>
-                                                    <Typography variant="body2" fontWeight={700}>{item_entry_gates?.creator?.fullname}</Typography>
-                                                </Box>
-                                            </Grid>
-                                            <Grid size={{ xs: 12, md: 2 }}>
-                                                <Box>
-                                                    <Typography component="label">{TEXTS.label_leave_approver}</Typography><br/>
-                                                    <Typography variant="body2" fontWeight={700}>{item_entry_gates?.modifier?.fullname}</Typography>
-                                                </Box>
-                                            </Grid>
+                                <Box key={item_entry_gates?.entry_id || index} sx={{ p: '10px'}}>
+                                    <Grid container>
+                                        <Grid size={{ xs: 12, md: 2 }}>
+                                            <Box sx={{ mb: '10px' }}>
+                                                <BoldLabel
+                                                    label={TEXTS.label_other_brachs}
+                                                    value={item_entry_gates?.gate?.branch?.short_description || ''}
+                                                />
+                                            </Box>
                                         </Grid>
-                                    </Box>
+
+                                        <Grid size={{ xs: 12, md: 2 }}>
+                                            <Box sx={{ mb: '10px' }}>
+                                                <BoldLabel
+                                                    label={TEXTS.label_other_gate}
+                                                    value={item_entry_gates?.gate?.description || ''}
+                                                />
+                                            </Box>
+                                        </Grid>
+
+                                        <Grid size={{ xs: 12, md: 2 }}>
+                                            <Box sx={{ mb: '10px' }}>
+                                                <BoldLabel
+                                                    label={TEXTS.label_entry_at}
+                                                    value={formatsDate(item_entry_gates?.creator_date || '' )}
+                                                />
+                                            </Box>
+                                        </Grid>
+                                        <Grid size={{ xs: 12, md: 2 }}>
+                                            <Box sx={{ mb: '10px' }}>
+                                                <BoldLabel
+                                                    label={TEXTS.label_leave_entry_at}
+                                                    value={formatsDate(item_entry_gates?.modifier_date || '' )}
+                                                />
+                                            </Box>
+                                        </Grid>
+                                        <Grid size={{ xs: 12, md: 2 }}>
+                                            <Box>
+                                                <Typography component="label">{TEXTS.label_entry_approver}</Typography><br/>
+                                                <Typography variant="body2" fontWeight={700}>{item_entry_gates?.creator?.fullname}</Typography>
+                                            </Box>
+                                        </Grid>
+                                        <Grid size={{ xs: 12, md: 2 }}>
+                                            <Box>
+                                                <Typography component="label">{TEXTS.label_leave_approver}</Typography><br/>
+                                                <Typography variant="body2" fontWeight={700}>{item_entry_gates?.modifier?.fullname}</Typography>
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
+
                                     <hr/>
-                                </>
+                                    
+                                </Box>
                             )
                         })
                     }

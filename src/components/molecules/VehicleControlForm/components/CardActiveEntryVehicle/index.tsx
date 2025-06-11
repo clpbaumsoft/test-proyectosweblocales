@@ -99,7 +99,7 @@ export default function CardActiveEntryVehicle({ visitor }: CardActiveEntryVehic
 		toggleOpenGiveLeaveForm,
 	} = useCardActiveEntryVehicle()
 
-	if(!visitor.active_entry_vehicle) {
+	if(!visitor?.active_entry_vehicle) {
 		return <></>
 	}
 
@@ -123,7 +123,7 @@ export default function CardActiveEntryVehicle({ visitor }: CardActiveEntryVehic
 						bgcolor: 'info.light',
 					}}
 					variant="h6"
-				>{TEXTS.label_entry_visitor + ' - HOLAAA VEHICULO'}</Typography>
+				>{TEXTS.label_entry_visitor}</Typography>
 				<Box sx={{ p: '10px' }}>
 					<Grid container>
 						<Grid size={{ xs: 12, md: 4 }}>

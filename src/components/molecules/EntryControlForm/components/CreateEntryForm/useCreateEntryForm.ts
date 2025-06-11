@@ -49,10 +49,10 @@ export default function useCreateEntryForm(visit: Visit, visitor: Visitor) {
 		handleSubmit,
 		formState: { errors },
 	} = useForm<CreateEntryFormType>({ defaultValues: {
-		emergency_name: visitor.emergency_contact_name,
-		emergency_phone: visitor.emergency_contact_phone,
-		eps: visitor.id_carecompany,
-		arl: visitor.id_arlcompany,
+		emergency_name: visitor?.emergency_contact_name,
+		emergency_phone: visitor?.emergency_contact_phone,
+		eps: visitor?.id_carecompany,
+		arl: visitor?.id_arlcompany,
 	}})
 	
 	const [okMessage, errorMessage, changeOkMessage, changeErrorMessage, hideMessages] = useFormMessages()
@@ -70,11 +70,13 @@ export default function useCreateEntryForm(visit: Visit, visitor: Visitor) {
 			setIsInnerLoading(true)
 			hideMessages()
 			
-			const entry = await Orchestra.entryService.give(visit.id, visitor.id, data)
-			const newVisitor = { ...visitor, active_entry: { ...entry } }
-			EntryControlEvents.updateVisitor.emit('update_visitor', newVisitor)
-			changeOkMessage(TEXTS.success_give_entry)
-			setIsInnerLoading(false)
+			if(visitor) {
+				const entry = await Orchestra.entryService.give(visit.id, visitor.id, data)
+				const newVisitor = { ...visitor, active_entry: { ...entry } }
+				EntryControlEvents.updateVisitor.emit('update_visitor', newVisitor)
+				changeOkMessage(TEXTS.success_give_entry)
+				setIsInnerLoading(false)
+			}
 		} catch(catchError) {
 			setIsInnerLoading(false)
 			if(catchError instanceof AuthError) {

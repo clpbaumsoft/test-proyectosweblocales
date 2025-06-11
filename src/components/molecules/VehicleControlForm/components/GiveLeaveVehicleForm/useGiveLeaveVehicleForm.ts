@@ -78,14 +78,16 @@ export default function useGiveLeaveVehicleForm(visitor: Visitor, onCancel: () =
 			
 			hideMessages()
 			
-			await Orchestra.entryVehicleService.leave(visitor.id, data)
+			await Orchestra.entryVehicleService.leave(visitor ? visitor.id : 0, data)
 			reset()
 			changeOkMessage(TEXTS.success_give_leave)
 			hideMessages(5*1000, () => {
 
-				visitor.id_active_entry_vehicle = null
-				visitor.active_entry_vehicle = null
-				EntryControlEvents.updateVisitor.emit('update_visitor', { ...visitor })
+				if (visitor) {
+					visitor.id_active_entry_vehicle = null
+					visitor.active_entry_vehicle = null
+					EntryControlEvents.updateVisitor.emit('update_visitor', { ...visitor })
+				}
 				onCancel()
 				
 			}) 
@@ -115,11 +117,11 @@ export default function useGiveLeaveVehicleForm(visitor: Visitor, onCancel: () =
 	 * Loads the vehicle inspect points.
 	 */
 	const loadVehicleInspectPoints = useCallback(async () => {
-		if(!visitor.active_entry_vehicle?.inspect_points) {
+		if(!visitor?.active_entry_vehicle?.inspect_points) {
 			return []
 		}
-		return visitor.active_entry_vehicle?.inspect_points.map((vehicleInspectPoint) => ({ label: vehicleInspectPoint.description, value: vehicleInspectPoint.id }))
-	}, [visitor.active_entry_vehicle?.inspect_points])
+		return visitor?.active_entry_vehicle?.inspect_points?.map((vehicleInspectPoint) => ({ label: vehicleInspectPoint.description, value: vehicleInspectPoint.id }))
+	}, [visitor?.active_entry_vehicle?.inspect_points])
 	
 	return {
 		isValid,

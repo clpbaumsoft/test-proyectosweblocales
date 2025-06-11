@@ -69,16 +69,20 @@ export default function useGiveEntryVehicleForm(visitor: Visitor, visit: Visit, 
 			}
 			setIsInnerLoading(true)
 			hideMessages()
-			const entryVehicle = await Orchestra.entryVehicleService.give(visit.id, visitor.id, data)
-			const copyVisitor = { ...visitor }
-			copyVisitor.active_entry_vehicle = { ...entryVehicle }
-			EntryControlEvents.updateVisitor.emit('update_visitor', copyVisitor)
-			changeOkMessage(TEXTS.success_entry_vehicle)
-			if(onSuccessEntryVehicle) {
-				onSuccessEntryVehicle(entryVehicle)
+
+			if(visitor) {
+				const entryVehicle = await Orchestra.entryVehicleService.give(visit.id, visitor.id, data)
+				const copyVisitor = { ...visitor }
+				copyVisitor.active_entry_vehicle = { ...entryVehicle }
+				EntryControlEvents.updateVisitor.emit('update_visitor', copyVisitor)
+				changeOkMessage(TEXTS.success_entry_vehicle)
+				if(onSuccessEntryVehicle) {
+					onSuccessEntryVehicle(entryVehicle)
+				}
+				reset()
+				setIsInnerLoading(false)
 			}
-			reset()
-			setIsInnerLoading(false)
+
 		} catch(catchError) {
 			setIsInnerLoading(false)
 			if(catchError instanceof AuthError) {

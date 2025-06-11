@@ -1,7 +1,7 @@
 import type { MouseEvent } from "react";
 import { BaseComponentProps, ItemSelector, PageAuthProps } from "./General";
 import { VisitFormType } from "./Forms";
-import { Visit } from "./Models";
+import { Visit, Visitor } from "./Models";
 import type { SelectProps, SkeletonProps } from "@mui/material";
 
 export type RegisterVisitFormProps = BaseComponentProps & {
@@ -16,6 +16,19 @@ export type DuplicateVisitFormProps = BaseComponentProps & {
 	visitId?: number;
 	open?: boolean | null;
 	preFillFormData?: VisitFormType;
+	onClose: () => void;
+	onSaved?: (data: VisitFormType) => Promise<void>;
+}
+
+export type ModalRestrictedUserProps = BaseComponentProps & {
+	visitId?: number;
+	visitor: Visitor;
+	open?: boolean | null;
+	preFillFormDataRestrictedUser?: {
+		banned_end_time?: string | null;
+		banned_start_time?: string | null;
+		is_banned?: boolean | null;
+	};
 	onClose: () => void;
 	onSaved?: (data: VisitFormType) => Promise<void>;
 }

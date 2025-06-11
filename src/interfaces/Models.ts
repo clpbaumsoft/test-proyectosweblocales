@@ -96,6 +96,32 @@ export type Visitor = BaseModel & {
 	id_active_entry_vehicle: number | null;
 	active_entry?: Entry | null;
 	active_entry_vehicle?: EntryVehicle | null;
+
+	is_banned: boolean | null;
+	is_currently_banned: boolean| null;
+	banned_at: string | null; 
+	banned_by?: {
+		creator_date: string | null;
+		email:  string | null;
+		first_last_name: string | null;
+		first_name: string | null;
+		fullname: string | null;
+		id_creator_user: number | null;
+		id_identification_type: number | null;
+		id_modifier_user: number | null;
+		id_role: number | null;
+		identification_number: string | null;
+		is_admin: number | null;
+		middle_name: string | null;
+		modifier_date: string | null;
+		phone: string | null;
+		second_last_name: string | null;
+		soft_delete: boolean | null;
+		status: string | null;
+	} | null;
+	banned_by_user_id: number | null;
+	banned_end_time: string | null;
+	banned_start_time: string | null;
 }
 
 export type DocumentType = BaseModel & {

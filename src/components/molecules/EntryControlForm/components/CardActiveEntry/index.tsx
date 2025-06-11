@@ -88,10 +88,6 @@ export default function CardActiveEntry({ visitor }: CardActiveEntryProps) {
 		onClickGiveLeave,
 	} = useCardActiveEntry(visitor)
 
-	if(!visitor.active_entry) {
-		return <></>
-	}
-
 	const isEntryToOtherBranchButtonEnabled = useMemo(() => {
 		const entryGates = visitor?.active_entry?.entry_gates;
 		if (!entryGates || !Array.isArray(entryGates)) {
@@ -99,6 +95,10 @@ export default function CardActiveEntry({ visitor }: CardActiveEntryProps) {
 		}
 		return entryGates.some(gate => gate.active === 1);
 	}, [visitor?.active_entry?.entry_gates]);
+
+	if(!visitor?.active_entry) {
+		return <></>
+	}
 
 	return (
 		<>

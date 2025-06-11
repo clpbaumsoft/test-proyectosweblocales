@@ -72,12 +72,14 @@ export default function useGiveEntryToOtherBranchForm(visitor: Visitor, visit: V
 					buttonSearch.click();
 				}
 			})
-			await Orchestra.visitToOtherBranchService.create(data)
-			const copyVisitor = { ...visitor }
-			EntryControlEvents.updateVisitor.emit('update_visitor', copyVisitor)
-			changeOkMessage(TEXTS.success_entry_to_other_branch)
-			reset()
-			setIsInnerLoading(false)
+			if(visitor) {
+				await Orchestra.visitToOtherBranchService.create(data)
+				const copyVisitor = { ...visitor }
+				EntryControlEvents.updateVisitor.emit('update_visitor', copyVisitor)
+				changeOkMessage(TEXTS.success_entry_to_other_branch)
+				reset()
+				setIsInnerLoading(false)
+			}
 		} catch(catchError) {
 			setIsInnerLoading(false)
 			if(catchError instanceof AuthError) {

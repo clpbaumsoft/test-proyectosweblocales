@@ -69,7 +69,7 @@ export default function ControlEmployeeDashboard() {
 					value={tabActiveIndex} 
 					onChange={onChangeTab}
 					variant="scrollable"
-  				scrollButtons="auto"
+  					scrollButtons="auto"
 				>
 					<Tab 
 						icon={<BadgeIcon />}

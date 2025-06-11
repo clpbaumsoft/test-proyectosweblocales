@@ -131,6 +131,7 @@ export type SelectLoadedItemsProps = BaseComponentProps & {
 
 export type TakePhotoProps = BaseComponentProps & {
 	preview?: string | null;
+	isButtonActive?: boolean;
 	onSavePhoto?: (theFile: File) => Promise<void>;
 }
 
@@ -146,6 +147,7 @@ export type CardVisitorProps = BaseComponentProps & {
 export type LabelItemProps = BaseComponentProps & {
 	label: string;
 	value: ReactNode;
+	pl?: string;
 	sx?: SxProps<Theme>;
 }
 

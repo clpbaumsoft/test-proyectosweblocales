@@ -96,6 +96,11 @@ export type CreateEntryFormProps = BaseComponentProps & {
 	onClose?: () => void;
 }
 
+export type FormRestictedUserProps = BaseComponentProps & {
+	visitor: Visitor;
+	onClose?: () => void;
+}
+
 export type SearchPersonFormProps = BaseComponentProps & {
 	onSearch: (dataSearch: SearchPersonFormType) => Promise<Person>;
 	onResult: (person: Person) => void;

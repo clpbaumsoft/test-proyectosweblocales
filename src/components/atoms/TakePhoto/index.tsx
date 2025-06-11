@@ -52,7 +52,7 @@ const TRANS = {
 	},
 }
 
-export default function TakePhoto({ preview, onSavePhoto }: TakePhotoProps) {
+export default function TakePhoto({ preview, onSavePhoto, isButtonActive = true }: TakePhotoProps) {
 	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
@@ -115,30 +115,33 @@ export default function TakePhoto({ preview, onSavePhoto }: TakePhotoProps) {
 					message={message}
 					error={error}
 				/>
-				<BoxButtons>
-					<Button
-						component="label"
-						variant="outlined"
-						startIcon={<CloudUploadIcon />}
-						
-					>
-						{TEXTS.select_file_image}
-						<VisuallyHiddenInput
-							type="file"
-							accept={"image/*"}
-							onChange={onChangeInput}
-							multiple
-						/>
-					</Button>
-					<SpaceBtn />
+				{
+					isButtonActive &&
+					<BoxButtons>
 						<Button
+							component="label"
 							variant="outlined"
-							startIcon={<LocalSeeIcon />}	
-							onClick={toggleIsOpenModalTakePhoto}
+							startIcon={<CloudUploadIcon />}
+							
 						>
-							{TEXTS.take_photo_open}
+							{TEXTS.select_file_image}
+							<VisuallyHiddenInput
+								type="file"
+								accept={"image/*"}
+								onChange={onChangeInput}
+								multiple
+							/>
 						</Button>
-				</BoxButtons>
+						<SpaceBtn />
+							<Button
+								variant="outlined"
+								startIcon={<LocalSeeIcon />}	
+								onClick={toggleIsOpenModalTakePhoto}
+							>
+								{TEXTS.take_photo_open}
+							</Button>
+					</BoxButtons>
+				}
 			</Box>
 			
 			<Dialog open={isOpenModalTakePhoto}>

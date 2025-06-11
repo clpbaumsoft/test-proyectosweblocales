@@ -64,15 +64,17 @@ export default function useCardActiveEntryInOtherBranch(visitor: Visitor) {
 			setIsInnerLoading(true)
 			hideMessages()
 
-			await Orchestra.visitToOtherBranchService.leave(visitor?.id)
-			changeOkMessage(TEXTS.success_give_leave_entry)
-			hideMessages(2*1000, ()=> {
-				const buttonSearch: HTMLButtonElement | null = document.getElementById('search-person-button') as HTMLButtonElement | null;
-				if (buttonSearch) {
-					buttonSearch.click();
-				}
-			})
-			setIsInnerLoading(false)
+			if(visitor) {
+				await Orchestra.visitToOtherBranchService.leave(visitor?.id)
+				changeOkMessage(TEXTS.success_give_leave_entry)
+				hideMessages(2*1000, ()=> {
+					const buttonSearch: HTMLButtonElement | null = document.getElementById('search-person-button') as HTMLButtonElement | null;
+					if (buttonSearch) {
+						buttonSearch.click();
+					}
+				})
+				setIsInnerLoading(false)
+			}
 		} catch(catchError) {
 			setIsInnerLoading(false)
 			if(catchError instanceof AuthError) {
