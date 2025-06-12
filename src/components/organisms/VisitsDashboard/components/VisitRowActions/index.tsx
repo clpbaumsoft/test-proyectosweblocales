@@ -106,7 +106,7 @@ export default function VisitRowActions({ setRowData, rowData }: VisitRowActions
 
 	return (
 		<>
-			<BoxButtons sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 1}}>
+			<BoxButtons sx={{ display: 'flex', flexDirection: { md: 'column', xl: 'row'}, alignItems: 'center', gap: 1}}>
 				{
 					loggedUser.canOr(['approvedocs_visit', 'read_visit']) && (
 						<Link href={PAGES.visits_id.replace('[id]', String(rowData.id))} passHref>
