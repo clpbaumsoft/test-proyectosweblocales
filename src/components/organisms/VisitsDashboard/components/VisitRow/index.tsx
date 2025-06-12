@@ -43,19 +43,19 @@ export default function VisitRow({ row }: VisitRowProps) {
 				<TableCell component="th" scope="row" align="center">
 					<label className={`${styles.labelStatus} ${styles[`ref${stateVisit.status}`]}`}>{VISIT_STATUS_NAMES[stateVisit.status]}</label>
 				</TableCell>
-				<TableCell sx={{ display: 'flex', flexDirection: { lg: 'column', xl: 'row'}, whiteSpace: {lg:'wrap' , xl:'nowrap'} }}>
+				<TableCell sx={{ gap: '8px',display: 'flex', flexDirection: { xs: 'column', xl: 'row'}, whiteSpace: {xs:'wrap' , xl:'nowrap'} }}>
 					<Typography>{stateVisit.reason}</Typography>
 					<WarningCondition severity="info" condition={!isBetweenDates(stateVisit.start_date, stateVisit.end_date, now())}>
 						{formatsDate(stateVisit.start_date)} - {formatsDate(stateVisit.end_date)}
 					</WarningCondition>
 				</TableCell>
-				<TableCell align="center" sx={{ whiteSpace: {lg:'wrap' , xl:'nowrap'} }}>
+				<TableCell align="center" sx={{ whiteSpace: {xs:'wrap' , xl:'nowrap'} }}>
 					{stateVisit.company_name}
 				</TableCell>
-				<TableCell align="center" sx={{ whiteSpace: {lg:'wrap' , xl:'nowrap'} }}>
+				<TableCell align="center" sx={{ whiteSpace: {xs:'wrap' , xl:'nowrap'} }}>
 					{stateVisit.branch_name}
 				</TableCell>
-				<TableCell align="center" sx={{ whiteSpace: {lg:'wrap' , xl:'nowrap'} }}>
+				<TableCell align="center" sx={{ whiteSpace: {xs:'wrap' , xl:'nowrap'} }}>
 					{stateVisit.gate_name}
 				</TableCell>
 				<TableCell align="center">
