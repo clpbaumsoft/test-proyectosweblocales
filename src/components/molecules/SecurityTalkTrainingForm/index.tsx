@@ -35,6 +35,7 @@ export default function SecurityTalkTrainingForm() {
 		onLoadResult,
 		onSearchVisitor,
 	} = useSecurityTalkTrainingForm()
+	console.log("✅✅✅✅✅✅✅✅✅✅✅✅✅✅ ~ SecurityTalkTrainingForm ~ visitor SECURITY TALK VIEW:", visitor)
 
 	return (
 		<>

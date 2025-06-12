@@ -74,6 +74,8 @@ export default function VehicleControlForm() {
 		onSearchVisitor,
 		onLoadResult,
 	} = useVehicleControlForm()
+		console.log("✅✅✅✅✅✅✅✅✅✅✅✅✅✅ ~ VehicleControlForm ~ visitor VEHICLE CONTROL FORM:", visitor)
+
 
 	return (
 		<>

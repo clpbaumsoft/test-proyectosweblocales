@@ -53,8 +53,7 @@ const TRANS = {
 }
 
 export default function useModalRestrictedUserForm(visitor: Visitor, onClose: () => void, visitId?: number, onSaved?: (data: RestrictedUserFormType) => Promise<void>) {
-	console.log("👌👌👌👌👌👌👌👌👌👌👌 ~ useModalRestrictedUserForm ~ visitor:", visitor)
-	
+	// console.log("👌👌👌👌👌👌👌👌👌👌👌 ~ useModalRestrictedUserForm ~ visitor:", visitor)
 	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
@@ -134,7 +133,6 @@ export default function useModalRestrictedUserForm(visitor: Visitor, onClose: ()
    * @returns 
    */
   const onSubmit: SubmitHandler<RestrictedUserFormType> = async (data) => {
-		// console.log("✅✅✅👌👌👌👌✅✅✅ ~ constonSubmit:SubmitHandler<RestrictedUserFormType>= ~ data:", data)
 		try {
 			if(isInnerLoading) {
 				return
@@ -146,7 +144,6 @@ export default function useModalRestrictedUserForm(visitor: Visitor, onClose: ()
 				banned_end_time: data?.banned_end_time ? data?.banned_end_time : visitor?.banned_end_time ? visitor?.banned_end_time : '',
 				is_banned: data?.is_banned ? data?.is_banned : false,
 			}
-			console.log("✅✅✅👌👌👌👌✅✅✅ ~ constonSubmit:SubmitHandler<RestrictedUserFormType>= ~ dataToSend:", dataToSend)
 			
 			setIsInnerLoading(true)
 			hideMessages()

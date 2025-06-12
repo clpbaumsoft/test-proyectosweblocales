@@ -60,7 +60,7 @@ export default function ControlFormRestrictedUsers() {
 		onLoadResult,
 		onSearchVisitor,
 	} = useControlFormRestrictedUsers()
-		console.log("✅✅✅✅✅✅✅✅✅✅✅✅✅✅ ~ ControlFormRestrictedUsers ~ visitor:", visitor)
+		console.log("✅✅✅✅✅✅✅✅✅✅✅✅✅✅ ~ ControlFormRestrictedUsers ~ visitor RESTRICTED USER VIEW:", visitor)
 
 	return (
 		<>

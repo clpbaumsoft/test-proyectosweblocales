@@ -25,14 +25,12 @@ export default class RestrictecUsersService {
 	 * @returns 
 	 */
 	async create(visitorData: RestrictedUserFormType) {
-	console.log("💕💕💕💕💕💕💕💕💕💕 ~ RestrictecUsersService ~ create ~ visitorData:", visitorData)
 
 		const dataToSend = {
 			start_date: visitorData.banned_start_time?.split(' ')?.[0],
 			end_date: visitorData.banned_end_time?.split(' ')?.[0],
 			is_banned: visitorData.is_banned,
 		}
-		console.log("🚀🚀🚀🚀🚀🚀🚀 ~ RestrictecUsersService ~ create ~ dataToSend:", dataToSend)
 		
 		try {
 			await apiRequest().post(`/visitor/${visitorData?.id_visitor}/update-access`, dataToSend);

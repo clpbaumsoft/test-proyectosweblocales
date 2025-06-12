@@ -24,6 +24,7 @@ import { VisitorFormType } from "@/interfaces/Organisms";
 
 //Services
 import Orchestra from "@/services/Orchestra";
+import { Visitor } from "@/interfaces/Models";
 
 //Texts
 const TRANS = {
@@ -60,6 +61,7 @@ const EMPTY_FIELDS_FORM = {
 export default function useCreateVisitorForm(visitId: number, increaseVisitorsCounter: () => void) {
 	
 	const TEXTS = useTranslation(TRANS)
+	const [currentVisitorData, setCurrentVisitorData] = useState<Visitor>()
 
 	const {
 		openModalLoginForm,
@@ -148,6 +150,7 @@ export default function useCreateVisitorForm(visitId: number, increaseVisitorsCo
 			}
 			setIsInnerLoading(true)
 			const visitor = await Orchestra.visitorService.get(identificationNumber, idIdentificationType)
+			setCurrentVisitorData(visitor)
 			setValue('first_name', visitor.first_name)
 			setValue('middle_name', visitor.middle_name || "")
 			setValue('first_last_name', visitor.first_last_name)
@@ -265,5 +268,6 @@ export default function useCreateVisitorForm(visitId: number, increaseVisitorsCo
 		loadCities,
 		loadVisitorTypes,
 		loadIdentificationTypes,
+		currentVisitorData,
 	}
 }

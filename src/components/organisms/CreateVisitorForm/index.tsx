@@ -27,6 +27,7 @@ import { CreateVisitorFormProps } from "@/interfaces/Organisms";
 
 //Styles
 import { BoxButtonsForm, HeadingForm, SpaceBtn } from "@/styles/elements";
+import { ButtonViewRestrictedUser } from "@/components/atoms/ButtonViewRestrictedUser/ButtonViewRestrictedUser";
 
 //Texts
 const TRANS = {
@@ -151,7 +152,10 @@ export default function CreateVisitorForm({ visitId, onCancel, onIncreaseVisitor
 		loadCities,
 		loadVisitorTypes,
 		loadIdentificationTypes,
+		currentVisitorData,
 	} = useCreateVisitorForm(visitId, onIncreaseVisitorsCounter)
+
+		console.log("💕💕💕💕💕💕💕💕💕💕💕💕💕💕💕💕💕💕💕💕💕 ~ CreateVisitorForm ~ currentVisitorData:", currentVisitorData)
 	
 	return (
 		<>
@@ -326,221 +330,236 @@ export default function CreateVisitorForm({ visitId, onCancel, onIncreaseVisitor
 							/>
 						</Grid>
 
-						{/***************************************************/}
-						{/* Field: Address */}
-						<Grid size={12}>
-							<LabelForm
-								label={TEXTS.label_address}
+						{
+							currentVisitorData?.is_currently_banned ? 
+							<ButtonViewRestrictedUser 
+								isLink={false}
+								text={"Este visitante está actualmente restringido."}
 							/>
-							<TextField 
-								id="address" 
-								{...register("address", { required: GTEXTS.required })} 
-								size="small"
-								fullWidth
-							/>
-							<ErrorMessage
-								errors={errors}
-								name="address"
-								render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-							/>
-						</Grid>
-						
-						{/***************************************************/}
-						{/* Field: City */}
-						<Grid size={{ xs: 12, md: 6 }}>
-							<LabelForm
-								label={TEXTS.label_city}
-							/>
-							<Controller
-								name="city"
-								control={control}
-								rules={{
-									required: GTEXTS.required,
-								}}
-								render={({ field }) => (
-									<SelectLoadedItems
-										fetchItems={loadCities} 
-										onChangeValue={(itemValue) => field.onChange(itemValue ? itemValue.value : '')}
-										defaultValue={field.value}
-										inputProps={{
-											fullWidth: true,
-											size: 'small',
-										}}
-									/>
-								)}
-							/>
-							<ErrorMessage
-								errors={errors}
-								name="city"
-								render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-							/>
-						</Grid>
+							: (
+								<>
+									{/***************************************************/}
+									{/* Field: Address */}
+									<Grid size={12}>
+										<LabelForm
+											label={TEXTS.label_address}
+										/>
+										<TextField 
+											id="address" 
+											{...register("address", { required: GTEXTS.required })} 
+											size="small"
+											fullWidth
+										/>
+										<ErrorMessage
+											errors={errors}
+											name="address"
+											render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
+										/>
+									</Grid>
+									
+									{/***************************************************/}
+									{/* Field: City */}
+									<Grid size={{ xs: 12, md: 6 }}>
+										<LabelForm
+											label={TEXTS.label_city}
+										/>
+										<Controller
+											name="city"
+											control={control}
+											rules={{
+												required: GTEXTS.required,
+											}}
+											render={({ field }) => (
+												<SelectLoadedItems
+													fetchItems={loadCities} 
+													onChangeValue={(itemValue) => field.onChange(itemValue ? itemValue.value : '')}
+													defaultValue={field.value}
+													inputProps={{
+														fullWidth: true,
+														size: 'small',
+													}}
+												/>
+											)}
+										/>
+										<ErrorMessage
+											errors={errors}
+											name="city"
+											render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
+										/>
+									</Grid>
 
-						{/***************************************************/}
-						{/* Field: Phone */}
-						<Grid size={{ xs: 12, md: 6 }}>
-							<LabelForm
-								label={TEXTS.label_phone}
-							/>
-							<TextField 
-								id="phone" 
-								{...register("phone", { required: GTEXTS.required })} 
-								size="small"
-								fullWidth
-							/>
-							<ErrorMessage
-								errors={errors}
-								name="phone"
-								render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-							/>
-						</Grid>
-						
-						{/***************************************************/}
-						{/* Field: Photo */}
-						<Grid size={12}>
-							<LabelForm
-								label={TEXTS.label_photo}
-								required={false}
-							/>
-							<Controller
-								name="photo"
-								control={control}
-								rules={{
-									required: GTEXTS.required,
-								}}
-								render={({ field }) => (
-									<ButtonFile
-										onChange={field.onChange}
-										defaultValueImage={getPhotoDefaultValue()}
-										buttonProps={{
-											fullWidth: true,
-										}}
-									>{TEXTS.choose_photo}</ButtonFile>
-								)}
-							/>
-							<ErrorMessage
-								errors={errors}
-								name="photo"
-								render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-							/>
-						</Grid>
-						
-						{/***************************************************/}
-						{/* Field: Emergency Contact Name */}
-						<Grid size={{ xs: 12, md: 6 }}>
-							<LabelForm
-								label={TEXTS.label_emergency_contact_name}
-							/>
-							<TextField 
-								id="emergency_contact_name" 
-								{...register("emergency_contact_name", { required: GTEXTS.required })} 
-								size="small"
-								fullWidth
-							/>
-							<ErrorMessage
-								errors={errors}
-								name="emergency_contact_name"
-								render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-							/>
-						</Grid>
-						
-						{/***************************************************/}
-						{/* Field: Emergency Contact Phone */}
-						<Grid size={{ xs: 12, md: 6 }}>
-							<LabelForm
-								label={TEXTS.label_emergency_contact_phone}
-							/>
-							<TextField 
-								id="emergency_contact_phone" 
-								{...register("emergency_contact_phone", { required: GTEXTS.required })} 
-								size="small"
-								fullWidth
-							/>
-							<ErrorMessage
-								errors={errors}
-								name="emergency_contact_phone"
-								render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-							/>
-						</Grid>
-						
-						{/***************************************************/}
-						{/* Field: Social Security */}
-						<Grid size={{ xs: 12, md: 6 }}>
-							<LabelForm
-								label={TEXTS.label_social_security}
-								required={false}
-							/>
-							<Controller
-								name="social_security"
-								control={control}
-								render={({ field }) => (
-									<SelectLoadedItems
-										fetchItems={loadCareCompanies} 
-										onChangeValue={(itemValue) => field.onChange(itemValue ? itemValue.value : '')}
-										defaultValue={field.value}
-										inputProps={{
-											fullWidth: true,
-											size: 'small',
-										}}
-									/>
-								)}
-							/>
-							<ErrorMessage
-								errors={errors}
-								name="social_security"
-								render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-							/>
-						</Grid>
-						
-						{/***************************************************/}
-						{/* Field: ARL */}
-						<Grid size={{ xs: 12, md: 6 }}>
-							<LabelForm
-								label={TEXTS.label_arl}
-								required={false}
-							/>
-							<Controller
-								name="arl"
-								control={control}
-								render={({ field }) => (
-									<SelectLoadedItems
-										fetchItems={loadArlCompanies} 
-										onChangeValue={(itemValue) => field.onChange(itemValue ? itemValue.value : '')}
-										defaultValue={field.value}
-										inputProps={{
-											fullWidth: true,
-											size: 'small',
-										}}
-									/>
-								)}
-							/>
-							<ErrorMessage
-								errors={errors}
-								name="arl"
-								render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-							/>
-						</Grid>
+									{/***************************************************/}
+									{/* Field: Phone */}
+									<Grid size={{ xs: 12, md: 6 }}>
+										<LabelForm
+											label={TEXTS.label_phone}
+										/>
+										<TextField 
+											id="phone" 
+											{...register("phone", { required: GTEXTS.required })} 
+											size="small"
+											fullWidth
+										/>
+										<ErrorMessage
+											errors={errors}
+											name="phone"
+											render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
+										/>
+									</Grid>
+									
+									{/***************************************************/}
+									{/* Field: Photo */}
+									<Grid size={12}>
+										<LabelForm
+											label={TEXTS.label_photo}
+											required={false}
+										/>
+										<Controller
+											name="photo"
+											control={control}
+											rules={{
+												required: GTEXTS.required,
+											}}
+											render={({ field }) => (
+												<ButtonFile
+													onChange={field.onChange}
+													defaultValueImage={getPhotoDefaultValue()}
+													buttonProps={{
+														fullWidth: true,
+													}}
+												>{TEXTS.choose_photo}</ButtonFile>
+											)}
+										/>
+										<ErrorMessage
+											errors={errors}
+											name="photo"
+											render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
+										/>
+									</Grid>
+									
+									{/***************************************************/}
+									{/* Field: Emergency Contact Name */}
+									<Grid size={{ xs: 12, md: 6 }}>
+										<LabelForm
+											label={TEXTS.label_emergency_contact_name}
+										/>
+										<TextField 
+											id="emergency_contact_name" 
+											{...register("emergency_contact_name", { required: GTEXTS.required })} 
+											size="small"
+											fullWidth
+										/>
+										<ErrorMessage
+											errors={errors}
+											name="emergency_contact_name"
+											render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
+										/>
+									</Grid>
+									
+									{/***************************************************/}
+									{/* Field: Emergency Contact Phone */}
+									<Grid size={{ xs: 12, md: 6 }}>
+										<LabelForm
+											label={TEXTS.label_emergency_contact_phone}
+										/>
+										<TextField 
+											id="emergency_contact_phone" 
+											{...register("emergency_contact_phone", { required: GTEXTS.required })} 
+											size="small"
+											fullWidth
+										/>
+										<ErrorMessage
+											errors={errors}
+											name="emergency_contact_phone"
+											render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
+										/>
+									</Grid>
+									
+									{/***************************************************/}
+									{/* Field: Social Security */}
+									<Grid size={{ xs: 12, md: 6 }}>
+										<LabelForm
+											label={TEXTS.label_social_security}
+											required={false}
+										/>
+										<Controller
+											name="social_security"
+											control={control}
+											render={({ field }) => (
+												<SelectLoadedItems
+													fetchItems={loadCareCompanies} 
+													onChangeValue={(itemValue) => field.onChange(itemValue ? itemValue.value : '')}
+													defaultValue={field.value}
+													inputProps={{
+														fullWidth: true,
+														size: 'small',
+													}}
+												/>
+											)}
+										/>
+										<ErrorMessage
+											errors={errors}
+											name="social_security"
+											render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
+										/>
+									</Grid>
+									
+									{/***************************************************/}
+									{/* Field: ARL */}
+									<Grid size={{ xs: 12, md: 6 }}>
+										<LabelForm
+											label={TEXTS.label_arl}
+											required={false}
+										/>
+										<Controller
+											name="arl"
+											control={control}
+											render={({ field }) => (
+												<SelectLoadedItems
+													fetchItems={loadArlCompanies} 
+													onChangeValue={(itemValue) => field.onChange(itemValue ? itemValue.value : '')}
+													defaultValue={field.value}
+													inputProps={{
+														fullWidth: true,
+														size: 'small',
+													}}
+												/>
+											)}
+										/>
+										<ErrorMessage
+											errors={errors}
+											name="arl"
+											render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
+										/>
+									</Grid>
+								</>
+							)
+						}
 					</Grid>
 					<FormMessages
 						message={message}
 						error={error}
 					/>
-					<BoxButtonsForm>
-						<Button
-							onClick={onCancel}
-							variant="outlined"
-						>
-							{GTEXTS.close}
-						</Button>
-						<SpaceBtn />
-						<Button
-							type="submit"
-							variant="contained"
-							disabled={!isValidForm()}
-						>
-							{TEXTS.save}
-						</Button>
-					</BoxButtonsForm>
+					{
+						!currentVisitorData?.is_currently_banned && (
+							<BoxButtonsForm>
+								<Button
+									onClick={onCancel}
+									variant="outlined"
+								>
+									{GTEXTS.close}
+								</Button>
+								<SpaceBtn />
+								<Button
+									type="submit"
+									variant="contained"
+									disabled={!isValidForm()}
+								>
+									{TEXTS.save}
+								</Button>
+							</BoxButtonsForm>
+						)
+					}
 				</form>
 			</div>
 		</>

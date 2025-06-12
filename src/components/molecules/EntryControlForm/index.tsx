@@ -25,6 +25,7 @@ import useEntryControlForm from "./useEntryControlForm";
 import useTranslation from "@/hooks/useTranslation";
 import CardActiveEntryInOtherBranch from "./components/CardActiveEntryInOtherBranch";
 import { AccordeonHistoryVisits } from "./components/AccordeonHistoryVisits";
+import { ButtonViewRestrictedUser } from "@/components/atoms/ButtonViewRestrictedUser/ButtonViewRestrictedUser";
 
 //Texts
 const TRANS = {
@@ -71,7 +72,8 @@ export default function EntryControlForm() {
 		onLoadResult,
 		onSearchVisitor,
 	} = useEntryControlForm()
-		// console.log("✅✅✅✅✅✅✅✅✅✅✅✅✅✅ ~ EntryControlForm ~ visitor:", visitor)
+	console.log("✅✅✅✅✅✅✅✅✅✅✅✅✅✅ ~ EntryControlForm ~ visitor ENTRY CONTROL VIEW:", visitor)
+
 
 	return (
 		<>
@@ -92,14 +94,36 @@ export default function EntryControlForm() {
 						<Box>
 							
 							<CardVisitorPhoto visitor={visitor} />
-							<CardActiveEntry visitor={visitor} />
-							<CardActiveEntryInOtherBranch visitor={visitor} />
-							<AccordeonHistoryVisits visitor={visitor}/>
-							<CardActiveEntryVehicle visitor={visitor} />
+							{
+								visitor.is_currently_banned ? 
+								<Box sx={{
+									margin: '0 auto',
+									display: 'flex',
+									justifyContent: 'center',
+									maxWidth: '580px',
+									// bgcolor: 'error.main',
+									// borderRadius: 'var(--mui-shape-borderRadius)',
+									// padding: '10px',
+								}} >
+									<ButtonViewRestrictedUser />
+								</Box>
+								: (
+									<>
+										<CardActiveEntry visitor={visitor} />
+										<CardActiveEntryInOtherBranch visitor={visitor} />
+										<AccordeonHistoryVisits visitor={visitor}/>
+										<CardActiveEntryVehicle visitor={visitor} />
+									</>
+								)
+							}
 
 						</Box>
 						{
-							visitor.visits && visitor.visits.length > 0 ? (
+							(visitor.is_currently_banned) ? (
+								<>
+								</>
+							) : (
+								visitor.visits && visitor.visits.length > 0 ? (
 								<TableContainer component={Paper}>
 									<Table sx={{ minWidth: 650 }} aria-label="simple table">
 										<TableHead>
@@ -123,8 +147,9 @@ export default function EntryControlForm() {
 										</TableBody>
 									</Table>
 								</TableContainer>
-							) : (
+								) : (
 								<Typography>{TEXTS.no_results_visits}</Typography>
+							)
 							)
 						}
 					</>

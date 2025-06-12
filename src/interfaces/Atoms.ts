@@ -144,6 +144,12 @@ export type CardVisitorProps = BaseComponentProps & {
 	visitor: Visitor | null;
 }
 
+export type ButtonViewRestrictedUserProps = {
+	text?: string | null;
+	isLink?: boolean | null;
+	documentVisitor?: string | null;
+}
+
 export type LabelItemProps = BaseComponentProps & {
 	label: string;
 	value: ReactNode;

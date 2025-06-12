@@ -251,11 +251,9 @@ export default function MainSidebar({ children }: BaseComponentProps) {
 
 
 
-
-
 					{/* Crear el boton para dashboard de Baneados */}
 					{
-						(loggedUser.can('restricted_users') || loggedUser.can('create_entry') ) && (
+						(loggedUser.can('restricted_users') || loggedUser.can('create_entry')) && (
 							<Link className="btn" href={PAGES.dashboard_restricted_users} passHref>
 								<Button 
 									fullWidth 
@@ -267,11 +265,6 @@ export default function MainSidebar({ children }: BaseComponentProps) {
 							</Link>
 						)
 					}
-
-
-
-
-
 
 					{
 						loggedUser.can('create_entry_employee') && (
