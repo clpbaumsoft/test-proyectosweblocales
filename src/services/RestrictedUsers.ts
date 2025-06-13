@@ -30,6 +30,7 @@ export default class RestrictecUsersService {
 			start_date: visitorData.banned_start_time?.split(' ')?.[0],
 			end_date: visitorData.banned_end_time?.split(' ')?.[0],
 			is_banned: visitorData.is_banned,
+			ban_comment: visitorData.ban_comment || '',
 		}
 		
 		try {

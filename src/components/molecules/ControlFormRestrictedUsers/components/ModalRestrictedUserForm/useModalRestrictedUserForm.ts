@@ -71,6 +71,7 @@ export default function useModalRestrictedUserForm(visitor: Visitor, onClose: ()
 		banned_start_time: visitor?.banned_start_time || '',
 		banned_end_time: visitor?.banned_end_time || '',
 		is_banned: visitor?.is_banned || false,
+		ban_comment: visitor?.ban_comment || '',
 	 } })
 
 	const {
@@ -143,6 +144,7 @@ export default function useModalRestrictedUserForm(visitor: Visitor, onClose: ()
 				banned_start_time: data?.banned_start_time ? data?.banned_start_time :  visitor?.banned_start_time ? visitor?.banned_start_time : '',
 				banned_end_time: data?.banned_end_time ? data?.banned_end_time : visitor?.banned_end_time ? visitor?.banned_end_time : '',
 				is_banned: data?.is_banned ? data?.is_banned : false,
+				ban_comment: data?.ban_comment ? data?.ban_comment : visitor?.ban_comment ? visitor?.ban_comment : '',
 			}
 			
 			setIsInnerLoading(true)

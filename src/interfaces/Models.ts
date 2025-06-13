@@ -99,6 +99,7 @@ export type Visitor = BaseModel & {
 
 	is_banned: boolean | null;
 	is_currently_banned: boolean| null;
+	ban_comment: string | null;
 	banned_at: string | null; 
 	banned_by?: {
 		creator_date: string | null;

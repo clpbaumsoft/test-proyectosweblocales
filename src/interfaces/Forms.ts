@@ -27,8 +27,9 @@ export type DuplicateVisitFormType = {
 export type RestrictedUserFormType = {
 	id_visitor?: number;
 	is_banned?: boolean | null;
-	banned_start_time?: string;
-	banned_end_time?: string;
+	ban_comment?: string | null;
+	banned_start_time?: string | null;
+	banned_end_time?: string | null;
 	onSaved?: (data: RestrictedUserFormType) => Promise<void>;
 }
 

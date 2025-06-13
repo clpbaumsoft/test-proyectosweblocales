@@ -43,9 +43,14 @@ const TRANS = {
 		defaultMessage: "Dirección:",
 		description: "",
 	},
-	label_is_restricted_uder: {
+	label_is_restricted_user: {
 		id: "CardVisitorPhotoRestrictedUser.LabelItem.Label.LabelHasSgsst",
 		defaultMessage: "Estado de restricción:",
+		description: "",
+	},
+	label_comment_banned_user: {
+		id: "CardVisitorPhotoRestrictedUser.LabelItem.Label.LabelHasSgsst",
+		defaultMessage: "Razón de restricción:",
 		description: "",
 	},
 	label_button_action_restricted_user: {
@@ -82,7 +87,7 @@ export default function CardVisitorPhotoRestrictedUser({ visitor }: CardVisitorP
 		<>
 			<Box 
 				sx={(theme) => ({
-					border: visitor?.is_currently_banned ? '2px solid red' : '2px solid green',
+					border: visitor?.is_currently_banned ? '2px solid #EA5C1F' : '2px solid green',
 					borderRadius: 'var(--mui-shape-borderRadius)',
 					display: 'table',
 					p: '15px',
@@ -156,9 +161,24 @@ export default function CardVisitorPhotoRestrictedUser({ visitor }: CardVisitorP
 								gap: { xs: '8px', md: '25px' }, 
 								width: '100%'
 							}}>
-								<LabelItem sx={{ mb: '0px', width: { xs: '100%', md: "33%" } }} pl="5px" label={TEXTS.label_is_restricted_uder} value={visitor?.is_currently_banned ? 'Activo' : 'Habilitado' } />
+								<LabelItem sx={{ mb: '0px', width: { xs: '100%', md: "33%" } }} pl="5px" label={TEXTS.label_is_restricted_user} value={visitor?.is_currently_banned ? 'Restringido' : 'Habilitado' } />
 								<LabelItem sx={{ mb: '0px', width: { xs: '100%', md: "33%" } }} pl="5px" label={TEXTS.date_start_ban || 'Fecha inicio:'} value={visitor?.banned_start_time ? formatsDate(visitor?.banned_start_time) : '' } />
 								<LabelItem sx={{ mb: '0px', width: { xs: '100%', md: "33%" } }} pl="5px" label={TEXTS.date_end_ban || 'Fecha fin:'} value={visitor?.banned_end_time ? formatsDate(visitor?.banned_end_time) : '' } />
+							</Box>
+
+							<Box sx={{
+								display: "flex", 
+								flexDirection: { xs: 'column', md: 'row' }, 
+								justifyContent: "flex-start", 
+								alignItems: { xs: 'stretch', md: 'center' }, 
+								gap: { xs: '8px', md: '25px' }, 
+								width: '100%'
+							}}>
+								<LabelItem 
+									sx={{ mb: '0px', width: { xs: '100%' } }} pl="5px" 
+									label={TEXTS.label_comment_banned_user} 
+									value={visitor?.ban_comment ? visitor?.ban_comment : '' } 
+								/>
 							</Box>
 
 							<Button

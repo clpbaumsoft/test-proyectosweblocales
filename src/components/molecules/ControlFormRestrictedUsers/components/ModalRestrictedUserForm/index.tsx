@@ -10,8 +10,10 @@ import {
   DialogActions,
   DialogContent,
   FormControlLabel,
-  Box
+  Box,
+  TextField
 } from "@mui/material";
+
 import Grid from "@mui/material/Grid2";
 
 //Components
@@ -57,6 +59,11 @@ const TRANS = {
     defaultMessage: "Restringir usuario",
     description: "",
   },
+  label_ban_comment: {
+    id: "ModalRestrictedUserForm.Typography.Label.BanComment",
+    defaultMessage: "Comentario de restricción:",
+    description: "",
+  },
   save: {
     id: "ModalRestrictedUserForm.Button.Save",
     defaultMessage: "Guardar",
@@ -85,6 +92,7 @@ export default function ModalRestrictedUserForm({
     onChangeInputDate,
     setMinDateDeparture,
     isValidForm,
+    register,
     isBanned,
     handleCheckboxChange,
   } = useModalRestrictedUserForm(
@@ -143,6 +151,19 @@ export default function ModalRestrictedUserForm({
                       onChangeInputDate("banned_end_time", date)
                     }
                     minDate={minDateDeparture}
+                  />
+                </Grid>
+
+                {/* Field: Comment */}
+                <Grid size={{ xs: 12, md: 12 }}>
+                  <LabelForm label={TEXTS.label_ban_comment} />
+                  <TextField
+                    fullWidth
+                    multiline
+                    rows={4}
+                    variant="outlined"
+                    {...register("ban_comment")}
+                    defaultValue={visitor?.ban_comment || ''}
                   />
                 </Grid>
 

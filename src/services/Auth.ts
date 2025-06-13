@@ -90,19 +90,24 @@ export default class AuthService {
 	/**
 	 * Returns the user logged.
 	 */
-	async me(accessToken: string = '') : Promise<UserType> {
-		try {
-			return await apiRequest(accessToken).get("/me").then((res) => res.data)
-		} catch(catchError) {
-			const error = catchError as AxiosError
-			const status = error?.status || 500
-			const dataResponse = (error?.response?.data as ErrorResponseDataType) || { error: "" }
-			const message = dataResponse.error || dataResponse.message || GERRORS.error_something_went_wrong
-			if(status === 401) {
-				throw new AuthError(GERRORS.session_has_not_started)
-			}
-			throw new LocalError(message)
-		}
-	}
+	async me(accessToken: string = ''): Promise<UserType> {
+        if (!accessToken) {
+            throw new AuthError(GERRORS.session_has_not_started)
+        }
+
+        try {
+            const response = await apiRequest(accessToken).get("/me")
+            return response.data
+        } catch (catchError) {
+            const error = catchError as AxiosError
+            
+            if (error.response?.status === 401) {
+                throw new AuthError(GERRORS.session_has_not_started)
+            }
+
+            // For any other error, throw a generic auth error
+            throw new AuthError(GERRORS.error_something_went_wrong)
+        }
+    }
 
 }

@@ -53,6 +53,9 @@ export default function useSession() {
 			setIsLoggedIn(true)
 			return response.data
 		} catch(catchError) {
+			
+		    removeCookie('auth_token')
+
 			const error = catchError as AxiosError
 			const status = error?.status || 500
 			const dataResponse = (error?.response?.data as ErrorResponseDataType) || { error: "" }

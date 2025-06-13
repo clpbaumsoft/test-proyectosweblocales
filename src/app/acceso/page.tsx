@@ -13,20 +13,32 @@ import { getSessionToken } from "@/lib/Server";
 import Orchestra from "@/services/Orchestra";
 
 export default async function Acceso() {
+    try {
+        // Check the session
+        const token = await getSessionToken()
+        if(token) {
+            try {
+                const userData = await Orchestra.authService.me(token)
+                if(userData) {
+                    return redirect(PAGES.home)
+                }
+            } catch (error) {
+                // If there's an auth error, continue to login page
+                console.error('Auth error:', error)
+            }
+        }
 
-	// Check the session
-	const token = await getSessionToken()
-	if(token) {
-		const userData = await Orchestra.authService.me(token)
-		
-		if(userData) {
-			return redirect(PAGES.home)
-		}
-	}
-
-	return (
-		<>
-			<PageLogin />
-		</>
-	)
+        return (
+            <>
+                <PageLogin />
+            </>
+        )
+    } catch (error) {
+        console.error('Login page error:', error)
+        return (
+            <>
+                <PageLogin />
+            </>
+        )
+    }
 }

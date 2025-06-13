@@ -19,16 +19,16 @@ import User from "@/models/User";
 
 /**
  * Returns a session token.
- * @returns string
  */
 export const getSessionToken = async () => {
   const cookieStore = await cookies()
+  // console.log("🎯🎯🎯🎯🎯🎯🎯🎯 ~ getSessionToken ~ cookieStore:", cookieStore)
   const accessToken = cookieStore.get('auth_token')?.value || ""
   return accessToken
 }
 
 /**
- * Redirects to the home or a previous page which it was tried to access it.
+ * Redirects to the login page
  * @param path 
  * @returns 
  */
@@ -40,11 +40,11 @@ const redirectToLogin = (path: string | null = null) => {
 }
 
 /**
- * Redirect if there's no auth token.
+ * Verify login and permissions
  */
 export const verifyLogin = async (permissions: string | string[] = [], path: string | null = null) : Promise<UserType> => {
   try {
-    
+
     const token = await getSessionToken()
     if(!token) {
       return redirectToLogin(path)
@@ -63,7 +63,7 @@ export const verifyLogin = async (permissions: string | string[] = [], path: str
     }
     return userData
   } catch(catchError) {
-    if(catchError instanceof AuthError) {
+    if(catchError instanceof AuthError || catchError instanceof AccessDeniedError) {
       return redirectToLogin(path)
     }
     throw catchError
