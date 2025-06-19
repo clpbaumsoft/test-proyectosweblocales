@@ -51,10 +51,22 @@ export type VisitorFormType = {
 	arl: string | number;
 }
 
+export type createVisitorWithBasicData = {
+	id_identification_type: number | string;
+	identification_number: number | string;
+	first_name: string;
+	middle_name: string;
+	first_last_name: string;
+	second_last_name: string;
+}
+
 export type CreateVisitorFormProps = BaseComponentProps & {
 	visitId: number;
 	onCancel: () => void;
 	onIncreaseVisitorsCounter: () => void;
+	cutomTitleForm?: string;
+	optionalFields?: boolean;
+	isNewVisitorBasicForm?: boolean;
 }
 
 export type RestorePasswordFormType = {

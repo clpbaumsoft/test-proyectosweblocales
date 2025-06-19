@@ -58,7 +58,8 @@ const EMPTY_FIELDS_FORM = {
 	arl: "",
 }
 
-export default function useCreateVisitorForm(visitId: number, increaseVisitorsCounter: () => void) {
+export default function useCreateVisitorForm(visitId: number, increaseVisitorsCounter: () => void, isNewVisitorBasicForm: boolean) {
+	console.log("🚀❌❌❌❌❌❌❌❌❌❌❌❌❌ ~ useCreateVisitorForm ~ isNewVisitorBasicForm:", isNewVisitorBasicForm)
 	
 	const TEXTS = useTranslation(TRANS)
 	const [currentVisitorData, setCurrentVisitorData] = useState<Visitor>()
@@ -102,7 +103,25 @@ export default function useCreateVisitorForm(visitId: number, increaseVisitorsCo
 			}
 			hideMessages()
 			setIsInnerLoading(true)
-			await Orchestra.visitVisitorService.create(visitId, data)
+			if(isNewVisitorBasicForm) {
+				const newData = {
+					"id_identification_type": data?.id_identity_type,
+					"identification_number": data?.identity_number,
+					"first_name": data?.first_name,
+					"middle_name": data?.middle_name,
+					"first_last_name": data?.first_last_name,
+					"second_last_name": data?.second_last_name,
+				}
+				await Orchestra.visitVisitorService.createVisitorWithBasicData(newData) 
+				hideMessages(3*800, ()=> {
+					const buttonSearch: HTMLButtonElement | null = document.getElementById('search-person-button') as HTMLButtonElement | null;
+					if (buttonSearch) {
+						buttonSearch.click();
+					}
+				})
+			} else {
+				await Orchestra.visitVisitorService.create(visitId, data)
+			}
 			reset()
 			changeOkMessage(TEXTS.visitor_created)
 			increaseVisitorsCounter()

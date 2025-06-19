@@ -129,7 +129,13 @@ const TRANS = {
 }
 
 
-export default function CreateVisitorForm({ visitId, onCancel, onIncreaseVisitorsCounter }: CreateVisitorFormProps) {
+export default function CreateVisitorForm({ 
+	visitId, 
+	onCancel, 
+	onIncreaseVisitorsCounter, 
+	optionalFields = false, 
+	cutomTitleForm, 
+	isNewVisitorBasicForm = false }: CreateVisitorFormProps) {
 	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
@@ -153,7 +159,7 @@ export default function CreateVisitorForm({ visitId, onCancel, onIncreaseVisitor
 		loadVisitorTypes,
 		loadIdentificationTypes,
 		currentVisitorData,
-	} = useCreateVisitorForm(visitId, onIncreaseVisitorsCounter)
+	} = useCreateVisitorForm(visitId, onIncreaseVisitorsCounter, isNewVisitorBasicForm)
 
 		console.log("💕💕💕💕💕💕💕💕💕💕💕💕💕💕💕💕💕💕💕💕💕 ~ CreateVisitorForm ~ currentVisitorData:", currentVisitorData)
 	
@@ -166,40 +172,42 @@ export default function CreateVisitorForm({ visitId, onCancel, onIncreaseVisitor
 					)
 				}
 				<form onSubmit={handleSubmit(onSubmit, onError)}>
-					<HeadingForm>{TEXTS.title_form}</HeadingForm>
+					<HeadingForm>{cutomTitleForm ? cutomTitleForm : TEXTS.title_form}</HeadingForm>
 					<Grid container spacing={3}>
 							
 						{/***************************************************/}
 						{/* Field: Visitor Type */}
-						<Grid size={12}>
-							<LabelForm
-								label={TEXTS.label_visitor_type}
-							/>
-							<Controller
-								name="id_visitor_type"
-								control={control}
-								rules={{
-									required: GTEXTS.required,
-								}}
-								render={({ field }) => (
-									<DropdownLoadedItems
-										fetchItems={loadVisitorTypes} 
-										onChangeValue={(itemValue) => field.onChange(itemValue ? itemValue.value : '')}
-										defaultValue={field.value}
-										selectProps={{
-											size: 'small',
-											fullWidth: true,
-										}}
-									/>
-								)}
-							/>
-							<ErrorMessage
-								errors={errors}
-								name="id_visitor_type"
-								render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-							/>
-						</Grid>
-						
+						{
+							!optionalFields &&
+							<Grid size={12}>
+								<LabelForm
+									label={TEXTS.label_visitor_type}
+								/>
+								<Controller
+									name="id_visitor_type"
+									control={control}
+									rules={{
+										required: GTEXTS.required,
+									}}
+									render={({ field }) => (
+										<DropdownLoadedItems
+											fetchItems={loadVisitorTypes} 
+											onChangeValue={(itemValue) => field.onChange(itemValue ? itemValue.value : '')}
+											defaultValue={field.value}
+											selectProps={{
+												size: 'small',
+												fullWidth: true,
+											}}
+										/>
+									)}
+								/>
+								<ErrorMessage
+									errors={errors}
+									name="id_visitor_type"
+									render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
+								/>
+							</Grid>
+						}
 						
 						{/***************************************************/}
 						{/* Field: Identification Type */}
@@ -336,7 +344,7 @@ export default function CreateVisitorForm({ visitId, onCancel, onIncreaseVisitor
 								isLink={false}
 								text={"Este visitante está actualmente restringido."}
 							/>
-							: (
+							: ( !optionalFields &&
 								<>
 									{/***************************************************/}
 									{/* Field: Address */}

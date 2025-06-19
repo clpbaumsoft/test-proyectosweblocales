@@ -10,7 +10,7 @@ import LocalError from "@/errors/LocalError";
 import ValidationError from "@/errors/ValidationError";
 
 //Interfaces and types
-import { VisitorFormType } from "@/interfaces/Organisms";
+import { createVisitorWithBasicData, VisitorFormType } from "@/interfaces/Organisms";
 import { VisitVisitor } from "@/interfaces/Models";
 import { ErrorResponseDataType } from "@/interfaces/General";
 import { RowUploadFile } from "@/interfaces/Atoms";
@@ -23,6 +23,29 @@ import apiRequest, { apiRequestFormData } from "@/lib/ApiRequest";
 export default class VisitVisitorService {
 
 	/**
+	 * Add a visitor with basic data.
+	 * @returns 
+	 */
+	async createVisitorWithBasicData(visitor: createVisitorWithBasicData) {
+		console.log("👌👌👌👌👌👌💕💕💕💕💕 ~ VisitVisitorService ~ createVisitorWithBasicData ~ visitor:", visitor)
+		try {
+			await apiRequestFormData().post('/visitor/add-basic-visitor', visitor)
+		} catch(catchError) {
+			const error = catchError as AxiosError
+			const status = error?.status || 500
+			const dataResponse = (error?.response?.data as ErrorResponseDataType) || { error: "", message: "" }
+			const message = dataResponse.error || dataResponse.message || GERRORS.error_something_went_wrong
+			if(status === 401) {
+				throw new AuthError(GERRORS.your_session_has_finished)
+			}
+			if(status === 422) {
+				throw new ValidationError(dataResponse.message)
+			}
+			throw new LocalError(message)
+		}
+	}
+
+		/**
 	 * Add a visitor to a visit.
 	 * @returns 
 	 */

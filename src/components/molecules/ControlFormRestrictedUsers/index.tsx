@@ -1,5 +1,8 @@
 import {
 	Box,
+	Button,
+	Dialog,
+	DialogContent,
 	Typography,
 } from "@mui/material";
 
@@ -8,12 +11,15 @@ import CardVisitorPhoto from "./components/CardVisitorPhoto";
 import SearchPersonForm from "@/components/molecules/SearchPersonForm";
 
 //Constants
-import { GTRANS } from "@/constants/Globals";
+// import { GTRANS } from "@/constants/Globals";
 
 //Hooks
 
 import useTranslation from "@/hooks/useTranslation";
 import useControlFormRestrictedUsers from "./useControlFormRestrictedUsers";
+import CreateVisitorForm from "@/components/organisms/CreateVisitorForm";
+import { useState } from "react";
+
 
 //Texts
 const TRANS = {
@@ -52,7 +58,13 @@ const TRANS = {
 export default function ControlFormRestrictedUsers() {
 	
 	const TEXTS = useTranslation(TRANS)
-	const GTEXTS = useTranslation(GTRANS)
+	// const GTEXTS = useTranslation(GTRANS)
+
+	const [isOpenModalAddVisitor, setIsOpenModalAddVisitor] = useState(false)
+
+	const toggleModalAddVisitor = ()=> {
+		setIsOpenModalAddVisitor(!isOpenModalAddVisitor)
+	}
 
 	const {
 		hasFinished,
@@ -72,7 +84,19 @@ export default function ControlFormRestrictedUsers() {
 			{
 				!visitor ? (
 					hasFinished && (
-						<Typography>{GTEXTS.no_results}</Typography>
+						<>
+							<Button 
+								variant="contained"
+								color="success"
+								sx={{ mx: 'auto', display: 'table'}}
+								onClick={toggleModalAddVisitor}
+							>
+								Usuario no encontrado, Registrar datos básicos de usuario
+							</Button>
+							{/* <Typography>
+								{GTEXTS.no_results}
+							</Typography> */}
+						</>
 					)
 				) : (
 					<>
@@ -83,6 +107,19 @@ export default function ControlFormRestrictedUsers() {
 					</>
 				)
 			}
+
+			<Dialog open={isOpenModalAddVisitor} onClose={toggleModalAddVisitor}>
+				<DialogContent>
+					<CreateVisitorForm 
+						visitId={0} 
+						onCancel={toggleModalAddVisitor}
+						onIncreaseVisitorsCounter={() => 0 }
+						optionalFields={true}
+						cutomTitleForm={"Registrar datos básicos"}
+						isNewVisitorBasicForm={true}
+					/>
+				</DialogContent>
+			</Dialog>
 		</>
 	)
 }

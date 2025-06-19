@@ -3,6 +3,7 @@ import ControlFormRestrictedUsers from "@/components/molecules/ControlFormRestri
 
 //Hooks
 import useTranslation from "@/hooks/useTranslation";
+import TableVisitsProvider from "@/providers/TableVisitsProvider";
 
 //Styles
 import { TitlePage } from "@/styles/elements";
@@ -21,8 +22,10 @@ export default function RestrictedUsersDashboard() {
 
 	return (
 		<> 
-			<TitlePage>{TEXTS.title}</TitlePage>
-			<ControlFormRestrictedUsers />
+			<TableVisitsProvider>
+				<TitlePage>{TEXTS.title}</TitlePage>
+				<ControlFormRestrictedUsers />
+			</TableVisitsProvider>
 		</>
 	)
 }

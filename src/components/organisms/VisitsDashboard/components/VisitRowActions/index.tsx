@@ -226,17 +226,16 @@ export default function VisitRowActions({ setRowData, rowData }: VisitRowActions
 					/>
 				)
 			}
-			{
-				<Dialog open={isOpenModalAddVisitor} onClose={toggleModalAddVisitor}>
-					<DialogContent>
-						<CreateVisitorForm 
-							visitId={rowData.id} 
-							onCancel={toggleModalAddVisitor}
-							onIncreaseVisitorsCounter={onIncreaseVisitorsCounter}
-						/>
-					</DialogContent>
-				</Dialog>
-			}
+			
+			<Dialog open={isOpenModalAddVisitor} onClose={toggleModalAddVisitor}>
+				<DialogContent>
+					<CreateVisitorForm 
+						visitId={rowData.id} 
+						onCancel={toggleModalAddVisitor}
+						onIncreaseVisitorsCounter={onIncreaseVisitorsCounter}
+					/>
+				</DialogContent>
+			</Dialog>
 			
 			{ /* Form used to cancel the visit. */}
 			{
