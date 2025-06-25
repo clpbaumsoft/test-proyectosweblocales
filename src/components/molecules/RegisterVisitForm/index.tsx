@@ -63,7 +63,7 @@ const TRANS = {
 	},
 	label_reason: {
 		id: "RegisterVisitForm.Typography.Label.Reason",
-		defaultMessage: "Razón de visita:",
+		defaultMessage: "Razón de visita y aprobado por:",
 		description: "",
 	},
 	label_approver: {
