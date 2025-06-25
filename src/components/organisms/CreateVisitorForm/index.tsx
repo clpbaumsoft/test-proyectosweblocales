@@ -348,7 +348,7 @@ export default function CreateVisitorForm({
 								<>
 									{/***************************************************/}
 									{/* Field: Address */}
-									<Grid size={12}>
+									{/* <Grid size={12}>
 										<LabelForm
 											label={TEXTS.label_address}
 										/>
@@ -363,20 +363,21 @@ export default function CreateVisitorForm({
 											name="address"
 											render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
 										/>
-									</Grid>
+									</Grid> */}
 									
 									{/***************************************************/}
 									{/* Field: City */}
 									<Grid size={{ xs: 12, md: 6 }}>
 										<LabelForm
 											label={TEXTS.label_city}
+											required={false}
 										/>
 										<Controller
 											name="city"
 											control={control}
-											rules={{
-												required: GTEXTS.required,
-											}}
+											// rules={{
+											// 	required: GTEXTS.required,
+											// }}
 											render={({ field }) => (
 												<SelectLoadedItems
 													fetchItems={loadCities} 
@@ -401,10 +402,14 @@ export default function CreateVisitorForm({
 									<Grid size={{ xs: 12, md: 6 }}>
 										<LabelForm
 											label={TEXTS.label_phone}
+											required={false}
 										/>
 										<TextField 
 											id="phone" 
-											{...register("phone", { required: GTEXTS.required })} 
+											{...register(
+												"phone", 
+												// { required: GTEXTS.required }
+											)} 
 											size="small"
 											fullWidth
 										/>
@@ -425,9 +430,9 @@ export default function CreateVisitorForm({
 										<Controller
 											name="photo"
 											control={control}
-											rules={{
-												required: GTEXTS.required,
-											}}
+											// rules={{
+											// 	required: GTEXTS.required,
+											// }}
 											render={({ field }) => (
 												<ButtonFile
 													onChange={field.onChange}
@@ -450,10 +455,14 @@ export default function CreateVisitorForm({
 									<Grid size={{ xs: 12, md: 6 }}>
 										<LabelForm
 											label={TEXTS.label_emergency_contact_name}
+											required={false}
 										/>
 										<TextField 
 											id="emergency_contact_name" 
-											{...register("emergency_contact_name", { required: GTEXTS.required })} 
+											{...register(
+												"emergency_contact_name", 
+												// { required: GTEXTS.required }
+											)} 
 											size="small"
 											fullWidth
 										/>
@@ -469,10 +478,14 @@ export default function CreateVisitorForm({
 									<Grid size={{ xs: 12, md: 6 }}>
 										<LabelForm
 											label={TEXTS.label_emergency_contact_phone}
+											required={false}
 										/>
 										<TextField 
 											id="emergency_contact_phone" 
-											{...register("emergency_contact_phone", { required: GTEXTS.required })} 
+											{...register(
+												"emergency_contact_phone", 
+												// { required: GTEXTS.required }
+											)} 
 											size="small"
 											fullWidth
 										/>

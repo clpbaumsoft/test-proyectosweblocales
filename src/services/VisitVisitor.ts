@@ -50,12 +50,24 @@ export default class VisitVisitorService {
 	 * @returns 
 	 */
 	async create(visitId: number, visitor: VisitorFormType) {
+    
+	console.log("👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌 ~ VisitVisitorService ~ create ~ visitor:", visitor)
+
+	const newDataVisitorToCreate = {
+        ...visitor,
+        address: visitor.address || " No registra",
+        phone: visitor.phone || " 000000",
+		emergency_contact_name: visitor.emergency_contact_name || " No registra",
+		emergency_contact_phone: visitor.emergency_contact_phone || "000000"
+    };
+	console.log("🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣 ~ VisitVisitorService ~ create ~ newDataVisitorToCreate:", newDataVisitorToCreate)
+
 		try {
 			
 			const formEncode = new FormData()
 			formEncode.append('id_visit', String(visitId))
-			for(const key in visitor) {
-				const val = visitor[key as keyof VisitorFormType]
+			for(const key in newDataVisitorToCreate) {
+				const val = newDataVisitorToCreate[key as keyof VisitorFormType]
 				if(val instanceof File) {
 					formEncode.append(key, val)
 				} else {
