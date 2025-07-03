@@ -28,6 +28,11 @@ import { useState } from "react";
 
 //Texts
 const TRANS = {
+	label_card_visitor_type: {
+		id: "CardVisitorPhotoRestrictedUser.LabelItem.Label.labelCardVisitorType",
+		defaultMessage: "Tipo de visitante:",
+		description: "",
+	},
 	label_card_id: {
 		id: "CardVisitorPhotoRestrictedUser.LabelItem.Label.LabelCardId",
 		defaultMessage: "Documento #:",
@@ -149,7 +154,15 @@ export default function CardVisitorPhotoRestrictedUser({ visitor }: CardVisitorP
 								width: '100%'
 							}}>
 								<LabelItem sx={{ mb: '0px', width: { xs: '100%', md: "33%" } }} pl="5px" label={TEXTS.label_card_id} value={visitor.identification_number} />
+								
 								<LabelItem sx={{ mb: '0px', width: { xs: '100%', md: "33%" } }} pl="5px" label={TEXTS.label_card_address} value={visitor.address} />
+
+								{/* <LabelItem 
+									sx={{ mb: '0px', width: { xs: '100%', md: "33%" } }}  pl="5px"
+									label={TEXTS.label_card_visitor_type} 
+									value={visitor?.visits?.[0]?.pivot?.id_visitor_type === 1 ? "Proveedor" : "Contratista"} 
+								/> */}
+
 								<LabelItem sx={{ mb: '0px', width: { xs: '100%', md: "33%" } }} pl="5px" label={TEXTS.label_card_phone} value={visitor.phone} />
 							</Box>
 

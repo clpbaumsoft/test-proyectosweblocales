@@ -24,6 +24,11 @@ import { SpaceFields } from "@/styles/elements";
 
 //Texts
 const TRANS = {
+	label_card_visitor_type: {
+		id: "EntryControlForm.LabelItem.Label.labelCardVisitorType",
+		defaultMessage: "Tipo de visitante:",
+		description: "",
+	},
 	label_card_id: {
 		id: "EntryControlForm.LabelItem.Label.LabelCardId",
 		defaultMessage: "Documento #:",
@@ -44,9 +49,15 @@ const TRANS = {
 		defaultMessage: "¿Tiene charla de seguridad vigente?",
 		description: "",
 	},
+	required_sgsst: {
+		id: "EntryControlForm.LabelItem.Label.LabelHasSgsst",
+		defaultMessage: "No, debe hacerla cuanto antes",
+		description: "",
+	},
 }
 
 export default function CardVisitorPhoto({ visitor }: CardVisitorProps) {
+	console.log("🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 ~ CardVisitorPhoto ~ visitor:", visitor)
 	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
@@ -105,12 +116,33 @@ export default function CardVisitorPhoto({ visitor }: CardVisitorProps) {
 					>
 						<div>
 							<Typography variant="h5">{visitor.fullname}</Typography><br/>
+							
+							{/* <LabelItem 
+								sx={{ mb: '15px' }} 
+								label={TEXTS.label_card_visitor_type} 
+								value={visitor?.visits?.[0]?.pivot?.id_visitor_type === 1 ? "Proveedor" : "Contratista"} 
+							/> */}
+
 							<LabelItem sx={{ mb: '15px' }} label={TEXTS.label_card_id} value={visitor.identification_number} />
-							<LabelItem sx={{ mb: '15px' }} label={TEXTS.label_card_address} value={visitor.address} />
-							<LabelItem sx={{ mb: '15px' }} label={TEXTS.label_card_phone} value={visitor.phone} />
-							<LabelItem sx={{ mb: '15px' }} label={TEXTS.label_card_has_sgsst} value={
+							{
+								(visitor.address === 'No registra' || visitor.address === 'SN' || visitor.address === '') ? "" : (
+									<LabelItem sx={{ mb: '15px' }} pl="5px" label={TEXTS.label_card_address} value={visitor.address} />
+								)
+							}
+							{/* <LabelItem sx={{ mb: '15px' }} label={TEXTS.label_card_address} value={visitor.address} /> */}
+							
+							<LabelItem 
+								sx={{ mb: '15px' }} 
+								label={TEXTS.label_card_phone} 
+								value={visitor.phone} 
+							/>
+
+							<LabelItem sx={{ mb: '15px' }} 
+								label={TEXTS.label_card_has_sgsst} 
+								value={
 								<Box sx={{ display: 'flex' }}>
 									{
+										visitor?.requires_security_speak ?
 										(() => {
 											if(isBetweenDates(visitor.startdate_sgsst, visitor.enddate_sgsst, now())) {
 												return (
@@ -135,14 +167,15 @@ export default function CardVisitorPhoto({ visitor }: CardVisitorProps) {
 											}
 											return (
 												<WarningCondition condition={false}>
-													{GTEXTS.no}
+													{TEXTS.required_sgsst}
 												</WarningCondition>
 											)
-										})()
+										})() :
+										<p>{GTEXTS.no_required}</p>
 									}
 								</Box>
 							}
-						/>
+							/>
 						</div>
 					</Box>
 					

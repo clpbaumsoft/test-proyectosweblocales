@@ -24,16 +24,23 @@ export default function VisitRowEntry({ visitor, visit }: VisitRowEntryProps) {
 				<TableCell component="th" scope="row" align="center">
 					<b>{visit.id}</b>
 				</TableCell>
+				
+				<TableCell component="th"  align="left">
+					<Typography variant="body2">{visit.pivot?.id_visitor_type === 1 ? "Proveedor" : "Contratista"}</Typography>
+				</TableCell>
+
 				<TableCell>
 					<Typography>{visit.reason}</Typography>
 					{formatsDate(visit.start_date)} - {formatsDate(visit.end_date)}
 				</TableCell>
+				
 				<TableCell component="th" scope="row" align="center">
 					<Box sx={{ display: 'table', mx: 'auto' }}>
 						<Typography variant="body2">{visit.creator?.fullname}</Typography>
 						<FormHelperText>{visit.creator?.email}</FormHelperText>
 					</Box>
 				</TableCell>
+				
 				<TableCell align="center">
 					<RowActionsEntry visit={visit} visitor={visitor} />
 				</TableCell>

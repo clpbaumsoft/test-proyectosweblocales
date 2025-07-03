@@ -49,6 +49,9 @@ export type VisitorFormType = {
 	city: string | number;
 	social_security: string | number;
 	arl: string | number;
+	requires_security_speak?: number | null;
+	startdate_sgsst?: string | null;
+	enddate_sgsst?: string | null;
 }
 
 export type createVisitorWithBasicData = {

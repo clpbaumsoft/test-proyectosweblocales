@@ -118,7 +118,6 @@ export default function useDuplicateVisitForm(onClose: () => void, preFillFormDa
    * @returns 
    */
   const onSubmit: SubmitHandler<DuplicateVisitFormType> = async (data) => {
-		console.log("✅✅✅✅✅✅ ~ constonSubmit:SubmitHandler<VisitFormType>= ~ data:", data)
 		try {
 			if(isInnerLoading) {
 				return

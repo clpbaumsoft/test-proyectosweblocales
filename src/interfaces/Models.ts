@@ -123,6 +123,8 @@ export type Visitor = BaseModel & {
 	banned_by_user_id: number | null;
 	banned_end_time: string | null;
 	banned_start_time: string | null;
+
+	requires_security_speak?: number | null;
 }
 
 export type DocumentType = BaseModel & {

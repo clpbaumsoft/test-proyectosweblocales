@@ -27,7 +27,6 @@ export default class VisitVisitorService {
 	 * @returns 
 	 */
 	async createVisitorWithBasicData(visitor: createVisitorWithBasicData) {
-		console.log("👌👌👌👌👌👌💕💕💕💕💕 ~ VisitVisitorService ~ createVisitorWithBasicData ~ visitor:", visitor)
 		try {
 			await apiRequestFormData().post('/visitor/add-basic-visitor', visitor)
 		} catch(catchError) {
@@ -49,21 +48,25 @@ export default class VisitVisitorService {
 	 * Add a visitor to a visit.
 	 * @returns 
 	 */
-	async create(visitId: number, visitor: VisitorFormType) {
+	async create(visitId: number, visitor: VisitorFormType, startdate_sgsst: string, enddate_sgsst: string) {
+    console.log("🚀 ~ VisitVisitorService ~ create ~ visitor:", visitor)
     
-	console.log("👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌 ~ VisitVisitorService ~ create ~ visitor:", visitor)
+	// console.log("👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌 ~ VisitVisitorService ~ create ~ visitor:", visitor)
 
 	const newDataVisitorToCreate = {
         ...visitor,
         address: visitor.address || " No registra",
         phone: visitor.phone || " 000000",
 		emergency_contact_name: visitor.emergency_contact_name || " No registra",
-		emergency_contact_phone: visitor.emergency_contact_phone || "000000"
+		emergency_contact_phone: visitor.emergency_contact_phone || "000000",
+		requires_security_speak: visitor.requires_security_speak || 1,
+		startdate_sgsst: startdate_sgsst || '',
+		enddate_sgsst: enddate_sgsst || '',
     };
-	console.log("🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣🤣 ~ VisitVisitorService ~ create ~ newDataVisitorToCreate:", newDataVisitorToCreate)
+
+	console.log("👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌 ~ VisitVisitorService ~ create ~ newDataVisitorToCreate:", newDataVisitorToCreate)
 
 		try {
-			
 			const formEncode = new FormData()
 			formEncode.append('id_visit', String(visitId))
 			for(const key in newDataVisitorToCreate) {
@@ -74,8 +77,9 @@ export default class VisitVisitorService {
 					formEncode.append(key, key === 'photo' ? "" : val as string)
 				}
 			}
-			
+			// SEND THE DATA TO NEW VISITOR IN VISIT
 			await apiRequestFormData().post('/visit-visitors', formEncode)
+
 		} catch(catchError) {
 			const error = catchError as AxiosError
 			const status = error?.status || 500

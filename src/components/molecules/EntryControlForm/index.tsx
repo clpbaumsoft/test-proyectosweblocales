@@ -29,6 +29,11 @@ import { ButtonViewRestrictedUser } from "@/components/atoms/ButtonViewRestricte
 
 //Texts
 const TRANS = {
+	visitor_type: {
+		id: "EntryControlForm.LabelItem.Label.VisitorType",
+		defaultMessage: "Tipo de visitante:",
+		description: "",
+	},
 	heading_results_for: {
 		id: "EntryControlForm.Typography.H6.HeadingResultSearch",
 		defaultMessage: "Resultados para [NAME]",
@@ -129,6 +134,7 @@ export default function EntryControlForm() {
 										<TableHead>
 											<TableRow>
 												<TableCell align="center"><Typography sx={{ whiteSpace: 'nowrap' }}>{TEXTS.label_id}</Typography></TableCell>
+												<TableCell align="left">{TEXTS.visitor_type}</TableCell>
 												<TableCell align="left">{TEXTS.label_description}</TableCell>
 												<TableCell align="center">{TEXTS.label_owner}</TableCell>
 												<TableCell align="center">{TEXTS.label_actions}</TableCell>

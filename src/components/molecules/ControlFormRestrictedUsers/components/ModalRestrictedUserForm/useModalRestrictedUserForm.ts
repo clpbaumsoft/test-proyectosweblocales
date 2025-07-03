@@ -53,8 +53,6 @@ const TRANS = {
 }
 
 export default function useModalRestrictedUserForm(visitor: Visitor, onClose: () => void, visitId?: number, onSaved?: (data: RestrictedUserFormType) => Promise<void>) {
-	// console.log("👌👌👌👌👌👌👌👌👌👌👌 ~ useModalRestrictedUserForm ~ visitor:", visitor)
-	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
 

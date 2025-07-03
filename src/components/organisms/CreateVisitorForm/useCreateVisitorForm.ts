@@ -44,6 +44,7 @@ const EMPTY_FIELDS_FORM = {
 	id_visitor_type: "",
 	identity_number: "",
 	id_identity_type: "",
+	requires_security_speak: 0,
 	first_name: "",
 	middle_name: "",
 	first_last_name: "",
@@ -59,8 +60,6 @@ const EMPTY_FIELDS_FORM = {
 }
 
 export default function useCreateVisitorForm(visitId: number, increaseVisitorsCounter: () => void, isNewVisitorBasicForm: boolean) {
-	console.log("🚀❌❌❌❌❌❌❌❌❌❌❌❌❌ ~ useCreateVisitorForm ~ isNewVisitorBasicForm:", isNewVisitorBasicForm)
-	
 	const TEXTS = useTranslation(TRANS)
 	const [currentVisitorData, setCurrentVisitorData] = useState<Visitor>()
 
@@ -120,7 +119,9 @@ export default function useCreateVisitorForm(visitId: number, increaseVisitorsCo
 					}
 				})
 			} else {
-				await Orchestra.visitVisitorService.create(visitId, data)
+				console.log("currentVisitorDataAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" ,currentVisitorData)
+				await Orchestra.visitVisitorService.create(visitId, data, currentVisitorData?.startdate_sgsst || "", currentVisitorData?.enddate_sgsst || "")
+
 			}
 			reset()
 			changeOkMessage(TEXTS.visitor_created)
@@ -170,13 +171,14 @@ export default function useCreateVisitorForm(visitId: number, increaseVisitorsCo
 			setIsInnerLoading(true)
 			const visitor = await Orchestra.visitorService.get(identificationNumber, idIdentificationType)
 			setCurrentVisitorData(visitor)
+			setValue('requires_security_speak', visitor.requires_security_speak ? 1 : 0)
 			setValue('first_name', visitor.first_name)
 			setValue('middle_name', visitor.middle_name || "")
 			setValue('first_last_name', visitor.first_last_name)
 			setValue('second_last_name', visitor.second_last_name || "")
 			setValue('phone', visitor.phone)
-			setValue('emergency_contact_name', visitor.emergency_contact_name)
-			setValue('emergency_contact_phone', visitor.emergency_contact_phone)
+			setValue('emergency_contact_name', visitor.emergency_contact_name || "No registra")
+			setValue('emergency_contact_phone', visitor.emergency_contact_phone || "0000000")
 			setValue('address', visitor.address)
 			setValue('arl', visitor.id_arlcompany ? visitor.id_arlcompany : '')
 			setValue('social_security', visitor.id_carecompany ? visitor.id_carecompany : '')

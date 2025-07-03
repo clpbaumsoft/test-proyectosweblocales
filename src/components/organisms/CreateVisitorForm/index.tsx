@@ -1,6 +1,7 @@
 import {
 	Alert,
 	Button,
+	MenuItem,
 	TextField,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
@@ -161,7 +162,7 @@ export default function CreateVisitorForm({
 		currentVisitorData,
 	} = useCreateVisitorForm(visitId, onIncreaseVisitorsCounter, isNewVisitorBasicForm)
 
-		console.log("💕💕💕💕💕💕💕💕💕💕💕💕💕💕💕💕💕💕💕💕💕 ~ CreateVisitorForm ~ currentVisitorData:", currentVisitorData)
+		console.log("📋📋📋📋📋📋📋📋📋📋 ~ CreateVisitorForm ~ currentVisitorData:", currentVisitorData)
 	
 	return (
 		<>
@@ -179,7 +180,7 @@ export default function CreateVisitorForm({
 						{/* Field: Visitor Type */}
 						{
 							!optionalFields &&
-							<Grid size={12}>
+							<Grid size={{ xs: 12, md: 6 }}>
 								<LabelForm
 									label={TEXTS.label_visitor_type}
 								/>
@@ -208,6 +209,7 @@ export default function CreateVisitorForm({
 								/>
 							</Grid>
 						}
+
 						
 						{/***************************************************/}
 						{/* Field: Identification Type */}
@@ -256,6 +258,36 @@ export default function CreateVisitorForm({
 							<ErrorMessage
 								errors={errors}
 								name="identity_number"
+								render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
+							/>
+						</Grid>
+
+						{/***************************************************/}
+						{/* Field:  requires security speak*/}
+						<Grid size={{ xs: 12, md: 6 }}>
+							<LabelForm label="¿Requiere charla de seguridad?" />
+							<Controller
+								name="requires_security_speak"
+								control={control}
+								defaultValue={1}
+								rules={{
+								required: GTEXTS.required,
+								}}
+								render={({ field }) => (
+								<TextField
+									select
+									fullWidth
+									size="small"
+									{...field}
+								>
+									<MenuItem value="1">SI</MenuItem>
+									<MenuItem value="0">NO</MenuItem>
+								</TextField>
+								)}
+							/>
+							<ErrorMessage
+								errors={errors}
+								name="requires_security_speak"
 								render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
 							/>
 						</Grid>

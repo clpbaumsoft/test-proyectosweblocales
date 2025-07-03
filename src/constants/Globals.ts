@@ -62,6 +62,11 @@ export const GTRANS = {
 		defaultMessage: "Requerido.",
 		description: "",
 	},
+	no_required: {
+		id: "Globals.noRequired",
+		defaultMessage: "No es requerido.",
+		description: "",
+	},
 	select_option: {
 		id: "Globals.SelectAnOption",
 		defaultMessage: "- Selecciona una opción -",
