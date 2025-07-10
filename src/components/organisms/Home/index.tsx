@@ -14,6 +14,8 @@ import useTranslation from "@/hooks/useTranslation";
 import RestrictedUsersDashboard from "../RestrictedUsersDashboard";
 
 
+
+
 export default function Home() {
 	
 	const GTEXTS = useTranslation(GTRANS)
@@ -42,7 +44,7 @@ export default function Home() {
 
 	return (
 		<>
-			<Typography>{GTEXTS.error_something_went_wrong}</Typography>
+			<Typography>{GTEXTS.error_something_went_wrong} NOOOOO</Typography>
 		</>
 	)
 }

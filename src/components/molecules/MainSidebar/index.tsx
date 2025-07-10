@@ -267,6 +267,7 @@ export default function MainSidebar({ children }: BaseComponentProps) {
 					}
 
 					{
+
 						loggedUser.can('create_entry_employee') && (
 							<Link className="btn" href={PAGES.dashboard_employees} passHref>
 								<Button 
@@ -276,6 +277,7 @@ export default function MainSidebar({ children }: BaseComponentProps) {
 								>{TEXTS.control_employees}</Button>
 							</Link>
 						)
+						
 					}
 					{
 						loggedUser.can('train_visitor') && (

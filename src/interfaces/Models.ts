@@ -153,6 +153,7 @@ export type UserType = Omit<BaseModel, 'id'> & {
 	phone: string;
 	email: string;
 	role: Role;
+	unique_permissions: string[];
 }
 
 export type Permission = BaseModel & {
@@ -164,7 +165,7 @@ export type Role = BaseModel & {
 	name: string;
 	description: string | null;
 	permissions?: Permission[];
-	list_permissions: string[];
+	list_permissions?: string[];
 }
 
 export type City = BaseModel & {

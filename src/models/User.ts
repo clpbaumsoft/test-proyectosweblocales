@@ -11,6 +11,7 @@ export default class User implements UserType {
 	public phone: string;
 	public email: string;
 	public role: Role;
+	public unique_permissions: string[] = [];
 
 	public creator_date: string;
 	public id_creator_user: number;
@@ -35,6 +36,7 @@ export default class User implements UserType {
 		this.id_modifier_user = data.id_modifier_user
 		this.soft_delete = data.soft_delete
 		this.status = data.status
+		this.unique_permissions = data.unique_permissions || [];
 	}
 	
 	public getFirstLetters() {
@@ -46,16 +48,19 @@ export default class User implements UserType {
 	}
 
 	public can(keysPermissions: string | string[]) {
+		
+		console.log("🐍🐍🐍🐍🐍🐍🐍🐍🐍 ~ User ~ can ~ keysPermissions:", keysPermissions)
+
 		if(!Array.isArray(keysPermissions)) {
 			keysPermissions = [keysPermissions]
 		}
-		return keysPermissions.every(permission => this?.role?.list_permissions?.includes(permission));
+		return keysPermissions.every(permission => this?.unique_permissions?.includes(permission));
   }
 
 	public canOr(keysPermissions: string | string[]) {
 		if(!Array.isArray(keysPermissions)) {
 			keysPermissions = [keysPermissions]
 		}
-		return keysPermissions.some(permission => this?.role?.list_permissions?.includes(permission));
+		return keysPermissions.some(permission => this?.unique_permissions?.includes(permission));
   }
 }

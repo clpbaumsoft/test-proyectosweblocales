@@ -86,7 +86,7 @@ export default function CardActiveEntry({ visitor }: CardActiveEntryProps) {
 		toggleModalEntryVehicle,
 		onClickGiveLeave,
 	} = useCardActiveEntry(visitor)
-
+	
 	const isEntryToOtherBranchButtonEnabled = useMemo(() => {
 		const entryGates = visitor?.active_entry?.entry_gates;
 		if (!entryGates || !Array.isArray(entryGates)) {
