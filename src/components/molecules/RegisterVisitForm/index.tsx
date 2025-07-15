@@ -37,6 +37,7 @@ import { GTRANS } from "@/constants/Globals";
 //Hooks
 import useTranslation from "@/hooks/useTranslation";
 import useRegisterVisitForm from "./useRegisterVisitForm";
+import useSessionProviderHook from "@/providers/SessionProvider/hooks";
 
 //Interfaces and types
 import { RegisterVisitFormProps } from "@/interfaces/Organisms";
@@ -66,9 +67,19 @@ const TRANS = {
 		defaultMessage: "Razón de visita:",
 		description: "",
 	},
+	label_interventor: {
+		id: "RegisterVisitForm.Typography.Label.WhoApproveDocuments",
+		defaultMessage: "¿Quién aprueba la visita?:",
+		description: "",
+	},
 	label_approver: {
 		id: "RegisterVisitForm.Typography.Label.WhoApproveDocuments",
 		defaultMessage: "¿Quién aprueba los documentos?:",
+		description: "",
+	},
+	help_text_search_interventor: {
+		id: "RegisterVisitForm.InputAutocomplete.HelpTextSearchApprover",
+		defaultMessage: "Busca la persona que aprueba la visita",
 		description: "",
 	},
 	help_text_search_approver: {
@@ -88,6 +99,9 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
+
+	const { getLoggedUser } = useSessionProviderHook();
+	const loggedUser = getLoggedUser();
 	
 	const {
 		indexRefresh,
@@ -115,10 +129,9 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 		getBranches,
 		getGates,
 		isValidForm,
+		emitGetOptionsInterventor,
 		emitGetOptionsApprovers,
 	} = useRegisterVisitForm(onClose, preFillFormData, visitId, onSaved)
-
-
 
 
   return (
@@ -180,6 +193,33 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 									render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
 								/>
 							</Grid>
+
+							{ /* Field: Interventor */}
+							<Grid size={12}>
+								<LabelForm
+									label={TEXTS.label_interventor}
+									required={true}
+								/>
+								<Controller
+									name="email_interventor"
+									control={control}
+									rules={{ required: TEXTS.required }}
+									render={({ field }) => (
+										<InputAutocomplete
+											onChange={(val) => field.onChange(val ? val.value : "")}
+											emitGetOptions={emitGetOptionsInterventor}
+											helpText={TEXTS.help_text_search_interventor}
+											defaultValue={field.value || loggedUser?.email}
+										/>
+									)}
+								/>
+								<ErrorMessage
+									errors={errors}
+									name="reason"
+									render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
+								/>
+							</Grid>
+
 							{ /* Field: Approver */}
 							<Grid size={12}>
 								<LabelForm
@@ -191,7 +231,7 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 									control={control}
 									render={({ field }) => (
 										<InputAutocomplete
-											onChange={(val) => field.onChange(val.value)}
+											onChange={(val) => field.onChange(val ? val.value : "")}
 											emitGetOptions={emitGetOptionsApprovers}
 											helpText={TEXTS.help_text_search_approver}
 											defaultValue={field.value}

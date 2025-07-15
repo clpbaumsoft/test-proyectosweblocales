@@ -34,7 +34,10 @@ const TRANS = {
 	},
 }
 
-export default function useCancelVisitForm(visitId: number, setRowData: (key: keyof VisitRow, newValue: unknown) => void) {
+export default function useCancelVisitForm(
+	visitId: number, 
+	setRowData: (key: keyof VisitRow, newValue: unknown) => void,
+	omitDobleCheck = false) {
 	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
@@ -48,7 +51,7 @@ export default function useCancelVisitForm(visitId: number, setRowData: (key: ke
 		register,
 		handleSubmit,
 		formState: { errors, isValid },
-	} = useForm<CancelVisitFormType>({ defaultValues: {  } })
+	} = useForm<CancelVisitFormType>({ defaultValues: { reason_cancel: "Visita cancelada." } })
 	
 	const [isInnerLoading, setIsInnerLoading] = useState(false)
 	const [okMessage, errorMessage, changeOkMessage, changeErrorMessage, hideMessages] = useFormMessages()
@@ -57,21 +60,23 @@ export default function useCancelVisitForm(visitId: number, setRowData: (key: ke
 	 * Change the visit's status to cancelled.
 	 * 
 	 */
-	const onSubmit = async (data: CancelVisitFormType) => {
+	const onSubmitCancelVisit = async (data: CancelVisitFormType) => {
 		try {
 			if(isInnerLoading) {
 				return
 			}
-			const confirmed = await mcm.confirm(GTEXTS.message_confirm_noback_action)
-			if(!confirmed) {
-				return
+
+			if(!omitDobleCheck) {
+				const confirmed = await mcm.confirm(GTEXTS.message_confirm_noback_action)
+				if(!confirmed) {
+					return
+				}
 			}
 			
 			setIsInnerLoading(true)
-			
 			hideMessages()
-			
-			await Orchestra.visitService.cancel(visitId || 0, data.reason_cancel)
+
+			await Orchestra.visitService.cancel(visitId || 0, data?.reason_cancel || "")
 			setRowData('status', VISIT_STATUS_CANCELLED)
 			changeOkMessage(TEXTS.success_cancel)
 			reset()
@@ -95,7 +100,7 @@ export default function useCancelVisitForm(visitId: number, setRowData: (key: ke
 		message: okMessage,
 		error: errorMessage,
 		errors,
-		onSubmit,
+		onSubmitCancelVisit,
 		handleSubmit,
 		register,
 	}

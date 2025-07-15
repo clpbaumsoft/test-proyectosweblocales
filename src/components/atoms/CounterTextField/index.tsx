@@ -17,7 +17,7 @@ const TRANS = {
 	}
 }
 
-export default function CounterTextField({ textFieldProps, helperText }: CounterTextFieldProps) {
+export default function CounterTextField({ textFieldProps, helperText, isHidden }: CounterTextFieldProps) {
 
 	const TEXTS = useTranslation(TRANS)
 	
@@ -27,6 +27,8 @@ export default function CounterTextField({ textFieldProps, helperText }: Counter
 	} = useCounterTextField(textFieldProps.onChange)
 	return (
 		<>
+		{
+			!isHidden &&
 			<Box 
 				sx={{
 					position: 'relative',
@@ -67,6 +69,7 @@ export default function CounterTextField({ textFieldProps, helperText }: Counter
 					>{TEXTS.label_counter.replace('[number]', String(counter))}</Typography>
 				</Box>
 			</Box>
+		}
 		</>
 	)
 }

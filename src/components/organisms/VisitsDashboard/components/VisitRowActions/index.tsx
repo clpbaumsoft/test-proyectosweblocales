@@ -245,6 +245,7 @@ export default function VisitRowActions({ setRowData, rowData }: VisitRowActions
 							visitId={rowData.id} 
 							setRowData={setRowData}
 							onCancel={toggleIsOpenCancelForm}
+							omitDobleCheck={true}
 						/>
 					</DialogContent>
 				</Dialog>

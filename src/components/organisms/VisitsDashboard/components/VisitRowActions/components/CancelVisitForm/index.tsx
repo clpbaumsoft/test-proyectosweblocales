@@ -2,14 +2,16 @@
 import {
 	Alert,
 	Button,
+	// TextField,
+	Typography,
 } from "@mui/material";
-import { ErrorMessage } from "@hookform/error-message";
+// import { ErrorMessage } from "@hookform/error-message";
 
 //Components
 import CounterTextField from "@/components/atoms/CounterTextField";
 import FormMessages from "@/components/atoms/FormMessages";
 import FullLoader from "@/components/atoms/FullLoader";
-import LabelForm from "@/components/atoms/LabelForm";
+// import LabelForm from "@/components/atoms/LabelForm";
 
 //Constants
 import { GTRANS } from "@/constants/Globals";
@@ -23,6 +25,8 @@ import useTranslation from "@/hooks/useTranslation";
 
 //Styles
 import { BoxButtonsForm, SpaceBtn } from "@/styles/elements";
+import { ErrorMessage } from "@hookform/error-message";
+import { useEffect } from "react";
 
 //Texts
 const TRANS = {
@@ -38,21 +42,30 @@ const TRANS = {
 	},
 }
 
-export default function CancelVisitForm({ visitId, setRowData, onCancel }: CancelVisitFormProps) {
+export default function CancelVisitForm({ visitId, setRowData, onCancel, omitDobleCheck = false }: CancelVisitFormProps & { omitDobleCheck?: boolean }) {
 	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
 	
 	const {
-		isInnerLoading,
-		message,
-		error,
-		errors,
-		isValid,
-		handleSubmit,
-		onSubmit,
-		register,
-	} = useCancelVisitForm(visitId, setRowData)
+    isInnerLoading,
+    isValid,
+	message,
+	error,
+	errors,
+	register,
+    handleSubmit,
+    onSubmitCancelVisit,
+  } = useCancelVisitForm(visitId, setRowData, omitDobleCheck);
+
+   useEffect(() => {
+        if (message) {
+			setTimeout(() => {
+            onCancel();
+        	}, 800);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [message]);
 	
 	return (
 		<>
@@ -62,11 +75,16 @@ export default function CancelVisitForm({ visitId, setRowData, onCancel }: Cance
 						<FullLoader variant="absolute" />
 					)
 				}
-				<form  onSubmit={handleSubmit(onSubmit)}>
-					<LabelForm
-						label={TEXTS.label_reason_cancel}
-					/>
+				<form  onSubmit={handleSubmit(onSubmitCancelVisit)}>
+					<Typography
+					variant="h6"
+					paddingBottom={2}
+					>
+						{GTEXTS.message_confirm_noback_action}
+					</Typography>
+	
 					<CounterTextField
+						isHidden={true}
 						textFieldProps={{
 							id: "reason_cancel",
 							...register("reason_cancel", { required: GTEXTS.required }),
@@ -90,7 +108,7 @@ export default function CancelVisitForm({ visitId, setRowData, onCancel }: Cance
 							onClick={onCancel}
 							variant="outlined"
 						>
-							{GTEXTS.close}
+							{GTEXTS.no}
 						</Button>
 						<SpaceBtn />
 						<Button
@@ -98,7 +116,7 @@ export default function CancelVisitForm({ visitId, setRowData, onCancel }: Cance
 							variant="contained"
 							disabled={!isValid}
 						>
-							{GTEXTS.save}
+							{GTEXTS.yes}
 						</Button>
 					</BoxButtonsForm>
 				</form>

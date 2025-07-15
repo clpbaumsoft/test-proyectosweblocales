@@ -26,6 +26,10 @@ export default function Home() {
 	
 	console.log("🪪🪪🪪🪪🪪🪪🪪🪪🪪 --->  ~ Home ~ loggedUser:", loggedUser)
 
+	if(loggedUser.can('read_visit')) {
+		return <VisitsDashboard />
+	}
+	
 	if(loggedUser.can('create_entry')) {
 		return <EntryDashboard />
 	}
@@ -34,9 +38,6 @@ export default function Home() {
 		return <RestrictedUsersDashboard />
 	}
 
-	if(loggedUser.can('read_visit')) {
-		return <VisitsDashboard />
-	}
 	
 	if(loggedUser.can('train_visitor')) {
 		return <SecurityTrainingDashboard />

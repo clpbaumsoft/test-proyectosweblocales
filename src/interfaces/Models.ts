@@ -21,8 +21,39 @@ export type VisitVisitorPivot = BaseModel & {
 
 export type Gate = BaseModel & {
 	description: string;
-	branch?: object | null;
+	branch?: BranchByGate | null;
 }
+
+export interface BranchByGate {
+  id: number
+  short_description: string
+  long_description: string
+  id_company: number
+  status: string
+  soft_delete: boolean
+  id_creator_user: number
+  creator_date: string
+  id_modifier_user: number
+  modifier_date: string
+  company: CompanyByGate
+}
+
+export interface CompanyByGate {
+  id: number
+  nit: string
+  short_description: string
+  long_description: string
+  address: string
+  email: string
+  status: string
+  soft_delete: boolean
+  id_creator_user: number
+  creator_date: string
+  id_modifier_user: number
+  modifier_date: string
+}
+
+
 
 export type Branch = BaseModel & {
 	short_description: string;

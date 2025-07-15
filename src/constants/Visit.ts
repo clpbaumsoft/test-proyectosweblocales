@@ -1,7 +1,7 @@
 import { GSTATUSES } from "./Globals"
 
 export const VISIT_STATUS_CANCELLED = '5';
-export const VISIT_STATUS_ACTIVE 		= '1';
+export const VISIT_STATUS_ACTIVE 	= '1';
 export const VISIT_STATUS_APPROVED  = '2';
 export const VISIT_STATUS_REJECTED  = '3';
 export const VISIT_STATUS_PENDING   = '4';

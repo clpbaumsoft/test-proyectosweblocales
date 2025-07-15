@@ -49,9 +49,6 @@ export default class VisitVisitorService {
 	 * @returns 
 	 */
 	async create(visitId: number, visitor: VisitorFormType, startdate_sgsst: string, enddate_sgsst: string) {
-    console.log("🚀 ~ VisitVisitorService ~ create ~ visitor:", visitor)
-    
-	// console.log("👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌 ~ VisitVisitorService ~ create ~ visitor:", visitor)
 
 	const newDataVisitorToCreate = {
         ...visitor,
@@ -63,8 +60,6 @@ export default class VisitVisitorService {
 		startdate_sgsst: startdate_sgsst || '',
 		enddate_sgsst: enddate_sgsst || '',
     };
-
-	console.log("👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌 ~ VisitVisitorService ~ create ~ newDataVisitorToCreate:", newDataVisitorToCreate)
 
 		try {
 			const formEncode = new FormData()

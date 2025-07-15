@@ -117,7 +117,9 @@ export default function useGiveEntryVehicleForm(visitor: Visitor, visit: Visit, 
 	 */
 	const loadGates = useCallback(async () => {
 		const results = await Orchestra.gateService.all()
-		return results.map((gate) => ({ label: gate.description, value: gate.id }))
+		return results.map((gate) => {
+			return ({ label: `${gate.description} - ${gate?.branch?.company?.short_description || ""}`, value: gate.id })
+		})
 	}, [])
 		
 	return {

@@ -260,6 +260,14 @@ export default function useRegisterVisitForm(onClose: () => void, preFillFormDat
 	}
 
 	/**
+	 * Searches a user interventor by the criteria.
+	 */
+	const emitGetOptionsInterventor = async (criteriaSearch: string) : Promise<ItemSelector[]> => {
+		const results = await Orchestra.userService.searchInterventor(criteriaSearch)
+		return results.map((user) => ({ label: `${user.first_name} (${user.email})`, value: user.email }))
+	}
+
+	/**
 	 * Searches a user approver by the criteria.
 	 */
 	const emitGetOptionsApprovers = async (criteriaSearch: string) : Promise<ItemSelector[]> => {
@@ -340,6 +348,7 @@ export default function useRegisterVisitForm(onClose: () => void, preFillFormDat
 		getBranches,
 		getGates,
 		isValidForm,
+		emitGetOptionsInterventor,
 		emitGetOptionsApprovers,
 	}
 }

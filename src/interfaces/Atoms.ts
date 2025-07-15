@@ -107,6 +107,7 @@ export type InputAutocompleteProps = BaseComponentProps & {
 export type CounterTextFieldProps = BaseComponentProps & {
 	textFieldProps: TextFieldProps;
 	helperText?: string;
+	isHidden?: boolean;
 }
 
 export type CustomDatePickerProps<TValue, TError> = BaseComponentProps & {
