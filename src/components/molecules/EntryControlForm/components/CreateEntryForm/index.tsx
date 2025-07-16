@@ -102,7 +102,9 @@ export default function CreateEntryForm({ visit, visitor, onClose }: CreateEntry
 								label={TEXTS.label_card_number}
 							/>
 							<TextField
-								{...register("card_number", { required: GTEXTS.required })}
+								{...register("card_number",
+									{ required: GTEXTS.required }
+								)}
 								fullWidth
 								size="small"
 							/>
@@ -115,14 +117,16 @@ export default function CreateEntryForm({ visit, visitor, onClose }: CreateEntry
 						{ /* Field: EPS Company */}
 						<Grid size={{ xs: 12, md: 6 }}>
 							<LabelForm
+								required={false}
 								label={TEXTS.label_eps}
 							/>
 							<Controller
+
 								name="eps"
 								control={control}
-								rules={{
-									required: GTEXTS.required,
-								}}
+								// rules={{
+								// 	required: GTEXTS.required,
+								// }}
 								render={({ field }) => (
 									<SelectLoadedItems
 										fetchItems={loadCareCompanies} 
@@ -144,14 +148,15 @@ export default function CreateEntryForm({ visit, visitor, onClose }: CreateEntry
 						{ /* Field: ARL Company */}
 						<Grid size={{ xs: 12, md: 6 }}>
 							<LabelForm
+								required={false}
 								label={TEXTS.label_arl}
 							/>
 							<Controller
 								name="arl"
 								control={control}
-								rules={{
-									required: GTEXTS.required,
-								}}
+								// rules={{
+								// 	required: GTEXTS.required,
+								// }}
 								render={({ field }) => (
 									<SelectLoadedItems
 										fetchItems={loadArlCompanies} 
@@ -173,10 +178,13 @@ export default function CreateEntryForm({ visit, visitor, onClose }: CreateEntry
 						{ /* Field: Emergency contact name */}
 						<Grid size={{ xs: 12, md: 6 }}>
 							<LabelForm
+								required={false}
 								label={TEXTS.label_emergency_name}
 							/>
 							<TextField
-								{...register("emergency_name", { required: GTEXTS.required })}
+								{...register("emergency_name" 
+									// { required: GTEXTS.required }
+								)}
 								fullWidth
 								size="small"
 							/>
@@ -189,10 +197,13 @@ export default function CreateEntryForm({ visit, visitor, onClose }: CreateEntry
 						{ /* Field: Emergency contact phone */}
 						<Grid size={{ xs: 12, md: 6 }}>
 							<LabelForm
+								required={false}
 								label={TEXTS.label_emergency_phone}
 							/>
 							<TextField
-								{...register("emergency_phone", { required: GTEXTS.required })}
+								{...register("emergency_phone" 
+									// { required: GTEXTS.required }
+								)}
 								fullWidth
 								size="small"
 								placeholder=""

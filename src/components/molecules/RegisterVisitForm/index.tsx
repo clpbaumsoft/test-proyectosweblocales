@@ -69,7 +69,7 @@ const TRANS = {
 	},
 	label_interventor: {
 		id: "RegisterVisitForm.Typography.Label.WhoApproveDocuments",
-		defaultMessage: "¿Quién aprueba la visita?:",
+		defaultMessage: "¿Quién autoriza la visita?:",
 		description: "",
 	},
 	label_approver: {
