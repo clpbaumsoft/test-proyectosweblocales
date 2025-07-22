@@ -160,7 +160,7 @@ export default function CardVisitorPhotoRestrictedUser({ visitor }: CardVisitorP
 								{/* <LabelItem 
 									sx={{ mb: '0px', width: { xs: '100%', md: "33%" } }}  pl="5px"
 									label={TEXTS.label_card_visitor_type} 
-									value={visitor?.visits?.[0]?.pivot?.id_visitor_type === 1 ? "Proveedor" : "Contratista"} 
+									value={visitor?.visits?.[0]?.pivot?.visitor_type_description|| ''} 
 								/> */}
 
 								<LabelItem sx={{ mb: '0px', width: { xs: '100%', md: "33%" } }} pl="5px" label={TEXTS.label_card_phone} value={visitor.phone} />

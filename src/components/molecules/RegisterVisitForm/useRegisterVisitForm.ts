@@ -58,6 +58,7 @@ const EMPTY_FIELDS_FORM = {
 	entry_date: '',
 	departure_date: '',
 	reason: '',
+	email_interventor: '',
 	email_approver: '',
 	company_selected: '',
 	branch_selected: '',
@@ -68,6 +69,13 @@ export default function useRegisterVisitForm(onClose: () => void, preFillFormDat
 	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
+	const { getLoggedUser } = useSessionProviderHook();
+	const loggedUser = getLoggedUser();
+
+	const defaultValues = {
+		...preFillFormData,
+		email_interventor: preFillFormData.email_interventor || loggedUser?.email || ''
+	};
 
 	const {
 		control,
@@ -78,7 +86,7 @@ export default function useRegisterVisitForm(onClose: () => void, preFillFormDat
 		getValues,
 		setValue,
 		formState: { errors, isValid },
-	} = useForm<VisitFormType>({ defaultValues: { ...preFillFormData } })
+	} = useForm<VisitFormType>({ defaultValues })
 
 	const {
 		isLoggedIn,
@@ -320,6 +328,12 @@ export default function useRegisterVisitForm(onClose: () => void, preFillFormDat
 	useEffect(() => {
 		setValue('gate_selected', preFillFormData.gate_selected)
 	}, [branch_selected, setValue, preFillFormData.gate_selected])
+	
+	useEffect(() => {
+		if (!getValues('email_interventor')) {
+			setValue('email_interventor', loggedUser?.email || '')
+		}
+	}, [setValue, loggedUser?.email, getValues])
 	
 	return {
 		indexRefresh,

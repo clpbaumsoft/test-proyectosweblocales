@@ -16,6 +16,7 @@ import { VisitRowEntryProps } from "@/interfaces/Molecules";
 import { formatsDate } from "@/lib/Helpers";
 
 export default function VisitRowEntry({ visitor, visit }: VisitRowEntryProps) {
+	// console.log("🙌🙌🙌🙌🙌🙌🙌🙌🏢🏢🏢🏢🏢🏢 ~ VisitRowEntry ~ visit:", visit)
 	return (
 		<>
 			<TableRow
@@ -26,18 +27,18 @@ export default function VisitRowEntry({ visitor, visit }: VisitRowEntryProps) {
 				</TableCell>
 				
 				<TableCell component="th"  align="left">
-					<Typography variant="body2">{visit.pivot?.id_visitor_type === 1 ? "Proveedor" : "Contratista"}</Typography>
+					<Typography variant="body2">{visit.pivot?.visitor_type_description || ""}</Typography>
 				</TableCell>
 
 				<TableCell>
-					<Typography>{visit.reason}</Typography>
+					<Typography>{visit?.reason}</Typography>
 					{formatsDate(visit.start_date)} - {formatsDate(visit.end_date)}
 				</TableCell>
 				
 				<TableCell component="th" scope="row" align="center">
 					<Box sx={{ display: 'table', mx: 'auto' }}>
-						<Typography variant="body2">{visit.creator?.fullname}</Typography>
-						<FormHelperText>{visit.creator?.email}</FormHelperText>
+						<Typography variant="body2">{visit.interventor?.fullname}</Typography>
+						<FormHelperText>{visit.interventor?.email}</FormHelperText>
 					</Box>
 				</TableCell>
 				

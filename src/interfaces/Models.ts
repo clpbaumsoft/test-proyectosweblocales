@@ -15,6 +15,7 @@ export type VisitVisitorPivot = BaseModel & {
 	id_visitor: number;
 	id_visitor_type: number;
 	visitor_type?: VisitorType;
+	visitor_type_description?: string;
 }
 
 //----------------------------
@@ -81,7 +82,29 @@ export type Visit = BaseModel & {
 	canceller?: UserType | null;
 	visitors_count?: number;
 	pivot?: VisitVisitorPivot;
+	interventor?: InterventorType;
 }
+
+export type InterventorType = {
+  identification_number: string
+  first_name: string | null
+  middle_name: string | null
+  first_last_name: string | null
+  second_last_name: string | null
+  phone: string | null
+  email: string | null
+  id_identification_type: number | null
+  status: string | null
+  soft_delete: boolean | null
+  id_creator_user: number | null
+  creator_date: string | null
+  id_modifier_user: number | null
+  modifier_date: string | null
+  is_admin: number | null
+  fullname: string | null
+  unique_permissions: string[] | null
+}
+
 
 export type VisitorType = BaseModel & {
 	short_description: string;

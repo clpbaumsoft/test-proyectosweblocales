@@ -37,7 +37,6 @@ import { GTRANS } from "@/constants/Globals";
 //Hooks
 import useTranslation from "@/hooks/useTranslation";
 import useRegisterVisitForm from "./useRegisterVisitForm";
-import useSessionProviderHook from "@/providers/SessionProvider/hooks";
 
 //Interfaces and types
 import { RegisterVisitFormProps } from "@/interfaces/Organisms";
@@ -100,9 +99,6 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
 
-	const { getLoggedUser } = useSessionProviderHook();
-	const loggedUser = getLoggedUser();
-	
 	const {
 		indexRefresh,
 		company_selected,
@@ -206,10 +202,10 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 									rules={{ required: TEXTS.required }}
 									render={({ field }) => (
 										<InputAutocomplete
-											onChange={(val) => field.onChange(val ? val.value : "")}
+											onChange={(val) => field.onChange(val ? val.value : field.value)}
 											emitGetOptions={emitGetOptionsInterventor}
 											helpText={TEXTS.help_text_search_interventor}
-											defaultValue={field.value || loggedUser?.email}
+											defaultValue={field.value}
 										/>
 									)}
 								/>
