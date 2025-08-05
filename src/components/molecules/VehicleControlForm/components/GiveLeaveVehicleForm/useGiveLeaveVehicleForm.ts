@@ -57,14 +57,17 @@ export default function useGiveLeaveVehicleForm(visitor: Visitor, onCancel: () =
 		watch,
 		// setValue,
 		formState: { errors, isValid },
-	} = useForm<GiveLeaveVehicleFormType>({ defaultValues: {
-		gate: visitor?.active_entry_vehicle?.gate?.id || "",
-		vehicle_inspect_points: [],
-		leave_comments: "",
-		different_person_pickup: false,
-		id_identity_type: "",
-		identity_number: "",
-	} })
+	} = useForm<GiveLeaveVehicleFormType>({ 
+		mode: 'onChange', // Para validar en tiempo real
+		defaultValues: {
+			gate: visitor?.active_entry_vehicle?.gate?.id || "",
+			vehicle_inspect_points: [],
+			leave_comments: "",
+			different_person_pickup: false,
+			id_identity_type: "",
+			identity_number: "",
+		} 
+	})
 
 	const {
 		listIdentificationTypes,
@@ -72,10 +75,52 @@ export default function useGiveLeaveVehicleForm(visitor: Visitor, onCancel: () =
 	} = useTableVisitsProviderHook()
 	
 	const [isInnerLoading, setIsInnerLoading] = useState(false)
-	const [currentVisitorData, setCurrentVisitorData] = useState<Visitor>()
+	const [currentVisitorData, setCurrentVisitorData] = useState<Visitor | null>(null)
 	console.log("❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️ ~ useGiveLeaveVehicleForm ~ currentVisitorData:", currentVisitorData)
 
 	const [okMessage, errorMessage, changeOkMessage, changeErrorMessage, hideMessages] = useFormMessages()
+	
+	const isDifferentPersonPickup = watch("different_person_pickup")
+	
+	const isFormValid = () => {
+		if (!isValid) {
+			console.log("❌ Formulario base no es válido")
+			return false
+		}
+		
+		if (isDifferentPersonPickup) {
+			const identityNumber = getValues('identity_number')
+			const idIdentityType = getValues('id_identity_type')
+			
+			console.log("🔍 Validando campos adicionales:")
+			console.log("- identityNumber:", identityNumber)
+			console.log("- idIdentityType:", idIdentityType)
+			console.log("- currentVisitorData:", currentVisitorData)
+			console.log("- visits:", currentVisitorData?.visits)
+			
+			if (!identityNumber || !idIdentityType) {
+				console.log("❌ Campos de identificación vacíos")
+				return false
+			}
+			
+			if (!currentVisitorData) {
+				console.log("❌ No se encontraron datos del visitante")
+				return false
+			}
+			
+			const hasActiveVisits = currentVisitorData.visits && currentVisitorData.visits.length > 0
+			if (!hasActiveVisits) {
+				console.log("❌ El visitante no tiene visitas activas")
+				return false
+			}
+			
+			console.log("✅ Validación personalizada exitosa")
+			return true
+		}
+		
+		console.log("✅ Formulario válido (sin campos adicionales)")
+		return true
+	}
 	
 	/**
 	 * Submits the data to give leave to a vehicle.
@@ -166,16 +211,29 @@ export default function useGiveLeaveVehicleForm(visitor: Visitor, onCancel: () =
 			const identificationNumber = getValues('identity_number')
 			
 			if(!identificationNumber || !idIdentificationType || isInnerLoading) {
+				setCurrentVisitorData(null)
 				return
 			}
 			setIsInnerLoading(true)
-			const visitor = await Orchestra.visitorService.get(identificationNumber, idIdentificationType)
+
+			const visitor = await Orchestra.visitorService.searchVisitor(idIdentificationType, identificationNumber, [
+				'active_visits',
+				'active_entry',
+				'active_entry.visit_visitor.visit',
+				'active_entry_vehicle',
+				'active_entry_vehicle.gate',
+				'active_entry_vehicle.inspect_points',
+				'creator',
+				'active_entry.entry_gates'
+		])
+
 			setCurrentVisitorData(visitor)
 			setIsInnerLoading(false)
 		} catch(catchError) {
 			setIsInnerLoading(false)
+			setCurrentVisitorData(null) // Limpiar datos si no se encuentra el visitante
 			if(catchError instanceof NoResultsError) {
-				setCurrentVisitorData(undefined)
+				setCurrentVisitorData(null)
 				alert('Usuario no encontrado, debe registrarlo a una visita para activarlo')
 				return
 			}
@@ -190,7 +248,7 @@ export default function useGiveLeaveVehicleForm(visitor: Visitor, onCancel: () =
 	}
 	
 	return {
-		isValid,
+		isValid: isFormValid(), // Usar la validación personalizada
 		isInnerLoading,
 		message: okMessage,
 		error: errorMessage,
@@ -204,6 +262,7 @@ export default function useGiveLeaveVehicleForm(visitor: Visitor, onCancel: () =
 		loadVehicleInspectPoints,
 		onBlurIdentificationNumber,
 		loadIdentificationTypes,
-		currentVisitorData
+		currentVisitorData,
+		isDifferentPersonPickup, // Exponer el estado del checkbox
 	}
 }

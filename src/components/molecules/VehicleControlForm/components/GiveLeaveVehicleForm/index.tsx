@@ -82,7 +82,6 @@ export default function GiveLeaveVehicleForm({ visitor, onCancel }: GiveLeaveVeh
 		error,
 		errors,
 		control,
-		watch,
 		isValid,
 		handleSubmit,
 		onSubmit,
@@ -91,11 +90,8 @@ export default function GiveLeaveVehicleForm({ visitor, onCancel }: GiveLeaveVeh
 		loadVehicleInspectPoints,
 		onBlurIdentificationNumber,
 		loadIdentificationTypes,
-		currentVisitorData
+		isDifferentPersonPickup,
 	} = useGiveLeaveVehicleForm(visitor, onCancel)
-	
-	// Watch the checkbox value to control visibility of identification fields
-	const isDifferentPersonPickup = watch("different_person_pickup")
 	
 	return (
 		<>
@@ -281,7 +277,7 @@ export default function GiveLeaveVehicleForm({ visitor, onCancel }: GiveLeaveVeh
 						<Button
 							type="submit"
 							variant="contained"
-							disabled={(!isValid || (isDifferentPersonPickup && !currentVisitorData)) ? true : false}
+							disabled={!isValid}
 						>
 							{GTEXTS.save}
 						</Button>
