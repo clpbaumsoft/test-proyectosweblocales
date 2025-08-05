@@ -82,6 +82,26 @@ export type GiveLeaveVehicleFormType = {
 	vehicle_inspect_points: number[] | string[];
 	gate: string | number;
 	leave_comments: string;
+	different_person_pickup?: boolean;
+	identity_number?: string | number;
+	id_identity_type?: string | number;
+}
+
+export type GiveEntryVehicleFormEmployeeType = {
+	number: string;
+	vehicle_type: number | string;
+	gate: number | string;
+	vehicle_inspect_points: number[] | string[];
+	entry_comments: string;
+}
+
+export type GiveLeaveVehicleFormEmployeeType = {
+	vehicle_inspect_points: number[] | string[];
+	gate: string | number;
+	leave_comments: string;
+	different_person_pickup?: boolean;
+	identity_number?: string | number;
+	id_identity_type?: string | number;
 }
 
 export type FormGiveEntryEmployeeProps = {
@@ -105,6 +125,10 @@ export type FormGiveEntryEmployeeType = {
 	card_number: string;
 	company: string | number;
 	comments: string;
+}
+
+export type SearchVehicleFormType = {
+	plateNumber: string;
 }
 
 

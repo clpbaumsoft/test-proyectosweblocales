@@ -2,6 +2,9 @@
 import {
 	Alert,
 	Button,
+	Checkbox,
+	FormControlLabel,
+	TextField,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { ErrorMessage } from "@hookform/error-message";
@@ -27,6 +30,7 @@ import useTranslation from "@/hooks/useTranslation";
 
 //Styles
 import { BoxButtonsForm, SpaceBtn } from "@/styles/elements";
+import DropdownLoadedItems from "@/components/atoms/DropdownLoadedItems";
 
 //Texts
 const TRANS = {
@@ -37,7 +41,22 @@ const TRANS = {
 	},
 	label_vehicle_inspect_points: {
 		id: "GiveLeaveVehicleForm.Typography.Label.VehicleInspectPoints",
-		defaultMessage: "Puntos a inspeccionar:",
+		defaultMessage: "Puntos a inspeccionar 22222:",
+		description: "",
+	},
+	label_vehicle_type_doc: {
+		id: "GiveLeaveVehicleForm.Typography.Label.type_doc",
+		defaultMessage: "Tipo de documento:",
+		description: "",
+	},
+	label_vehicle_num_doc: {
+		id: "GiveLeaveVehicleForm.Typography.Label.num_doc",
+		defaultMessage: "Número de documento:",
+		description: "",
+	},
+	label_different_person_pickup: {
+		id: "GiveLeaveVehicleForm.Typography.Label.different_person_pickup",
+		defaultMessage: "¿El vehículo lo retira otra persona?",
 		description: "",
 	},
 	label_leave_comments: {
@@ -63,13 +82,19 @@ export default function GiveLeaveVehicleForm({ visitor, onCancel }: GiveLeaveVeh
 		error,
 		errors,
 		control,
+		watch,
 		isValid,
 		handleSubmit,
 		onSubmit,
 		register,
 		loadGates,
 		loadVehicleInspectPoints,
+		onBlurIdentificationNumber,
+		loadIdentificationTypes,
 	} = useGiveLeaveVehicleForm(visitor, onCancel)
+	
+	// Watch the checkbox value to control visibility of identification fields
+	const isDifferentPersonPickup = watch("different_person_pickup")
 	
 	return (
 		<>
@@ -137,6 +162,87 @@ export default function GiveLeaveVehicleForm({ visitor, onCancel }: GiveLeaveVeh
 								render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
 							/>
 						</Grid>
+
+
+
+						{/***************************************************/}
+						{/* Field: Different Person Pickup Checkbox */}
+						<Grid size={12}>
+							<Controller
+								name="different_person_pickup"
+								control={control}
+								render={({ field }) => (
+									<FormControlLabel
+										control={
+											<Checkbox
+												checked={field.value || false}
+												onChange={(e) => field.onChange(e.target.checked)}
+											/>
+										}
+										label={TEXTS.label_different_person_pickup}
+									/>
+								)}
+							/>
+						</Grid>
+
+						{/* Conditionally rendered identification fields */}
+						{isDifferentPersonPickup && (
+							<>
+								{/***************************************************/}
+								{/* Field: Identification Type */}
+								<Grid size={{ xs: 12, md: 6 }}>
+									<LabelForm
+										label={TEXTS.label_vehicle_type_doc}
+									/>
+									<Controller
+										name="id_identity_type"
+										control={control}
+										rules={{
+											required: isDifferentPersonPickup ? GTEXTS.required : false,
+										}}
+										render={({ field }) => (
+											<DropdownLoadedItems
+												fetchItems={loadIdentificationTypes} 
+												onChangeValue={(itemValue) => field.onChange(itemValue ? itemValue.value : '')}
+												defaultValue={field.value}
+												selectProps={{
+													size: 'small',
+													fullWidth: true,
+												}}
+											/>
+										)}
+									/>
+									<ErrorMessage
+										errors={errors}
+										name="id_identity_type"
+										render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
+									/>
+								</Grid>
+								
+								{/***************************************************/}
+								{/* Field: Identification Number */}
+								<Grid size={{ xs: 12, md: 6 }}>
+									<LabelForm
+										label={TEXTS.label_vehicle_num_doc}
+									/>
+									<TextField 
+										id="identity_number" 
+										{...register("identity_number", { required: isDifferentPersonPickup ? GTEXTS.required : false })}
+										onBlur={onBlurIdentificationNumber}
+										size="small"
+										fullWidth
+									/>
+									<ErrorMessage
+										errors={errors}
+										name="identity_number"
+										render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
+									/>
+								</Grid>
+							</>
+						)}
+
+
+
 						{ /* Field: Leave comments */}
 						<Grid size={12}>
 							<LabelForm

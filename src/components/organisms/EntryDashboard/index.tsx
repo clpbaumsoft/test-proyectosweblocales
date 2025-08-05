@@ -3,6 +3,7 @@ import EntryControlForm from "@/components/molecules/EntryControlForm";
 
 //Hooks
 import useTranslation from "@/hooks/useTranslation";
+import TableVisitsProvider from "@/providers/TableVisitsProvider";
 
 //Styles
 import { TitlePage } from "@/styles/elements";
@@ -21,8 +22,10 @@ export default function EntryDashboard() {
 
 	return (
 		<> 
-			<TitlePage>{TEXTS.title}</TitlePage>
-			<EntryControlForm />
+			<TableVisitsProvider>
+				<TitlePage>{TEXTS.title}</TitlePage>
+				<EntryControlForm />
+			</TableVisitsProvider>
 		</>
 	)
 }

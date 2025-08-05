@@ -20,60 +20,60 @@ import SelectLoadedItems from "@/components/atoms/SelectLoadedItems";
 import { GTRANS } from "@/constants/Globals";
 
 //Hooks
-import useGiveEntryVehicleForm from "./useGiveEntryVehicleForm";
+import useGiveEntryVehicleFormEmployee from "./useGiveEntryVehicleFormEmployee";
 import useTranslation from "@/hooks/useTranslation";
 
 //Interfaces and types
-import { GiveEntryVehicleFormProps } from "@/interfaces/Molecules";
+import { GiveEntryVehicleFormEmployeeProps } from "@/interfaces/Molecules";
 
 //Styles
-import { BoxButtonsForm, HeadingForm, SpaceBtn } from "@/styles/elements";
+import { BoxButtonsForm, HeadingForm } from "@/styles/elements";
 
 //Texts
 const TRANS = {
 	title: {
-		id: "GiveEntryVehicleForm.HeadingForm.TitleGiveEntryVehicle",
+		id: "GiveEntryVehicleFormEmployee.HeadingForm.TitleGiveEntryVehicle",
 		defaultMessage: "Ingresar Vehiculo",
 		description: "",
 	},
 	label_vehicle_number: {
-		id: "GiveEntryVehicleForm.Typography.Label.VehicleNumber",
+		id: "GiveEntryVehicleFormEmployee.Typography.Label.VehicleNumber",
 		defaultMessage: "Placa:",
 		description: "",
 	},
 	label_vehicle_type: {
-		id: "GiveEntryVehicleForm.Typography.Label.VehicleType",
+		id: "GiveEntryVehicleFormEmployee.Typography.Label.VehicleType",
 		defaultMessage: "Tipo del vehiculo:",
 		description: "",
 	},
 	label_vehicle_inspect_points: {
-		id: "GiveEntryVehicleForm.Typography.Label.VehicleInspectPoints",
+		id: "GiveEntryVehicleFormEmployee.Typography.Label.VehicleInspectPoints",
 		defaultMessage: "Seleccione los puntos a inspeccionar:",
 		description: "",
 	},
 	label_gate: {
-		id: "GiveEntryVehicleForm.Typography.Label.Gate",
+		id: "GiveEntryVehicleFormEmployee.Typography.Label.Gate",
 		defaultMessage: "Portería:",
 		description: "",
 	},
 	label_entry_comments: {
-		id: "GiveEntryVehicleForm.Typography.Label.EntryComments",
+		id: "GiveEntryVehicleFormEmployee.Typography.Label.EntryComments",
 		defaultMessage: "Observaciones:",
 		description: "",
 	},
 	help_message_entry_comments: {
-		id: "GiveEntryVehicleForm.CounterTextField.HelpMessageEntryComments",
+		id: "GiveEntryVehicleFormEmployee.CounterTextField.HelpMessageEntryComments",
 		defaultMessage: "Máximo 200 caracteres.",
 		description: "",
 	},
 	give_entry: {
-		id: "GiveEntryVehicleForm.Button.GiveEntryVehicle",
+		id: "GiveEntryVehicleFormEmployee.Button.GiveEntryVehicle",
 		defaultMessage: "Ingresar",
 		description: "",
 	},
 }
 
-export default function GiveEntryVehicleForm({ visitor, visit, isEmployee = false, onClose, onSuccessEntryVehicle }: GiveEntryVehicleFormProps) {
+export default function GiveEntryVehicleFormEmployee({onSuccessEntryVehicle }: GiveEntryVehicleFormEmployeeProps) {
 
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
@@ -90,7 +90,7 @@ export default function GiveEntryVehicleForm({ visitor, visit, isEmployee = fals
 		loadVehicleTypes,
 		loadVehicleInspectPoints,
 		loadGates,
-	} = useGiveEntryVehicleForm(visitor, visit, isEmployee, onSuccessEntryVehicle)
+	} = useGiveEntryVehicleFormEmployee(onSuccessEntryVehicle)
 
 	return (
 		<>
@@ -113,6 +113,7 @@ export default function GiveEntryVehicleForm({ visitor, visit, isEmployee = fals
 									{...register("number", { required: GTEXTS.required })}
 									fullWidth
 									size="small"
+									sx={{ textTransform: 'uppercase' }}
 									onInput={(e) => {
 										const target = e.target as HTMLInputElement;
 										target.value = target.value.toUpperCase();
@@ -238,14 +239,11 @@ export default function GiveEntryVehicleForm({ visitor, visit, isEmployee = fals
 					/>
 					<BoxButtonsForm>
 						<Button
-							variant="outlined"
-							onClick={onClose}
-						>{GTEXTS.close}</Button>
-						<SpaceBtn />
-						<Button
 							variant="contained"
 							type="submit"
-						>{TEXTS.give_entry}</Button>
+						>
+							{TEXTS.give_entry}
+						</Button>
 					</BoxButtonsForm>
 				</form>
 			</Box>

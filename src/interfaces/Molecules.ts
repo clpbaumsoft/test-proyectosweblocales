@@ -110,6 +110,12 @@ export type SearchPersonFormProps = BaseComponentProps & {
 export type GiveEntryVehicleFormProps = BaseComponentProps & {
 	visitor: Visitor;
 	visit: Visit;
+	isEmployee?: boolean;
+	onClose?: () => void;
+	onSuccessEntryVehicle?: (entryVehicle: EntryVehicle) => void
+}
+
+export type GiveEntryVehicleFormEmployeeProps = BaseComponentProps & {
 	onClose?: () => void;
 	onSuccessEntryVehicle?: (entryVehicle: EntryVehicle) => void
 }
@@ -152,4 +158,15 @@ export type DropdownsCompanyProps = BaseComponentProps & {
 	getBranch: () => Branch | { short_description: string };
 	getGates: () => Gate[];
 	getGate: () => Gate | { description: string };
+}
+
+export type SearchVehicleFormProps = BaseComponentProps & {
+	onSearch: (plateNumber: string) => Promise<EntryVehicle>;
+	onResult: (vehicle: EntryVehicle) => void;
+	onFail?: (error: unknown) => void;
+}
+
+export type CardVehicleProps = BaseComponentProps & {
+	vehicle: EntryVehicle;
+	onGiveLeave: (vehicle: EntryVehicle) => void;
 }

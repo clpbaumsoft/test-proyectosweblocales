@@ -26,6 +26,8 @@ import { mcm } from "@/packages/mui-confirm-modal/src";
 
 //Services
 import Orchestra from "@/services/Orchestra";
+import NoResultsError from "@/errors/NoResultError";
+import useTableVisitsProviderHook from "@/providers/TableVisitsProvider/hook";
 
 //Texts
 const TRANS = {
@@ -43,21 +45,36 @@ export default function useGiveLeaveVehicleForm(visitor: Visitor, onCancel: () =
 
 	const {
 		openModalLoginForm,
+		showLocalError,
 	} = useSessionProviderHook()
-	
+
 	const {
 		control,
 		reset,
 		register,
 		handleSubmit,
+		getValues,
+		watch,
+		// setValue,
 		formState: { errors, isValid },
 	} = useForm<GiveLeaveVehicleFormType>({ defaultValues: {
 		gate: visitor?.active_entry_vehicle?.gate?.id || "",
 		vehicle_inspect_points: [],
 		leave_comments: "",
+		different_person_pickup: false,
+		id_identity_type: "",
+		identity_number: "",
 	} })
+
+	const {
+		listIdentificationTypes,
+		setListIdentificationTypes,
+	} = useTableVisitsProviderHook()
 	
 	const [isInnerLoading, setIsInnerLoading] = useState(false)
+	const [currentVisitorData, setCurrentVisitorData] = useState<Visitor>()
+	console.log("❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️ ~ useGiveLeaveVehicleForm ~ currentVisitorData:", currentVisitorData)
+
 	const [okMessage, errorMessage, changeOkMessage, changeErrorMessage, hideMessages] = useFormMessages()
 	
 	/**
@@ -124,6 +141,51 @@ export default function useGiveLeaveVehicleForm(visitor: Visitor, onCancel: () =
 		}
 		return visitor?.active_entry_vehicle?.inspect_points?.map((vehicleInspectPoint) => ({ label: vehicleInspectPoint.description, value: vehicleInspectPoint.id }))
 	}, [visitor?.active_entry_vehicle?.inspect_points])
+
+
+	/**
+	 * Loads the identification types.
+	 */
+	const loadIdentificationTypes = useCallback(async () => {
+		if(listIdentificationTypes.length > 0) {
+			return listIdentificationTypes.map((itype) => ({ label: itype.code, value: itype.id }))
+		}
+		const results = await Orchestra.identificationTypeService.all()
+		setListIdentificationTypes([...results])
+		return results.map((itype) => ({ label: itype.code, value: itype.id }))
+	}, [listIdentificationTypes, setListIdentificationTypes])
+
+		/**
+	 * On blur event for the field "identity_number" to check if the visitor already exists and it is then, the form will be filled with the data.
+	 */
+	const onBlurIdentificationNumber = async () => {
+		
+		try {
+			const idIdentificationType = getValues('id_identity_type')
+			const identificationNumber = getValues('identity_number')
+			
+			if(!identificationNumber || !idIdentificationType || isInnerLoading) {
+				return
+			}
+			setIsInnerLoading(true)
+			const visitor = await Orchestra.visitorService.get(identificationNumber, idIdentificationType)
+			setCurrentVisitorData(visitor)
+			setIsInnerLoading(false)
+		} catch(catchError) {
+			setIsInnerLoading(false)
+			if(catchError instanceof NoResultsError) {
+				alert('Usuario no encontrado, debe registarlo a una visita para actiavrlo')
+				return
+			}
+			if(catchError instanceof AuthError) {
+				return openModalLoginForm()
+			}
+			if(catchError instanceof LocalError || catchError instanceof ValidationError) {
+				return showLocalError(catchError)
+			}
+			throw catchError
+		}
+	}
 	
 	return {
 		isValid,
@@ -132,10 +194,13 @@ export default function useGiveLeaveVehicleForm(visitor: Visitor, onCancel: () =
 		error: errorMessage,
 		errors,
 		control,
+		watch,
 		onSubmit,
 		handleSubmit,
 		register,
 		loadGates,
 		loadVehicleInspectPoints,
+		onBlurIdentificationNumber,
+		loadIdentificationTypes
 	}
 }

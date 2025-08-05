@@ -11,14 +11,12 @@ import ValidationError from "@/errors/ValidationError";
 
 //Interfaces and types
 import { ErrorResponseDataType } from "@/interfaces/General";
-import { GiveEntryVehicleFormType, GiveLeaveVehicleFormType } from "@/interfaces/Forms";
+import { GiveEntryVehicleFormType, GiveLeaveVehicleFormEmployeeType, GiveLeaveVehicleFormType } from "@/interfaces/Forms";
 
 //Libs
 import apiRequest from "@/lib/ApiRequest";
 
 export default class EntryVehicleService {
-
-	
 
 	/**
 	 * Add a entry vehicle for the visitor
@@ -71,4 +69,79 @@ export default class EntryVehicleService {
 	}
 	
 
+	/**
+	 * Add a entry vehicle for the EMPLOYEE
+	 * @returns 
+	 */
+	async giveEmployeeEntryVehicle(data: GiveEntryVehicleFormType) {
+		try {
+			return await apiRequest().post(`/employees/give-entry-vehicle`, data).then((res) => res.data);
+		} catch(catchError) {
+			const error = catchError as AxiosError
+			const status = error?.status || 500
+			const dataResponse = (error?.response?.data as ErrorResponseDataType) || { error: "" }
+			const message = dataResponse.error || dataResponse.message || GERRORS.error_something_went_wrong
+			if(status === 401) {
+				throw new AuthError(GERRORS.your_session_has_finished)
+			}
+			if(status === 422) {
+				throw new ValidationError(dataResponse.message)
+			}
+			if(status === 404) {
+				throw new LocalError(GERRORS.page_not_found)
+			}
+			throw new LocalError(message)
+		}
+	}
+
+	/**
+	 * Leave the active entry vehicle for empleyee
+	 * @returns 
+	 */
+	async leaveEmployeeVehicle(id: number, data: GiveLeaveVehicleFormEmployeeType) {
+		try {
+			return await apiRequest().post(`/employees/${id}/leave-entry-vehicle`, data).then((res) => res.data);
+		} catch(catchError) {
+			const error = catchError as AxiosError
+			const status = error?.status || 500
+			const dataResponse = (error?.response?.data as ErrorResponseDataType) || { error: "" }
+			const message = dataResponse.error || dataResponse.message || GERRORS.error_something_went_wrong
+			if(status === 401) {
+				throw new AuthError(GERRORS.your_session_has_finished)
+			}
+			if(status === 422) {
+				throw new ValidationError(dataResponse.message)
+			}
+			if(status === 404) {
+				throw new LocalError(GERRORS.page_not_found)
+			}
+			throw new LocalError(message)
+		}
+	}
+
+	/**
+	 * Search for an active employee vehicle by plate number
+	 * @param plateNumber - The vehicle plate number to search for
+	 * @returns Vehicle data if found
+	 */
+	async searchEmployeeVehicle(plateNumber: string) {
+		try {
+			return await apiRequest().get(`/employees/search-vehicle/${encodeURIComponent(plateNumber)}`).then((res) => res.data);
+		} catch(catchError) {
+			const error = catchError as AxiosError
+			const status = error?.status || 500
+			const dataResponse = (error?.response?.data as ErrorResponseDataType) || { error: "" }
+			const message = dataResponse.error || dataResponse.message || GERRORS.error_something_went_wrong
+			if(status === 401) {
+				throw new AuthError(GERRORS.your_session_has_finished)
+			}
+			if(status === 422) {
+				throw new ValidationError(dataResponse.message)
+			}
+			if(status === 404) {
+				throw new LocalError(GERRORS.page_not_found)
+			}
+			throw new LocalError(message)
+		}
+	}
 }

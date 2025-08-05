@@ -9,17 +9,14 @@ import AuthError from "@/errors/AuthError";
 import LocalError from "@/errors/LocalError";
 import ValidationError from "@/errors/ValidationError";
 
-//Events
-import EntryControlEvents from "@/events/EntryControlEvents";
-
 //Hooks
 import useFormMessages from "@/hooks/useFormMessages";
 import useSessionProviderHook from "@/providers/SessionProvider/hooks";
 import useTranslation from "@/hooks/useTranslation";
 
 //Interfaces and types
-import { GiveEntryVehicleFormType } from "@/interfaces/Forms";
-import { EntryVehicle, Visit, Visitor } from "@/interfaces/Models";
+import { GiveEntryVehicleFormEmployeeType } from "@/interfaces/Forms";
+import { EntryVehicle} from "@/interfaces/Models";
 
 //Services
 import Orchestra from "@/services/Orchestra";
@@ -27,13 +24,13 @@ import Orchestra from "@/services/Orchestra";
 //Texts
 const TRANS = {
 	success_entry_vehicle: {
-		id: "GiveEntryVehicleForm.SuccessMessage.CreateEntryVehicleSuccessfully",
+		id: "GiveEntryVehicleFormEmployee.SuccessMessage.CreateEntryVehicleSuccessfully",
 		defaultMessage: "Entrada realizada exitosamente.",
 		description: "",
 	},
 }
 
-export default function useGiveEntryVehicleForm(visitor: Visitor, visit: Visit, isEmployee: boolean, onSuccessEntryVehicle?: (entryVehicle: EntryVehicle) => void) {
+export default function useGiveEntryVehicleFormEmployee(onSuccessEntryVehicle?: (entryVehicle: EntryVehicle) => void) {
 
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
@@ -48,7 +45,7 @@ export default function useGiveEntryVehicleForm(visitor: Visitor, visit: Visit, 
 		reset,
 		register,
 		handleSubmit,
-	} = useForm<GiveEntryVehicleFormType>({ defaultValues: {
+	} = useForm<GiveEntryVehicleFormEmployeeType>({ defaultValues: {
 		number: "",
 		vehicle_type: "",
 		gate: "",
@@ -62,28 +59,14 @@ export default function useGiveEntryVehicleForm(visitor: Visitor, visit: Visit, 
 	/**
 	 * Submits the data to give entry of a vehicle.
 	 */
-	const onSubmit = async (data: GiveEntryVehicleFormType) => {
+	const onSubmit = async (data: GiveEntryVehicleFormEmployeeType) => {
 		try {
 			if(isInnerLoading) {
 				return
 			}
 			setIsInnerLoading(true)
 			hideMessages()
-
-			if(visitor) {
-				const entryVehicle = await Orchestra.entryVehicleService.give(visit.id, visitor.id, data)
-				const copyVisitor = { ...visitor }
-				copyVisitor.active_entry_vehicle = { ...entryVehicle }
-				EntryControlEvents.updateVisitor.emit('update_visitor', copyVisitor)
-				changeOkMessage(TEXTS.success_entry_vehicle)
-				if(onSuccessEntryVehicle) {
-					onSuccessEntryVehicle(entryVehicle)
-				}
-				reset()
-				setIsInnerLoading(false)
-			}
-
-			else if(isEmployee) {
+			if(data) {
 				const entryVehicle = await Orchestra.entryVehicleService.giveEmployeeEntryVehicle(data)
 				changeOkMessage(TEXTS.success_entry_vehicle)
 				if(onSuccessEntryVehicle) {
@@ -92,7 +75,6 @@ export default function useGiveEntryVehicleForm(visitor: Visitor, visit: Visit, 
 				reset()
 				setIsInnerLoading(false)
 			}
-
 		} catch(catchError) {
 			setIsInnerLoading(false)
 			if(catchError instanceof AuthError) {

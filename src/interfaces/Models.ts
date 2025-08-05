@@ -296,6 +296,7 @@ export type EntryVehicle = BaseModel & {
 	id_gate: number;
 	id_gaveleave_user: number;
 	gate?: Gate;
+	vehicle_type?: VehicleType;
 	inspect_points?: VehicleInspectPoint[];
 	visit_visitor?: VisitVisitor;
 }

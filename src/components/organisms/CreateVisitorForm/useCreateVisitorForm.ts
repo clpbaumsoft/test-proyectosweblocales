@@ -119,7 +119,7 @@ export default function useCreateVisitorForm(visitId: number, increaseVisitorsCo
 					}
 				})
 			} else {
-				console.log("currentVisitorDataAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" ,currentVisitorData)
+				console.log("currentVisitorDataAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" ,currentVisitorData)
 				await Orchestra.visitVisitorService.create(visitId, data, currentVisitorData?.startdate_sgsst || "", currentVisitorData?.enddate_sgsst || "")
 
 			}
