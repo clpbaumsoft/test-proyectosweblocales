@@ -91,6 +91,7 @@ export default function GiveLeaveVehicleForm({ visitor, onCancel }: GiveLeaveVeh
 		loadVehicleInspectPoints,
 		onBlurIdentificationNumber,
 		loadIdentificationTypes,
+		currentVisitorData
 	} = useGiveLeaveVehicleForm(visitor, onCancel)
 	
 	// Watch the checkbox value to control visibility of identification fields
@@ -280,7 +281,7 @@ export default function GiveLeaveVehicleForm({ visitor, onCancel }: GiveLeaveVeh
 						<Button
 							type="submit"
 							variant="contained"
-							disabled={!isValid}
+							disabled={(!isValid || (isDifferentPersonPickup && !currentVisitorData)) ? true : false}
 						>
 							{GTEXTS.save}
 						</Button>

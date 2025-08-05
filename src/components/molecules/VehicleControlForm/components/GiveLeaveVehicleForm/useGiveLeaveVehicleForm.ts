@@ -155,7 +155,8 @@ export default function useGiveLeaveVehicleForm(visitor: Visitor, onCancel: () =
 		return results.map((itype) => ({ label: itype.code, value: itype.id }))
 	}, [listIdentificationTypes, setListIdentificationTypes])
 
-		/**
+
+	/**
 	 * On blur event for the field "identity_number" to check if the visitor already exists and it is then, the form will be filled with the data.
 	 */
 	const onBlurIdentificationNumber = async () => {
@@ -174,7 +175,8 @@ export default function useGiveLeaveVehicleForm(visitor: Visitor, onCancel: () =
 		} catch(catchError) {
 			setIsInnerLoading(false)
 			if(catchError instanceof NoResultsError) {
-				alert('Usuario no encontrado, debe registarlo a una visita para actiavrlo')
+				setCurrentVisitorData(undefined)
+				alert('Usuario no encontrado, debe registrarlo a una visita para activarlo')
 				return
 			}
 			if(catchError instanceof AuthError) {
@@ -201,6 +203,7 @@ export default function useGiveLeaveVehicleForm(visitor: Visitor, onCancel: () =
 		loadGates,
 		loadVehicleInspectPoints,
 		onBlurIdentificationNumber,
-		loadIdentificationTypes
+		loadIdentificationTypes,
+		currentVisitorData
 	}
 }
