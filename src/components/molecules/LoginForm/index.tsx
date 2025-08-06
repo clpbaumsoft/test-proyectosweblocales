@@ -95,6 +95,11 @@ const TRANS = {
 		defaultMessage: "Ingresar",
 		description: "",
 	},
+	login_microsoft: {
+		id: "LoginForm.Button.LoginMicrosoft",
+		defaultMessage: "Ingresa con tu cuenta Microsoft",
+		description: "",
+	},
 	forget_password: {
 		id: "LoginForm.LabelForm.ForgetPassword",
 		defaultMessage: "Olvidé mi contraseña",
@@ -290,6 +295,19 @@ export default function LoginForm() {
 								{TEXTS.login}
 							</Button>
 
+						</Grid>
+
+						{/* Microsoft login button */}
+						<Grid size={12}>
+							<Button
+								variant="outlined"
+								fullWidth
+								component="a"
+								href="https://spaniel-hip-trivially.ngrok-free.app/login/microsoft/"
+								rel="noopener noreferrer"
+							>
+								{TEXTS.login_microsoft}
+							</Button>
 						</Grid>
 
 						{/* Forget password */}
