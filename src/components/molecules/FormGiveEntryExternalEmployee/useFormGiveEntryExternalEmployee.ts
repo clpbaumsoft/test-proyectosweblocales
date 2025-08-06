@@ -70,9 +70,14 @@ export default function useFormGiveEntryExternalEmployee() {
 			}
 			setIsInnerLoading(true)
 			hideMessages()
-			
-			await Orchestra.entryEmployeeService.giveEntryExternal(data)
-			
+
+		const newData = {
+			...data,
+			email: data.email ? data.email.trim() : "default@email.com",
+		}
+
+			await Orchestra.entryEmployeeService.giveEntryExternal(newData)
+
 			changeOkMessage(TEXTS.success_entry_vehicle)
 			
 			reset()

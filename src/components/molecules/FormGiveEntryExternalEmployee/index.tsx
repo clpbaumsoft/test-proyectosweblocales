@@ -231,10 +231,11 @@ export default function FormGiveEntryExternalEmployee() {
 						<Grid size={12}>
 							<LabelForm
 								label={TEXTS.label_email}
+								required={false}
 							/>
 							<TextField
 								type="email"
-								{...register("email", { required: GTEXTS.required })}
+								{...register("email")}
 								fullWidth
 								size="small"
 							/>
