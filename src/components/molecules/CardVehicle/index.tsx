@@ -109,7 +109,7 @@ console.log("🏢🏢🏢🏢🏢🏢 ~ CardVehicle ~ vehicle:", vehicle)
 				/>
 				<BoldLabel 
 					label={TEXTS.label_entry_date} 
-					value={formatDate(vehicle.creator_date?.split(' ')[0])} 
+					value={formatDate(vehicle.creator_date)}
 				/>
 				<BoldLabel 
 					label={TEXTS.label_gate} 
