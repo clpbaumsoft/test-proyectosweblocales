@@ -11,7 +11,7 @@ import ValidationError from "@/errors/ValidationError";
 
 //Interfaces and types
 import { ErrorResponseDataType } from "@/interfaces/General";
-import { GiveEntryVehicleFormType, GiveLeaveVehicleFormEmployeeType, GiveLeaveVehicleFormType } from "@/interfaces/Forms";
+import { GiveEntryVehicleFormType, GiveLeaveVehicleFormType } from "@/interfaces/Forms";
 
 //Libs
 import apiRequest from "@/lib/ApiRequest";
@@ -70,12 +70,12 @@ export default class EntryVehicleService {
 	
 
 	/**
-	 * Add a entry vehicle for the EMPLOYEE
+	 * Add a entry vehicle for the Employee
 	 * @returns 
 	 */
 	async giveEmployeeEntryVehicle(data: GiveEntryVehicleFormType) {
 		try {
-			return await apiRequest().post(`/employees/give-entry-vehicle`, data).then((res) => res.data);
+			return await apiRequest().post(`/employee/give-entry-vehicle`, data).then((res) => res.data);
 		} catch(catchError) {
 			const error = catchError as AxiosError
 			const status = error?.status || 500
@@ -95,12 +95,12 @@ export default class EntryVehicleService {
 	}
 
 	/**
-	 * Leave the active entry vehicle for empleyee
+	 * Leave the active entry vehicle for employee
 	 * @returns 
 	 */
-	async leaveEmployeeVehicle(id: number, data: GiveLeaveVehicleFormEmployeeType) {
+	async leaveEmployeeVehicle(id: number) {
 		try {
-			return await apiRequest().post(`/employees/${id}/leave-entry-vehicle`, data).then((res) => res.data);
+			return await apiRequest().get(`/employee/entry-vehicle/${id}/leave`).then((res) => res.data);
 		} catch(catchError) {
 			const error = catchError as AxiosError
 			const status = error?.status || 500
@@ -126,7 +126,8 @@ export default class EntryVehicleService {
 	 */
 	async searchEmployeeVehicle(plateNumber: string) {
 		try {
-			return await apiRequest().get(`/employees/search-vehicle/${encodeURIComponent(plateNumber)}`).then((res) => res.data);
+			const dataSearchVehicleEmployee = await apiRequest().get(`/employee/entry-vehicle/search?number=${encodeURIComponent(plateNumber)}`).then((res) => res.data);
+			return dataSearchVehicleEmployee?.results;
 		} catch(catchError) {
 			const error = catchError as AxiosError
 			const status = error?.status || 500

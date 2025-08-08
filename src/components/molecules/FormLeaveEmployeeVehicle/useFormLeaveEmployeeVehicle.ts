@@ -6,10 +6,16 @@ import Orchestra from "@/services/Orchestra";
 //Interfaces and types
 import type { EntryVehicle } from "@/interfaces/Models";
 
+//Hooks
+import useFormMessages from "@/hooks/useFormMessages";
+
 export default function useFormLeaveEmployeeVehicle() {
 
 	const [vehicle, setVehicle] = useState<EntryVehicle | null>(null)
 	const [hasFinished, setHasFinished] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
+	
+	const [successMessage, errorMessage, setSuccessMessage, setErrorMessage, hideMessages] = useFormMessages()
 
 	/**
 	 * Search for a vehicle by plate number
@@ -30,19 +36,56 @@ export default function useFormLeaveEmployeeVehicle() {
 		setHasFinished(true)
 	}
 
-	/**
-	 * Handle give leave action
-	 */
-	const onGiveLeave = (vehicleData: EntryVehicle) => {
-		// TODO: Implementar modal o formulario para dar salida al vehículo
-		console.log("Dar salida al vehículo:", vehicleData)
+	const onGiveLeave = async (vehicleData: EntryVehicle) => {
+		try {
+			setIsLoading(true)
+			hideMessages()
+			
+			await Orchestra.entryVehicleService.leaveEmployeeVehicle(vehicleData.id)
+			
+			setSuccessMessage('Salida del vehículo registrada exitosamente')
+			
+			setVehicle(null)
+			setHasFinished(false)	
+			hideMessages(3000)
+			
+		} catch (error) {
+			console.error("Error al dar salida al vehículo:", error)
+			setErrorMessage('Error al registrar la salida del vehículo')
+		} finally {
+			setIsLoading(false)
+		}
+	}
+
+	const onGiveLeaveWithData = async (vehicleData: EntryVehicle) => {
+		try {
+			setIsLoading(true)
+			hideMessages()
+			
+			await Orchestra.entryVehicleService.leaveEmployeeVehicle(vehicleData.id)
+			
+			setSuccessMessage('Salida del vehículo registrada exitosamente')
+			setVehicle(null)
+			setHasFinished(false)
+			hideMessages(3000)
+			
+		} catch (error) {
+			console.error("Error al dar salida al vehículo:", error)
+			setErrorMessage('Error al registrar la salida del vehículo')
+		} finally {
+			setIsLoading(false)
+		}
 	}
 
 	return {
 		vehicle,
 		hasFinished,
+		isLoading,
+		successMessage,
+		errorMessage,
 		onSearchVehicle,
 		onLoadResult,
 		onGiveLeave,
+		onGiveLeaveWithData,
 	}
 }

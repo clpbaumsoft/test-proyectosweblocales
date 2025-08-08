@@ -12,6 +12,7 @@ import BoldLabel from "@/components/atoms/BoldLabel";
 
 //Interfaces and types
 import { CardVehicleProps } from "@/interfaces/Molecules";
+import { VehicleInspectPoint } from "@/interfaces/Models";
 
 //Hooks
 import useTranslation from "@/hooks/useTranslation";
@@ -41,9 +42,14 @@ const TRANS = {
 		defaultMessage: "Comentarios de ingreso:",
 		description: "",
 	},
+	label_inspect_points: {
+		id: "CardVehicle.BoldLabel.InspectPoints",
+		defaultMessage: "Puntos de inspección:",
+		description: "",
+	},
 	label_gate: {
 		id: "CardVehicle.BoldLabel.Gate",
-		defaultMessage: "Portón:",
+		defaultMessage: "Portería:",
 		description: "",
 	},
 	give_leave: {
@@ -59,6 +65,7 @@ const TRANS = {
 }
 
 export default function CardVehicle({ vehicle, onGiveLeave }: CardVehicleProps) {
+console.log("🏢🏢🏢🏢🏢🏢 ~ CardVehicle ~ vehicle:", vehicle)
 
 	const TEXTS = useTranslation(TRANS)
 
@@ -76,9 +83,20 @@ export default function CardVehicle({ vehicle, onGiveLeave }: CardVehicleProps) 
 		}
 	}
 
+	const formatInspectPoints = (inspectPoints: VehicleInspectPoint[] | string[] | undefined) => {
+		if (!inspectPoints || inspectPoints.length === 0) {
+			return 'N/A'
+		}
+		
+		// Manejar tanto strings directos como objetos con descripción
+		return inspectPoints
+			.map(point => typeof point === 'string' ? point : point.description)
+			.join(', ')
+	}
+
 	return (
 		<Card sx={{ mt: 2, mb: 2 }}>
-			<CardContent>
+			<CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
 				<Typography variant="h6" color="primary" gutterBottom>
 					<DirectionsCarIcon sx={{ mr: 1, verticalAlign: 'middle' }} />
 					{TEXTS.vehicle_found}
@@ -91,11 +109,15 @@ export default function CardVehicle({ vehicle, onGiveLeave }: CardVehicleProps) 
 				/>
 				<BoldLabel 
 					label={TEXTS.label_entry_date} 
-					value={formatDate(vehicle.creator_date)} 
+					value={formatDate(vehicle.creator_date?.split(' ')[0])} 
 				/>
 				<BoldLabel 
 					label={TEXTS.label_gate} 
 					value={vehicle.gate?.description || 'N/A'} 
+				/>
+				<BoldLabel 
+					label={TEXTS.label_inspect_points} 
+					value={formatInspectPoints(vehicle.inspect_points)} 
 				/>
 				<BoldLabel 
 					label={TEXTS.label_entry_comments} 
@@ -109,6 +131,7 @@ export default function CardVehicle({ vehicle, onGiveLeave }: CardVehicleProps) 
 						startIcon={<ExitToAppIcon />}
 						onClick={() => onGiveLeave(vehicle)}
 						fullWidth
+						sx={{ mt: 2, padding: '8px 20px' }}
 					>
 						{TEXTS.give_leave}
 					</Button>

@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Typography, Alert } from "@mui/material";
 
 //Components
 import SearchVehicleForm from "@/components/molecules/SearchVehicleForm";
@@ -18,6 +18,8 @@ export default function FormLeaveEmployeeVehicle() {
 	const {
 		hasFinished,
 		vehicle,
+		successMessage,
+		errorMessage,
 		onSearchVehicle,
 		onLoadResult,
 		onGiveLeave,
@@ -29,6 +31,21 @@ export default function FormLeaveEmployeeVehicle() {
 				onSearch={onSearchVehicle}
 				onResult={onLoadResult}
 			/>
+			
+			{/* Success Message */}
+			{successMessage && (
+				<Alert severity="success" sx={{ mt: 2 }}>
+					{successMessage}
+				</Alert>
+			)}
+			
+			{/* Error Message */}
+			{errorMessage && (
+				<Alert severity="error" sx={{ mt: 2 }}>
+					{errorMessage}
+				</Alert>
+			)}
+			
 			<hr/>
 			{
 				vehicle ? (
