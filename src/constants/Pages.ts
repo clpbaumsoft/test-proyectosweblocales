@@ -9,5 +9,6 @@ const PAGES: Record<string, string> = Object.freeze({
 	trainings: "/capacitaciones",
 	dashboard_entry_vehicle: "/control-vehiculos",
 	dashboard_employees: "/control-empleados",
+	dashboard_generate_reports: "/reportes",
 })
 export default PAGES

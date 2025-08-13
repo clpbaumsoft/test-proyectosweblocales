@@ -24,6 +24,7 @@ import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import ModelTrainingIcon from "@mui/icons-material/ModelTraining";
 import BadgeIcon from "@mui/icons-material/Badge";
 import PersonOffIcon from '@mui/icons-material/PersonOff';
+import ArticleIcon from '@mui/icons-material/Article';
 
 //Components
 import RegisterVisitForm from "@/components/molecules/RegisterVisitForm";
@@ -89,6 +90,11 @@ const TRANS = {
 		defaultMessage: "Control Vehicular",
 		description: "",
 	},
+	generate_reports: {
+		id: "MainSidebar.Button.GenerateReports",
+		defaultMessage: "Generar Reportes",
+		description: "",
+	}
 }
 
 export default function MainSidebar({ children }: BaseComponentProps) {
@@ -249,9 +255,6 @@ export default function MainSidebar({ children }: BaseComponentProps) {
 						)
 					}
 
-
-
-					{/* Crear el boton para dashboard de Baneados */}
 					{
 						(loggedUser.can('restricted_users') || loggedUser.can('create_entry')) && (
 							<Link className="btn" href={PAGES.dashboard_restricted_users} passHref>
@@ -287,6 +290,20 @@ export default function MainSidebar({ children }: BaseComponentProps) {
 									sx={{ justifyContent: 'flex-start', color: 'black', fontWeight: 'bold' }}
 									startIcon={<ModelTrainingIcon />}
 								>{TEXTS.trainings}</Button>
+							</Link>
+						)
+					}
+
+					{
+						(loggedUser.can('generate_reports') || loggedUser.can('create_entry')) && (
+							<Link className="btn" href={PAGES.dashboard_generate_reports} passHref>
+								<Button 
+									fullWidth 
+									sx={{ justifyContent: 'flex-start', color: 'black', fontWeight: 'bold' }}
+									startIcon={<ArticleIcon />}
+								>
+									{TEXTS.generate_reports}
+								</Button>
 							</Link>
 						)
 					}

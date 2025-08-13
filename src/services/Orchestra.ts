@@ -22,6 +22,7 @@ import VisitDocumentService from "./VisitDocument";
 import VisitVisitorService from "./VisitVisitor";
 import VisitToOtherBranchService from "./VisitToOtherBranch";
 import RestrictecUsersService from "./RestrictedUsers";
+import GenerateReportsService from "./GenerateReports";
 
 const Orchestra = {
   authService: new AuthService(),
@@ -46,7 +47,8 @@ const Orchestra = {
   visitorService: new VisitorService(),
   visitDocumentService: new VisitDocumentService(),
   visitVisitorService: new VisitVisitorService(),
-
   restrictecUsersService: new RestrictecUsersService(),
+  
+  generateReportsService: new GenerateReportsService(),
 }
 export default Orchestra
