@@ -17,6 +17,7 @@
     "@mui/x-date-pickers": "^7.27.0",
     "@netlify/plugin-nextjs": "^5.11.1",
     "axios": "^1.7.9",
+    "dayjs": "^1.11.13",
     "iron-session": "^8.0.4",
     "mime-types": "^3.0.1",
     "mitt": "^3.0.1",
