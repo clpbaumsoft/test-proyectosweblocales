@@ -193,7 +193,6 @@ export default function useFormGenerateVisitisReport() {
    * Formats the API response data to match our interface
    */
   const formatVisitData = (rawData: ApiVisitResponseItem[]): VisitReportData[] => {
-    console.log("🙌🙌🙌🙌🙌🙌🙌🙌🙌🙌🙌🙌🙌🙌🙌🙌 ~ formatVisitData ~ rawData:", rawData)
     
     const result: VisitReportData[] = [];
     
@@ -250,7 +249,7 @@ export default function useFormGenerateVisitisReport() {
             visitor_middle_name: visitor?.middle_name || '',
             visitor_first_last_name: visitor?.first_last_name || '',
             visitor_second_last_name: visitor?.second_last_name || '',
-            identification_type: visitor?.identification_type?.description || '',
+            identification_type: visitor?.identification_type?.code || '',
             identification_number: visitor?.identification_number || '',
             visitor_type: visitVisitor.visitor_type?.short_description || '',
           });

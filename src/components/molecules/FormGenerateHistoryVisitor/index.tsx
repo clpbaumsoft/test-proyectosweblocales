@@ -42,7 +42,7 @@ const TRANS = {
   },
   generateReport: {
     id: "GenerateHistoryVisitorDashboard.generateReport",
-    defaultMessage: "Generar Historial",
+    defaultMessage: "Generar Reporte",
     description: "",
   },
 	label_identification_type: {
@@ -207,6 +207,8 @@ export default function FormGenerateHistoryVisitor() {
 		loadIdentificationTypes,
 		getIdByCode,
 	} = useFormGenerateHistoryVisitor();
+	
+	console.log("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥 ~ FormGenerateHistoryVisitor ~ historyData:", historyData)
 
   return (
     <>
@@ -214,7 +216,7 @@ export default function FormGenerateHistoryVisitor() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={3}>
             {/* Field: identification type */}
-            <Grid size={{ xs: 12, md: 3 }}>
+            <Grid size={{ xs: 12, md: 2 }}>
 							<FormControl fullWidth>
 								<InputLabel>{TEXTS.label_identification_type}</InputLabel>
 								<Controller
@@ -254,7 +256,7 @@ export default function FormGenerateHistoryVisitor() {
             </Grid>
 
             {/* Field: identification number */}
-            <Grid size={{ xs: 12, md: 3 }}>
+            <Grid size={{ xs: 12, md: 2 }}>
               <TextField
 								{...register("identification_number", { 
 									required: true,

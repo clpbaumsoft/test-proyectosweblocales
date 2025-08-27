@@ -24,7 +24,7 @@ import Orchestra from "@/services/Orchestra";
 
 // Interface for the form data
 interface VisitorHistoryFormType {
-  identification_type: string;
+  identification_type: string | number;
   identification_number: string;
   start_date?: string;
   end_date?: string;
@@ -33,35 +33,35 @@ interface VisitorHistoryFormType {
 // Interface for visitor history data from API
 interface VisitorHistoryData {
   id: number;
-  card_number: string;
+  card_number: string | null;
   left_at: string | null;
-  emergency_contact_name: string;
-  emergency_contact_phone: string;
-  id_visit_visitor: number;
+  emergency_contact_name: string | null;
+  emergency_contact_phone: string | null;
+  id_visit_visitor: number | null;
   id_carecompany: number | null;
   id_arlcompany: number | null;
-  status: string;
-  creator_date: string;
+  status: string | null;
+  creator_date: string | null;
   carecompany: {
     id: number | null,
     name: string | null,
     status: string | null,
     soft_delete: boolean | null,
-    id_creator_user: 1,
+    id_creator_user: number,
     creator_date: string | null,
     id_modifier_user: number | null,
     modifier_date: string | null
-} | null;
+  } | null;
   arlcompany: {
-    id: 1,
+    id: number,
     name: string | null,
     status: string | null,
-    soft_delete: false,
+    soft_delete: boolean,
     id_creator_user: number | null,
     creator_date: string | null,
     id_modifier_user: number | null,
     modifier_date: string | null
-} | null;
+  } | null;
   gaveleave_user: {
     identification_number: string;
     first_name: string;
@@ -69,6 +69,7 @@ interface VisitorHistoryData {
     first_last_name: string;
     second_last_name: string | null;
     fullname: string;
+    unique_permissions?: string[] | null;
   };
   visit_visitor: {
     id: number;
@@ -84,6 +85,22 @@ interface VisitorHistoryData {
     };
     visitor_type: {
       short_description: string;
+    };
+    visitor: {
+      id: number;
+      identification_number: string;
+      first_name: string;
+      middle_name: string | null;
+      first_last_name: string;
+      second_last_name: string | null;
+      emergency_contact_name: string | null;
+      emergency_contact_phone: string | null;
+      fullname: string;
+      identification_type: {
+        id: number;
+        code: string;
+        description: string;
+      };
     };
   };
 }
@@ -235,31 +252,34 @@ export default function useFormGenerateHistoryVisitor() {
   /**
    * Formats the API response data to match our interface
    */
-  const formatHistoryData = (rawData: VisitorHistoryData[], identificationType: string): ProcessedVisitorHistoryData[] => {
+  const formatHistoryData = (rawData: VisitorHistoryData[]): ProcessedVisitorHistoryData[] => {
     console.log("🙌🙌🙌🙌🙌🙌🙌🙌🙌🙌🙌🙌🙌🙌🙌🙌 ~ formatHistoryData ~ rawData:", rawData);
     
-    return rawData.map((item: VisitorHistoryData) => {
+    return rawData?.map((item: VisitorHistoryData) => {
+      const visitor = item.visit_visitor.visitor;
+      const visit = item.visit_visitor.visit;
+      
       return {
         id: item.id,
-        visit_id: item.visit_visitor.visit.id,
-        identification_type: identificationType,
-        identification_number: item.gaveleave_user.identification_number || '',
-        first_name: item.gaveleave_user.first_name || '',
-        middle_name: item.gaveleave_user.middle_name || '',
-        first_last_name: item.gaveleave_user.first_last_name || '',
-        second_last_name: item.gaveleave_user.second_last_name || '',
+        visit_id: visit.id,
+        identification_type: visitor.identification_type.code || '',
+        identification_number: visitor.identification_number || '',
+        first_name: visitor.first_name || '',
+        middle_name: visitor.middle_name || '',
+        first_last_name: visitor.first_last_name || '',
+        second_last_name: visitor.second_last_name || '',
         company_entry_date: item.creator_date || '',
         company_exit_date: item.left_at || '',
-        visit_start_date: item.visit_visitor.visit.start_date || '',
-        visit_end_date: item.visit_visitor.visit.end_date || '',
+        visit_start_date: visit.start_date || '',
+        visit_end_date: visit.end_date || '',
         eps: item.carecompany?.name || '',
         arl: item.arlcompany?.name || '',
         record_number: item.card_number || '',
-        emergency_contact_name: item.emergency_contact_name || '',
-        emergency_contact_phone: item.emergency_contact_phone || '',
+        emergency_contact_name: item.emergency_contact_name || visitor.emergency_contact_name || '',
+        emergency_contact_phone: item.emergency_contact_phone || visitor.emergency_contact_phone || '',
         visitor_type: item.visit_visitor.visitor_type.short_description || '',
-        interventor_name: item.visit_visitor.visit.interventor?.fullname || '',
-        visit_id_reference: item.visit_visitor.visit.id,
+        interventor_name: visit.interventor?.fullname || '',
+        visit_id_reference: visit.id,
       };
     });
   };
@@ -292,11 +312,12 @@ export default function useFormGenerateHistoryVisitor() {
       const endDate = valueEnd?.format('YYYY-MM-DD');
 
       const response = await Orchestra.generateReportsService.visitorsHistory(
-        data.identification_type,
+        identificationTypeId.toString(), // Convert to string if needed
         data.identification_number,
         startDate,
         endDate
       );
+      console.log("💕💕💕💕💕💕💕💕💕💕💕💕 ~ onSubmit ~ response:", response)
 
       // Handle the API response - it could be wrapped in a data property or be the raw array
       let rawData: VisitorHistoryData[] = [];
@@ -312,9 +333,11 @@ export default function useFormGenerateHistoryVisitor() {
       }
 
       // Get the identification type code to pass to formatHistoryData
-      const identificationTypeCode = getCodeById(data.identification_type) || data.identification_type;
+      const identificationTypeCode = getCodeById(identificationTypeId.toString()) || identificationTypeId.toString();
+      console.log("🚀 ~ onSubmit ~ identificationTypeCode:", identificationTypeCode)
 
-      const formattedData = formatHistoryData(rawData, identificationTypeCode);
+      const formattedData = formatHistoryData(rawData);
+      console.log("🚀 ~ onSubmit ~ formattedData:", formattedData)
 
       setHistoryData(formattedData);
       setPage(0); // Reset to first page when new data is loaded

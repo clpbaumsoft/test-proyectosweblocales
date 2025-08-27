@@ -12,6 +12,9 @@ import TableVisitsProvider from "@/providers/TableVisitsProvider";
 import { TitlePage } from "@/styles/elements";
 import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import FormGenerateHistoryEmployeeVehicle from "@/components/molecules/FormGenerateHistoryEmployeeVehicle";
+import FormGenerateHistoryVisitorVehicle from "@/components/molecules/FormGenerateHistoryVisitorVehicle";
+import FormGenerateReportEmployeesWithoutIdCards from "@/components/molecules/FormGenerateReportEmployeesWithoutIdCards";
 
 //Texts
 const TRANS = {
@@ -33,6 +36,18 @@ export default function GenerateReportsDashboard() {
 			value: "historyvisitor",
 			label: "Reporte de historial visitante"
 		},
+		{
+			value: "historyEmployeeVehicle",
+			label: "Reporte vehícular de empleados"
+		},
+		{
+			value: "historyVisitorVehicle",
+			label: "Reporte vehícular de visitantes"
+		},
+		{
+			value: "historyEmployeesWithoutIdCards",
+			label: "Reporte de empleados sin carnet"
+		}
 	]
 
 	const [currentOptionReportSelected, setCurrentOptionReportSelected] = useState(optionsReports?.[0].value || "visits")
@@ -66,6 +81,9 @@ export default function GenerateReportsDashboard() {
 
 				{currentOptionReportSelected === "visits" && <FormGenerateVisitisReport />}
 				{currentOptionReportSelected === "historyvisitor" && <FormGenerateHistoryVisitor />}
+				{currentOptionReportSelected === "historyEmployeeVehicle" && <FormGenerateHistoryEmployeeVehicle />}
+				{currentOptionReportSelected === "historyVisitorVehicle" && <FormGenerateHistoryVisitorVehicle />}
+				{currentOptionReportSelected === "historyEmployeesWithoutIdCards" && <FormGenerateReportEmployeesWithoutIdCards />}
 
 			</TableVisitsProvider>
 		</>

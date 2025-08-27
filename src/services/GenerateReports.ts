@@ -64,7 +64,124 @@ export default class GenerateReportsService {
       }
       return await apiRequest()
         .get(url)
-        .then((res) => res.data);
+        .then((res) => {
+          console.log("👌👌👌👌👌👌👌👌👌👌👌 ~ GenerateReportsService ~ visitorsHistory ~ res:", res);
+          return res.data;
+        });
+    } catch (catchError) {
+      const error = catchError as AxiosError;
+      const status = error?.status || 500;
+      const dataResponse = (error?.response?.data as ErrorResponseDataType) || {
+        error: "",
+      };
+      const message =
+        dataResponse.error ||
+        dataResponse.message ||
+        GERRORS.error_something_went_wrong;
+      if (status === 401) {
+        throw new AuthError(GERRORS.your_session_has_finished);
+      }
+      throw new LocalError(message);
+    }
+  }
+
+  /**
+   * Requests all history for a vehicle.
+   * plate is required.
+   * start_date y end_date are optionals.
+   */
+  async historyVisitorsVehicle(
+    plate: string,
+    start_date?: string,
+    end_date?: string
+  ) {
+    try {
+      
+      let url = `/reports/entry-vehicle/?plate=${plate}`;
+      if (start_date) {
+        url += `&start_date=${start_date}`;
+      }
+      if (end_date) {
+        url += `&end_date=${end_date}`;
+      }
+      return await apiRequest()
+        .get(url)
+        .then((res) => {
+          return res.data;
+        });
+    } catch (catchError) {
+      const error = catchError as AxiosError;
+      const status = error?.status || 500;
+      const dataResponse = (error?.response?.data as ErrorResponseDataType) || {
+        error: "",
+      };
+      const message =
+        dataResponse.error ||
+        dataResponse.message ||
+        GERRORS.error_something_went_wrong;
+      if (status === 401) {
+        throw new AuthError(GERRORS.your_session_has_finished);
+      }
+      throw new LocalError(message);
+    }
+  }
+
+    /**
+   * Requests all history for a vehicle for visitors.
+   * plate is required.
+   * start_date y end_date are optionals.
+   */
+  async historyEmployeeVehicle(
+    plate: string,
+    start_date?: string,
+    end_date?: string
+  ) {
+    try {
+      let url = `/reports/entry-employee-vehicle/?plate=${plate}`;
+      if (start_date) {
+        url += `&start_date=${start_date}`;
+      }
+      if (end_date) {
+        url += `&end_date=${end_date}`;
+      }
+      return await apiRequest()
+        .get(url)
+        .then((res) => {
+          return res.data;
+        });
+    } catch (catchError) {
+      const error = catchError as AxiosError;
+      const status = error?.status || 500;
+      const dataResponse = (error?.response?.data as ErrorResponseDataType) || {
+        error: "",
+      };
+      const message =
+        dataResponse.error ||
+        dataResponse.message ||
+        GERRORS.error_something_went_wrong;
+      if (status === 401) {
+        throw new AuthError(GERRORS.your_session_has_finished);
+      }
+      throw new LocalError(message);
+    }
+  }
+
+  /**
+   * Requests all history for employees without ID cards.
+   * start_date y end_date are required.
+   */
+  async historyEmployeesWithoutIdCards(
+    start_date: string,
+    end_date: string
+  ) {
+    try {
+      const url = `/reports/entry-employee-no-license/?start_date=${start_date}&end_date=${end_date}`;
+      return await apiRequest()
+        .get(url)
+        .then((res) => {
+          console.log("👌👌👌👌👌👌👌👌👌👌👌 ~ GenerateReportsService ~ historyEmployeesWithoutIdCards ~ res:", res);
+          return res.data;
+        });
     } catch (catchError) {
       const error = catchError as AxiosError;
       const status = error?.status || 500;
