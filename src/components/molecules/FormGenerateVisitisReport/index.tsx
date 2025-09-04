@@ -141,6 +141,11 @@ const TRANS = {
     defaultMessage: "Exportar CSV",
     description: "",
   },
+	export_xlsx: {
+    id: "GenerateReportsDashboard.ExportXLSX",
+    defaultMessage: "Exportar XLSX",
+    description: "",
+  },
 };
 
 export default function FormGenerateVisitisReport() {
@@ -161,6 +166,7 @@ export default function FormGenerateVisitisReport() {
 		handleChangePage,
 		handleChangeRowsPerPage,
 		exportToCSV,
+		exportToXLSX,
 	} = useFormGenerateVisitisReport();
 
   return (
@@ -222,14 +228,24 @@ export default function FormGenerateVisitisReport() {
 							<Typography variant="h6">
 								Resultados del Reporte ({visitsData.length} registros)
 							</Typography>
-							<Button
-								variant="outlined"
-								startIcon={<Download />}
-								onClick={exportToCSV}
-								disabled={isInnerLoading}
-							>
-								{TEXTS.export_csv}
-							</Button>
+							<Box sx={{ display: 'flex', gap: 1 }}>
+								<Button
+									variant="outlined"
+									startIcon={<Download />}
+									onClick={exportToCSV}
+									disabled={isInnerLoading}
+								>
+									{TEXTS.export_csv}
+								</Button>
+								<Button
+									variant="outlined"
+									startIcon={<Download />}
+									onClick={exportToXLSX}
+									disabled={isInnerLoading}
+								>
+									{TEXTS.export_xlsx}
+								</Button>
+							</Box>
 						</Box>
 						
 						<TableContainer component={Paper} sx={{ maxHeight: 600, overflow: 'auto' }}>

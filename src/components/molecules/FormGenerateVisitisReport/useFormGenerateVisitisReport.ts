@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import dayjs, { Dayjs } from 'dayjs';
+import * as XLSX from 'xlsx';
 
 //Constants
 import { GTRANS } from "@/constants/Globals";
@@ -331,6 +332,52 @@ export default function useFormGenerateVisitisReport() {
   };
 
   /**
+   * Exports visits data to XLSX
+   */
+  const exportToXLSX = () => {
+    if (visitsData.length === 0) {
+      changeErrorMessage("No hay datos para exportar");
+      return;
+    }
+
+    const data = visitsData.map(visit => ({
+      'ID Visita': visit.id || '',
+      'Fecha Creación': visit.created_at || '',
+      'Descripción': visit.reason || '',
+      'Estado': visit.status || '',
+      'Fecha Inicial': visit.start_date || '',
+      'Fecha Final': visit.end_date || '',
+      'Interventor': visit.interventor_name || '',
+      'Cant. Visitantes': visit.visitors_count || '',
+      'Aprobó': visit.approver_name || '',
+      'Verificador Docs': visit.document_verifier_name || '',
+      'Primer Nombre': visit.visitor_first_name || '',
+      'Segundo Nombre': visit.visitor_middle_name || '',
+      'Primer Apellido': visit.visitor_first_last_name || '',
+      'Segundo Apellido': visit.visitor_second_last_name || '',
+      'Tipo Identificación': visit.identification_type || '',
+      'Número Identificación': visit.identification_number || '',
+      'Tipo Visitante': visit.visitor_type || ''
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Reporte Visitas');
+
+    // Auto-adjust column widths
+    const colWidths = Object.keys(data[0] || {}).map(header => ({
+      wch: Math.max(header.length, 20)
+    }));
+    worksheet['!cols'] = colWidths;
+
+    // Generate filename with current date
+    const filename = `reporte_visitas_${dayjs().format('YYYY-MM-DD_HH-mm')}.xlsx`;
+    
+    XLSX.writeFile(workbook, filename);
+    changeOkMessage("Archivo Excel descargado exitosamente");
+  };
+
+  /**
    * Exports visits data to CSV
    */
   const exportToCSV = () => {
@@ -358,8 +405,10 @@ export default function useFormGenerateVisitisReport() {
       'Número Identificación',
       'Tipo Visitante'
     ];
-
-    const csvContent = [
+    
+    // Add BOM to support UTF-8 encoding for accents and special characters
+    const BOM = '\uFEFF';
+    const csvContent = BOM + [
       headers.join(','),
       ...visitsData.map(visit => [
         visit.id,
@@ -414,5 +463,6 @@ export default function useFormGenerateVisitisReport() {
     handleChangePage,
     handleChangeRowsPerPage,
     exportToCSV,
+    exportToXLSX,
   };
 }

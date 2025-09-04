@@ -89,7 +89,12 @@ const TRANS = {
   },
 	table_observations: {
     id: "GenerateHistoryVehicleDashboard.Table.Observations",
-    defaultMessage: "Observaciones",
+    defaultMessage: "Observaciones de ingreso",
+    description: "",
+  },
+	table_observations_leave: {
+    id: "GenerateHistoryVehicleDashboard.Table.ObservationsLeave",
+    defaultMessage: "Observaciones de Salida",
     description: "",
   },
 	no_data: {
@@ -100,6 +105,11 @@ const TRANS = {
 	export_csv: {
     id: "GenerateHistoryVehicleDashboard.ExportCSV",
     defaultMessage: "Exportar CSV",
+    description: "",
+  },
+	export_xlsx: {
+    id: "GenerateHistoryVehicleDashboard.ExportXLSX",
+    defaultMessage: "Exportar XLSX",
     description: "",
   },
 };
@@ -134,6 +144,7 @@ export default function FormGenerateHistoryVisitorVehicle() {
 		handleChangePage,
 		handleChangeRowsPerPage,
 		exportToCSV,
+		exportToXLSX,
 	} = useFormGenerateHistoryVisitorVehicle();
 
 	console.log("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥 ~ FormGenerateHistoryVisitorVehicle ~ historyData:", historyData)
@@ -213,14 +224,24 @@ export default function FormGenerateHistoryVisitorVehicle() {
 							<Typography variant="h6">
 								Historial del Vehículo ({historyData.length} registros)
 							</Typography>
-							<Button
-								variant="outlined"
-								startIcon={<Download />}
-								onClick={exportToCSV}
-								disabled={isInnerLoading}
-							>
-								{TEXTS.export_csv}
-							</Button>
+							<Box sx={{ display: 'flex', gap: 1 }}>
+								<Button
+									variant="outlined"
+									startIcon={<Download />}
+									onClick={exportToCSV}
+									disabled={isInnerLoading}
+								>
+									{TEXTS.export_csv}
+								</Button>
+								<Button
+									variant="outlined"
+									startIcon={<Download />}
+									onClick={exportToXLSX}
+									disabled={isInnerLoading}
+								>
+									{TEXTS.export_xlsx}
+								</Button>
+							</Box>
 						</Box>
 						
 						<TableContainer component={Paper} sx={{ maxHeight: 600, overflow: 'auto' }}>
@@ -235,6 +256,7 @@ export default function FormGenerateHistoryVisitorVehicle() {
 										<TableCell sx={{ fontWeight: 'bold', minWidth: 200 }}>{TEXTS.table_inspection_points}</TableCell>
 										<TableCell sx={{ fontWeight: 'bold', minWidth: 150 }}>{TEXTS.table_gate_name}</TableCell>
 										<TableCell sx={{ fontWeight: 'bold', minWidth: 250 }}>{TEXTS.table_observations}</TableCell>
+										<TableCell sx={{ fontWeight: 'bold', minWidth: 250 }}>{TEXTS.table_observations_leave}</TableCell>
 									</TableRow>
 								</TableHead>
 								<TableBody>
@@ -257,6 +279,7 @@ export default function FormGenerateHistoryVisitorVehicle() {
 												<TableCell>{item.inspection_points || '-'}</TableCell>
 												<TableCell>{item.gate_name || '-'}</TableCell>
 												<TableCell>{item.observations || '-'}</TableCell>
+												<TableCell>{item.observationsLeave || '-'}</TableCell>
 											</TableRow>
 										))}
 								</TableBody>

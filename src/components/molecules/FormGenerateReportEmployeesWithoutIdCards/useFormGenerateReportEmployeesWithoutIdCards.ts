@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import dayjs, { Dayjs } from 'dayjs';
+import * as XLSX from 'xlsx';
 
 //Constants
 import { GTRANS } from "@/constants/Globals";
@@ -96,22 +97,31 @@ interface EmployeeWithoutIdCardData {
   };
   company?: {
     id: number;
-    name: string;
-    description: string;
+    nit: string;
+    short_description: string;
+    long_description: string;
+    address: string;
+    email: string;
+    status: string;
+    soft_delete: boolean;
+    id_creator_user: number;
+    creator_date: string;
+    id_modifier_user: number;
+    modifier_date: string;
   };
 }
 
 // Interface for processed data to show in table
 interface ProcessedEmployeeData {
   id: number;
-  identification_type: string;
-  identification_number: string;
-  full_name: string;
-  entry_date: string;
+  identification_type: string | null;
+  identification_number: string | null;
+  full_name: string | null;
+  entry_date: string | null;
   exit_date: string | null;
-  card_number: string;
+  card_number: string | null;
   employee_receiver: string | null;
-  company: string;
+  company: string | null;
   observations: string | null;
 }
 
@@ -202,7 +212,7 @@ export default function useFormGenerateReportEmployeesWithoutIdCards() {
         exit_date: item.left_at || null,
         card_number: item.card_number || '',
         employee_receiver: item.employee_receiver?.name || null,
-        company: item.company?.name || 'N/A',
+        company: item.company?.short_description || 'N/A',
         observations: item.comments || null,
       };
     });
@@ -300,6 +310,44 @@ export default function useFormGenerateReportEmployeesWithoutIdCards() {
   };
 
   /**
+   * Exports employee report data to XLSX
+   */
+  const exportToXLSX = () => {
+    if (reportData.length === 0) {
+      changeErrorMessage("No hay datos para exportar");
+      return;
+    }
+
+    const data = reportData.map(item => ({
+      'Tipo de Identificación': item.identification_type || '',
+      'Número de Identificación': item.identification_number || '',
+      'Nombre Completo': item.full_name || '',
+      'Fecha de Ingreso a la Empresa': item.entry_date ? dayjs(item.entry_date).format('DD/MM/YYYY HH:mm') : '',
+      'Fecha de Salida de la Empresa': item.exit_date ? dayjs(item.exit_date).format('DD/MM/YYYY HH:mm') : '',
+      'Número de Ficha': item.card_number || '',
+      'Empleado que Recibe': item.employee_receiver || '',
+      'Empresa': item.company || '',
+      'Observación': item.observations || ''
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Empleados sin Carné');
+
+    // Auto-adjust column widths
+    const colWidths = Object.keys(data[0] || {}).map(header => ({
+      wch: Math.max(header.length, 20)
+    }));
+    worksheet['!cols'] = colWidths;
+
+    // Generate filename with current date
+    const filename = `empleados_sin_carne_${dayjs().format('YYYY-MM-DD_HH-mm')}.xlsx`;
+    
+    XLSX.writeFile(workbook, filename);
+    changeOkMessage("Archivo Excel descargado exitosamente");
+  };
+
+  /**
    * Exports employee report data to CSV
    */
   const exportToCSV = () => {
@@ -320,7 +368,9 @@ export default function useFormGenerateReportEmployeesWithoutIdCards() {
       'Observación'
     ];
 
-    const csvContent = [
+    // Add BOM to support UTF-8 encoding for accents and special characters
+    const BOM = '\uFEFF';
+    const csvContent = BOM + [
       headers.join(','),
       ...reportData.map(item => [
         `"${item.identification_type}"`,
@@ -379,5 +429,6 @@ export default function useFormGenerateReportEmployeesWithoutIdCards() {
     handleChangePage,
     handleChangeRowsPerPage,
     exportToCSV,
+    exportToXLSX,
   };
 }

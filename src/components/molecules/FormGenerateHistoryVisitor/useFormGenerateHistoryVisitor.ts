@@ -2,6 +2,7 @@
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import dayjs, { Dayjs } from 'dayjs';
+import * as XLSX from 'xlsx';
 
 //Constants
 import { GTRANS, IDENTIFICATION_TYPE_CODE_CC } from "@/constants/Globals";
@@ -372,6 +373,53 @@ export default function useFormGenerateHistoryVisitor() {
   };
 
   /**
+   * Exports history data to XLSX
+   */
+  const exportToXLSX = () => {
+    if (historyData.length === 0) {
+      changeErrorMessage("No hay datos para exportar");
+      return;
+    }
+
+    const data = historyData.map(item => ({
+      'Tipo Identificación': item.identification_type || '',
+      'Número Identificación': item.identification_number || '',
+      'Primer Nombre': item.first_name || '',
+      'Segundo Nombre': item.middle_name || '',
+      'Primer Apellido': item.first_last_name || '',
+      'Segundo Apellido': item.second_last_name || '',
+      'Fecha Entrada': item.company_entry_date || '',
+      'Fecha Salida': item.company_exit_date || '',
+      'Fecha Inicio Programada': item.visit_start_date || '',
+      'Fecha Fin Programada': item.visit_end_date || '',
+      'EPS': item.eps || '',
+      'ARL': item.arl || '',
+      'Número Tarjeta': item.record_number || '',
+      'Contacto Emergencia': item.emergency_contact_name || '',
+      'Teléfono Emergencia': item.emergency_contact_phone || '',
+      'Tipo Visitante': item.visitor_type || '',
+      'Interventor': item.interventor_name || '',
+      'ID Visita': item.visit_id_reference || ''
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Historial Visitante');
+
+    // Auto-adjust column widths
+    const colWidths = Object.keys(data[0] || {}).map(header => ({
+      wch: Math.max(header.length, 20)
+    }));
+    worksheet['!cols'] = colWidths;
+
+    // Generate filename with current date
+    const filename = `historial_visitante_${dayjs().format('YYYY-MM-DD_HH-mm')}.xlsx`;
+    
+    XLSX.writeFile(workbook, filename);
+    changeOkMessage("Archivo Excel descargado exitosamente");
+  };
+
+  /**
    * Exports history data to CSV
    */
   const exportToCSV = () => {
@@ -400,8 +448,9 @@ export default function useFormGenerateHistoryVisitor() {
       'Interventor',
       'ID Visita'
     ];
-
-    const csvContent = [
+    // Add BOM to support UTF-8 encoding for accents and special characters
+    const BOM = '\uFEFF';
+    const csvContent = BOM + [
       headers.join(','),
       ...historyData.map(item => [
         `"${item.identification_type}"`,
@@ -470,6 +519,7 @@ export default function useFormGenerateHistoryVisitor() {
     handleChangePage,
     handleChangeRowsPerPage,
     exportToCSV,
+    exportToXLSX,
     loadIdentificationTypes,
     getIdByCode,
     getCodeById,

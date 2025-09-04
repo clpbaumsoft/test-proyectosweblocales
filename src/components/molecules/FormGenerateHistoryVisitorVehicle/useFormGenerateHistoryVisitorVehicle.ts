@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import dayjs, { Dayjs } from 'dayjs';
+import * as XLSX from 'xlsx';
 
 //Constants
 import { GTRANS } from "@/constants/Globals";
@@ -133,6 +134,7 @@ interface ProcessedVehicleHistoryData {
   inspection_points: string;
   gate_name: string;
   observations: string;
+  observationsLeave?: string;
 }
 
 //Texts
@@ -227,24 +229,19 @@ export default function useFormGenerateHistoryVisitorVehicle() {
     console.log("🚗🚗🚗🚗🚗🚗🚗🚗🚗🚗 ~ formatHistoryData ~ rawData:", rawData);
     
     return rawData?.map((item: VehicleHistoryData) => {
-      // Concatenar los puntos de inspección en una sola cadena
       const inspectionPoints = item.inspect_points?.map(point => point.description).join(', ') || '';
       
-      // Combinar comentarios de entrada y salida
-      const observations = [item.comments_entry, item.comments_leave]
-        .filter(comment => comment && comment.trim())
-        .join(' | ') || '';
-
       return {
         id: item.id,
-        plate: item.number?.toLocaleUpperCase() || '', // El campo "number" es la placa
-        entry_date: item.creator_date || '', // Fecha de entrada
-        exit_date: item.left_at || '', // Fecha de salida
-        full_name: item.creator_user.fullname || '', // Nombre completo quien dió ingreso
-        fullname_leave: item.gaveleave_user.fullname || '', // Nombre completo quien dió salida
+        plate: item.number?.toLocaleUpperCase() || '', 
+        entry_date: item.creator_date || '', 
+        exit_date: item.left_at || '', 
+        full_name: item.creator_user.fullname || '', 
+        fullname_leave: item.gaveleave_user.fullname || '', 
         inspection_points: inspectionPoints,
-        gate_name: item.gate?.description || '', // Nombre de la portería
-        observations: observations, // Comentarios combinados
+        gate_name: item.gate?.description || '', 
+        observations: item.comments_entry ?? '', 
+        observationsLeave: item.comments_leave ?? '',
       };
     });
   };
@@ -350,6 +347,42 @@ export default function useFormGenerateHistoryVisitorVehicle() {
   };
 
   /**
+   * Exports history data to XLSX
+   */
+  const exportToXLSX = () => {
+    if (historyData.length === 0) {
+      changeErrorMessage("No hay datos para exportar");
+      return;
+    }
+
+    const data = historyData.map(item => ({
+      'Placa': item.plate || '',
+      'Fecha Ingreso': item.entry_date ? dayjs(item.entry_date).format('DD/MM/YYYY HH:mm') : '',
+      'Fecha Salida': item.exit_date ? dayjs(item.exit_date).format('DD/MM/YYYY HH:mm') : '',
+      'Puntos Inspeccionados': item.inspection_points || '',
+      'Portería de Acceso': item.gate_name || '',
+      'Observaciones de ingreso': item.observations || '',
+      'Observaciones de salida': item.observationsLeave || ''
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Historial Vehículo Visitante');
+
+    // Auto-adjust column widths
+    const colWidths = Object.keys(data[0] || {}).map(header => ({
+      wch: Math.max(header.length, 20)
+    }));
+    worksheet['!cols'] = colWidths;
+
+    // Generate filename with current date
+    const filename = `historial_vehiculo_visitante_${dayjs().format('YYYY-MM-DD_HH-mm')}.xlsx`;
+    
+    XLSX.writeFile(workbook, filename);
+    changeOkMessage("Archivo Excel descargado exitosamente");
+  };
+
+  /**
    * Exports history data to CSV
    */
   const exportToCSV = () => {
@@ -364,18 +397,22 @@ export default function useFormGenerateHistoryVisitorVehicle() {
       'Fecha Salida',
       'Puntos Inspeccionados',
       'Portería de Acceso',
-      'Observaciones'
+      'Observaciones de ingreso',
+      'Observaciones de salida'
     ];
 
-    const csvContent = [
+    // Add BOM to support UTF-8 encoding for accents and special characters
+    const BOM = '\uFEFF';
+    const csvContent = BOM + [
       headers.join(','),
       ...historyData.map(item => [
-        `"${item.plate}"`,
-        `"${item.entry_date ? dayjs(item.entry_date).format('DD/MM/YYYY HH:mm') : ''}"`,
-        `"${item.exit_date ? dayjs(item.exit_date).format('DD/MM/YYYY HH:mm') : ''}"`,
-        `"${item.inspection_points}"`,
-        `"${item.gate_name}"`,
-        `"${item.observations}"`
+      `"${item.plate}"`,
+      `"${item.entry_date ? dayjs(item.entry_date).format('DD/MM/YYYY HH:mm') : ''}"`,
+      `"${item.exit_date ? dayjs(item.exit_date).format('DD/MM/YYYY HH:mm') : ''}"`,
+      `"${item.inspection_points}"`,
+      `"${item.gate_name}"`,
+      `"${item.observations}"`,
+      `"${item.observationsLeave}"`
       ].join(','))
     ].join('\n');
 
@@ -423,5 +460,6 @@ export default function useFormGenerateHistoryVisitorVehicle() {
     handleChangePage,
     handleChangeRowsPerPage,
     exportToCSV,
+    exportToXLSX,
   };
 }

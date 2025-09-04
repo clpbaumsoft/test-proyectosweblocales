@@ -97,6 +97,11 @@ const TRANS = {
     defaultMessage: "Exportar CSV",
     description: "",
   },
+	export_xlsx: {
+    id: "GenerateHistoryVehicleDashboard.ExportXLSX",
+    defaultMessage: "Exportar XLSX",
+    description: "",
+  },
 };
 
 export default function FormGenerateHistoryEmployeeVehicle() {
@@ -129,6 +134,7 @@ export default function FormGenerateHistoryEmployeeVehicle() {
 		handleChangePage,
 		handleChangeRowsPerPage,
 		exportToCSV,
+		exportToXLSX,
 	} = useFormGenerateHistoryEmployeeVehicle();
 
 	console.log("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥 ~ FormGenerateHistoryEmployeeVehicle ~ historyData:", historyData)
@@ -208,14 +214,24 @@ export default function FormGenerateHistoryEmployeeVehicle() {
 							<Typography variant="h6">
 								Historial del Vehículo ({historyData.length} registros)
 							</Typography>
-							<Button
-								variant="outlined"
-								startIcon={<Download />}
-								onClick={exportToCSV}
-								disabled={isInnerLoading}
-							>
-								{TEXTS.export_csv}
-							</Button>
+							<Box sx={{ display: 'flex', gap: 1 }}>
+								<Button
+									variant="outlined"
+									startIcon={<Download />}
+									onClick={exportToCSV}
+									disabled={isInnerLoading}
+								>
+									{TEXTS.export_csv}
+								</Button>
+								<Button
+									variant="outlined"
+									startIcon={<Download />}
+									onClick={exportToXLSX}
+									disabled={isInnerLoading}
+								>
+									{TEXTS.export_xlsx}
+								</Button>
+							</Box>
 						</Box>
 						
 						<TableContainer component={Paper} sx={{ maxHeight: 600, overflow: 'auto' }}>

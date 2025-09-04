@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import dayjs, { Dayjs } from 'dayjs';
+import * as XLSX from 'xlsx';
 
 //Constants
 import { GTRANS } from "@/constants/Globals";
@@ -350,6 +351,52 @@ export default function useFormGenerateHistoryEmployeeVehicle() {
   };
 
   /**
+   * Exports history data to XLSX
+   */
+  const exportToXLSX = () => {
+    if (historyData.length === 0) {
+      changeErrorMessage("No hay datos para exportar");
+      return;
+    }
+
+    const headers = [
+      'Placa',
+      'Fecha Ingreso', 
+      'Fecha Salida',
+      'Nombre Completo',
+      'Puntos Inspeccionados',
+      'Portería de Acceso',
+      'Observaciones'
+    ];
+
+    const data = historyData.map(item => ({
+      'Placa': item.plate,
+      'Fecha Ingreso': item.entry_date ? dayjs(item.entry_date).format('DD/MM/YYYY HH:mm') : '',
+      'Fecha Salida': item.exit_date ? dayjs(item.exit_date).format('DD/MM/YYYY HH:mm') : '',
+      'Nombre Completo': item.full_name || '',
+      'Puntos Inspeccionados': item.inspection_points || '',
+      'Portería de Acceso': item.gate_name || '',
+      'Observaciones': item.observations || ''
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Historial Vehículo');
+
+    // Auto-adjust column widths
+    const colWidths = headers.map(header => ({
+      wch: Math.max(header.length, 20)
+    }));
+    worksheet['!cols'] = colWidths;
+
+    // Generate filename with current date
+    const filename = `historial_vehiculo_${dayjs().format('YYYY-MM-DD_HH-mm')}.xlsx`;
+    
+    XLSX.writeFile(workbook, filename);
+    changeOkMessage("Archivo Excel descargado exitosamente");
+  };
+
+  /**
    * Exports history data to CSV
    */
   const exportToCSV = () => {
@@ -367,7 +414,9 @@ export default function useFormGenerateHistoryEmployeeVehicle() {
       'Observaciones'
     ];
 
-    const csvContent = [
+    // Add BOM to support UTF-8 encoding for accents and special characters
+    const BOM = '\uFEFF';
+    const csvContent = BOM + [
       headers.join(','),
       ...historyData.map(item => [
         `"${item.plate}"`,
@@ -423,5 +472,6 @@ export default function useFormGenerateHistoryEmployeeVehicle() {
     handleChangePage,
     handleChangeRowsPerPage,
     exportToCSV,
+    exportToXLSX,
   };
 }
