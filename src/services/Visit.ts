@@ -38,6 +38,24 @@ export default class VisitService {
 			throw new LocalError(message)
 		}
 	}
+
+	/**
+	* Requests all the user's visits by APPROVER DOCS.
+	*/
+	async allVisitbyApproverDocsUser(page: number, rowsPerPage: number, filter: string = 'activated') : Promise<PaginateVisits> {
+		try {
+			return await apiRequest().get(`/visits/approver/docs?relations=company,branch,gate,approver_docs&fields=visitors.total&page=${page}&per_page=${rowsPerPage}${filter ? '&filter='+filter : ''}`).then((res) => res.data);
+		} catch(catchError) {
+			const error = catchError as AxiosError
+			const status = error?.status || 500
+			const dataResponse = (error?.response?.data as ErrorResponseDataType) || { error: "" }
+			const message = dataResponse.error || dataResponse.message || GERRORS.error_something_went_wrong
+			if(status === 401) {
+				throw new AuthError(GERRORS.your_session_has_finished)
+			}
+			throw new LocalError(message)
+		}
+	}
 	
 	/**
 	 * Get a visit.

@@ -3,6 +3,7 @@ const PAGES: Record<string, string> = Object.freeze({
 	login: "/acceso",
 	sso: "/sso",
 	visits_id: "/visitas/[id]",
+	visits_by_approver_user: "/aprobar-visitas",
 	visitor_id_files: "/archivos/[id]/documento-visita",
 	dashboard_entry: "/control-ingreso",
 	dashboard_restricted_users: "/usuarios-restringidos",

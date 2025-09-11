@@ -25,6 +25,7 @@ import ModelTrainingIcon from "@mui/icons-material/ModelTraining";
 import BadgeIcon from "@mui/icons-material/Badge";
 import PersonOffIcon from '@mui/icons-material/PersonOff';
 import ArticleIcon from '@mui/icons-material/Article';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 //Components
 import RegisterVisitForm from "@/components/molecules/RegisterVisitForm";
@@ -63,6 +64,11 @@ const TRANS = {
 	home_visits: {
 		id: "MainSidebar.Button.HomeVisits",
 		defaultMessage: "Inicio",
+		description: "",
+	},
+	visits_by_approver_user: {
+		id: "MainSidebar.Button.VisitsByApproverUser",
+		defaultMessage: "Visitas por Aprobar",
 		description: "",
 	},
 	control_entry: {
@@ -256,6 +262,18 @@ export default function MainSidebar({ children }: BaseComponentProps) {
 					}
 
 					{
+						loggedUser.can("approvedocs_visit") && (
+							<Link className="btn" href={PAGES.visits_by_approver_user} passHref>
+								<Button 
+									fullWidth 
+									sx={{ justifyContent: 'flex-start', color: 'black', fontWeight: 'bold' }}
+									startIcon={<CheckCircleIcon />}
+								>{TEXTS.visits_by_approver_user}</Button>
+							</Link>
+						)
+					}
+
+					{
 						(loggedUser.can('restricted_users') || loggedUser.can('create_entry')) && (
 							<Link className="btn" href={PAGES.dashboard_restricted_users} passHref>
 								<Button 
@@ -270,7 +288,6 @@ export default function MainSidebar({ children }: BaseComponentProps) {
 					}
 
 					{
-
 						loggedUser.can('create_entry_employee') && (
 							<Link className="btn" href={PAGES.dashboard_employees} passHref>
 								<Button 
