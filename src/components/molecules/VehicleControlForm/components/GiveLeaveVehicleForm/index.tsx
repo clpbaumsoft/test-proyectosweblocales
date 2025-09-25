@@ -41,7 +41,7 @@ const TRANS = {
 	},
 	label_vehicle_inspect_points: {
 		id: "GiveLeaveVehicleForm.Typography.Label.VehicleInspectPoints",
-		defaultMessage: "Puntos a inspeccionar 22222:",
+		defaultMessage: "Puntos a inspeccionar:",
 		description: "",
 	},
 	label_vehicle_type_doc: {

@@ -62,7 +62,7 @@ const TRANS = {
 	},
 	upload_documents: {
 		id: "VisitorRowActions.Button.UploadDocuments",
-		defaultMessage: "Subir",
+		defaultMessage: "Subir Doc",
 		description: "",
 	},
 	cancel_visitor: {

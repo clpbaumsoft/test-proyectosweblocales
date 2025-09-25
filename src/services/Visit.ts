@@ -26,7 +26,7 @@ export default class VisitService {
 	 */
 	async all(page: number, rowsPerPage: number, filter: string = 'activated') : Promise<PaginateVisits> {
 		try {
-			return await apiRequest().get(`/visits?relations=company,branch,gate,approver_docs&fields=visitors.total&page=${page}&per_page=${rowsPerPage}${filter ? '&filter='+filter : ''}`).then((res) => res.data);
+			return await apiRequest().get(`/visits?relations=company,branch,gate,approver_docs,canceller,interventor&fields=visitors.total&page=${page}&per_page=${rowsPerPage}${filter ? '&filter='+filter : ''}`).then((res) => res.data);
 		} catch(catchError) {
 			const error = catchError as AxiosError
 			const status = error?.status || 500
@@ -44,7 +44,7 @@ export default class VisitService {
 	*/
 	async allVisitbyApproverDocsUser(page: number, rowsPerPage: number, filter: string = 'activated') : Promise<PaginateVisits> {
 		try {
-			return await apiRequest().get(`/visits/approver/docs?relations=company,branch,gate,approver_docs&fields=visitors.total&page=${page}&per_page=${rowsPerPage}${filter ? '&filter='+filter : ''}`).then((res) => res.data);
+			return await apiRequest().get(`/visits/approver/docs?relations=company,branch,gate,approver_docs,canceller,interventor&fields=visitors.total&page=${page}&per_page=${rowsPerPage}${filter ? '&filter='+filter : ''}`).then((res) => res.data);
 		} catch(catchError) {
 			const error = catchError as AxiosError
 			const status = error?.status || 500
@@ -63,7 +63,7 @@ export default class VisitService {
 	 */
 	async get(visitId: number | string, token: string = '') : Promise<Visit> {
 		try {
-			return await apiRequest(token).get(`/visits/${visitId}?relations=company,branch,gate,approver_docs,canceller&fields=visitors.total`).then((res) => res.data);
+			return await apiRequest(token).get(`/visits/${visitId}?relations=company,branch,gate,approver_docs,canceller,interventor&fields=visitors.total`).then((res) => res.data);
 		} catch(catchError) {
 			const error = catchError as AxiosError
 			const status = error?.status || 500
@@ -109,6 +109,7 @@ export default class VisitService {
 	 * @returns 
 	 */
 	async update(visitId: number, visitData: VisitFormType) {
+		console.log("✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅ ~ VisitService ~ update ~ visitData:", visitData)
 		try {
 			await apiRequest().put(`/visits/${visitId}`, visitData);
 			return true

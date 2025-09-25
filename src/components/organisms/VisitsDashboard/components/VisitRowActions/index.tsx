@@ -72,6 +72,7 @@ const TRANS = {
 }
 
 export default function VisitRowActions({ setRowData, rowData }: VisitRowActionsProps) {
+console.log("🔥🔥🔥🔥🔥🔥🔥 ~ VisitRowActions ~ rowData:", rowData)
 
 	const TEXTS = useTranslation(TRANS)
 
@@ -218,6 +219,7 @@ export default function VisitRowActions({ setRowData, rowData }: VisitRowActions
 							departure_date: rowData.end_date,
 							reason: rowData.reason,
 							email_approver: rowData.approver_docs?.email || "",
+							email_interventor: rowData.interventor?.email || "",
 							company_selected: rowData.company.id,
 							branch_selected: rowData.branch.id,
 							gate_selected: rowData.gate.id,

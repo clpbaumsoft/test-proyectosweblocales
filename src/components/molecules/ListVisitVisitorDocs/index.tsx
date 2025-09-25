@@ -78,8 +78,8 @@ export default function ListVisitVisitorDocs({ visitVisitor, documentTypes, onCh
 								{
 									loggedUser.can('approvedocs_visit') && (
 										<Box>
-											{
-												visitVisitor.visitor_type.requirements&& (
+											{/* {
+												visitVisitor.visitor_type.requirements && (
 													<Box
 														sx={{
 															border: '1px dashed var(--mui-palette-primary-main)',
@@ -91,7 +91,7 @@ export default function ListVisitVisitorDocs({ visitVisitor, documentTypes, onCh
 														<Typography component="div" sx={{ font: 'var(--mui-font-caption)' }}><p dangerouslySetInnerHTML={{ __html: visitVisitor.visitor_type.requirements.replaceAll('\n', '<br/>') }}></p></Typography>
 													</Box>
 												)
-											}
+											} */}
 											<Box sx={{ display: 'flex', justifyContent: 'center' }}>
 												<Button variant="outlined" onClick={onClickReject}>{TEXTS.reject_visitor}</Button>
 												<Box sx={{ width: '10px' }} />

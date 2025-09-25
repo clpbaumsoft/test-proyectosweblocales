@@ -129,7 +129,7 @@ export default function FormGiveEntryExternalEmployee() {
 					<Grid container spacing={3}>
 					
 						{ /* Field: Document */}
-						<Grid size={12}>
+						<Grid size={{ xs: 12, md: 6 }}>
 							<LabelForm
 								label={TEXTS.label_card}
 							/>
@@ -146,7 +146,7 @@ export default function FormGiveEntryExternalEmployee() {
 						</Grid>
 						
 						{ /* Field: Identification type */}
-						<Grid size={{ xs: 12, md: 12 }}>
+						<Grid size={{ xs: 12, md: 6 }}>
 							<LabelForm
 								label={TEXTS.label_identification_type}
 							/>
@@ -176,7 +176,7 @@ export default function FormGiveEntryExternalEmployee() {
 						</Grid>
 						
 						{ /* Field: Document */}
-						<Grid size={12}>
+						<Grid size={{ xs: 12, md: 6 }}>
 							<LabelForm
 								label={TEXTS.label_document}
 							/>
@@ -193,7 +193,7 @@ export default function FormGiveEntryExternalEmployee() {
 						</Grid>
 						
 						{ /* Field: Code */}
-						<Grid size={12}>
+						<Grid size={{ xs: 12, md: 6 }}>
 							<LabelForm
 								label={TEXTS.label_code}
 								required={false}
@@ -211,7 +211,7 @@ export default function FormGiveEntryExternalEmployee() {
 						</Grid>
 						
 						{ /* Field: Fullname */}
-						<Grid size={12}>
+						<Grid size={{ xs: 12, md: 6 }}>
 							<LabelForm
 								label={TEXTS.label_fullname}
 							/>
@@ -228,7 +228,7 @@ export default function FormGiveEntryExternalEmployee() {
 						</Grid>
 
 						{ /* Field: Email */}
-						<Grid size={12}>
+						<Grid size={{ xs: 12, md: 6 }}>
 							<LabelForm
 								label={TEXTS.label_email}
 								required={false}
@@ -247,7 +247,7 @@ export default function FormGiveEntryExternalEmployee() {
 						</Grid>
 						
 						{ /* Field: Company */}
-						<Grid size={{ xs: 12, md: 12 }}>
+						<Grid size={{ xs: 12, md: 6 }}>
 							<LabelForm
 								label={TEXTS.label_company}
 							/>
@@ -277,7 +277,7 @@ export default function FormGiveEntryExternalEmployee() {
 						</Grid>
 						
 						{ /* Field: Receiver */}
-						<Grid size={12}>
+						<Grid size={{ xs: 12, md: 6 }}>
 							<LabelForm
 								label={TEXTS.label_receiver}
 							/>
@@ -304,7 +304,7 @@ export default function FormGiveEntryExternalEmployee() {
 						</Grid>
 						
 						{ /* Field: Entry comments */}
-						<Grid size={12}>
+						<Grid size={{ xs: 12, md: 12 }}>
 							<LabelForm
 								label={TEXTS.label_entry_comments}
 								required={false}

@@ -95,6 +95,7 @@ const TRANS = {
 
 
 export default function RegisterVisitForm({ visitId, open, onClose, preFillFormData, onSaved }: RegisterVisitFormProps) {
+	console.log("👌👌👌👌👌👌 ~ RegisterVisitForm ~ preFillFormData:", preFillFormData)
 	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
@@ -200,14 +201,20 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 									name="email_interventor"
 									control={control}
 									rules={{ required: TEXTS.required }}
-									render={({ field }) => (
+									render={({ field }) =>{
+										console.log("🚀 ~ field:", field)
+										
+										return  (
 										<InputAutocomplete
 											onChange={(val) => field.onChange(val ? val.value : field.value)}
 											emitGetOptions={emitGetOptionsInterventor}
 											helpText={TEXTS.help_text_search_interventor}
 											defaultValue={field.value}
 										/>
-									)}
+									)
+
+									}
+									}
 								/>
 								<ErrorMessage
 									errors={errors}
