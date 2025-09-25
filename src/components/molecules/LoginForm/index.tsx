@@ -122,7 +122,7 @@ const TRANS = {
 	},
 	option_ce: {
 		id: "LoginForm.MenuItem.CE",
-		defaultMessage: "Cédula de extrangería",
+		defaultMessage: "Cédula de extranjería",
 		description: "",
 	},
 	option_ni: {
