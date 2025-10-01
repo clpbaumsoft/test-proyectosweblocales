@@ -95,7 +95,6 @@ const TRANS = {
 
 
 export default function RegisterVisitForm({ visitId, open, onClose, preFillFormData, onSaved }: RegisterVisitFormProps) {
-	console.log("👌👌👌👌👌👌 ~ RegisterVisitForm ~ preFillFormData:", preFillFormData)
 	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
@@ -202,7 +201,6 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 									control={control}
 									rules={{ required: TEXTS.required }}
 									render={({ field }) =>{
-										console.log("🚀 ~ field:", field)
 										
 										return  (
 										<InputAutocomplete

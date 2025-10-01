@@ -143,6 +143,27 @@ export default class VisitVisitorService {
 		}
 	}
 
+	/**
+	 * Send notification email after all documents are uploaded.
+	 */
+	async sendNotification(visitVisitor: VisitVisitor) {
+		try {
+			return await apiRequest().post(`/visit-visitors/${visitVisitor.id}/send_notification`).then((res) => res.data);
+		} catch(catchError) {
+			const error = catchError as AxiosError
+			const status = error?.status || 500
+			const dataResponse = (error?.response?.data as ErrorResponseDataType) || { error: "", message: "" }
+			const message = dataResponse.error || dataResponse.message || GERRORS.error_something_went_wrong
+			if(status === 401) {
+				throw new AuthError(GERRORS.your_session_has_finished)
+			}
+			if(status === 422) {
+				throw new ValidationError(dataResponse.message)
+			}
+			throw new LocalError(message)
+		}
+	}
+
 
 	/**
 	 * Approves a visitor

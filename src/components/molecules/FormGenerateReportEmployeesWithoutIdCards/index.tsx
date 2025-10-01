@@ -139,8 +139,6 @@ export default function FormGenerateReportEmployeesWithoutIdCards() {
 		exportToXLSX,
 	} = useFormGenerateReportEmployeesWithoutIdCards();
 
-	console.log("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥 ~ FormGenerateReportEmployeesWithoutIdCards ~ reportData:", reportData)
-
   return (
     <>
       <LocalizationProvider dateAdapter={AdapterDayjs}>

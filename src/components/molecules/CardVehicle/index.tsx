@@ -65,7 +65,6 @@ const TRANS = {
 }
 
 export default function CardVehicle({ vehicle, onGiveLeave }: CardVehicleProps) {
-console.log("🏢🏢🏢🏢🏢🏢 ~ CardVehicle ~ vehicle:", vehicle)
 
 	const TEXTS = useTranslation(TRANS)
 

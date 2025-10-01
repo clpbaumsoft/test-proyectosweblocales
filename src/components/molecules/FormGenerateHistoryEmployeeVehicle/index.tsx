@@ -137,7 +137,6 @@ export default function FormGenerateHistoryEmployeeVehicle() {
 		exportToXLSX,
 	} = useFormGenerateHistoryEmployeeVehicle();
 
-	console.log("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥 ~ FormGenerateHistoryEmployeeVehicle ~ historyData:", historyData)
 
   return (
     <>

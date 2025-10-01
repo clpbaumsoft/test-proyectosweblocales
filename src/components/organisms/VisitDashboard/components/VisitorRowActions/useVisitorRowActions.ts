@@ -43,6 +43,16 @@ const TRANS = {
 		defaultMessage: "Algo salió mal cancelando al visitante.",
 		description: "",
 	},
+	success_sending_notification: {
+		id: "VisitorRowActions.Toast.SuccessSendingNotification",
+		defaultMessage: "Notificación enviada exitosamente!",
+		description: "",
+	},
+	error_sending_notification: {
+		id: "VisitorRowActions.Toast.ErrorSendingNotification",
+		defaultMessage: "Error al enviar la notificación.",
+		description: "",
+	},
 }
 
 export default function useVisitorRowActions(visitVisitor: VisitVisitor) {
@@ -77,6 +87,8 @@ export default function useVisitorRowActions(visitVisitor: VisitVisitor) {
 				return
 			}
 			setIsGlobalLoading(true)
+			let allDocumentsUploaded = true
+			
 			for(const index in files) {
 				const file = files[index]
 				try {
@@ -91,6 +103,7 @@ export default function useVisitorRowActions(visitVisitor: VisitVisitor) {
 						message: "",
 					})
 				} catch (innerCatch) {
+					allDocumentsUploaded = false
 					if(innerCatch instanceof LocalError || innerCatch instanceof ValidationError) {
 						actions.set(index, {
 							...file,
@@ -100,6 +113,24 @@ export default function useVisitorRowActions(visitVisitor: VisitVisitor) {
 						continue
 					}
 					throw innerCatch
+				}
+			}
+
+			// Enviar notificación solo si todos los documentos se subieron correctamente
+			if(allDocumentsUploaded && files.length > 0) {
+				try {
+					await Orchestra.visitVisitorService.sendNotification(visitVisitor)
+					toast.success(TEXTS.success_sending_notification, {
+						position: 'bottom-center',
+					})
+				} catch (notificationError) {
+					if(notificationError instanceof AuthError) {
+						openModalLoginForm()
+					} else {
+						toast.error(TEXTS.error_sending_notification, {
+							position: 'bottom-center',
+						})
+					}
 				}
 			}
 		} catch(catchError) {

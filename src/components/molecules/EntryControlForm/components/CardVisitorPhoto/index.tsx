@@ -57,7 +57,6 @@ const TRANS = {
 }
 
 export default function CardVisitorPhoto({ visitor }: CardVisitorProps) {
-	console.log("🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 ~ CardVisitorPhoto ~ visitor:", visitor)
 	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)

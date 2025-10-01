@@ -214,8 +214,6 @@ export default function FormGenerateHistoryVisitor() {
 		getIdByCode,
 	} = useFormGenerateHistoryVisitor();
 	
-	console.log("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥 ~ FormGenerateHistoryVisitor ~ historyData:", historyData)
-
   return (
     <>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -235,7 +233,6 @@ export default function FormGenerateHistoryVisitor() {
 										<DropdownLoadedItems
 											fetchItems={loadIdentificationTypes} 
 											onChangeValue={(itemValue) => {
-												console.log("🚀 ~ itemValue:", itemValue)
 												return field.onChange(itemValue ? itemValue.label : itemValue)
 											}}
 											defaultValue={getIdByCode(IDENTIFICATION_TYPE_CODE_CC)} 

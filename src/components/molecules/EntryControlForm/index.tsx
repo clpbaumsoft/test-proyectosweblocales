@@ -77,7 +77,6 @@ export default function EntryControlForm() {
 		onLoadResult,
 		onSearchVisitor,
 	} = useEntryControlForm()
-	console.log("✅✅✅✅✅✅✅✅✅✅✅✅✅✅ ~ EntryControlForm ~ visitor ENTRY CONTROL VIEW:", visitor)
 
 
 	return (

@@ -15,6 +15,7 @@ import {
 	Select,
 	MenuItem,
 	Box,
+	TextField,
 } from "@mui/material";
 import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 
@@ -84,6 +85,11 @@ const TRANS = {
 		defaultMessage: "Expiradas",
 		description: "",
 	},
+	label_visit_id: {
+		id: "VisitsDashboardByApproverDocsUser.Label.VisitId",
+		defaultMessage: "Filtrar por código de Visita:",
+		description: "",
+	},
 }
 
 export default function VisitsDashboardByApproverDocsUser() {
@@ -100,15 +106,17 @@ export default function VisitsDashboardByApproverDocsUser() {
 		isInnerLoadingFirstTime,
 		isLoadingNewVisit,
 		filter,
+		visitIdFilter,
 		handleChangePage,
 		handleChangeRowsPerPage,
 		onChangeFilter,
+		onChangeVisitIdFilter,
 	} = useVisitsDashboardByApproverDocsUser()
 
 	return (
 		<>
 			<TableVisitsProvider>
-				<Box sx={{ mb: '10px' }}>
+				<Box sx={{ mb: '10px', display: 'flex', gap: 2, alignItems: 'center' }}>
 					<Select 
 						value={filter}
 						disabled={isInnerLoading || isInnerLoadingFirstTime}
@@ -119,6 +127,19 @@ export default function VisitsDashboardByApproverDocsUser() {
 						<MenuItem value="cancelled">{TEXTS.option_cancelled}</MenuItem>
 						<MenuItem value="expired">{TEXTS.option_expired}</MenuItem>
 					</Select>
+					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+						<TextField
+							variant="outlined"
+							type="number"
+							value={visitIdFilter}
+							onChange={onChangeVisitIdFilter}
+							disabled={isInnerLoading || isInnerLoadingFirstTime}
+							size="small"
+							label={TEXTS.label_visit_id}
+							placeholder="Ej: 130"
+							sx={{ width: { sx: '180px' , md: '240px' } }}
+						/>
+					</Box>
 				</Box>
 				<TableContainer component={Paper}>
 					<Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -154,8 +175,8 @@ export default function VisitsDashboardByApproverDocsUser() {
 									) : (
 										<>
 											{
-												visitsRows.map((row, index) => (
-													<VisitRow key={`visitRow${index}`} row={row} />
+												visitsRows.map((row) => (
+													<VisitRow key={`visitRow-${row.id}`} row={row} />
 												))
 											}
 											{

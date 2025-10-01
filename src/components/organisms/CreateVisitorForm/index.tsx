@@ -162,8 +162,6 @@ export default function CreateVisitorForm({
 		currentVisitorData,
 	} = useCreateVisitorForm(visitId, onIncreaseVisitorsCounter, isNewVisitorBasicForm)
 
-		console.log("📋📋📋📋📋📋📋📋📋📋 ~ CreateVisitorForm ~ currentVisitorData:", currentVisitorData)
-	
 	return (
 		<>
 			<div>

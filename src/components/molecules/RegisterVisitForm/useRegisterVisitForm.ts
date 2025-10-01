@@ -66,7 +66,6 @@ const EMPTY_FIELDS_FORM = {
 }
 
 export default function useRegisterVisitForm(onClose: () => void, preFillFormData: VisitFormType = EMPTY_FIELDS_FORM, visitId?: number, onSaved?: (data: VisitFormType) => Promise<void>) {
-	console.log("💕💕💕 ~ useRegisterVisitForm ~ preFillFormData:", preFillFormData)
 	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)

@@ -254,7 +254,6 @@ export default function useFormGenerateHistoryVisitor() {
    * Formats the API response data to match our interface
    */
   const formatHistoryData = (rawData: VisitorHistoryData[]): ProcessedVisitorHistoryData[] => {
-    console.log("🙌🙌🙌🙌🙌🙌🙌🙌🙌🙌🙌🙌🙌🙌🙌🙌 ~ formatHistoryData ~ rawData:", rawData);
     
     return rawData?.map((item: VisitorHistoryData) => {
       const visitor = item.visit_visitor.visitor;
@@ -289,7 +288,6 @@ export default function useFormGenerateHistoryVisitor() {
    * Handles the form submission and fetches visitor history data
    */
   const onSubmit = async (data: VisitorHistoryFormType) => {
-    console.log("🚀 ~ onSubmit ~ data:", data)
     try {
       if (isInnerLoading) {
         return;
@@ -318,7 +316,6 @@ export default function useFormGenerateHistoryVisitor() {
         startDate,
         endDate
       );
-      console.log("💕💕💕💕💕💕💕💕💕💕💕💕 ~ onSubmit ~ response:", response)
 
       // Handle the API response - it could be wrapped in a data property or be the raw array
       let rawData: VisitorHistoryData[] = [];
@@ -338,7 +335,6 @@ export default function useFormGenerateHistoryVisitor() {
       console.log("🚀 ~ onSubmit ~ identificationTypeCode:", identificationTypeCode)
 
       const formattedData = formatHistoryData(rawData);
-      console.log("🚀 ~ onSubmit ~ formattedData:", formattedData)
 
       setHistoryData(formattedData);
       setPage(0); // Reset to first page when new data is loaded

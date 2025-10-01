@@ -76,7 +76,6 @@ export default function useGiveLeaveVehicleForm(visitor: Visitor, onCancel: () =
 	
 	const [isInnerLoading, setIsInnerLoading] = useState(false)
 	const [currentVisitorData, setCurrentVisitorData] = useState<Visitor | null>(null)
-	console.log("❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️ ~ useGiveLeaveVehicleForm ~ currentVisitorData:", currentVisitorData)
 
 	const [okMessage, errorMessage, changeOkMessage, changeErrorMessage, hideMessages] = useFormMessages()
 	
@@ -84,7 +83,6 @@ export default function useGiveLeaveVehicleForm(visitor: Visitor, onCancel: () =
 	
 	const isFormValid = () => {
 		if (!isValid) {
-			console.log("❌ Formulario base no es válido")
 			return false
 		}
 		
@@ -92,33 +90,22 @@ export default function useGiveLeaveVehicleForm(visitor: Visitor, onCancel: () =
 			const identityNumber = getValues('identity_number')
 			const idIdentityType = getValues('id_identity_type')
 			
-			console.log("🔍 Validando campos adicionales:")
-			console.log("- identityNumber:", identityNumber)
-			console.log("- idIdentityType:", idIdentityType)
-			console.log("- currentVisitorData:", currentVisitorData)
-			console.log("- visits:", currentVisitorData?.visits)
-			
 			if (!identityNumber || !idIdentityType) {
-				console.log("❌ Campos de identificación vacíos")
 				return false
 			}
 			
 			if (!currentVisitorData) {
-				console.log("❌ No se encontraron datos del visitante")
 				return false
 			}
 			
 			const hasActiveVisits = currentVisitorData.visits && currentVisitorData.visits.length > 0
 			if (!hasActiveVisits) {
-				console.log("❌ El visitante no tiene visitas activas")
 				return false
 			}
 			
-			console.log("✅ Validación personalizada exitosa")
 			return true
 		}
 		
-		console.log("✅ Formulario válido (sin campos adicionales)")
 		return true
 	}
 	

@@ -225,7 +225,6 @@ export default function useFormGenerateHistoryEmployeeVehicle() {
    * Formats the API response data to match our interface
    */
   const formatHistoryData = (rawData: VehicleHistoryData[]): ProcessedVehicleHistoryData[] => {
-    console.log("🚗🚗🚗🚗🚗🚗🚗🚗🚗🚗 ~ formatHistoryData ~ rawData:", rawData);
     
     return rawData?.map((item: VehicleHistoryData) => {
       // Concatenar los puntos de inspección en una sola cadena
@@ -254,7 +253,6 @@ export default function useFormGenerateHistoryEmployeeVehicle() {
    * Handles the form submission and fetches vehicle history data
    */
   const onSubmit = async (data: VehicleHistoryFormType) => {
-    console.log("🚀 ~ onSubmit ~ data:", data)
     try {
       if (isInnerLoading) {
         return;
@@ -277,20 +275,12 @@ export default function useFormGenerateHistoryEmployeeVehicle() {
       const startDate = valueStart?.format('YYYY-MM-DD');
       const endDate = valueEnd?.format('YYYY-MM-DD');
 
-      console.log("🚀 ~ Fetching vehicle history with params:", {
-        plate,
-        startDate,
-        endDate
-      });
-
       // Call the service to get vehicle history
       const response = await Orchestra.generateReportsService.historyEmployeeVehicle(
         plate,
         startDate,
         endDate
       );
-
-      console.log("🚀 ~ Vehicle history response:", response);
 
       // Handle the API response - it could be wrapped in a data property or be the raw array
       let rawData: VehicleHistoryData[] = [];
@@ -306,7 +296,6 @@ export default function useFormGenerateHistoryEmployeeVehicle() {
       }
 
       const formattedData = formatHistoryData(rawData);
-      console.log("🚀 ~ onSubmit ~ formattedData:", formattedData)
 
       setHistoryData(formattedData);
       setPage(0); // Reset to first page when new data is loaded

@@ -162,7 +162,7 @@ export default function ModalRestrictedUserForm({
                     multiline
                     rows={4}
                     variant="outlined"
-                    {...register("ban_comment")}
+                    {...register("ban_comment", { required: true })}
                     defaultValue={visitor?.ban_comment || ''}
                   />
                 </Grid>

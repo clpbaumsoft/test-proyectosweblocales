@@ -200,7 +200,6 @@ export default function useFormGenerateReportEmployeesWithoutIdCards() {
    * Formats the API response data to match our interface
    */
   const formatEmployeeData = (rawData: EmployeeWithoutIdCardData[]): ProcessedEmployeeData[] => {
-    console.log("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥 ~ formatEmployeeData ~ rawData:", rawData);
 
     return rawData?.map((item: EmployeeWithoutIdCardData) => {
       return {
@@ -238,18 +237,12 @@ export default function useFormGenerateReportEmployeesWithoutIdCards() {
       const startDate = valueStart?.format('YYYY-MM-DD') || "";
       const endDate = valueEnd?.format('YYYY-MM-DD') || "";
 
-      console.log("🚀 ~ Fetching employee report with params:", {
-        startDate,
-        endDate
-      });
-
       // Call the service to get employees without ID cards report
       const response = await Orchestra.generateReportsService.historyEmployeesWithoutIdCards(
         startDate,
         endDate
       );
 
-      console.log("✅✅✅✅✅✅🔥🔥🔥🔥 ~ ReportEmployeesWithoutIdCards response:", response);
 
       // Handle the API response - it could be wrapped in a data property or be the raw array
       let rawData: EmployeeWithoutIdCardData[] = [];
@@ -265,7 +258,6 @@ export default function useFormGenerateReportEmployeesWithoutIdCards() {
       }
 
       const formattedData = formatEmployeeData(rawData);
-      console.log("🚀 ~ onSubmit ~ formattedData:", formattedData)
 
       setReportData(formattedData);
       setPage(0); // Reset to first page when new data is loaded

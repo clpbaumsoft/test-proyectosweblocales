@@ -147,8 +147,6 @@ export default function FormGenerateHistoryVisitorVehicle() {
 		exportToXLSX,
 	} = useFormGenerateHistoryVisitorVehicle();
 
-	console.log("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥 ~ FormGenerateHistoryVisitorVehicle ~ historyData:", historyData)
-
   return (
     <>
       <LocalizationProvider dateAdapter={AdapterDayjs}>

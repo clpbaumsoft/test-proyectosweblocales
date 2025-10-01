@@ -65,7 +65,6 @@ export default class GenerateReportsService {
       return await apiRequest()
         .get(url)
         .then((res) => {
-          console.log("👌👌👌👌👌👌👌👌👌👌👌 ~ GenerateReportsService ~ visitorsHistory ~ res:", res);
           return res.data;
         });
     } catch (catchError) {
@@ -179,7 +178,6 @@ export default class GenerateReportsService {
       return await apiRequest()
         .get(url)
         .then((res) => {
-          console.log("👌👌👌👌👌👌👌👌👌👌👌 ~ GenerateReportsService ~ historyEmployeesWithoutIdCards ~ res:", res);
           return res.data;
         });
     } catch (catchError) {

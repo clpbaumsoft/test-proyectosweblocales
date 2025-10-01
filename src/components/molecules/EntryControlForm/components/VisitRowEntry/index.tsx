@@ -16,7 +16,6 @@ import { VisitRowEntryProps } from "@/interfaces/Molecules";
 import { formatsDate } from "@/lib/Helpers";
 
 export default function VisitRowEntry({ visitor, visit }: VisitRowEntryProps) {
-	// console.log("🙌🙌🙌🙌🙌🙌🙌🙌🏢🏢🏢🏢🏢🏢 ~ VisitRowEntry ~ visit:", visit)
 	return (
 		<>
 			<TableRow
