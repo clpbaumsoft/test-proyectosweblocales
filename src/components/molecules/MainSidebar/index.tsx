@@ -218,7 +218,7 @@ export default function MainSidebar({ children }: BaseComponentProps) {
 
 			<RegisterVisitForm open={showForm} onClose={handleCloseForm} />
 			<Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
-				<Box sx={{ width: 300 }}>
+				<Box sx={{ width: 300, backgroundColor: '#E06E1F', height: '100%' }}>
 					<Box
 						sx={{ display: 'flex', justifyContent: 'center', alignSelf: 'center', paddingY: 2, }}
 					>
@@ -227,103 +227,233 @@ export default function MainSidebar({ children }: BaseComponentProps) {
 							sx={{ bgcolor: 'primary.main', width: '80px', height: '80px', }}
 						/>
 					</Box>
-					<Link className="btn" href={PAGES.home} passHref>
-						<Button 
-							fullWidth 
-							onClick={toggleDrawer(false)} 
-							sx={{ justifyContent: 'flex-start', color: 'black', fontWeight: 'bold' }}
-							startIcon={<HomeIcon />}
-							>{TEXTS.home_visits}</Button>
-					</Link>
-					{
-						loggedUser.can('create_visit') && (
+					<Box sx={{ paddingX: 2, paddingY: 1 }}>
+						<Link className="btn" href={PAGES.home} passHref>
 							<Button 
 								fullWidth 
-								onClick={onClickOpenModalRegisterVisit} 
-								sx={{ justifyContent: 'flex-start', color: 'black', fontWeight: 'bold' }}
-								startIcon={<EventIcon />}
-							>
-								{TEXTS.create_visit}
-							</Button>
-						)
-					}
-					{
-						loggedUser.can('create_entry') && (
-							<Link className="btn" href={PAGES.dashboard_entry} passHref>
+								onClick={toggleDrawer(false)} 
+								sx={{ 
+									justifyContent: 'flex-start', 
+									color: 'white', 
+									fontWeight: 'bold',
+									backgroundColor: 'rgba(255, 255, 255, 0.1)',
+									borderRadius: '8px',
+									padding: '12px 16px',
+									marginBottom: '8px',
+									textTransform: 'none',
+									fontSize: '15px',
+									transition: 'all 0.3s ease',
+									'&:hover': {
+										backgroundColor: 'rgba(255, 255, 255, 0.2)',
+										transform: 'translateX(5px)',
+										boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+									}
+								}}
+								startIcon={<HomeIcon />}
+								>{TEXTS.home_visits}</Button>
+						</Link>
+						{
+							loggedUser.can('create_visit') && (
 								<Button 
 									fullWidth 
-									sx={{ justifyContent: 'flex-start', color: 'black', fontWeight: 'bold' }}
-									startIcon={<MeetingRoomIcon />}
+									onClick={onClickOpenModalRegisterVisit} 
+									sx={{ 
+										justifyContent: 'flex-start', 
+										color: 'white', 
+										fontWeight: 'bold',
+										backgroundColor: 'rgba(255, 255, 255, 0.1)',
+										borderRadius: '8px',
+										padding: '12px 16px',
+										marginBottom: '8px',
+										textTransform: 'none',
+										fontSize: '15px',
+										transition: 'all 0.3s ease',
+										'&:hover': {
+											backgroundColor: 'rgba(255, 255, 255, 0.2)',
+											transform: 'translateX(5px)',
+											boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+										}
+									}}
+									startIcon={<EventIcon />}
 								>
-									{TEXTS.control_entry}
+									{TEXTS.create_visit}
 								</Button>
-							</Link>
-						)
-					}
+							)
+						}
+						{
+							loggedUser.can('create_entry') && (
+								<Link className="btn" href={PAGES.dashboard_entry} passHref>
+									<Button 
+										fullWidth 
+										sx={{ 
+											justifyContent: 'flex-start', 
+											color: 'white', 
+											fontWeight: 'bold',
+											backgroundColor: 'rgba(255, 255, 255, 0.1)',
+											borderRadius: '8px',
+											padding: '12px 16px',
+											marginBottom: '8px',
+											textTransform: 'none',
+											fontSize: '15px',
+											transition: 'all 0.3s ease',
+											'&:hover': {
+												backgroundColor: 'rgba(255, 255, 255, 0.2)',
+												transform: 'translateX(5px)',
+												boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+											}
+										}}
+										startIcon={<MeetingRoomIcon />}
+									>
+										{TEXTS.control_entry}
+									</Button>
+								</Link>
+							)
+						}
 
-					{
-						loggedUser.can("approvedocs_visit") && (
-							<Link className="btn" href={PAGES.visits_by_approver_user} passHref>
-								<Button 
-									fullWidth 
-									sx={{ justifyContent: 'flex-start', color: 'black', fontWeight: 'bold' }}
-									startIcon={<CheckCircleIcon />}
-								>{TEXTS.visits_by_approver_user}</Button>
-							</Link>
-						)
-					}
+						{
+							loggedUser.can("approvedocs_visit") && (
+								<Link className="btn" href={PAGES.visits_by_approver_user} passHref>
+									<Button 
+										fullWidth 
+										sx={{ 
+											justifyContent: 'flex-start', 
+											color: 'white', 
+											fontWeight: 'bold',
+											backgroundColor: 'rgba(255, 255, 255, 0.1)',
+											borderRadius: '8px',
+											padding: '12px 16px',
+											marginBottom: '8px',
+											textTransform: 'none',
+											fontSize: '15px',
+											transition: 'all 0.3s ease',
+											'&:hover': {
+												backgroundColor: 'rgba(255, 255, 255, 0.2)',
+												transform: 'translateX(5px)',
+												boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+											}
+										}}
+										startIcon={<CheckCircleIcon />}
+									>{TEXTS.visits_by_approver_user}</Button>
+								</Link>
+							)
+						}
 
-					{
-						(loggedUser.can('restricted_users') || loggedUser.can('create_entry')) && (
-							<Link className="btn" href={PAGES.dashboard_restricted_users} passHref>
-								<Button 
-									fullWidth 
-									sx={{ justifyContent: 'flex-start', color: 'black', fontWeight: 'bold' }}
-									startIcon={<PersonOffIcon />}
-								>
-									{TEXTS.restricted_users}
-								</Button>
-							</Link>
-						)
-					}
+						{
+							(loggedUser.can('restricted_users') || loggedUser.can('create_entry')) && (
+								<Link className="btn" href={PAGES.dashboard_restricted_users} passHref>
+									<Button 
+										fullWidth 
+										sx={{ 
+											justifyContent: 'flex-start', 
+											color: 'white', 
+											fontWeight: 'bold',
+											backgroundColor: 'rgba(255, 255, 255, 0.1)',
+											borderRadius: '8px',
+											padding: '12px 16px',
+											marginBottom: '8px',
+											textTransform: 'none',
+											fontSize: '15px',
+											transition: 'all 0.3s ease',
+											'&:hover': {
+												backgroundColor: 'rgba(255, 255, 255, 0.2)',
+												transform: 'translateX(5px)',
+												boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+											}
+										}}
+										startIcon={<PersonOffIcon />}
+									>
+										{TEXTS.restricted_users}
+									</Button>
+								</Link>
+							)
+						}
 
-					{
-						loggedUser.can('create_entry_employee') && (
-							<Link className="btn" href={PAGES.dashboard_employees} passHref>
-								<Button 
-									fullWidth 
-									sx={{ justifyContent: 'flex-start', color: 'black', fontWeight: 'bold' }}
-									startIcon={<BadgeIcon />}
-								>{TEXTS.control_employees}</Button>
-							</Link>
-						)
-						
-					}
-					{
-						loggedUser.can('train_visitor') && (
-							<Link className="btn" href={PAGES.trainings} passHref>
-								<Button 
-									fullWidth 
-									sx={{ justifyContent: 'flex-start', color: 'black', fontWeight: 'bold' }}
-									startIcon={<ModelTrainingIcon />}
-								>{TEXTS.trainings}</Button>
-							</Link>
-						)
-					}
+						{
+							loggedUser.can('create_entry_employee') && (
+								<Link className="btn" href={PAGES.dashboard_employees} passHref>
+									<Button 
+										fullWidth 
+										sx={{ 
+											justifyContent: 'flex-start', 
+											color: 'white', 
+											fontWeight: 'bold',
+											backgroundColor: 'rgba(255, 255, 255, 0.1)',
+											borderRadius: '8px',
+											padding: '12px 16px',
+											marginBottom: '8px',
+											textTransform: 'none',
+											fontSize: '15px',
+											transition: 'all 0.3s ease',
+											'&:hover': {
+												backgroundColor: 'rgba(255, 255, 255, 0.2)',
+												transform: 'translateX(5px)',
+												boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+											}
+										}}
+										startIcon={<BadgeIcon />}
+									>{TEXTS.control_employees}</Button>
+								</Link>
+							)
+							
+						}
+						{
+							loggedUser.can('train_visitor') && (
+								<Link className="btn" href={PAGES.trainings} passHref>
+									<Button 
+										fullWidth 
+										sx={{ 
+											justifyContent: 'flex-start', 
+											color: 'white', 
+											fontWeight: 'bold',
+											backgroundColor: 'rgba(255, 255, 255, 0.1)',
+											borderRadius: '8px',
+											padding: '12px 16px',
+											marginBottom: '8px',
+											textTransform: 'none',
+											fontSize: '15px',
+											transition: 'all 0.3s ease',
+											'&:hover': {
+												backgroundColor: 'rgba(255, 255, 255, 0.2)',
+												transform: 'translateX(5px)',
+												boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+											}
+										}}
+										startIcon={<ModelTrainingIcon />}
+									>{TEXTS.trainings}</Button>
+								</Link>
+							)
+						}
 
-					{
-						(loggedUser.can('generate_reports') || loggedUser.can('create_entry')) && (
-							<Link className="btn" href={PAGES.dashboard_generate_reports} passHref>
-								<Button 
-									fullWidth 
-									sx={{ justifyContent: 'flex-start', color: 'black', fontWeight: 'bold' }}
-									startIcon={<ArticleIcon />}
-								>
-									{TEXTS.generate_reports}
-								</Button>
-							</Link>
-						)
-					}
+						{
+							(loggedUser.can('generate_reports') || loggedUser.can('create_entry')) && (
+								<Link className="btn" href={PAGES.dashboard_generate_reports} passHref>
+									<Button 
+										fullWidth 
+										sx={{ 
+											justifyContent: 'flex-start', 
+											color: 'white', 
+											fontWeight: 'bold',
+											backgroundColor: 'rgba(255, 255, 255, 0.1)',
+											borderRadius: '8px',
+											padding: '12px 16px',
+											marginBottom: '8px',
+											textTransform: 'none',
+											fontSize: '15px',
+											transition: 'all 0.3s ease',
+											'&:hover': {
+												backgroundColor: 'rgba(255, 255, 255, 0.2)',
+												transform: 'translateX(5px)',
+												boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+											}
+										}}
+										startIcon={<ArticleIcon />}
+									>
+										{TEXTS.generate_reports}
+									</Button>
+								</Link>
+							)
+						}
+					</Box>
 				</Box>
 			</Drawer>
 			<Box sx={{ padding: 5 }}>

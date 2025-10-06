@@ -3,6 +3,7 @@ import {
 	Button,
 	CircularProgress,
 	List,
+	Tooltip,
 	Typography,
 } from "@mui/material";
 
@@ -37,6 +38,11 @@ const TRANS = {
 		defaultMessage: "Requisitos:",
 		description: "",
 	},
+	tooltip_verify_all_docs: {
+		id: "ListVisitVisitorDocs.Tooltip.VerifyAllDocs",
+		defaultMessage: "Antes de aprobar debe verificar todos los documentos",
+		description: "",
+	},
 }
 
 export default function ListVisitVisitorDocs({ visitVisitor, documentTypes, onChangeStatusVisitor }: ListVisitVisitorDocsProps) {
@@ -48,6 +54,7 @@ export default function ListVisitVisitorDocs({ visitVisitor, documentTypes, onCh
 		isInnerLoading,
 		rowsDocs,
 		loggedUser,
+		allDocsReviewed,
 		onClickApprove,
 		onClickReject,
 		onChangeItemDoc,
@@ -78,24 +85,21 @@ export default function ListVisitVisitorDocs({ visitVisitor, documentTypes, onCh
 								{
 									loggedUser.can('approvedocs_visit') && (
 										<Box>
-											{/* {
-												visitVisitor.visitor_type.requirements && (
-													<Box
-														sx={{
-															border: '1px dashed var(--mui-palette-primary-main)',
-															p: '10px 10px 5px 10px',
-															mb: '10px',
-														}}
-													>
-														<Typography component="label">{TEXTS.label_requirements}</Typography>
-														<Typography component="div" sx={{ font: 'var(--mui-font-caption)' }}><p dangerouslySetInnerHTML={{ __html: visitVisitor.visitor_type.requirements.replaceAll('\n', '<br/>') }}></p></Typography>
-													</Box>
-												)
-											} */}
 											<Box sx={{ display: 'flex', justifyContent: 'center' }}>
 												<Button variant="outlined" onClick={onClickReject}>{TEXTS.reject_visitor}</Button>
 												<Box sx={{ width: '10px' }} />
-												<Button variant="contained" onClick={onClickApprove}>{TEXTS.approve_visitor}</Button>
+												<Tooltip 
+													title={!allDocsReviewed ? TEXTS.tooltip_verify_all_docs : ""}
+													arrow
+												>
+													<span>
+														<Button 
+															variant="contained" 
+															onClick={onClickApprove}
+															disabled={!allDocsReviewed}
+														>{TEXTS.approve_visitor}</Button>
+													</span>
+												</Tooltip>
 											</Box>
 										</Box>
 									)

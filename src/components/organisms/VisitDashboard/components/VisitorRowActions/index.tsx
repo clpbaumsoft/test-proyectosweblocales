@@ -93,7 +93,8 @@ const SpaceBtn = styled('div')(({ }) => ({
 	width: '10px',
 }))
 
-export default function VisitorRowActions({ visitVisitor, documentTypes }: VisitorRowActionsProps) {
+export default function VisitorRowActions({ visitVisitor, documentTypes, visitStartDate }: VisitorRowActionsProps) {
+console.log("💕💕💕💕💕💕💕💕💕💕💕💕💕 ~ VisitorRowActions ~ visitStartDate:", visitStartDate)
 
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
@@ -142,14 +143,20 @@ export default function VisitorRowActions({ visitVisitor, documentTypes }: Visit
 								onClick={toogleListVisitVisitorDocs} 
 								startIcon={<ListAltIcon />}
 							>{TEXTS.see_documents}</Button>
-							<SpaceBtn />
-							<Button 
-								variant="contained"
-								color="error"
-								onClick={onClickCancelVisitor} 
-								startIcon={<DeleteIcon />}
-							>{TEXTS.cancel_visitor}</Button>
-						</>
+						<SpaceBtn />
+
+						{
+							visitStartDate && new Date() < new Date(visitStartDate) && (
+								<Button 
+									variant="contained"
+									color="error"
+									onClick={onClickCancelVisitor} 
+									startIcon={<DeleteIcon />}
+								>
+									{TEXTS.cancel_visitor}
+								</Button>
+							)
+						}						</>
 					) : (
 						<WarningCondition condition={false}>{TEXTS.message_cancelled_visitor}</WarningCondition>
 					)

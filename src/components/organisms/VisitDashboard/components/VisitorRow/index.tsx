@@ -23,7 +23,7 @@ import { formatsDate, mediaUrl, mInit, now } from "@/lib/Helpers";
 import styles from "./VisitorRow.module.scss";
 
 
-export default function VisitorRow({ row, documentTypes }: VisitorRowProps) {
+export default function VisitorRow({ row, documentTypes, visitStartDate }: VisitorRowProps) {
 
 	return (
 		<>
@@ -60,6 +60,7 @@ export default function VisitorRow({ row, documentTypes }: VisitorRowProps) {
 					<VisitorRowActions
 						visitVisitor={row}
 						documentTypes={documentTypes}
+						visitStartDate={visitStartDate}
 					/>
 				</TableCell>
 			</TableRow>

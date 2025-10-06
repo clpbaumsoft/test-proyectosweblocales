@@ -23,7 +23,7 @@
 }
 
 :root {
-  --background: var(--mui-palette-common-background);
+  --background: #F2F2F2;
   --foreground: #171717;
   
 	--proquinal-dark: #20140e;
@@ -82,7 +82,7 @@
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background-color: var(--background) !important;
   font-family: Arial, Helvetica, sans-serif;
 }
 

@@ -128,6 +128,7 @@ const TRANS = {
 }
 
 export default function VisitDashboard({ visit }: VisitDashboardProps) {
+	console.log("🚀 ~ VisitDashboard ~ visit:", visit)
 	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
@@ -271,6 +272,7 @@ export default function VisitDashboard({ visit }: VisitDashboardProps) {
 											<VisitorRow 
 												key={`visitorRow${index}`} 
 												row={row}
+												visitStartDate={visit?.start_date}
 												documentTypes={documentTypes}
 											/>
 										))

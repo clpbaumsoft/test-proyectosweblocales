@@ -48,11 +48,13 @@ export type PaginateVisitors = PaginateType & {
 export type VisitorRowProps = BaseComponentProps & {
 	row: VisitVisitor;
 	documentTypes: DocumentType[];
+	visitStartDate?: string | null;
 }
 
 export type VisitorRowActionsProps = BaseComponentProps & {
 	visitVisitor: VisitVisitor;
 	documentTypes: DocumentType[];	
+	visitStartDate?: string | null;
 }
 
 export type ListVisitVisitorDocsProps = BaseComponentProps & {

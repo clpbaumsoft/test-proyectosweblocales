@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 //Constants
 import { GTRANS } from "@/constants/Globals";
-import { VISIT_DOCUMENT_STATUS_APPROVED, VISITOR_STATUS_APPROVED, VISITOR_STATUS_REJECTED } from "@/constants/Visit";
+import { VISIT_DOCUMENT_STATUS_APPROVED, VISIT_DOCUMENT_STATUS_PENDING, VISITOR_STATUS_APPROVED, VISITOR_STATUS_REJECTED } from "@/constants/Visit";
 
 //Errors
 import AuthError from "@/errors/AuthError";
@@ -83,6 +83,7 @@ export default function useListVisitVisitorDocs(visitVisitor: VisitVisitor, onCh
 	const [isApproving, setIsApproving] = useState(false)
 	const [isRejecting, setIsRejecting] = useState(false)
 	const [rowsDocs, setRowsDocs] = useState<VisitDocument[]>([])
+	const [allDocsReviewed, setAllDocsReviewed] = useState(false)
 	const totalApproved  = useRef<number>(0)
 
 	const [debounce] = useDebounce()
@@ -202,6 +203,11 @@ export default function useListVisitVisitorDocs(visitVisitor: VisitVisitor, onCh
 		const copyDocs = [...rowsDocs]
 		copyDocs[index] = { ...newDoc }
 		totalApproved.current = copyDocs.filter((doc) => doc.status === VISIT_DOCUMENT_STATUS_APPROVED).length
+		
+		// Verificar si todos los documentos han sido revisados (aprobados o rechazados)
+		const hasPendingDocs = copyDocs.some((doc) => doc.status === VISIT_DOCUMENT_STATUS_PENDING)
+		setAllDocsReviewed(!hasPendingDocs)
+		setRowsDocs(copyDocs)
 	}
 	
 	useEffect(() => {
@@ -211,6 +217,10 @@ export default function useListVisitVisitorDocs(visitVisitor: VisitVisitor, onCh
 					const docs = await Orchestra.visitVisitorService.allDocuments(visitVisitor)
 					setRowsDocs([...docs])
 					totalApproved.current = docs.filter((doc: VisitDocument) => doc.status === VISIT_DOCUMENT_STATUS_APPROVED).length
+					
+					// Verificar si todos los documentos han sido revisados (aprobados o rechazados)
+					const hasPendingDocs = docs.some((doc: VisitDocument) => doc.status === VISIT_DOCUMENT_STATUS_PENDING)
+					setAllDocsReviewed(!hasPendingDocs)
 				} catch(catchError) {
 					if(catchError instanceof AuthError) {
 						return openModalLoginForm()
@@ -232,6 +242,7 @@ export default function useListVisitVisitorDocs(visitVisitor: VisitVisitor, onCh
 		loggedUser: getLoggedUser(),
 		isInnerLoading,
 		rowsDocs,
+		allDocsReviewed,
 		onClickApprove,
 		onClickReject,
 		onChangeItemDoc,

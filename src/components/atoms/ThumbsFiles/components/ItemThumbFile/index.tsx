@@ -49,14 +49,17 @@ export default function ItemThumbFile({
 			<ListItem
 				secondaryAction={
 					<>
-						
-						<IconButton 
-							edge="end" 
-							aria-label={GTEXTS.delete}
-							onClick={() => actionsFiles.remove(indexFile)}
-						>
-							<DeleteIcon />
-						</IconButton>
+						{
+							(!itemFile?.isSaved || itemFile.hasError) && (
+								<IconButton 
+									edge="end" 
+									aria-label={GTEXTS.delete}
+									onClick={() => actionsFiles.remove(indexFile)}
+								>
+									<DeleteIcon />
+								</IconButton>
+							)
+						}
 					</>
 				}
 			>
