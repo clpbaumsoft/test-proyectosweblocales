@@ -12,6 +12,7 @@ import ItemListVisitVisitorDoc from "./components/ItemListVisitVisitorDoc";
 
 //Constants
 import { GTRANS } from "@/constants/Globals";
+import { VISITOR_STATUS_APPROVED } from "@/constants/Visit";
 
 //Hooks
 import useListVisitVisitorDocs from "./useListVisitVisitorDocs";
@@ -55,6 +56,7 @@ export default function ListVisitVisitorDocs({ visitVisitor, documentTypes, onCh
 		rowsDocs,
 		loggedUser,
 		allDocsReviewed,
+		visitVisitor: currentVisitVisitor,
 		onClickApprove,
 		onClickReject,
 		onChangeItemDoc,
@@ -77,17 +79,23 @@ export default function ListVisitVisitorDocs({ visitVisitor, documentTypes, onCh
 											prefix={`${idx+1}`}
 											itemVisitDoc={itemDoc}
 											documentTypes={documentTypes}
+											visitorStatus={currentVisitVisitor.status}
 											onChangeItemDoc={(newDoc) => onChangeItemDoc(newDoc, idx)}
 										/>
 									))
 								}
 								</List>
 								{
-									loggedUser.can('approvedocs_visit') && (
+									loggedUser.can('approvedocs_visit') && currentVisitVisitor.status !== VISITOR_STATUS_APPROVED && (
 										<Box>
 											<Box sx={{ display: 'flex', justifyContent: 'center' }}>
+												
+												{/* Boton RECHAZAR visitante en modal aprobar documentos */}
 												<Button variant="outlined" onClick={onClickReject}>{TEXTS.reject_visitor}</Button>
+
 												<Box sx={{ width: '10px' }} />
+
+												{/* Boton APROBAR visitante en modal aprobar documentos */}
 												<Tooltip 
 													title={!allDocsReviewed ? TEXTS.tooltip_verify_all_docs : ""}
 													arrow

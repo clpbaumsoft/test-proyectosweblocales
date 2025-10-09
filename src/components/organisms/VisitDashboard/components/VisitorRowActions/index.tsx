@@ -57,7 +57,7 @@ const TRANS = {
 	},
 	see_documents: {
 		id: "VisitorRowActions.Button.SeeDocuments",
-		defaultMessage: "Ver",
+		defaultMessage: "Ver Docs",
 		description: "",
 	},
 	upload_documents: {
@@ -94,7 +94,6 @@ const SpaceBtn = styled('div')(({ }) => ({
 }))
 
 export default function VisitorRowActions({ visitVisitor, documentTypes, visitStartDate }: VisitorRowActionsProps) {
-console.log("💕💕💕💕💕💕💕💕💕💕💕💕💕 ~ VisitorRowActions ~ visitStartDate:", visitStartDate)
 
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
@@ -127,7 +126,7 @@ console.log("💕💕💕💕💕💕💕💕💕💕💕💕💕 ~ VisitorRowAc
 					stateRowVisitVisitor.status !== VISITOR_STATUS_CANCELLED ? (
 						<>
 							{
-								loggedUser.can('update_visit') && (
+								loggedUser.can('update_visit') && !loggedUser.can('approvedocs_visit') && (
 									<>
 										<Button 
 											variant="outlined"
@@ -156,7 +155,8 @@ console.log("💕💕💕💕💕💕💕💕💕💕💕💕💕 ~ VisitorRowAc
 									{TEXTS.cancel_visitor}
 								</Button>
 							)
-						}						</>
+						}
+						</>
 					) : (
 						<WarningCondition condition={false}>{TEXTS.message_cancelled_visitor}</WarningCondition>
 					)

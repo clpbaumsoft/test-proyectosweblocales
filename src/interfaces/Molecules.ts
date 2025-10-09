@@ -67,6 +67,7 @@ export type ItemListVisitVisitorDocProps = BaseComponentProps & {
 	prefix: string;
 	itemVisitDoc: VisitDocument;
 	documentTypes: DocumentType[];
+	visitorStatus?: string;
 	onChangeItemDoc?: (newDoc: VisitDocument) => void;
 }
 

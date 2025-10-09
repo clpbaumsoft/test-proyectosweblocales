@@ -243,6 +243,7 @@ export default function useListVisitVisitorDocs(visitVisitor: VisitVisitor, onCh
 		isInnerLoading,
 		rowsDocs,
 		allDocsReviewed,
+		visitVisitor,
 		onClickApprove,
 		onClickReject,
 		onChangeItemDoc,

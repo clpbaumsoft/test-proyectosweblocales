@@ -31,7 +31,12 @@ import ModalFullScreen from "@/components/atoms/ModalFullScreen";
 //Constants
 import { GTRANS } from "@/constants/Globals";
 import PAGES from "@/constants/Pages";
-import { VISIT_DOCUMENT_STATUS_APPROVED, VISIT_DOCUMENT_STATUS_PENDING, VISIT_DOCUMENT_STATUS_REJECTED } from "@/constants/Visit";
+import { 
+	VISIT_DOCUMENT_STATUS_APPROVED, 
+	VISIT_DOCUMENT_STATUS_PENDING, 
+	VISIT_DOCUMENT_STATUS_REJECTED, 
+	VISITOR_STATUS_APPROVED 
+} from "@/constants/Visit";
 
 //Hooks
 import useItemListVisitVisitorDoc from "./useItemListVisitVisitorDoc";
@@ -99,7 +104,7 @@ const TRANS = {
 	},
 }
 
-export default function ItemListVisitVisitorDoc({ prefix, itemVisitDoc, documentTypes, onChangeItemDoc }: ItemListVisitVisitorDocProps) {
+export default function ItemListVisitVisitorDoc({ prefix, itemVisitDoc, documentTypes, visitorStatus, onChangeItemDoc }: ItemListVisitVisitorDocProps) {
 
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
@@ -218,7 +223,7 @@ export default function ItemListVisitVisitorDoc({ prefix, itemVisitDoc, document
 					{GTEXTS.check_it_out}
 				</Button>
 				{
-					loggedUser.can('update_visit') && (visitDoc.status === VISIT_DOCUMENT_STATUS_PENDING || visitDoc.status === VISIT_DOCUMENT_STATUS_REJECTED||true) && (
+					loggedUser.can('update_visit') && (visitDoc.status === VISIT_DOCUMENT_STATUS_PENDING || visitDoc.status === VISIT_DOCUMENT_STATUS_REJECTED) && visitorStatus !== VISITOR_STATUS_APPROVED && (
 						<>
 							<Box component="span" sx={{ width: '10px' }} />
 							<Button
@@ -347,7 +352,7 @@ export default function ItemListVisitVisitorDoc({ prefix, itemVisitDoc, document
 						}}
 					>
 						{
-							(loggedUser.can('approvedocs_visit') && !isOpenRejectForm) ? (
+							(loggedUser.can('approvedocs_visit') && !isOpenRejectForm && visitDoc.status !== VISIT_DOCUMENT_STATUS_APPROVED) ? (
 								<>
 									<Button
 										variant="contained"
