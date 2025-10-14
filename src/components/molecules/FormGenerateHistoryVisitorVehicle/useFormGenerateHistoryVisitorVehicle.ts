@@ -35,6 +35,7 @@ interface VehicleHistoryData {
   left_at: string | null; // Fecha de salida
   comments_entry: string | null;
   comments_leave: string | null;
+  allowed?: boolean | number; // Si el vehículo fue aprobado o rechazado
   id_vehicle_type: number;
   id_visit_visitor: number;
   id_gate: number;
@@ -135,6 +136,7 @@ interface ProcessedVehicleHistoryData {
   gate_name: string;
   observations: string;
   observationsLeave?: string;
+  allowed: boolean;
 }
 
 //Texts
@@ -232,15 +234,20 @@ export default function useFormGenerateHistoryVisitorVehicle() {
       
       return {
         id: item.id,
-        plate: item.number?.toLocaleUpperCase() || '', 
-        entry_date: item.creator_date || '', 
-        exit_date: item.left_at || '', 
-        full_name: item.creator_user.fullname || '', 
-        fullname_leave: item.gaveleave_user.fullname || '', 
+        plate: item?.number?.toLocaleUpperCase() || '', 
+        entry_date: item?.creator_date || '', 
+        exit_date: item?.left_at || '', 
+        full_name: item?.creator_user.fullname || '', 
+        fullname_leave: item?.gaveleave_user?.fullname || '', 
         inspection_points: inspectionPoints,
         gate_name: item.gate?.description || '', 
-        observations: item.comments_entry ?? '', 
-        observationsLeave: item.comments_leave ?? '',
+        observations: item?.comments_entry ?? '', 
+        observationsLeave: item?.comments_leave ?? '',
+        allowed: (
+          item?.allowed === 0 || 
+          item?.allowed === false ||
+          !item?.allowed
+        ) ? false : true, // Only true if explicitly true or 1
       };
     });
   };
@@ -352,7 +359,8 @@ export default function useFormGenerateHistoryVisitorVehicle() {
       'Puntos Inspeccionados': item.inspection_points || '',
       'Portería de Acceso': item.gate_name || '',
       'Observaciones de ingreso': item.observations || '',
-      'Observaciones de salida': item.observationsLeave || ''
+      'Observaciones de salida': item.observationsLeave || '',
+      'Apto': item.allowed ? 'Sí' : 'No'
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(data);
@@ -388,7 +396,8 @@ export default function useFormGenerateHistoryVisitorVehicle() {
       'Puntos Inspeccionados',
       'Portería de Acceso',
       'Observaciones de ingreso',
-      'Observaciones de salida'
+      'Observaciones de salida',
+      'Apto'
     ];
 
     // Add BOM to support UTF-8 encoding for accents and special characters
@@ -402,7 +411,8 @@ export default function useFormGenerateHistoryVisitorVehicle() {
       `"${item.inspection_points}"`,
       `"${item.gate_name}"`,
       `"${item.observations}"`,
-      `"${item.observationsLeave}"`
+      `"${item.observationsLeave}"`,
+      `"${item.allowed ? 'Sí' : 'No'}"`
       ].join(','))
     ].join('\n');
 

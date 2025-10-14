@@ -87,6 +87,11 @@ const TRANS = {
     defaultMessage: "Observaciones",
     description: "",
   },
+	table_allowed: {
+    id: "GenerateHistoryVehicleDashboard.Table.Allowed",
+    defaultMessage: "Apto",
+    description: "",
+  },
 	no_data: {
     id: "GenerateHistoryVehicleDashboard.Table.NoData",
     defaultMessage: "No hay datos para mostrar",
@@ -244,6 +249,7 @@ export default function FormGenerateHistoryEmployeeVehicle() {
 										<TableCell sx={{ fontWeight: 'bold', minWidth: 200 }}>{TEXTS.table_inspection_points}</TableCell>
 										<TableCell sx={{ fontWeight: 'bold', minWidth: 150 }}>{TEXTS.table_gate_name}</TableCell>
 										<TableCell sx={{ fontWeight: 'bold', minWidth: 250 }}>{TEXTS.table_observations}</TableCell>
+										<TableCell sx={{ fontWeight: 'bold', minWidth: 100 }}>{TEXTS.table_allowed}</TableCell>
 									</TableRow>
 								</TableHead>
 								<TableBody>
@@ -265,6 +271,9 @@ export default function FormGenerateHistoryEmployeeVehicle() {
 												<TableCell>{item.inspection_points || '-'}</TableCell>
 												<TableCell>{item.gate_name || '-'}</TableCell>
 												<TableCell>{item.observations || '-'}</TableCell>
+												<TableCell>
+													{item.allowed ? 'Sí' : 'No'}
+												</TableCell>
 											</TableRow>
 										))}
 								</TableBody>

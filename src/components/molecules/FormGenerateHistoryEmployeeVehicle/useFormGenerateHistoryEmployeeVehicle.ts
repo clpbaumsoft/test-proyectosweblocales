@@ -35,6 +35,7 @@ interface VehicleHistoryData {
   left_at: string | null; // Fecha de salida
   comments_entry: string | null;
   comments_leave: string | null;
+  allowed?: boolean | number | string | null; // Si el vehículo fue aprobado o rechazado
   id_vehicle_type: number;
   id_visit_visitor: number;
   id_gate: number;
@@ -134,6 +135,7 @@ interface ProcessedVehicleHistoryData {
   inspection_points: string;
   gate_name: string;
   observations: string;
+  allowed: boolean;
 }
 
 //Texts
@@ -245,6 +247,11 @@ export default function useFormGenerateHistoryEmployeeVehicle() {
         inspection_points: inspectionPoints,
         gate_name: item.gate?.description || '', // Nombre de la portería
         observations: observations, // Comentarios combinados
+        allowed: (
+          item.allowed === 0 || 
+          item.allowed === false ||
+          !item.allowed
+        ) ? false : true, // Only true if explicitly true or 1
       };
     });
   };
@@ -355,7 +362,8 @@ export default function useFormGenerateHistoryEmployeeVehicle() {
       'Nombre Completo',
       'Puntos Inspeccionados',
       'Portería de Acceso',
-      'Observaciones'
+      'Observaciones',
+      'Apto'
     ];
 
     const data = historyData.map(item => ({
@@ -365,7 +373,8 @@ export default function useFormGenerateHistoryEmployeeVehicle() {
       'Nombre Completo': item.full_name || '',
       'Puntos Inspeccionados': item.inspection_points || '',
       'Portería de Acceso': item.gate_name || '',
-      'Observaciones': item.observations || ''
+      'Observaciones': item.observations || '',
+      'Apto': item.allowed ? 'Sí' : 'No'
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(data);
@@ -400,7 +409,8 @@ export default function useFormGenerateHistoryEmployeeVehicle() {
       'Fecha Salida',
       'Puntos Inspeccionados',
       'Portería de Acceso',
-      'Observaciones'
+      'Observaciones',
+      'Apto'
     ];
 
     // Add BOM to support UTF-8 encoding for accents and special characters
@@ -413,7 +423,8 @@ export default function useFormGenerateHistoryEmployeeVehicle() {
         `"${item.exit_date ? dayjs(item.exit_date).format('DD/MM/YYYY HH:mm') : ''}"`,
         `"${item.inspection_points}"`,
         `"${item.gate_name}"`,
-        `"${item.observations}"`
+        `"${item.observations}"`,
+        `"${item.allowed ? 'Sí' : 'No'}"`
       ].join(','))
     ].join('\n');
 
