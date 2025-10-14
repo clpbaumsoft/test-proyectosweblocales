@@ -38,6 +38,11 @@ const TRANS = {
 		defaultMessage: "Ingreso Vehicular - Activo",
 		description: "",
 	},
+	label_NO_entry_visitor: {
+		id: "CardRejectVehicle.Typography.H6.TitleCard",
+		defaultMessage: "Rechazo Vehicular",
+		description: "",
+	},
 	label_id: {
 		id: "CardActiveEntryVehicle.BoldLabel.Label.Id",
 		defaultMessage: "Código #",
@@ -50,7 +55,12 @@ const TRANS = {
 	},
 	label_entry_at: {
 		id: "CardActiveEntryVehicle.BoldLabel.Label.EntryAt",
-		defaultMessage: "Ingresó a las:",
+		defaultMessage: "Ingresó a las 555555:",
+		description: "",
+	},
+	label_NO_entry_at: {
+		id: "CardActiveEntryVehicle.BoldLabel.Label.NoEntryAt",
+		defaultMessage: "Rechazado a las:",
 		description: "",
 	},
 	label_gate: {
@@ -63,14 +73,24 @@ const TRANS = {
 		defaultMessage: "Persona que dió el ingreso:",
 		description: "",
 	},
+	label_NO_entry_approver: {
+		id: "CardActiveEntryVehicle.Typography.Label.UserWhoNOGiveEntry",
+		defaultMessage: "Persona que rechazó el ingreso:",
+		description: "",
+	},
 	label_inspect_points: {
 		id: "CardActiveEntryVehicle.Typography.Label.InspectPoints",
 		defaultMessage: "Puntos a Inspeccionar:",
 		description: "",
 	},
+	label_inspect_points_revised: {
+		id: "CardActiveEntryVehicle.Typography.Label.InspectPointsRevised",
+		defaultMessage: "Puntos de inspección revisados:",
+		description: "",
+	},
 	label_comments_entry: {
 		id: "CardActiveEntryVehicle.BoldLabel.CommentsEntry",
-		defaultMessage: "Observaciones de entrada:",
+		defaultMessage: "Observaciones:",
 		description: "",
 	},
 	no_inspect_points: {
@@ -88,6 +108,11 @@ const TRANS = {
 		defaultMessage: "Dar salida",
 		description: "",
 	},
+	rejection_reason: {
+		id: "CardActiveEntryVehicle.Typography.Label.RejectionReason",
+		defaultMessage: "Razón del rechazo:",
+		description: "",
+	},
 }
 
 export default function CardActiveEntryVehicle({ visitor }: CardActiveEntryVehicleProps) {
@@ -103,13 +128,19 @@ export default function CardActiveEntryVehicle({ visitor }: CardActiveEntryVehic
 		return <></>
 	}
 
+	const isRejected = visitor.active_entry_vehicle.allowed === 0 || visitor.active_entry_vehicle.allowed === false
+	const cardColor = isRejected ? 'error.dark' : 'info.light'
+	const titleText = isRejected ? TEXTS.label_NO_entry_visitor : TEXTS.label_entry_visitor
+	const entryTimeLabel = isRejected ? TEXTS.label_NO_entry_at : TEXTS.label_entry_at
+	const entryApproverLabel = isRejected ? TEXTS.label_NO_entry_approver : TEXTS.label_entry_approver
+
 	return (
 		<>
 			<Box
 				sx={{
 					my: '20px',
 					borderRadius: 'var(--mui-shape-borderRadius)',
-					borderColor: 'info.light',
+					borderColor: cardColor,
 					borderWidth: '1px',
 					borderStyle: 'solid',
 					position: 'relative',
@@ -120,10 +151,10 @@ export default function CardActiveEntryVehicle({ visitor }: CardActiveEntryVehic
 						color: 'var(--mui-palette-common-white)',
 						p: '10px',
 						borderTopRadius: 'var(--mui-shape-borderRadius)',
-						bgcolor: 'info.light',
+						bgcolor: cardColor,
 					}}
 					variant="h6"
-				>{TEXTS.label_entry_visitor}</Typography>
+				>{titleText}</Typography>
 				<Box sx={{ p: '10px' }}>
 					<Grid container>
 						<Grid size={{ xs: 12, md: 4 }}>
@@ -157,21 +188,21 @@ export default function CardActiveEntryVehicle({ visitor }: CardActiveEntryVehic
 						<Grid size={{ xs: 12, md: 4 }}>
 							<Box sx={{ mb: '10px' }}>
 								<BoldLabel
-									label={TEXTS.label_entry_at}
+									label={entryTimeLabel}
 									value={formatsDate(visitor.active_entry_vehicle.creator_date)}
 								/>
 							</Box>
 						</Grid>
 						<Grid size={{ xs: 12, md: 4 }}>
 							<Box sx={{ mb: '10px' }}>
-								<Typography component="label">{TEXTS.label_entry_approver}</Typography><br/>
+								<Typography component="label">{entryApproverLabel}</Typography><br/>
 								<Typography variant="body2" fontWeight={700}>{visitor.creator?.fullname}</Typography>
 								<FormHelperText>{visitor.creator?.email}</FormHelperText>
 							</Box>
 						</Grid>
 						<Grid size={{ xs: 12, md: 6 }}>
 							<Box sx={{ mb: '10px' }}>
-								<Typography component="label">{TEXTS.label_inspect_points}</Typography><br/>
+								<Typography component="label">{isRejected ? TEXTS.label_inspect_points_revised : TEXTS.label_inspect_points}</Typography><br/>
 								<List dense>
 									{
 										visitor.active_entry_vehicle.inspect_points ? (
@@ -206,26 +237,30 @@ export default function CardActiveEntryVehicle({ visitor }: CardActiveEntryVehic
 						</Grid>
 					</Grid>
 					<hr/>
-					<BoxButtonsForm>
-						<Button 
-							variant="contained" 
-							color="error"
-							startIcon={<ExitToAppIcon />}
-							onClick={toggleOpenGiveLeaveForm}
-						>{TEXTS.give_leave}</Button>
-					</BoxButtonsForm>
+					{!isRejected && (
+						<BoxButtonsForm>
+							<Button 
+								variant="contained" 
+								color="error"
+								startIcon={<ExitToAppIcon />}
+								onClick={toggleOpenGiveLeaveForm}
+							>{TEXTS.give_leave}</Button>
+						</BoxButtonsForm>
+					)}
 				</Box>
 			</Box>
 
-			{ /* Form used to cancel the visit. */}
-			<Dialog open={isOpenGiveLeaveForm}>
-				<DialogContent>
-					<GiveLeaveVehicleForm 
-						visitor={visitor} 
-						onCancel={toggleOpenGiveLeaveForm} 
-					/>
-				</DialogContent>
-			</Dialog>
+			{ /* Form used to give leave to the vehicle. Only show for approved vehicles. */}
+			{!isRejected && (
+				<Dialog open={isOpenGiveLeaveForm}>
+					<DialogContent>
+						<GiveLeaveVehicleForm 
+							visitor={visitor} 
+							onCancel={toggleOpenGiveLeaveForm} 
+						/>
+					</DialogContent>
+				</Dialog>
+			)}
 		</>
 	)
 }

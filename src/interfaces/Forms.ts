@@ -76,6 +76,7 @@ export type GiveEntryVehicleFormType = {
 	gate: number | string;
 	vehicle_inspect_points: number[] | string[];
 	entry_comments: string;
+	allowed?: boolean;
 }
 
 export type GiveLeaveVehicleFormType = {
@@ -85,6 +86,7 @@ export type GiveLeaveVehicleFormType = {
 	different_person_pickup?: boolean;
 	identity_number?: string | number;
 	id_identity_type?: string | number;
+	allowed?: boolean;
 }
 
 export type GiveEntryVehicleFormEmployeeType = {
@@ -102,6 +104,7 @@ export type GiveLeaveVehicleFormEmployeeType = {
 	different_person_pickup?: boolean;
 	identity_number?: string | number;
 	id_identity_type?: string | number;
+	allowed?: boolean;
 }
 
 export type FormGiveEntryEmployeeProps = {

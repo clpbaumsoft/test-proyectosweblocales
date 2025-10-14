@@ -31,6 +31,11 @@ const TRANS = {
 		defaultMessage: "Entrada realizada exitosamente.",
 		description: "",
 	},
+	rejection_entry_vehicle: {
+		id: "GiveEntryVehicleForm.SuccessMessage.NOCreateEntryVehicleSuccessfully",
+		defaultMessage: "Rechazo vehicular exitoso.",
+		description: "",
+	},
 }
 
 export default function useGiveEntryVehicleForm(visitor: Visitor, visit: Visit, isEmployee: boolean, onSuccessEntryVehicle?: (entryVehicle: EntryVehicle) => void) {
@@ -54,6 +59,7 @@ export default function useGiveEntryVehicleForm(visitor: Visitor, visit: Visit, 
 		gate: "",
 		vehicle_inspect_points: [],
 		entry_comments: "",
+		allowed: true,
 	}})
 
 	const [okMessage, errorMessage, changeOkMessage, changeErrorMessage, hideMessages] = useFormMessages()
@@ -71,11 +77,16 @@ export default function useGiveEntryVehicleForm(visitor: Visitor, visit: Visit, 
 			hideMessages()
 
 			if(visitor) {
+				
 				const entryVehicle = await Orchestra.entryVehicleService.give(visit.id, visitor.id, data)
 				const copyVisitor = { ...visitor }
 				copyVisitor.active_entry_vehicle = { ...entryVehicle }
 				EntryControlEvents.updateVisitor.emit('update_visitor', copyVisitor)
-				changeOkMessage(TEXTS.success_entry_vehicle)
+				
+				// Show different message based on allowed status
+				const successMessage = data.allowed === false ? TEXTS.rejection_entry_vehicle : TEXTS.success_entry_vehicle
+				changeOkMessage(successMessage)
+				
 				if(onSuccessEntryVehicle) {
 					onSuccessEntryVehicle(entryVehicle)
 				}
@@ -85,7 +96,11 @@ export default function useGiveEntryVehicleForm(visitor: Visitor, visit: Visit, 
 
 			else if(isEmployee) {
 				const entryVehicle = await Orchestra.entryVehicleService.giveEmployeeEntryVehicle(data)
-				changeOkMessage(TEXTS.success_entry_vehicle)
+				
+				// Show different message based on allowed status
+				const successMessage = data.allowed === false ? TEXTS.rejection_entry_vehicle : TEXTS.success_entry_vehicle
+				changeOkMessage(successMessage)
+				
 				if(onSuccessEntryVehicle) {
 					onSuccessEntryVehicle(entryVehicle)
 				}
@@ -105,6 +120,22 @@ export default function useGiveEntryVehicleForm(visitor: Visitor, visit: Visit, 
 			}
 		}
 	}
+
+	/**
+	 * Handles the approve button click (allowed: true).
+	 */
+	const handleApprove = handleSubmit(async (data: GiveEntryVehicleFormType) => {
+		const dataWithAllowed = { ...data, allowed: true }
+		await onSubmit(dataWithAllowed)
+	})
+
+	/**
+	 * Handles the reject button click (allowed: false).
+	 */
+	const handleReject = handleSubmit(async (data: GiveEntryVehicleFormType) => {
+		const dataWithAllowed = { ...data, allowed: false }
+		await onSubmit(dataWithAllowed)
+	})
 	
 	/**
 	 * Loads the vehicle types.
@@ -141,6 +172,8 @@ export default function useGiveEntryVehicleForm(visitor: Visitor, visit: Visit, 
 		register,
 		handleSubmit,
 		onSubmit,
+		handleApprove,
+		handleReject,
 		loadVehicleTypes,
 		loadVehicleInspectPoints,
 		loadGates,

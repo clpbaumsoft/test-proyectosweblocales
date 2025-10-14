@@ -23,6 +23,7 @@ export default class EntryVehicleService {
 	 * @returns 
 	 */
 	async give(visitId: number, visitorId: number, data: GiveEntryVehicleFormType) {
+		
 		try {
 			return await apiRequest().post(`/visits/${visitId}/visitors/${visitorId}/give-entry-vehicle`, data).then((res) => res.data);
 		} catch(catchError) {

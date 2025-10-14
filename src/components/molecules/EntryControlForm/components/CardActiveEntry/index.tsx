@@ -99,6 +99,12 @@ export default function CardActiveEntry({ visitor }: CardActiveEntryProps) {
 		return <></>
 	}
 
+	const isAllowedCardButtonEntry = (
+		visitor.active_entry_vehicle?.allowed === 0 || 
+		visitor.active_entry_vehicle?.allowed === false ||
+		!visitor.active_entry_vehicle
+	) ? false : true
+
 	return (
 		<>
 			<Box
@@ -186,7 +192,8 @@ export default function CardActiveEntry({ visitor }: CardActiveEntryProps) {
 							loggedUser.can('create_entry_vehicle') && (
 								<>
 									<Button 
-										variant="contained" 
+										disabled={isAllowedCardButtonEntry}
+										variant="contained"
 										color="primary"
 										startIcon={<CarRentalIcon />}
 										onClick={toggleModalEntryVehicle}

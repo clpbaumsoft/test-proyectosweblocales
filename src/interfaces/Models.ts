@@ -299,6 +299,7 @@ export type EntryVehicle = BaseModel & {
 	vehicle_type?: VehicleType;
 	inspect_points?: VehicleInspectPoint[];
 	visit_visitor?: VisitVisitor;
+	allowed?: boolean | number | null;
 }
 
 export type VehicleType = BaseModel & {

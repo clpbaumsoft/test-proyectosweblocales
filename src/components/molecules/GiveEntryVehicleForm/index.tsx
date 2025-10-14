@@ -28,6 +28,7 @@ import { GiveEntryVehicleFormProps } from "@/interfaces/Molecules";
 
 //Styles
 import { BoxButtonsForm, HeadingForm, SpaceBtn } from "@/styles/elements";
+import { green } from "@mui/material/colors";
 
 //Texts
 const TRANS = {
@@ -66,9 +67,14 @@ const TRANS = {
 		defaultMessage: "Máximo 200 caracteres.",
 		description: "",
 	},
+	NO_give_entry: {
+		id: "GiveEntryVehicleForm.Button.NOGiveEntryVehicle",
+		defaultMessage: "NO Apto/Rechazar",
+		description: "",
+	},
 	give_entry: {
 		id: "GiveEntryVehicleForm.Button.GiveEntryVehicle",
-		defaultMessage: "Ingresar",
+		defaultMessage: "Apto/Ingresar",
 		description: "",
 	},
 }
@@ -85,8 +91,8 @@ export default function GiveEntryVehicleForm({ visitor, visit, isEmployee = fals
 		error,
 		control,
 		register,
-		handleSubmit,
-		onSubmit,
+		handleApprove,
+		handleReject,
 		loadVehicleTypes,
 		loadVehicleInspectPoints,
 		loadGates,
@@ -100,7 +106,7 @@ export default function GiveEntryVehicleForm({ visitor, visit, isEmployee = fals
 						<FullLoader variant="absolute" />
 					)
 				}
-				<form onSubmit={handleSubmit(onSubmit)}>
+				<form>
 					<HeadingForm>{TEXTS.title}</HeadingForm>
 					<Box>
 						<Grid container spacing={3}>
@@ -237,15 +243,27 @@ export default function GiveEntryVehicleForm({ visitor, visit, isEmployee = fals
 						error={error}
 					/>
 					<BoxButtonsForm>
+						
+						<Button
+							variant="contained"
+							sx={{ background: "#CD181B" }}
+							onClick={handleReject}
+						>{TEXTS.NO_give_entry}
+						</Button>
+						<SpaceBtn />
+
+						<Button
+							variant="contained"
+							sx={{background: green}}
+							onClick={handleApprove}
+						>{TEXTS.give_entry}
+						</Button>
+						<SpaceBtn />
+
 						<Button
 							variant="outlined"
 							onClick={onClose}
 						>{GTEXTS.close}</Button>
-						<SpaceBtn />
-						<Button
-							variant="contained"
-							type="submit"
-						>{TEXTS.give_entry}</Button>
 					</BoxButtonsForm>
 				</form>
 			</Box>
