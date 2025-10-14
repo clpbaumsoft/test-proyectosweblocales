@@ -28,6 +28,11 @@ const TRANS = {
 		defaultMessage: "Entrada realizada exitosamente.",
 		description: "",
 	},
+	rejection_entry_vehicle: {
+		id: "GiveEntryVehicleFormEmployee.SuccessMessage.NOCreateEntryVehicleSuccessfully",
+		defaultMessage: "Rechazo vehicular exitoso.",
+		description: "",
+	},
 }
 
 export default function useGiveEntryVehicleFormEmployee(onSuccessEntryVehicle?: (entryVehicle: EntryVehicle) => void) {
@@ -51,6 +56,7 @@ export default function useGiveEntryVehicleFormEmployee(onSuccessEntryVehicle?: 
 		gate: "",
 		vehicle_inspect_points: [],
 		entry_comments: "",
+		allowed: true,
 	}})
 
 	const [okMessage, errorMessage, changeOkMessage, changeErrorMessage, hideMessages] = useFormMessages()
@@ -68,7 +74,11 @@ export default function useGiveEntryVehicleFormEmployee(onSuccessEntryVehicle?: 
 			hideMessages()
 			if(data) {
 				const entryVehicle = await Orchestra.entryVehicleService.giveEmployeeEntryVehicle(data)
-				changeOkMessage(TEXTS.success_entry_vehicle)
+				
+				// Show different message based on allowed status
+				const successMessage = data.allowed === false ? TEXTS.rejection_entry_vehicle : TEXTS.success_entry_vehicle
+				changeOkMessage(successMessage)
+				
 				if(onSuccessEntryVehicle) {
 					onSuccessEntryVehicle(entryVehicle)
 				}
@@ -87,6 +97,22 @@ export default function useGiveEntryVehicleFormEmployee(onSuccessEntryVehicle?: 
 			}
 		}
 	}
+
+	/**
+	 * Handles the approve button click (allowed: true).
+	 */
+	const handleApprove = handleSubmit(async (data: GiveEntryVehicleFormEmployeeType) => {
+		const dataWithAllowed = { ...data, allowed: true }
+		await onSubmit(dataWithAllowed)
+	})
+
+	/**
+	 * Handles the reject button click (allowed: false).
+	 */
+	const handleReject = handleSubmit(async (data: GiveEntryVehicleFormEmployeeType) => {
+		const dataWithAllowed = { ...data, allowed: false }
+		await onSubmit(dataWithAllowed)
+	})
 	
 	/**
 	 * Loads the vehicle types.
@@ -123,6 +149,8 @@ export default function useGiveEntryVehicleFormEmployee(onSuccessEntryVehicle?: 
 		register,
 		handleSubmit,
 		onSubmit,
+		handleApprove,
+		handleReject,
 		loadVehicleTypes,
 		loadVehicleInspectPoints,
 		loadGates,

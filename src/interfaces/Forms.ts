@@ -95,6 +95,7 @@ export type GiveEntryVehicleFormEmployeeType = {
 	gate: number | string;
 	vehicle_inspect_points: number[] | string[];
 	entry_comments: string;
+	allowed?: boolean;
 }
 
 export type GiveLeaveVehicleFormEmployeeType = {

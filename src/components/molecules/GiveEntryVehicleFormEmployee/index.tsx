@@ -27,7 +27,7 @@ import useTranslation from "@/hooks/useTranslation";
 import { GiveEntryVehicleFormEmployeeProps } from "@/interfaces/Molecules";
 
 //Styles
-import { BoxButtonsForm, HeadingForm } from "@/styles/elements";
+import { BoxButtonsForm, HeadingForm, SpaceBtn } from "@/styles/elements";
 
 //Texts
 const TRANS = {
@@ -66,9 +66,14 @@ const TRANS = {
 		defaultMessage: "Máximo 200 caracteres.",
 		description: "",
 	},
+	NO_give_entry: {
+		id: "GiveEntryVehicleFormEmployee.Button.NOGiveEntryVehicle",
+		defaultMessage: "NO Apto/Rechazar",
+		description: "",
+	},
 	give_entry: {
 		id: "GiveEntryVehicleFormEmployee.Button.GiveEntryVehicle",
-		defaultMessage: "Ingresar",
+		defaultMessage: "Apto/Ingresar",
 		description: "",
 	},
 }
@@ -85,8 +90,8 @@ export default function GiveEntryVehicleFormEmployee({onSuccessEntryVehicle }: G
 		error,
 		control,
 		register,
-		handleSubmit,
-		onSubmit,
+		handleApprove,
+		handleReject,
 		loadVehicleTypes,
 		loadVehicleInspectPoints,
 		loadGates,
@@ -100,7 +105,7 @@ export default function GiveEntryVehicleFormEmployee({onSuccessEntryVehicle }: G
 						<FullLoader variant="absolute" />
 					)
 				}
-				<form onSubmit={handleSubmit(onSubmit)}>
+				<form>
 					<HeadingForm>{TEXTS.title}</HeadingForm>
 					<Box>
 						<Grid container spacing={3}>
@@ -240,7 +245,16 @@ export default function GiveEntryVehicleFormEmployee({onSuccessEntryVehicle }: G
 					<BoxButtonsForm>
 						<Button
 							variant="contained"
-							type="submit"
+							sx={{ background: "#CD181B" }}
+							onClick={handleReject}
+						>
+							{TEXTS.NO_give_entry}
+						</Button>
+						<SpaceBtn />
+
+						<Button
+							variant="contained"
+							onClick={handleApprove}
 						>
 							{TEXTS.give_entry}
 						</Button>

@@ -128,7 +128,6 @@ const TRANS = {
 }
 
 export default function VisitDashboard({ visit }: VisitDashboardProps) {
-	console.log("🚀 ~ VisitDashboard ~ visit:", visit)
 	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)

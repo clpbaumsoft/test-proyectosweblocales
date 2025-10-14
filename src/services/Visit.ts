@@ -109,7 +109,6 @@ export default class VisitService {
 	 * @returns 
 	 */
 	async update(visitId: number, visitData: VisitFormType) {
-		console.log("✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅ ~ VisitService ~ update ~ visitData:", visitData)
 		try {
 			await apiRequest().put(`/visits/${visitId}`, visitData);
 			return true
