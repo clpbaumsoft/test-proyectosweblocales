@@ -41,7 +41,7 @@ const TRANS = {
 	},
 	tooltip_verify_all_docs: {
 		id: "ListVisitVisitorDocs.Tooltip.VerifyAllDocs",
-		defaultMessage: "Antes de aprobar debe verificar todos los documentos",
+		defaultMessage: "Debe verificar todos los documentos y darle un estado de Aprobado ó Rechzado para activar este botón",
 		description: "",
 	},
 }
@@ -91,7 +91,20 @@ export default function ListVisitVisitorDocs({ visitVisitor, documentTypes, onCh
 											<Box sx={{ display: 'flex', justifyContent: 'center' }}>
 												
 												{/* Boton RECHAZAR visitante en modal aprobar documentos */}
-												<Button variant="outlined" onClick={onClickReject}>{TEXTS.reject_visitor}</Button>
+												<Tooltip 
+													title={!allDocsReviewed ? TEXTS.tooltip_verify_all_docs : ""}
+													arrow
+												>
+													<span>
+														<Button 
+															variant="outlined" 
+															onClick={onClickReject}
+															disabled={!allDocsReviewed}
+														>
+															{TEXTS.reject_visitor}
+														</Button>
+													</span>
+												</Tooltip>
 
 												<Box sx={{ width: '10px' }} />
 
@@ -105,7 +118,9 @@ export default function ListVisitVisitorDocs({ visitVisitor, documentTypes, onCh
 															variant="contained" 
 															onClick={onClickApprove}
 															disabled={!allDocsReviewed}
-														>{TEXTS.approve_visitor}</Button>
+														>
+															{TEXTS.approve_visitor}
+														</Button>
 													</span>
 												</Tooltip>
 											</Box>
