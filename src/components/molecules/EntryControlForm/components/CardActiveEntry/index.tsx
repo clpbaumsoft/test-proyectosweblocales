@@ -66,7 +66,7 @@ const TRANS = {
 	},
 	give_leave: {
 		id: "CardActiveEntry.Button.GiveLeave",
-		defaultMessage: "Dar salida",
+		defaultMessage: "Dar salida al visitante",
 		description: "",
 	},
 }

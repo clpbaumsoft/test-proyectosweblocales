@@ -41,7 +41,7 @@ const TRANS = {
 	},
 	label_id: {
 		id: "EntryControlForm.TableCell.ColumnNameId",
-		defaultMessage: "Codigo #",
+		defaultMessage: "ID de visita",
 		description: "",
 	},
 	label_description: {
@@ -131,8 +131,10 @@ export default function EntryControlForm() {
 								<TableContainer component={Paper}>
 									<Table sx={{ minWidth: 650 }} aria-label="simple table">
 										<TableHead>
-											<TableRow>
-												<TableCell align="center"><Typography sx={{ whiteSpace: 'nowrap' }}>{TEXTS.label_id}</Typography></TableCell>
+											<TableRow sx={{
+												fontSize: "14px" 
+											}}>
+												<TableCell align="center">{TEXTS.label_id}</TableCell>
 												<TableCell align="left">{TEXTS.visitor_type}</TableCell>
 												<TableCell align="left">{TEXTS.label_description}</TableCell>
 												<TableCell align="center">{TEXTS.label_owner}</TableCell>

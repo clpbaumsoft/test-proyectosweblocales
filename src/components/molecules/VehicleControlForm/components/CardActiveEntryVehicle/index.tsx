@@ -105,7 +105,7 @@ const TRANS = {
 	},
 	give_leave: {
 		id: "CardActiveEntryVehicle.Button.GiveLeave",
-		defaultMessage: "Dar salida",
+		defaultMessage: "Dar salida al vehiculo",
 		description: "",
 	},
 	rejection_reason: {

@@ -24,7 +24,7 @@ import { BoxButtons } from "@/styles/elements";
 const TRANS = {
 	add_entry: {
 		id: "RowActionsEntry.Button.AddEntry",
-		defaultMessage: "Dar ingreso",
+		defaultMessage: "Dar ingreso al visitante",
 		description: "",
 	},
 }
