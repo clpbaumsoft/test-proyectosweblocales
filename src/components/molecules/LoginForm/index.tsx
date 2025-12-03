@@ -161,7 +161,7 @@ export default function LoginForm() {
 		showPassword,
 		isValidForm,
 		onSubmit,
-		handleOpenRecovery,
+		// handleOpenRecovery,
 		handleCloseRecovery,
 		handleSubmit,
 		register,
@@ -310,8 +310,8 @@ export default function LoginForm() {
 							</Button>
 						</Grid>
 
-						{/* Forget password */}
-						<Grid size={12} mt={0}>
+						{/* Forget password - temporarily hidden */}
+						{/* <Grid size={12} mt={0}>
 							<Typography
 								variant="body2"
 								component="a"
@@ -324,7 +324,7 @@ export default function LoginForm() {
 							>
 								{TEXTS.forget_password}
 							</Typography>
-						</Grid>
+						</Grid> */}
 					</Grid>
 				</form>
 

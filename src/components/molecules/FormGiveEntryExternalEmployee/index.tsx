@@ -111,7 +111,7 @@ export default function FormGiveEntryExternalEmployee() {
 		register,
 		handleSubmit,
 		onSubmit,
-		loadCompanies,
+		// loadCompanies,
 		loadIdentificationTypes,
 		emitGetOptionsReceivers,
 	} = useFormGiveEntryExternalEmployee()
@@ -251,7 +251,17 @@ export default function FormGiveEntryExternalEmployee() {
 							<LabelForm
 								label={TEXTS.label_company}
 							/>
-							<Controller
+							<TextField
+								{...register("company", { required: GTEXTS.required })}
+								fullWidth
+								size="small"
+							/>
+							<ErrorMessage
+								errors={errors}
+								name="company"
+								render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
+							/>
+							{/* <Controller
 								name="company"
 								control={control}
 								rules={{
@@ -268,12 +278,7 @@ export default function FormGiveEntryExternalEmployee() {
 										}}
 									/>
 								)}
-							/>
-							<ErrorMessage
-								errors={errors}
-								name="company"
-								render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-							/>
+							/> */}
 						</Grid>
 						
 						{ /* Field: Receiver */}

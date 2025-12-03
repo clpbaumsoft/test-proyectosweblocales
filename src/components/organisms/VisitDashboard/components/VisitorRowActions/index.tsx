@@ -10,8 +10,6 @@ import {
 	DialogTitle,
 	styled,
 } from "@mui/material";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import ListAltIcon from "@mui/icons-material/ListAlt";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import DoDisturbAltIcon from "@mui/icons-material/DoDisturbAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -55,16 +53,16 @@ const TRANS = {
 		defaultMessage: "Guardar",
 		description: "",
 	},
-	see_documents: {
-		id: "VisitorRowActions.Button.SeeDocuments",
-		defaultMessage: "Ver Docs",
-		description: "",
-	},
-	upload_documents: {
-		id: "VisitorRowActions.Button.UploadDocuments",
-		defaultMessage: "Subir Doc",
-		description: "",
-	},
+	// see_documents: {
+	// 	id: "VisitorRowActions.Button.SeeDocuments",
+	// 	defaultMessage: "Ver Docs",
+	// 	description: "",
+	// },
+	// upload_documents: {
+	// 	id: "VisitorRowActions.Button.UploadDocuments",
+	// 	defaultMessage: "Subir Doc",
+	// 	description: "",
+	// },
 	cancel_visitor: {
 		id: "VisitorRowActions.Button.CancelVisitor",
 		defaultMessage: "Cancelar",
@@ -99,7 +97,7 @@ export default function VisitorRowActions({ visitVisitor, documentTypes, visitSt
 	const GTEXTS = useTranslation(GTRANS)
 
 	const {
-		loggedUser,
+		// loggedUser,
 		files,
 		actions,
 		isInnerLoading,
@@ -125,7 +123,7 @@ export default function VisitorRowActions({ visitVisitor, documentTypes, visitSt
 				{
 					stateRowVisitVisitor.status !== VISITOR_STATUS_CANCELLED ? (
 						<>
-							{
+							{/* { TEMPORAL HIDDEN
 								loggedUser.can('update_visit') && !loggedUser.can('approvedocs_visit') && (
 									<>
 										<Button 
@@ -141,7 +139,7 @@ export default function VisitorRowActions({ visitVisitor, documentTypes, visitSt
 								variant="outlined"
 								onClick={toogleListVisitVisitorDocs} 
 								startIcon={<ListAltIcon />}
-							>{TEXTS.see_documents}</Button>
+							>{TEXTS.see_documents}</Button> */}
 						<SpaceBtn />
 
 						{

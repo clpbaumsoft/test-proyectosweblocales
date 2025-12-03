@@ -20,6 +20,7 @@ import { EntryVehicle} from "@/interfaces/Models";
 
 //Services
 import Orchestra from "@/services/Orchestra";
+import { toast } from "react-toastify";
 
 //Texts
 const TRANS = {
@@ -31,6 +32,11 @@ const TRANS = {
 	rejection_entry_vehicle: {
 		id: "GiveEntryVehicleFormEmployee.SuccessMessage.NOCreateEntryVehicleSuccessfully",
 		defaultMessage: "Rechazo vehicular exitoso.",
+		description: "",
+	},
+	info_technical_contact: {
+		id: "GiveEntryVehicleFormEmployee.InfoMessage.TechnicalContact",
+		defaultMessage: "Favor comunicarse con Técnico de seguridad o Interventor",
 		description: "",
 	},
 }
@@ -78,6 +84,9 @@ export default function useGiveEntryVehicleFormEmployee(onSuccessEntryVehicle?: 
 				// Show different message based on allowed status
 				const successMessage = data.allowed === false ? TEXTS.rejection_entry_vehicle : TEXTS.success_entry_vehicle
 				changeOkMessage(successMessage)
+
+				if (!data.allowed)
+					toast.info(TEXTS.info_technical_contact)
 				
 				if(onSuccessEntryVehicle) {
 					onSuccessEntryVehicle(entryVehicle)
