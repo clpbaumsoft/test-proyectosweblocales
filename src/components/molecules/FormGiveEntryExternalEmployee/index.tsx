@@ -111,7 +111,6 @@ export default function FormGiveEntryExternalEmployee() {
 		register,
 		handleSubmit,
 		onSubmit,
-		// loadCompanies,
 		loadIdentificationTypes,
 		emitGetOptionsReceivers,
 	} = useFormGiveEntryExternalEmployee()
@@ -261,24 +260,6 @@ export default function FormGiveEntryExternalEmployee() {
 								name="company"
 								render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
 							/>
-							{/* <Controller
-								name="company"
-								control={control}
-								rules={{
-									required: GTEXTS.required,
-								}}
-								render={({ field }) => (
-									<SelectLoadedItems
-										fetchItems={loadCompanies} 
-										onChangeValue={(itemValue) => field.onChange(itemValue ? parseInt(String(itemValue.value)) : itemValue)}
-										defaultValue={field.value}
-										inputProps={{
-											fullWidth: true,
-											size: 'small',
-										}}
-									/>
-								)}
-							/> */}
 						</Grid>
 						
 						{ /* Field: Receiver */}
