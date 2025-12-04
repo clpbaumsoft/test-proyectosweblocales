@@ -39,7 +39,6 @@ const TRANS = {
 }
 
 export default function useGiveLeaveVehicleForm(visitor: Visitor, onCancel: () => void) {
-	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
 
@@ -165,17 +164,6 @@ export default function useGiveLeaveVehicleForm(visitor: Visitor, onCancel: () =
 	}, [])
 	
 	/**
-	 * Loads the vehicle inspect points.
-	 */
-	const loadVehicleInspectPoints = useCallback(async () => {
-		if(!visitor?.active_entry_vehicle?.inspect_points) {
-			return []
-		}
-		return visitor?.active_entry_vehicle?.inspect_points?.map((vehicleInspectPoint) => ({ label: vehicleInspectPoint.description, value: vehicleInspectPoint.id }))
-	}, [visitor?.active_entry_vehicle?.inspect_points])
-
-
-	/**
 	 * Loads the identification types.
 	 */
 	const loadIdentificationTypes = useCallback(async () => {
@@ -246,7 +234,6 @@ export default function useGiveLeaveVehicleForm(visitor: Visitor, onCancel: () =
 		handleSubmit,
 		register,
 		loadGates,
-		loadVehicleInspectPoints,
 		onBlurIdentificationNumber,
 		loadIdentificationTypes,
 		currentVisitorData,

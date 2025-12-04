@@ -31,6 +31,7 @@ import useTranslation from "@/hooks/useTranslation";
 //Styles
 import { BoxButtonsForm, SpaceBtn } from "@/styles/elements";
 import DropdownLoadedItems from "@/components/atoms/DropdownLoadedItems";
+import useGiveEntryVehicleFormEmployee from "@/components/molecules/GiveEntryVehicleFormEmployee/useGiveEntryVehicleFormEmployee";
 
 //Texts
 const TRANS = {
@@ -72,9 +73,9 @@ const TRANS = {
 }
 
 export default function GiveLeaveVehicleForm({ visitor, onCancel }: GiveLeaveVehicleFormProps) {
-	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
+	const { loadVehicleInspectPoints } = useGiveEntryVehicleFormEmployee()
 	
 	const {
 		isInnerLoading,
@@ -87,7 +88,6 @@ export default function GiveLeaveVehicleForm({ visitor, onCancel }: GiveLeaveVeh
 		onSubmit,
 		register,
 		loadGates,
-		loadVehicleInspectPoints,
 		onBlurIdentificationNumber,
 		loadIdentificationTypes,
 		isDifferentPersonPickup,
