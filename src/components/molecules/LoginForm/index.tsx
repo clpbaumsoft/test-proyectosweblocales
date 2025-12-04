@@ -4,7 +4,6 @@ import Image from "next/image";
 import {
 	TextField,
 	Button,
-	Typography,
 	Box,
 	Dialog,
 	DialogContent,
@@ -161,7 +160,7 @@ export default function LoginForm() {
 		showPassword,
 		isValidForm,
 		onSubmit,
-		handleOpenRecovery,
+		// handleOpenRecovery,
 		handleCloseRecovery,
 		handleSubmit,
 		register,
@@ -182,9 +181,13 @@ export default function LoginForm() {
 					display: 'flex',
 					flexDirection: 'column',
 					justifyContent: 'center',
-					padding: 2,
+					paddingInline: 4,
+					paddingBottom: 6,
+					paddingTop: 4.2,
 					borderRadius: 2,
 					boxShadow: 3,
+					backgroundColor: 'white',
+					maxWidth: "fit-content",
 				}}
 			>
 				<Box sx={{ mb: 1, display: 'flex', justifyContent: 'center' }}>
@@ -194,6 +197,7 @@ export default function LoginForm() {
 						priority={true}
 						style={{
 							objectFit: 'contain',
+							width: "270px"
 						}}
 					/>
 				</Box>
@@ -310,8 +314,8 @@ export default function LoginForm() {
 							</Button>
 						</Grid>
 
-						{/* Forget password */}
-						<Grid size={12} mt={0}>
+						{/* Forget password - temporarily hidden */}
+						{/* <Grid size={12} mt={0}>
 							<Typography
 								variant="body2"
 								component="a"
@@ -324,7 +328,7 @@ export default function LoginForm() {
 							>
 								{TEXTS.forget_password}
 							</Typography>
-						</Grid>
+						</Grid> */}
 					</Grid>
 				</form>
 

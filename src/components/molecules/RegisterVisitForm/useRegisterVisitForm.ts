@@ -182,6 +182,16 @@ export default function useRegisterVisitForm(onClose: () => void, preFillFormDat
    */
   const onChangeInputDate = (key: keyof VisitFormType, value: Moment | null) => {
     setValue(key, value?.format('YYYY-MM-DD HH:mm:ss') || '')
+
+		if (value && key === 'entry_date') {
+			setMinDateDeparture(value.clone().add(5, 'minutes'))
+
+			const departureDate = getInputDateValue('departure_date')
+			if (departureDate && value.isAfter(departureDate)) {
+				setValue('departure_date', '')
+				setIndexRefresh(prev => prev + 1)
+			}
+		}
   }
 	
 	/**
@@ -364,5 +374,6 @@ export default function useRegisterVisitForm(onClose: () => void, preFillFormDat
 		isValidForm,
 		emitGetOptionsInterventor,
 		emitGetOptionsApprovers,
+		setIndexRefresh
 	}
 }

@@ -71,11 +71,11 @@ const TRANS = {
 		defaultMessage: "¿Quién autoriza la visita?:",
 		description: "",
 	},
-	label_approver: {
-		id: "RegisterVisitForm.Typography.Label.WhoApproveDocuments",
-		defaultMessage: "¿Quién aprueba los documentos?:",
-		description: "",
-	},
+	// label_approver: {
+	// 	id: "RegisterVisitForm.Typography.Label.WhoApproveDocuments",
+	// 	defaultMessage: "¿Quién aprueba los documentos?:",
+	// 	description: "",
+	// },
 	help_text_search_interventor: {
 		id: "RegisterVisitForm.InputAutocomplete.HelpTextSearchApprover",
 		defaultMessage: "Busca la persona que aprueba la visita",
@@ -117,7 +117,6 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 		register,
 		getInputDateValue,
 		onChangeInputDate,
-		setMinDateDeparture,
 		renderValueDropdown,
 		getCompany,
 		getBranch,
@@ -126,7 +125,7 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 		getGates,
 		isValidForm,
 		emitGetOptionsInterventor,
-		emitGetOptionsApprovers,
+		// emitGetOptionsApprovers,
 	} = useRegisterVisitForm(onClose, preFillFormData, visitId, onSaved)
 
 
@@ -151,12 +150,7 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 								<DateTimePicker
 									key={`entryDatePicer${indexRefresh}`}
 									defaultValue={getInputDateValue('entry_date')}
-									onChange={(date: Moment | null) => {
-										onChangeInputDate('entry_date', date)
-										if(date) {
-											setMinDateDeparture(date.clone().add(5, 'minutes'))
-										}
-									}}
+									onChange={(date: Moment | null) => onChangeInputDate('entry_date', date)}
 									minDate={moment()}
 								/>
 							</Grid>
@@ -221,8 +215,8 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 								/>
 							</Grid>
 
-							{ /* Field: Approver */}
-							<Grid size={12}>
+							{ /* Field: Approver - temporal disabled */}
+							{/* <Grid size={12}>
 								<LabelForm
 									label={TEXTS.label_approver}
 									required={false}
@@ -244,7 +238,7 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 									name="reason"
 									render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
 								/>
-							</Grid>
+							</Grid> */}
 							{
 								// Dropdowns in Form Register visit
 								<DropdownsCompany

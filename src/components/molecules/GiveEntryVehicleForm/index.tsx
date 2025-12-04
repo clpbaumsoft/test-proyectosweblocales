@@ -243,7 +243,6 @@ export default function GiveEntryVehicleForm({ visitor, visit, isEmployee = fals
 						error={error}
 					/>
 					<BoxButtonsForm>
-						
 						<Button
 							variant="contained"
 							sx={{ background: "#CD181B" }}
