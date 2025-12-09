@@ -11,7 +11,11 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        "proquinal-teal": "var(--proquinal-dark-teal)",
       },
+      fontFamily: {
+        inter: 'var(--proquinal-font)',
+      }
     },
   },
   plugins: [],

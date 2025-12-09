@@ -11,10 +11,12 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@heroicons/react": "^2.2.0",
     "@hookform/error-message": "^2.0.1",
     "@mui/icons-material": "^6.4.8",
     "@mui/material": "^6.4.8",
     "@mui/x-date-pickers": "^7.27.0",
+    "@netlify/plugin-nextjs": "^5.11.1",
     "axios": "^1.7.9",
     "dayjs": "^1.11.13",
     "iron-session": "^8.0.4",
@@ -31,8 +33,7 @@
     "react-intl": "^7.1.11",
     "react-toastify": "^11.0.5",
     "swr": "^2.3.2",
-    "xlsx": "^0.18.5",
-    "@netlify/plugin-nextjs": "^5.11.1"
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

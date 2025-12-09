@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;
@@ -26,7 +30,12 @@
   --background: #F2F2F2;
   --foreground: #171717;
   
+  /*** Proquinal font ***/
+  --proquinal-font: "Inter", sans-serif;
+
+  /*** Proquinal colors ***/
 	--proquinal-dark: #20140e;
+  --proquinal-dark-teal: #00575f;
   
   /*** React Toastify overwrites *****/
   --toastify-color-light: var(--mui-palette-common-white);

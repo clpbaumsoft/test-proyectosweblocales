@@ -10,30 +10,13 @@ import MuiConfimModal from "@/packages/mui-confirm-modal/src/components/MuiConfi
 import MuiProvider from "@/providers/MuiProvider";
 
 //Styles
-import { Geist, Geist_Mono, Roboto } from "next/font/google";
 import "./globals.css";
-
-const roboto = Roboto({
-  subsets: ['latin'],
-  weight: ['400', '700'], // Include weights as needed
-});
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { geistMono, geistSans, inter, roboto } from "@/assets/fonts";
 
 export const metadata: Metadata = {
   title: "Registro de Visitas",
   description: "",
 };
-
-
 
 export default async function RootLayout({
   children,
@@ -46,7 +29,7 @@ export default async function RootLayout({
   const locale = acceptLanguage?.split(',')[0];
 
   return (
-    <html lang={locale}>
+    <html lang={locale} className={inter.className}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${roboto.className} antialiased`}
       >
