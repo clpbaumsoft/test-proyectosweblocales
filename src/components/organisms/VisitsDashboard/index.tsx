@@ -93,7 +93,6 @@ const TRANS = {
 }
 
 export default function VisitsDashboard() {
-	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
 

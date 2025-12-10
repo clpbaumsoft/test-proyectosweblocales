@@ -27,7 +27,7 @@
 }
 
 :root {
-  --background: #F2F2F2;
+  --background: #ffffff;
   --foreground: #171717;
   
   /*** Proquinal font ***/
@@ -88,11 +88,15 @@
   /*******************************************/
 }
 
+html {
+  height: 100%;
+}
 
 body {
   color: var(--foreground);
   background-color: var(--background) !important;
   font-family: Arial, Helvetica, sans-serif;
+  height: 100%;
 }
 
 .c-datepicker * {

@@ -12,7 +12,7 @@ export default function Button({ text, type, icon, onClick, disabled }: ButtonPr
         bg-proquinal-teal 
         px-3.5 
         py-2.5 
-        text-[12px] 
+        text-[14px] 
         font-semibold 
         text-white 
         shadow-sm 
