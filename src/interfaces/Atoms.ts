@@ -3,7 +3,7 @@ import { PickerChangeHandlerContext } from "@mui/x-date-pickers";
 
 import type { RefObject } from "react";
 import type { Moment } from "moment";
-import type { AlertColor, ButtonProps, InputProps, SxProps, TextFieldProps, Theme } from "@mui/material";
+import type { AlertColor, InputProps, SxProps, TextFieldProps, Theme } from "@mui/material";
 
 import {
 	ArrayActionsType,
@@ -181,4 +181,40 @@ export type TabPanelProps = BaseComponentProps & {
 export type LabelFormProps = BaseComponentProps & {
 	label: string;
 	required?: boolean;
+}
+
+export type ButtonProps = BaseComponentProps & {
+  type?: "button" | "submit" | "reset";
+  text?: string;
+  icon?: React.ReactNode;
+  disabled?: boolean;
+  onClick?: () => void;
+}
+
+export type SelectProps = BaseComponentProps & {
+	name?: string;
+	value?: string;
+	disabled?: boolean;
+	onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+	options?: { label: string; value: string }[];
+}
+
+export type InputGroupProps = BaseComponentProps & {
+	name?: string;
+	type?: string;
+	placeholder?: string;
+	value?: string | number;
+	disabled?: boolean;
+	onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+export type TableProps = BaseComponentProps & {
+  tableHeads: string[]
+  tableRows?: ReactNode[]
+  isLoading?: boolean
+  loadingMessage?: string
+  emptyMessage?: string
+  loadingComponent?: ReactNode
+  emptyComponent?: ReactNode
+  className?: string
 }

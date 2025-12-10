@@ -33,7 +33,7 @@ export default function MainSidebarV2({ children }: { children: React.ReactNode 
             gap-x-4 
             border-b 
             border-gray-200 
-            bg-[#fdfdfd] 
+            bg-[#dedede] 
             px-4 
             shadow-sm 
             sm:gap-x-6 

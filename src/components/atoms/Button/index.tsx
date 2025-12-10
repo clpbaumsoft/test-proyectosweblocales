@@ -1,4 +1,4 @@
-import { ButtonProps } from "./models";
+import { ButtonProps } from "@/interfaces/Atoms";
 
 export default function Button({ text, type, icon, onClick, disabled }: ButtonProps) {
   return (

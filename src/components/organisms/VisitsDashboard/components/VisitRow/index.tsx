@@ -1,72 +1,49 @@
-//React and Modules
-import {
-	TableCell,
-	TableRow,
-	Typography,
-} from "@mui/material";
-
-//Components
 import VisitRowActions from "../VisitRowActions";
 import WarningCondition from "@/components/atoms/WarningCondition";
-
-//Constants
 import { VISIT_STATUS_NAMES } from "@/constants/Visit";
-
-//Lib
 import { formatsDate, isBetweenDates, now } from "@/lib/Helpers";
-
-//Hooks
 import useVisitRow from "./useVisitRow";
-
-//Interfaces and types
 import { VisitRowProps } from "@/interfaces/Molecules";
-
-//Styles
 import styles from "./VisitRow.module.scss";
+import { Fragment } from "react";
 
 export default function VisitRow({ row }: VisitRowProps) {
-
 	const {
 		stateVisit,
 		setStateVisit,
 	} = useVisitRow(row)
 
 	return (
-		<>
-			<TableRow
-				className={`${styles.visitRow} relative`}
-				sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-			>
-				<TableCell component="th" scope="row" align="center">
-					<b>{stateVisit.id}</b>
-				</TableCell>
-				<TableCell component="th" scope="row" align="center">
-					<label className={`${styles.labelStatus} ${styles[`ref${stateVisit.status}`]}`}>{VISIT_STATUS_NAMES[stateVisit.status]}</label>
-				</TableCell>
-
-				<TableCell sx={{ gap: '8px',display: 'flex', flexDirection: { xs: 'column', xl: 'row'}, whiteSpace: {xs:'wrap' , xl:'nowrap'} }}>
-					<Typography>{stateVisit.reason}</Typography>
-					<WarningCondition severity="info" condition={!isBetweenDates(stateVisit.start_date, stateVisit.end_date, now())}>
-						{formatsDate(stateVisit.start_date)} - {formatsDate(stateVisit.end_date)}
-					</WarningCondition>
-				</TableCell>
-				
-				<TableCell align="center" sx={{ whiteSpace: {xs:'wrap' , xl:'nowrap'} }}>
-					{stateVisit.company_name}
-				</TableCell>
-				<TableCell align="center" sx={{ whiteSpace: {xs:'wrap' , xl:'nowrap'} }}>
-					{stateVisit.branch_name}
-				</TableCell>
-				<TableCell align="center" sx={{ whiteSpace: {xs:'wrap' , xl:'nowrap'} }}>
-					{stateVisit.gate_name}
-				</TableCell>
-				<TableCell align="center">
-					<VisitRowActions
-						setRowData={setStateVisit}
-						rowData={stateVisit}
-					/>
-				</TableCell>
-			</TableRow>
-		</>
+		<Fragment>
+			<td className="text-center font-inter text-sm">
+				<b className="text-sm">{stateVisit.id}</b>
+			</td>
+			<td className="text-center font-inter text-sm">
+				<label className={`${styles.labelStatus} ${styles[`ref${stateVisit.status}`]}`}>
+					{VISIT_STATUS_NAMES[stateVisit.status]}
+				</label>
+			</td>
+			<td className="text-center font-inter text-sm">
+				<span>{stateVisit.reason}</span>
+				<WarningCondition severity="info" condition={!isBetweenDates(stateVisit.start_date, stateVisit.end_date, now())}>
+					{formatsDate(stateVisit.start_date)} - {formatsDate(stateVisit.end_date)}
+				</WarningCondition>
+			</td>
+			<td className="text-center font-inter text-sm">
+				{stateVisit.company_name}
+			</td>
+			<td className="text-center font-inter text-sm">
+				{stateVisit.branch_name}
+			</td>
+			<td className="text-center font-inter text-sm">
+				{stateVisit.gate_name}
+			</td>
+			<td className="text-center font-inter text-sm">
+				<VisitRowActions
+					setRowData={setStateVisit}
+					rowData={stateVisit}
+				/>
+			</td>
+		</Fragment>
 	)
 }

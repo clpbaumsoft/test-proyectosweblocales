@@ -1,23 +1,16 @@
 "use client"
 
-//Components
-import MainSidebar from "@/components/molecules/MainSidebar";
 import EntryDashboard from "@/components/organisms/EntryDashboard";
-
-//Interfaces and types
 import { PageAuthProps } from "@/interfaces/General";
-
-//Providers
 import SessionProvider from "@/providers/SessionProvider";
+import MainSidebarV2 from "../molecules/MainSidebarV2";
 
 export default function PageEntryControl({ userLogged }: PageAuthProps) {
 	return (
-		<>
-			<SessionProvider serverUser={userLogged}>
-				<MainSidebar>
-					<EntryDashboard />
-				</MainSidebar>
-			</SessionProvider>
-		</>
+		<SessionProvider serverUser={userLogged}>
+			<MainSidebarV2>
+				<EntryDashboard />
+			</MainSidebarV2>
+		</SessionProvider>
 	)
 }

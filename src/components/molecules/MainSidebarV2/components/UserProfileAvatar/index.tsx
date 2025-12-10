@@ -5,10 +5,6 @@ import useMainSidebar from '@/components/molecules/MainSidebar/useMainSidebar'
 
 const UserProfileAvatar = () => {
   const { loggedUser, handleLogout } = useMainSidebar()
-  const avatarLetter = 
-    loggedUser?.fullname 
-      ? `${loggedUser.fullname.charAt(0).toUpperCase()}${loggedUser.first_last_name.charAt(0).toUpperCase()}` 
-      : ''
 
   const USER_NAVIGATION = [
     { name: 'Cerrar Sesión', onClick: handleLogout },
@@ -22,7 +18,9 @@ const UserProfileAvatar = () => {
             <span className="absolute -inset-1.5" />
             <span className="sr-only">Open user menu</span>
             <div className="size-8 rounded-full bg-gray-50 outline outline-1 -outline-offset-1 outline-black/5 flex items-center justify-center dark:bg-gray-800 dark:outline-white/10">
-              <span className="font-medium text-gray-900 dark:text-white font-inter">{avatarLetter}</span>
+              <span className="font-medium text-gray-900 dark:text-white font-inter">
+                {loggedUser.getFirstLetters()}
+              </span>
             </div>
             <span className="hidden text-start font-inter lg:flex lg:items-center">
               <span aria-hidden="true" className="ml-4 text-sm/6 font-semibold text-gray-900 dark:text-white">

@@ -1,7 +1,8 @@
+import { InputGroupProps } from "@/interfaces/Atoms";
 import { EyeIcon } from "@heroicons/react/16/solid";
 import { useState } from "react";
 
-export default function InputGroup({ name, type, placeholder, ...props }: { name?: string; type?: string; placeholder?: string }) {
+export default function InputGroup({ name, type, placeholder, ...props }: InputGroupProps) {
   const isPasswordType = type === "password";
   const [showPassword, setShowPassword] = useState(false);
 

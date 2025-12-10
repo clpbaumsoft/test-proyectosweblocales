@@ -1,9 +1,7 @@
 
 //React and Modules
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import type { MouseEvent, ChangeEvent } from "react";
-import type { SelectChangeEvent } from "@mui/material";
-
 
 //Constants
 import { ROWS_PER_PAGE } from "@/constants/Globals";
@@ -137,7 +135,7 @@ export default function useVisitsDashboard() {
 	/**
 	 * On change event function when the select for the filter changes.
 	 */
-	const onChangeFilter = async (e: SelectChangeEvent<string>) => {
+	const onChangeFilter = async (e: React.ChangeEvent<HTMLSelectElement>) => {
 		setFilter(e.target.value)
 		setVisitIdFilter('') // Reset visit ID filter when changing status filter
 		setAllVisitsLoaded(false) // Reset to reload all visits with new filter

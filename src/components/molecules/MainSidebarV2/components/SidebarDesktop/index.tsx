@@ -1,24 +1,40 @@
 import Image from 'next/image'
 import React from 'react'
-import { NAVIGATION_ITEMS } from '../../constants'
 import classNames from 'classnames'
 import useMainSidebar from '@/components/molecules/MainSidebar/useMainSidebar'
+import {
+  CalendarIcon,
+  ChartPieIcon,
+  DocumentDuplicateIcon,
+  FolderIcon,
+  HomeIcon,
+  UsersIcon,
+} from '@heroicons/react/24/outline'
+import PAGES from '@/constants/Pages'
 
 const SidebarDesktop = () => {
+  // const {
+  //   loggedUser,
+  //   anchorEl,
+  //   menuOpen,
+  //   showForm,
+  //   drawerOpen,
+  //   handleLogout,
+  //   handleMenuClose,
+  //   handleCloseForm,
+  //   handleMenuClick,
+  //   onClickOpenModalRegisterVisit,
+  //   toggleDrawer,
+  // } = useMainSidebar()
 
-  const {
-    loggedUser,
-    anchorEl,
-    menuOpen,
-    showForm,
-    drawerOpen,
-    handleLogout,
-    handleMenuClose,
-    handleCloseForm,
-    handleMenuClick,
-    onClickOpenModalRegisterVisit,
-    toggleDrawer,
-  } = useMainSidebar()
+  const NAVIGATION_ITEMS = [
+    { name: 'Inicio', href: PAGES.home, icon: HomeIcon, current: true },
+    { name: 'Programar Visita', href: '#', icon: UsersIcon, current: false },
+    { name: 'Control Ingreso', href: PAGES.dashboard_entry, icon: FolderIcon, current: false },
+    { name: 'Restringir/Habilitar usuarios', href: PAGES.dashboard_restricted_users, icon: CalendarIcon, current: false },
+    { name: 'Control Empleados', href: PAGES.dashboard_employees, icon: DocumentDuplicateIcon, current: false },
+    { name: 'Capacitaciones', href: PAGES.trainings, icon: ChartPieIcon, current: false },
+  ]
 
   return (
     <div className="hidden bg-proquinal-teal ring-1 ring-white/10 lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">

@@ -1,12 +1,14 @@
+import { SelectProps } from '@/interfaces/Atoms'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
-import { SelectProps } from './models'
 
-export default function Select({ name, options, ...props }: SelectProps) {
+export default function Select({ name, value, disabled, options, onChange, ...props }: SelectProps) {
   return (
     <div className="mt-2 grid grid-cols-1 font-inter">
       <select
         id={name}
         name={name}
+        value={value}
+        disabled={disabled}
         className={`
           col-start-1 
           row-start-1 
@@ -35,6 +37,7 @@ export default function Select({ name, options, ...props }: SelectProps) {
           dark:*:bg-gray-800 
         `}
         {...props}
+        onChange={onChange}
       >
         {options && options.map(({ label, value }) => (
           <option key={value} value={value} className='text-black'>
