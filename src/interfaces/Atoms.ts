@@ -112,6 +112,8 @@ export type CounterTextFieldProps = BaseComponentProps & {
 
 export type CustomDatePickerProps<TValue, TError> = BaseComponentProps & {
 	label?: string;
+	minDate?: Moment | null;
+	defaultValue?: TValue;
 	inputProps?: TextFieldProps;
 	onChange?: (value: TValue, context: PickerChangeHandlerContext<TError>) => void;
 }
@@ -186,6 +188,7 @@ export type LabelFormProps = BaseComponentProps & {
 export type ButtonProps = BaseComponentProps & {
   type?: "button" | "submit" | "reset";
   text?: string;
+	variant?: "filled" | "outlined";
   icon?: React.ReactNode;
   disabled?: boolean;
   onClick?: () => void;
@@ -193,10 +196,10 @@ export type ButtonProps = BaseComponentProps & {
 
 export type SelectProps = BaseComponentProps & {
 	name?: string;
-	value?: string;
+	value?: string | number;
 	disabled?: boolean;
 	onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-	options?: { label: string; value: string }[];
+	options?: { label: string; value: string | number }[];
 }
 
 export type InputGroupProps = BaseComponentProps & {

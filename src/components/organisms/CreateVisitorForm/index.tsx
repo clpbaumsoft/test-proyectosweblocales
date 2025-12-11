@@ -7,128 +7,19 @@ import {
 import Grid from "@mui/material/Grid2";
 import { Controller } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-
-//Components
 import ButtonFile from "@/components/atoms/ButtonFile";
 import DropdownLoadedItems from "@/components/atoms/DropdownLoadedItems";
 import FormMessages from "@/components/atoms/FormMessages";
 import FullLoader from "@/components/atoms/FullLoader";
 import LabelForm from "@/components/atoms/LabelForm";
 import SelectLoadedItems from "@/components/atoms/SelectLoadedItems";
-
-//Constants
 import { GTRANS } from "@/constants/Globals";
-
-//Hooks
 import useCreateVisitorForm from "./useCreateVisitorForm"
 import useTranslation from "@/hooks/useTranslation";
-
-//Interfaces and types
 import { CreateVisitorFormProps } from "@/interfaces/Organisms";
-
-//Styles
 import { BoxButtonsForm, HeadingForm, SpaceBtn } from "@/styles/elements";
 import { ButtonViewRestrictedUser } from "@/components/atoms/ButtonViewRestrictedUser/ButtonViewRestrictedUser";
-
-//Texts
-const TRANS = {
-	title_form: {
-		id: "CreateVisitorForm.HeadingForm.TitleForm",
-		defaultMessage: "Registrar Visitante",
-		description: "",
-	},
-	label_identity_number: {
-		id: "CreateVisitorForm.Typography.Label.IdentityNumber",
-		defaultMessage: "Número de identificación",
-		description: "",
-	},
-	label_visitor_type: {
-		id: "CreateVisitorForm.Typography.Label.VisitorType",
-		defaultMessage: "Tipo visitante",
-		description: "",
-	},
-	label_identification_type: {
-		id: "CreateVisitorForm.Typography.Label.IdentificationType",
-		defaultMessage: "Tipo identificación",
-		description: "",
-	},
-	label_identification_number: {
-		id: "CreateVisitorForm.Typography.Label.IdentificationNumber",
-		defaultMessage: "Identificación",
-		description: "",
-	},
-	label_first_name: {
-		id: "CreateVisitorForm.Typography.Label.FirstName",
-		defaultMessage: "Primer nombre",
-		description: "",
-	},
-	label_middle_name: {
-		id: "CreateVisitorForm.Typography.Label.MiddleName",
-		defaultMessage: "Segundo nombre",
-		description: "",
-	},
-	label_first_last_name: {
-		id: "CreateVisitorForm.Typography.Label.FirstLastName",
-		defaultMessage: "Primer apellido",
-		description: "",
-	},
-	label_second_last_name: {
-		id: "CreateVisitorForm.Typography.Label.SecondLastName",
-		defaultMessage: "Segundo apellido",
-		description: "",
-	},
-	label_phone: {
-		id: "CreateVisitorForm.Typography.Label.Phone",
-		defaultMessage: "Teléfono",
-		description: "",
-	},
-	label_address: {
-		id: "CreateVisitorForm.Typography.Label.Address",
-		defaultMessage: "Dirección",
-		description: "",
-	},
-	label_emergency_contact_name: {
-		id: "CreateVisitorForm.Typography.Label.EmergencyContactName",
-		defaultMessage: "Contacto de emergencia",
-		description: "",
-	},
-	label_emergency_contact_phone: {
-		id: "CreateVisitorForm.Typography.Label.EmergencyContactPhone",
-		defaultMessage: "Teléfono contacto de emergencia",
-		description: "",
-	},
-	label_city: {
-		id: "CreateVisitorForm.Typography.Label.City",
-		defaultMessage: "Ciudad",
-		description: "",
-	},
-	label_photo: {
-		id: "CreateVisitorForm.Typography.Label.Photo",
-		defaultMessage: "Fotografía",
-		description: "",
-	},
-	choose_photo: {
-		id: "CreateVisitorForm.ButtonFile.ChoosePhoto",
-		defaultMessage: "Selecciona",
-		description: "",
-	},
-	label_social_security: {
-		id: "CreateVisitorForm.Typography.Label.SocialSecurity",
-		defaultMessage: "EPS",
-		description: "",
-	},
-	label_arl: {
-		id: "CreateVisitorForm.Typography.Label.Arl",
-		defaultMessage: "ARL",
-		description: "",
-	},
-	save: {
-		id: "CreateVisitorForm.Typography.Label.Save",
-		defaultMessage: "Agregar",
-		description: "",
-	},
-}
-
+import { TRANS } from "./constants";
 
 export default function CreateVisitorForm({ 
 	visitId, 
@@ -165,11 +56,9 @@ export default function CreateVisitorForm({
 	return (
 		<>
 			<div>
-				{
-					isInnerLoading && (
-						<FullLoader variant="absolute" />
-					)
-				}
+				{isInnerLoading && (
+					<FullLoader variant="absolute" />
+				)}
 				<form onSubmit={handleSubmit(onSubmit, onError)}>
 					<HeadingForm>{cutomTitleForm ? cutomTitleForm : TEXTS.title_form}</HeadingForm>
 					<Grid container spacing={3}>

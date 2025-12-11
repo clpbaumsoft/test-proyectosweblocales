@@ -1,18 +1,11 @@
 import {
 	Autocomplete,
 	Box,
-	Paper,
 	TextField,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-
-//Components
 import { InputAutocompleteProps } from "@/interfaces/Atoms";
-
-//Constants
 import { GTRANS } from "@/constants/Globals";
-
-//Hooks
 import useInputAutocomplete from "./useInputAutocomplete";
 import useTranslation from "@/hooks/useTranslation";
 
@@ -30,7 +23,6 @@ export default function InputAutocomplete({
 	emitGetOptions,
 	helpText,
 }: InputAutocompleteProps) {
-
 	const GTEXTS = useTranslation(GTRANS)
 	const TEXTS = useTranslation(TRANS)
 
@@ -46,9 +38,6 @@ export default function InputAutocomplete({
 		<Autocomplete
 			getOptionLabel={(option) => option?.label || ""}
 			filterOptions={(x) => x}
-			slots={{
-				paper: Paper,
-			}}
 			options={options}
 			autoComplete
 			includeInputInList
@@ -59,28 +48,47 @@ export default function InputAutocomplete({
 			noOptionsText={GTEXTS.no_results}
 			onChange={onChangeAutocomplete}
 			onInputChange={onInputChange}
+			sx={{
+				'& .MuiOutlinedInput-root': {
+					borderRadius: '0.375rem',
+					'&:hover .MuiOutlinedInput-notchedOutline': {
+						borderColor: '#00575f',
+					},
+					'&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+						borderColor: '#00575f',
+						borderWidth: '2px',
+					},
+				},
+				'& .MuiInputBase-input': {
+					fontSize: '0.875rem',
+					padding: '0.625rem 0.875rem',
+				},
+			}}
+			slotProps={{
+				paper: {
+					sx: {
+						borderRadius: '0.5rem',
+						marginTop: '0.25rem',
+						boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
+					},
+				},
+			}}
 			renderInput={(params) => (
 				<TextField 
 					{...params} 
 					placeholder={defaultValue || TEXTS.search_dots} 
 					fullWidth 
 					size="small" 
-					helperText={helpText} 
+					helperText={helpText}
 				/>
 			)}
 			renderOption={(props, option) => {
 				const { key, ...optionProps } = props;
-
 				return (
 					<li key={key} {...optionProps}>
 						<Grid container sx={{ alignItems: 'center' }}>
 							<Grid sx={{ wordWrap: 'break-word' }}>
-								<Box
-									component="span"
-									sx={{
-										fontWeight: 'fontWeightBold',
-									}}
-								>
+								<Box component="span"sx={{ fontWeight: 'fontWeightBold' }}>
 									{option.label}
 								</Box>
 							</Grid>

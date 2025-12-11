@@ -1,47 +1,28 @@
-import Image from 'next/image'
-import React from 'react'
-import classNames from 'classnames'
 import useMainSidebar from '@/components/molecules/MainSidebar/useMainSidebar'
-import {
-  CalendarIcon,
-  ChartPieIcon,
-  DocumentDuplicateIcon,
-  FolderIcon,
-  HomeIcon,
-  UsersIcon,
-} from '@heroicons/react/24/outline'
-import PAGES from '@/constants/Pages'
+import RegisterVisitForm from '@/components/molecules/RegisterVisitForm'
+import classNames from 'classnames'
+import Image from 'next/image'
+import { constructNavigationItems } from './utils'
 
 const SidebarDesktop = () => {
-  // const {
-  //   loggedUser,
-  //   anchorEl,
-  //   menuOpen,
-  //   showForm,
-  //   drawerOpen,
-  //   handleLogout,
-  //   handleMenuClose,
-  //   handleCloseForm,
-  //   handleMenuClick,
-  //   onClickOpenModalRegisterVisit,
-  //   toggleDrawer,
-  // } = useMainSidebar()
-
-  const NAVIGATION_ITEMS = [
-    { name: 'Inicio', href: PAGES.home, icon: HomeIcon, current: true },
-    { name: 'Programar Visita', href: '#', icon: UsersIcon, current: false },
-    { name: 'Control Ingreso', href: PAGES.dashboard_entry, icon: FolderIcon, current: false },
-    { name: 'Restringir/Habilitar usuarios', href: PAGES.dashboard_restricted_users, icon: CalendarIcon, current: false },
-    { name: 'Control Empleados', href: PAGES.dashboard_employees, icon: DocumentDuplicateIcon, current: false },
-    { name: 'Capacitaciones', href: PAGES.trainings, icon: ChartPieIcon, current: false },
-  ]
-
+  const {
+    loggedUser,
+    showForm,
+    handleCloseForm,
+    onClickOpenModalRegisterVisit,
+  } = useMainSidebar()
+  const NAVIGATION_ITEMS = constructNavigationItems(loggedUser);
+  
   return (
     <div className="hidden bg-proquinal-teal ring-1 ring-white/10 lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+      <RegisterVisitForm 
+        open={showForm} 
+        onClose={handleCloseForm} 
+      />
       <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-black/10 px-6 pb-4">
         <div className="flex h-16 shrink-0 items-center mt-2">
           <Image
-            src="images/logos/logo-proquinal.png"
+            src="/images/logos/logo-proquinal.png"
             alt="Your Company"
             width={140}
             height={32}
@@ -60,6 +41,7 @@ const SidebarDesktop = () => {
                         'text-white hover:bg-white/5 hover:text-white': !item.current,
                         'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-white': true
                       })}
+                      onClick={item.name === 'Programar Visita' ? onClickOpenModalRegisterVisit : undefined}
                     >
                       <item.icon aria-hidden="true" className="size-6 shrink-0" />
                       {item.name}

@@ -3,79 +3,42 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import type { Moment } from "moment";
 import type { DateValidationError } from "@mui/x-date-pickers";
-
-//Hooks
 import useTranslation from "@/hooks/useTranslation";
-
-//Interfaces and types
 import { CustomDatePickerProps } from "@/interfaces/Atoms";
+import { TRANS } from "./constants";
 
-const TRANS = {
-	toolbar_title: {
-		id: "CustomDatePicker.DatePicker.Choose",
-		defaultMessage: "Seleccionar",
-		description: "",
-	},
-	previous_month: {
-		id: "CustomDatePicker.DatePicker.PreviousMonth",
-		defaultMessage: "Mes anterior",
-		description: "",
-	},
-	next_month: {
-		id: "CustomDatePicker.DatePicker.NextMonth",
-		defaultMessage: "Mes siguiente",
-		description: "",
-	},
-	label_cancel_button: {
-		id: "CustomDatePicker.DatePicker.Button.Cancel",
-		defaultMessage: "Cancelar",
-		description: "",
-	},
-	label_clear_button: {
-		id: "CustomDatePicker.DatePicker.Button.Clean",
-		defaultMessage: "Limpiar",
-		description: "",
-	},
-	label_ok_button: {
-		id: "CustomDatePicker.DatePicker.Button.Accept",
-		defaultMessage: "Aceptar",
-		description: "",
-	},
-	label_today_button: {
-		id: "CustomDatePicker.DatePicker.Button.Today",
-		defaultMessage: "Hoy",
-		description: "",
-	},
-	open_previous_view: {
-		id: "CustomDatePicker.DatePicker.SeePrevious",
-		defaultMessage: "Ver anterior",
-		description: "",
-	},
-	open_next_view: {
-		id: "CustomDatePicker.DatePicker.SeeNext",
-		defaultMessage: "Ver siguiente",
-		description: "",
-	},
-	start: {
-		id: "CustomDatePicker.DatePicker.Home",
-		defaultMessage: "Inicio",
-		description: "",
-	},
-	end: {
-		id: "CustomDatePicker.DatePicker.End",
-		defaultMessage: "Fin",
-		description: "",
-	},
+const styles = {
+  '& .MuiOutlinedInput-root': {
+    borderRadius: '0.375rem',
+    '&:hover fieldset': {
+      borderColor: '#9ca3af',
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: '#00575f',
+      borderWidth: '2px',
+    },
+  },
+  '& .MuiInputBase-input': {
+    fontSize: '0.875rem',
+    padding: '0.625rem 0.875rem',
+  },
+  '& .MuiInputLabel-root': {
+    fontSize: '0.875rem',
+    '&.Mui-focused': {
+      color: '#00575f',
+    },
+  },
 }
 
-export default function CustomDatePicker({ label, onChange, inputProps }: CustomDatePickerProps<Moment | null, DateValidationError>) {
-
+export default function CustomDatePicker({ label, defaultValue, minDate, onChange, inputProps }: CustomDatePickerProps<Moment | null, DateValidationError>) {
 	const TEXTS = useTranslation(TRANS)
 	return (
 		<>
 			<LocalizationProvider dateAdapter={AdapterMoment} adapterLocale="es">
 				<DatePicker
 					label={label}
+					defaultValue={defaultValue || null}
+					minDate={minDate || null}
 					onChange={onChange}
 					localeText={{
 						toolbarTitle: TEXTS.toolbar_title,
@@ -98,6 +61,7 @@ export default function CustomDatePicker({ label, onChange, inputProps }: Custom
 						},
 						textField: inputProps
 					}}
+					sx={styles}
 				/>
 			</LocalizationProvider>
 		</>

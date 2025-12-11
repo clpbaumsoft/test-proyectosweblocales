@@ -89,21 +89,25 @@ export default function VisitsDashboard() {
 					loadingMessage="Cargando visitas..."
 					emptyMessage="No hay visitas registradas"
 				/>
-				{(!(isInnerLoading || isInnerLoadingFirstTime) && visitsRows.length !== 0) && (
-					<TableFooter>
-						<TablePagination
-							rowsPerPageOptions={[5, 10, 25]}
-							colSpan={7}
-							count={total}
-							rowsPerPage={rowsPerPage}
-							page={page}
-							labelRowsPerPage={GTEXTS.rows_per_page}
-							onPageChange={handleChangePage}
-							onRowsPerPageChange={handleChangeRowsPerPage}
-							ActionsComponent={TablePaginationActions}
-						/>
+				<table className="w-full">
+					{(!(isInnerLoading || isInnerLoadingFirstTime) && visitsRows.length !== 0) && (
+						<TableFooter>
+							<tr>
+								<TablePagination
+									rowsPerPageOptions={[5, 10, 25]}
+									colSpan={7}
+									count={total}
+									rowsPerPage={rowsPerPage}
+									page={page}
+									labelRowsPerPage={GTEXTS.rows_per_page}
+									onPageChange={handleChangePage}
+									onRowsPerPageChange={handleChangeRowsPerPage}
+									ActionsComponent={TablePaginationActions}
+								/>
+							</tr>
 						</TableFooter>
 					)}
+				</table>
 			</TableVisitsProvider>
 		</Fragment>
 	)
