@@ -40,12 +40,36 @@ export default function Button({ text, type, variant = "filled", icon, onClick, 
     dark:shadow-none
   `
 
+  const disabledClasses = `
+    font-inter 
+    rounded-md 
+    bg-[#dedede] 
+    px-3.5 
+    py-2.5 
+    text-[14px] 
+    font-semibold 
+    text-[#949494] 
+    shadow-sm 
+    cursor-pointer
+    hover:bg-proquinal-teal/80 
+    focus-visible:outline 
+    focus-visible:outline-2 
+    focus-visible:outline-offset-2 
+    dark:shadow-none
+  `
+
   return (
     <button
       type={type || "button"}
       onClick={onClick}
       disabled={disabled}
-      className={variant === "outlined" ? outlined : filled}
+      className={
+        disabled
+          ? disabledClasses
+          : variant === "filled"
+            ? filled
+            : outlined
+      }
     >
       {icon && icon}
       {text}

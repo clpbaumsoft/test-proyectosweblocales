@@ -1,12 +1,13 @@
 import { createTheme } from "@mui/material/styles";
 
+const proquinalDarkTeal = "#00575f";
+
 const theme = createTheme({
   cssVariables: true,
   palette: {
     primary: {
-      main: "#E06E1F",
+      main: proquinalDarkTeal,
       light: "#f47522",
-      //dark: "#ea5c1f",
       contrastText: "#fff",
     },
     secondary: {
@@ -17,7 +18,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: ["Roboto", "sans-serif"].join(","),
+    fontFamily: ["Inter", "sans-serif"].join(","),
   },
 });
 
