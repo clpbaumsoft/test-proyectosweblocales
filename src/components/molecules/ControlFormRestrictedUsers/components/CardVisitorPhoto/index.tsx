@@ -1,79 +1,17 @@
-import { Box, Button, Typography } from "@mui/material";
+import TakePhoto from "@/components/atoms/TakePhoto";
+import useTranslation from "@/hooks/useTranslation";
+import { CardVisitorProps } from "@/interfaces/Atoms";
+import { formatsDate, mediaUrl } from "@/lib/Helpers";
 import PersonOffIcon from '@mui/icons-material/PersonOff';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
-
-
-//Components
-import LabelItem from "@/components/atoms/LabelItem";
-import TakePhoto from "@/components/atoms/TakePhoto";
-import ModalRestrictedUserForm from "../ModalRestrictedUserForm";
-
-//Constants
-
-
-//Hooks
-
-import useTranslation from "@/hooks/useTranslation";
-
-//Interfaces and types
-import { CardVisitorProps } from "@/interfaces/Atoms";
-
-//Lib
-import { formatsDate, mediaUrl } from "@/lib/Helpers";
-import useCardVisitorPhotoRestrictedUser from "./useCardVisitorPhotoRestrictedUser";
+import { Button } from "@mui/material";
 import { useState } from "react";
-
-//Styles
-
-
-//Texts
-const TRANS = {
-	label_card_visitor_type: {
-		id: "CardVisitorPhotoRestrictedUser.LabelItem.Label.labelCardVisitorType",
-		defaultMessage: "Tipo de visitante:",
-		description: "",
-	},
-	label_card_id: {
-		id: "CardVisitorPhotoRestrictedUser.LabelItem.Label.LabelCardId",
-		defaultMessage: "Documento #:",
-		description: "",
-	},
-	label_card_phone: {
-		id: "CardVisitorPhotoRestrictedUser.LabelItem.Label.LabelCardPhone",
-		defaultMessage: "Teléfono:",
-		description: "",
-	},
-	label_card_address: {
-		id: "CardVisitorPhotoRestrictedUser.LabelItem.Label.LabelCardAddress",
-		defaultMessage: "Dirección:",
-		description: "",
-	},
-	label_is_restricted_user: {
-		id: "CardVisitorPhotoRestrictedUser.LabelItem.Label.LabelHasSgsst",
-		defaultMessage: "Estado de restricción:",
-		description: "",
-	},
-	label_comment_banned_user: {
-		id: "CardVisitorPhotoRestrictedUser.LabelItem.Label.LabelHasSgsst",
-		defaultMessage: "Razón de restricción:",
-		description: "",
-	},
-	label_button_action_restricted_user: {
-		id: "CardVisitorPhotoRestrictedUser.LabelItem.Label.LabelHasSgsst",
-		defaultMessage: "Restringir usuario",
-		description: "",
-	},
-	label_button_action_available_user: {
-		id: "CardVisitorPhotoRestrictedUser.LabelItem.Label.LabelHasSgsst",
-		defaultMessage: "Habilitar usuario",
-		description: "",
-	},
-}
+import ModalRestrictedUserForm from "../ModalRestrictedUserForm";
+import { TRANS } from "./constants";
+import useCardVisitorPhotoRestrictedUser from "./useCardVisitorPhotoRestrictedUser";
 
 export default function CardVisitorPhotoRestrictedUser({ visitor }: CardVisitorProps) {
-		
 	const TEXTS = useTranslation(TRANS)
-
 	const [isOpenModalRestrictedUser, setIsOpenModalRestrictedUser] = useState(false)
 	
 	const toggleModalRestrictedUser = () => {
@@ -84,131 +22,90 @@ export default function CardVisitorPhotoRestrictedUser({ visitor }: CardVisitorP
 		onSavePhotoVisitor,
 	} = useCardVisitorPhotoRestrictedUser(visitor)
 	
-	if(!visitor) {
-		return <></>
-	}
-	
+	if(!visitor) return null;
 	return (
-		<>
-			<Box 
-				sx={(theme) => ({
-					border: visitor?.is_currently_banned ? '2px solid #EA5C1F' : '2px solid green',
-					borderRadius: 'var(--mui-shape-borderRadius)',
-					display: 'table',
-					p: '15px',
-					m: '15px auto',
-					width: '100%',
-					[theme.breakpoints.up('md')]: {
-						width: 'auto',
-						minWidth: '800px',
-					},
-				})}
-			>
-				<Box 
-					sx={(theme) => ({
-						display: 'table',
-						mx: 'auto',
-						[theme.breakpoints.up('md')]: {
-							display: 'flex',
-						},
-					})}
-				>
-					{/* cargar o tomar foto */}
-					<Box sx={{ mb: '15px' }}>
-						<Box sx={{ display: 'table' }}>
-							<TakePhoto
-								preview={visitor.photo_url ? mediaUrl(visitor.id, 'foto-visitante') : null}
-								isButtonActive={false}
-								onSavePhoto={onSavePhotoVisitor}
-							/>
-						</Box>
-					</Box>
+		<div className="overflow-hidden rounded-lg bg-white shadow max-w-[740px] mx-auto mt-10">
+			<div className="px-4 py-5 sm:p-6 border">
+				<div className="mb-[15px] flex">
+					<TakePhoto
+						preview={visitor.photo_url ? mediaUrl(visitor.id, 'foto-visitante') : null}
+						isButtonActive={false}
+						onSavePhoto={onSavePhotoVisitor}
+					/>
+				</div>
+				<div>
+					<div>
+						<div className="flex justify-between items-center">
+							<div>
+								<h1 className="text-[24px] font-semibold font-inter">{visitor.fullname}</h1>
+								<div>
+									<p className="text-[16px] font-semibold">{TEXTS.label_card_id}</p>
+									<p className="text-[12px] text-[#767676]">{visitor.identification_number}</p>
+								</div>
+							</div>
+							<span className="inline-flex items-center gap-x-1.5 rounded-full bg-green-100 px-2 text-xs font-medium text-green-700">
+								<svg viewBox="0 0 6 6" aria-hidden="true" className="size-1.5 fill-green-500">
+									<circle r={3} cx={3} cy={3} />
+								</svg>
+								{visitor?.is_currently_banned ? 'RESTRINGIDO' : 'HABILITADO'}
+							</span>
+						</div>
+						<hr className="my-4" />
+						<section className="flex">
+							<div className="w-6/12">
+								<div className="mb-[10px] text-gray-600">
+									<p className='font-semibold text-[16px]'>{TEXTS.label_card_address}</p>
+									<span>{visitor.address}</span>
+								</div>
+							</div>
+							<div className="w-6/12">
+								<div className="mb-[10px] text-gray-600">
+									<p className='font-semibold text-[16px]'>{TEXTS.label_card_phone}</p>
+									<span>{visitor.phone}</span>
+								</div>
+							</div>
+						</section>
+						<section className="flex">
+							<div className="w-6/12">
+								<div className="mb-[10px] text-gray-600">
+									<p className='font-semibold text-[16px]'>{TEXTS.label_is_restricted_user}</p>
+									<span>{visitor?.is_currently_banned ? 'Restringido' : 'Habilitado'}</span>
+								</div>
+							</div>
+							<div className="w-6/12">
+								<div className="mb-[10px] text-gray-600">
+									<p className='font-semibold text-[16px]'>{TEXTS.label_comment_banned_user}</p>
+									<span>{visitor?.ban_comment ? visitor?.ban_comment : '-'}</span>
+								</div>
+							</div>
+						</section>
+						<section className="flex">
+							<div className="w-6/12">
+								<div className="mb-[10px] text-gray-600">
+									<p className='font-semibold text-[16px]'>{TEXTS.date_start_ban || 'Fecha inicio:'}</p>
+									<span>{visitor?.banned_start_time ? formatsDate(visitor?.banned_start_time) : '-'}</span>
+								</div>
+							</div>
+							<div className="w-6/12">
+								<div className="mb-[10px] text-gray-600">
+									<p className='font-semibold text-[16px]'>{TEXTS.date_end_ban || 'Fecha fin:'}</p>
+									<span>{visitor?.banned_end_time ? formatsDate(visitor?.banned_end_time) : '-'}</span>
+								</div>
+							</div>
+						</section>
+						<Button
+							sx={{ width: '100%', marginTop: '1rem' }}
+							variant="contained"
+							color={visitor?.is_currently_banned ? "success" : "error"}
+							startIcon={visitor?.is_currently_banned ? <VerifiedUserIcon /> : <PersonOffIcon />}
+							onClick={toggleModalRestrictedUser}
+						>{visitor?.is_currently_banned ? TEXTS.label_button_action_available_user : TEXTS.label_button_action_restricted_user}
+						</Button>
+					</div>
+				</div>
+			</div>
 
-					<Box
-						sx={(theme) => ({
-							display: 'block',
-							[theme.breakpoints.up('md')]: {
-								display: 'flex',
-								alignItems: 'center',
-								minWidth: '315px',
-								width: '100%',
-								ml: '15px',
-							},
-						})}
-					>
-						<Box sx={{
-								display: "flex", 
-								flexDirection: "column", 
-								justifyContent: "flex-start", 
-								alignItems: "center", 
-								width: '100%',
-								gap: '8px',
-							}}>
-							<Typography paddingBottom={1} variant="h5">{visitor.fullname} ({visitor?.is_currently_banned ? 'RESTRINGIDO' : 'HABILITADO'})</Typography>
-							<Box sx={{
-								display: "flex", 
-								flexDirection: { xs: 'column', md: 'row' }, 
-								justifyContent: "flex-start", 
-								alignItems: { xs: 'stretch', md: 'center' }, 
-								gap: { xs: '8px', md: '25px' }, 
-								width: '100%'
-							}}>
-								<LabelItem sx={{ mb: '0px', width: { xs: '100%', md: "33%" } }} pl="5px" label={TEXTS.label_card_id} value={visitor.identification_number} />
-								
-								<LabelItem sx={{ mb: '0px', width: { xs: '100%', md: "33%" } }} pl="5px" label={TEXTS.label_card_address} value={visitor.address} />
-
-								{/* <LabelItem 
-									sx={{ mb: '0px', width: { xs: '100%', md: "33%" } }}  pl="5px"
-									label={TEXTS.label_card_visitor_type} 
-									value={visitor?.visits?.[0]?.pivot?.visitor_type_description|| ''} 
-								/> */}
-
-								<LabelItem sx={{ mb: '0px', width: { xs: '100%', md: "33%" } }} pl="5px" label={TEXTS.label_card_phone} value={visitor.phone} />
-							</Box>
-
-							<Box sx={{
-								display: "flex", 
-								flexDirection: { xs: 'column', md: 'row' }, 
-								justifyContent: "flex-start", 
-								alignItems: { xs: 'stretch', md: 'center' }, 
-								gap: { xs: '8px', md: '25px' }, 
-								width: '100%'
-							}}>
-								<LabelItem sx={{ mb: '0px', width: { xs: '100%', md: "33%" } }} pl="5px" label={TEXTS.label_is_restricted_user} value={visitor?.is_currently_banned ? 'Restringido' : 'Habilitado' } />
-								<LabelItem sx={{ mb: '0px', width: { xs: '100%', md: "33%" } }} pl="5px" label={TEXTS.date_start_ban || 'Fecha inicio:'} value={visitor?.banned_start_time ? formatsDate(visitor?.banned_start_time) : '' } />
-								<LabelItem sx={{ mb: '0px', width: { xs: '100%', md: "33%" } }} pl="5px" label={TEXTS.date_end_ban || 'Fecha fin:'} value={visitor?.banned_end_time ? formatsDate(visitor?.banned_end_time) : '' } />
-							</Box>
-
-							<Box sx={{
-								display: "flex", 
-								flexDirection: { xs: 'column', md: 'row' }, 
-								justifyContent: "flex-start", 
-								alignItems: { xs: 'stretch', md: 'center' }, 
-								gap: { xs: '8px', md: '25px' }, 
-								width: '100%'
-							}}>
-								<LabelItem 
-									sx={{ mb: '0px', width: { xs: '100%' } }} pl="5px" 
-									label={TEXTS.label_comment_banned_user} 
-									value={visitor?.ban_comment ? visitor?.ban_comment : '' } 
-								/>
-							</Box>
-
-							<Button
-								sx={{ width: '100%', marginTop: '1rem' }}
-								variant="contained" 
-								color={visitor?.is_currently_banned ? "success" : "error"}
-								startIcon={visitor?.is_currently_banned ? <VerifiedUserIcon /> : <PersonOffIcon />}
-								onClick={toggleModalRestrictedUser}
-							>{visitor?.is_currently_banned ? TEXTS.label_button_action_available_user : TEXTS.label_button_action_restricted_user}
-							</Button>
-						</Box>
-					</Box>
-				</Box>
-			</Box>
-
-			{
-				isOpenModalRestrictedUser &&
+			{isOpenModalRestrictedUser &&
 				<ModalRestrictedUserForm 
 					open={isOpenModalRestrictedUser}
 					visitor={visitor} 
@@ -220,6 +117,6 @@ export default function CardVisitorPhotoRestrictedUser({ visitor }: CardVisitorP
 					// }}
 				/>
 			}
-		</>
+		</div>
 	)
 }

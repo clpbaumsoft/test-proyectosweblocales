@@ -72,6 +72,11 @@ export default function InputAutocomplete({
 						boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
 					},
 				},
+				popper: {
+					sx: {
+						zIndex: 10000,
+					},
+				},
 			}}
 			renderInput={(params) => (
 				<TextField 

@@ -1,24 +1,15 @@
-//React and modules
 import {
 	Autocomplete,
 	Skeleton,
 	TextField,
 	Typography
 } from "@mui/material";
-
-
-//Interfaces and types
 import { SelectLoadedItemsProps } from "@/interfaces/Atoms";
-
-//Constants
 import { GTRANS } from "@/constants/Globals";
-
-//Hooks
 import useSelectLoadedItems from "./useSelectLoadedItems";
 import useTranslation from "@/hooks/useTranslation";
 
 export default function SelectLoadedItems(props: SelectLoadedItemsProps) {
-	
 	const GTEXTS = useTranslation(GTRANS)
 	
 	const {
@@ -28,12 +19,8 @@ export default function SelectLoadedItems(props: SelectLoadedItemsProps) {
 		onChange,
 	} = useSelectLoadedItems(props)
 	
-	if(isInnerLoading) {
-		return (
-			<>
-				<Skeleton variant="rounded" height={40} />
-			</>
-		)	
+	if (isInnerLoading) {
+		return <Skeleton variant="rounded" height={40} />
 	}
 	
 	return (
@@ -50,6 +37,13 @@ export default function SelectLoadedItems(props: SelectLoadedItemsProps) {
 						renderInput={(params) => <TextField {...params} />}
 						noOptionsText={GTEXTS.no_results}
 						loadingText={GTEXTS.loading+'...'}
+						slotProps={{
+							popper: {
+								sx: {
+									zIndex: 10000,
+								},
+							},
+						}}
 						{...props.inputProps}
 					/>
 				)

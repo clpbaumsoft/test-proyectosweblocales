@@ -59,7 +59,12 @@ export default function CustomDatePicker({ label, defaultValue, minDate, onChang
 							toolbarFormat: 'D MMMM, YYYY',
 							hidden: true,
 						},
-						textField: inputProps
+						textField: inputProps,
+						popper: {
+							sx: {
+								zIndex: 10000,
+							},
+						},
 					}}
 					sx={styles}
 				/>

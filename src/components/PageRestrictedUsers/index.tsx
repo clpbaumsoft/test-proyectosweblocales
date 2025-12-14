@@ -1,24 +1,16 @@
 "use client"
 
-//Components
-import MainSidebar from "@/components/molecules/MainSidebar";
-
-
-//Interfaces and types
 import { PageAuthProps } from "@/interfaces/General";
 import RestrictedUsersDashboard from "../organisms/RestrictedUsersDashboard";
-
-//Providers
 import SessionProvider from "@/providers/SessionProvider";
+import MainSidebarV2 from "../molecules/MainSidebarV2";
 
 export default function PageRestrictedUsers({ userLogged }: PageAuthProps) {
 	return (
-		<>
-			<SessionProvider serverUser={userLogged}>
-				<MainSidebar>
-					<RestrictedUsersDashboard />
-				</MainSidebar>
-			</SessionProvider>
-		</>
+		<SessionProvider serverUser={userLogged}>
+			<MainSidebarV2>
+				<RestrictedUsersDashboard />
+			</MainSidebarV2>
+		</SessionProvider>
 	)
 }

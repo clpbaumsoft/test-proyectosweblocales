@@ -1,12 +1,6 @@
-//Components
 import ControlFormRestrictedUsers from "@/components/molecules/ControlFormRestrictedUsers";
-
-//Hooks
 import useTranslation from "@/hooks/useTranslation";
 import TableVisitsProvider from "@/providers/TableVisitsProvider";
-
-//Styles
-import { TitlePage } from "@/styles/elements";
 
 //Texts
 const TRANS = {
@@ -17,15 +11,14 @@ const TRANS = {
 	},
 }
 export default function RestrictedUsersDashboard() {
-
 	const TEXTS = useTranslation(TRANS)
 
 	return (
-		<> 
-			<TableVisitsProvider>
-				<TitlePage>{TEXTS.title}</TitlePage>
-				<ControlFormRestrictedUsers />
-			</TableVisitsProvider>
-		</>
+		<TableVisitsProvider>
+			<h1 className="font-inter text-2xl font-bold mb-8">
+				{TEXTS.title}
+			</h1>
+			<ControlFormRestrictedUsers />
+		</TableVisitsProvider>
 	)
 }

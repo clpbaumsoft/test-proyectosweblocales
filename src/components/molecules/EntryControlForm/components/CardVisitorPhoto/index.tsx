@@ -20,7 +20,7 @@ export default function CardVisitorPhoto({ visitor }: CardVisitorProps) {
 	if(!visitor) return null
 	return (
 		<>
-			<div className="w-[750px] mt-8 border-2 border-[var(--proquinal-dark-teal)] rounded-lg overflow-hidden py-4">
+			<div className="w-[750px] mx-auto mt-8 border-2 border-[var(--proquinal-dark-teal)] rounded-lg overflow-hidden py-4">
 				<div className="flex">
 					<div className="w-[50%]">
 						<TakePhoto

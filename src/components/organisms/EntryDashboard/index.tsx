@@ -14,13 +14,11 @@ export default function EntryDashboard() {
 	const TEXTS = useTranslation(TRANS)
 
 	return (
-		<> 
-			<TableVisitsProvider>
-				<h1 className="font-inter text-2xl font-bold mb-8">
-					{TEXTS.title}
-				</h1>
-				<EntryControlForm />
-			</TableVisitsProvider>
-		</>
+		<TableVisitsProvider>
+			<h1 className="font-inter text-2xl font-bold mb-8">
+				{TEXTS.title}
+			</h1>
+			<EntryControlForm />
+		</TableVisitsProvider>
 	)
 }

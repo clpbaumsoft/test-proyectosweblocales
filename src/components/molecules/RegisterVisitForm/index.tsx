@@ -70,7 +70,7 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 			{isInnerLoading && (
 				<FullLoader variant="absolute" />
 			)}
-			<div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+			<div className="fixed inset-0 z-[9999] w-screen overflow-y-auto">
 				<div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
 					<DialogPanel
 						transition
