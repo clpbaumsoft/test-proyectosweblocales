@@ -3,6 +3,7 @@ import { VisitRow } from "./Atoms";
 import { SearchPersonFormType, VisitFormType } from "./Forms";
 import { BaseComponentProps, Person } from "./General";
 import { Branch, Company, DocumentType, Employee, EntryVehicle, Gate, Visit, VisitDocument, VisitVisitor, Visitor } from "./Models";
+import { ForwardRefExoticComponent, SVGProps } from "react";
 
 export type RenderErrorProps = BaseComponentProps & {
 	error: object | string | string[] | null | Error;
@@ -172,4 +173,18 @@ export type SearchVehicleFormProps = BaseComponentProps & {
 export type CardVehicleProps = BaseComponentProps & {
 	vehicle: EntryVehicle;
 	onGiveLeave: (vehicle: EntryVehicle) => void;
+}
+
+export type NavWithOptionsProps = BaseComponentProps & {
+	name: string, 
+	href: string, 
+	icon: ForwardRefExoticComponent<Omit<SVGProps<SVGSVGElement>, 'ref'>>,
+	current: boolean,
+	hide: boolean,
+	options: {
+		name: string;
+		href: string;
+		current: boolean;
+		currentTab: string;
+	}[]
 }
