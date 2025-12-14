@@ -1,6 +1,6 @@
 import { ButtonProps } from "@/interfaces/Atoms";
 
-export default function Button({ text, type, variant = "filled", icon, onClick, disabled }: ButtonProps) {
+export default function Button({ text, type, variant = "filled", icon, onClick, disabled, className }: ButtonProps) {
   const outlined = `
     font-inter 
     rounded-md 
@@ -20,6 +20,7 @@ export default function Button({ text, type, variant = "filled", icon, onClick, 
     focus-visible:outline-offset-2 
     dark:shadow-none 
     dark:bg-proquinal-teal
+    ${className}
   `
 
   const filled = `
@@ -38,6 +39,7 @@ export default function Button({ text, type, variant = "filled", icon, onClick, 
     focus-visible:outline-2 
     focus-visible:outline-offset-2 
     dark:shadow-none
+    ${className}
   `
 
   const disabledClasses = `
@@ -50,12 +52,12 @@ export default function Button({ text, type, variant = "filled", icon, onClick, 
     font-semibold 
     text-[#949494] 
     shadow-sm 
-    cursor-pointer
     hover:bg-proquinal-teal/80 
     focus-visible:outline 
     focus-visible:outline-2 
     focus-visible:outline-offset-2 
     dark:shadow-none
+    ${className}
   `
 
   return (

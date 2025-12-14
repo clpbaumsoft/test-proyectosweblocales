@@ -23,9 +23,13 @@ export default function VisitRow({ row }: VisitRowProps) {
 					{VISIT_STATUS_NAMES[stateVisit.status]}
 				</label>
 			</td>
-			<td className="text-center font-inter text-sm">
+			<td className="text-start font-inter text-sm py-4">
 				<span>{stateVisit.reason}</span>
-				<WarningCondition severity="info" condition={!isBetweenDates(stateVisit.start_date, stateVisit.end_date, now())}>
+				<WarningCondition 
+					severity="info" 
+					condition={!isBetweenDates(stateVisit.start_date, stateVisit.end_date, now())}
+					className="!text-xs"
+				>
 					{formatsDate(stateVisit.start_date)} - {formatsDate(stateVisit.end_date)}
 				</WarningCondition>
 			</td>

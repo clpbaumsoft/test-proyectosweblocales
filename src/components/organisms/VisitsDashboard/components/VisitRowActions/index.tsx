@@ -58,7 +58,14 @@ export default function VisitRowActions({ setRowData, rowData }: VisitRowActions
 				{loggedUser.canOr(['approvedocs_visit', 'read_visit']) && (
 					<Link href={PAGES.visits_id.replace('[id]', String(rowData.id))} passHref>
 						<Tooltip title={TEXTS.see} placement="top">
-							<EyeIcon className="w-5" />
+							<EyeIcon 
+								className="
+									w-5 
+									text-[#aeaeae] 
+									cursor-pointer
+									hover:text-[var(--proquinal-dark-teal)]
+								" 
+							/>
 						</Tooltip>
 					</Link>
 				)}
@@ -67,7 +74,12 @@ export default function VisitRowActions({ setRowData, rowData }: VisitRowActions
 						<Tooltip title={TEXTS.edit} placement="top">
 							<PencilIcon
 								onClick={toggleModalEdit}
-								className="w-5"
+								className="
+									w-5 
+									text-[#aeaeae] 
+									cursor-pointer
+									hover:text-[var(--proquinal-dark-teal)]
+								"
 							/>
 						</Tooltip>
 						{isVisitExpired() && (
@@ -87,7 +99,12 @@ export default function VisitRowActions({ setRowData, rowData }: VisitRowActions
 						{(rowData.status !== VISIT_STATUS_CANCELLED) && (
 							<Tooltip title={TEXTS.cancel} placement="top">
 								<XCircleIcon
-									className="w-5"
+									className="
+										w-5 
+										text-[#aeaeae]
+										cursor-pointer
+										hover:text-[var(--proquinal-dark-teal)]
+									"
 									onClick={toggleIsOpenCancelForm}
 								/>
 							</Tooltip>
@@ -96,7 +113,12 @@ export default function VisitRowActions({ setRowData, rowData }: VisitRowActions
 							<Tooltip title={TEXTS.add_visitor} placement="top">
 								<Badge badgeContent={rowData.visitors_count} color="primary">
 									<UserPlusIcon 
-										className="w-5"
+										className="
+											w-5 
+											text-[#aeaeae] 
+											cursor-pointer
+											hover:text-[var(--proquinal-dark-teal)]
+										"
 										onClick={toggleModalAddVisitor}
 									/>
 								</Badge>

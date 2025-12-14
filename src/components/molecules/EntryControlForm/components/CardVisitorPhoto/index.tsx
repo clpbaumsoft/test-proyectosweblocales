@@ -1,63 +1,15 @@
-import { Box, Typography } from "@mui/material";
-import EastIcon from "@mui/icons-material/East";
-
-//Components
-import LabelItem from "@/components/atoms/LabelItem";
 import TakePhoto from "@/components/atoms/TakePhoto";
 import WarningCondition from "@/components/atoms/WarningCondition";
-
-//Constants
 import { GTRANS } from "@/constants/Globals";
-
-//Hooks
-import useCardVisitorPhoto from "./useCardVisitorPhoto";
 import useTranslation from "@/hooks/useTranslation";
-
-//Interfaces and types
 import { CardVisitorProps } from "@/interfaces/Atoms";
-
-//Lib
 import { formatsDate, isBetweenDates, mediaUrl, now } from "@/lib/Helpers";
-
-//Styles
 import { SpaceFields } from "@/styles/elements";
-
-//Texts
-const TRANS = {
-	label_card_visitor_type: {
-		id: "EntryControlForm.LabelItem.Label.labelCardVisitorType",
-		defaultMessage: "Tipo de visitante:",
-		description: "",
-	},
-	label_card_id: {
-		id: "EntryControlForm.LabelItem.Label.LabelCardId",
-		defaultMessage: "Documento #:",
-		description: "",
-	},
-	label_card_phone: {
-		id: "EntryControlForm.LabelItem.Label.LabelCardPhone",
-		defaultMessage: "Teléfono:",
-		description: "",
-	},
-	label_card_address: {
-		id: "EntryControlForm.LabelItem.Label.LabelCardAddress",
-		defaultMessage: "Dirección:",
-		description: "",
-	},
-	label_card_has_sgsst: {
-		id: "EntryControlForm.LabelItem.Label.LabelHasSgsst",
-		defaultMessage: "¿Tiene charla de seguridad vigente?",
-		description: "",
-	},
-	required_sgsst: {
-		id: "EntryControlForm.LabelItem.Label.LabelHasSgsst",
-		defaultMessage: "No, debe hacerla cuanto antes",
-		description: "",
-	},
-}
+import EastIcon from "@mui/icons-material/East";
+import { TRANS } from "./constants";
+import useCardVisitorPhoto from "./useCardVisitorPhoto";
 
 export default function CardVisitorPhoto({ visitor }: CardVisitorProps) {
-	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
 	
@@ -65,121 +17,69 @@ export default function CardVisitorPhoto({ visitor }: CardVisitorProps) {
 		onSavePhotoVisitor,
 	} = useCardVisitorPhoto(visitor)
 	
-	if(!visitor) {
-		return <></>
-	}
-	
+	if(!visitor) return null
 	return (
 		<>
-			<Box 
-				sx={(theme) => ({
-					border: '1px solid var(--mui-palette-primary-main)',
-					borderRadius: 'var(--mui-shape-borderRadius)',
-					display: 'table',
-					p: '15px',
-					m: '15px auto',
-					width: '100%',
-					[theme.breakpoints.up('md')]: {
-						width: 'auto',
-					},
-				})}
-			>
-				<Box 
-					sx={(theme) => ({
-						display: 'table',
-						mx: 'auto',
-						[theme.breakpoints.up('md')]: {
-							display: 'flex',
-						},
-					})}
-				>
-					<Box sx={{ mb: '15px' }}>
-						<Box sx={{ display: 'table', minWidth:'260px' }}>
-							<TakePhoto
-								isButtonActive={visitor?.is_currently_banned ? false : true}
-								preview={visitor.photo_url ? mediaUrl(visitor.id, 'foto-visitante') : null}
-								onSavePhoto={onSavePhotoVisitor}
-							/>
-						</Box>
-					</Box>
-					<Box
-						sx={(theme) => ({
-							display: 'block',
-							[theme.breakpoints.up('md')]: {
-								display: 'flex',
-								alignItems: 'center',
-								minWidth: '250px',
-								ml: '15px',
-							},
-						})}
-					>
+			<div className="w-[750px] mt-8 border-2 border-[var(--proquinal-dark-teal)] rounded-lg overflow-hidden py-4">
+				<div className="flex">
+					<div className="w-[50%]">
+						<TakePhoto
+							isButtonActive={visitor?.is_currently_banned ? false : true}
+							preview={visitor.photo_url ? mediaUrl(visitor.id, 'foto-visitante') : null}
+							onSavePhoto={onSavePhotoVisitor}
+						/>
+					</div>
+					<div className="flex flex-col align-center justify-center px-4 w-[50%] gap-2 border-l-[1px] border-proquinal-teal">
+						<h1 className="text-[24px] font-semibold font-inter">{visitor.fullname}</h1>
 						<div>
-							<Typography variant="h5">{visitor.fullname}</Typography><br/>
-							
-							{/* <LabelItem 
-								sx={{ mb: '15px' }} 
-								label={TEXTS.label_card_visitor_type} 
-								value={visitor?.visits?.[0]?.pivot?.visitor_type_description || ''} 
-							/> */}
-
-							<LabelItem sx={{ mb: '15px' }} label={TEXTS.label_card_id} value={visitor.identification_number} />
-							{
-								(visitor.address === 'No registra' || visitor.address === 'SN' || visitor.address === '') ? "" : (
-									<LabelItem sx={{ mb: '15px' }} pl="5px" label={TEXTS.label_card_address} value={visitor.address} />
-								)
-							}
-							{/* <LabelItem sx={{ mb: '15px' }} label={TEXTS.label_card_address} value={visitor.address} /> */}
-							
-							<LabelItem 
-								sx={{ mb: '15px' }} 
-								label={TEXTS.label_card_phone} 
-								value={visitor.phone} 
-							/>
-
-							<LabelItem sx={{ mb: '15px' }} 
-								label={TEXTS.label_card_has_sgsst} 
-								value={
-								<Box sx={{ display: 'flex' }}>
-									{
-										visitor?.requires_security_speak ?
-										(() => {
-											if(isBetweenDates(visitor.startdate_sgsst, visitor.enddate_sgsst, now())) {
-												return (
-													<>
-														{GTEXTS.yes}
-														<SpaceFields />
-														<EastIcon fontSize="small" />
-														<SpaceFields />
-														{formatsDate(visitor.startdate_sgsst, 'D MMMM, YYYY')+' -- '+formatsDate(visitor.enddate_sgsst, 'D MMMM, YYYY')}
-													</>
-												)
-											} else if(visitor.startdate_sgsst && visitor.enddate_sgsst) {
-												return (
-													<WarningCondition condition={false}>
-														{GTEXTS.no}
-														<SpaceFields />
-														<EastIcon fontSize="small" />
-														<SpaceFields />
-														{formatsDate(visitor.startdate_sgsst, 'D MMMM, YYYY')+' -- '+formatsDate(visitor.enddate_sgsst, 'D MMMM, YYYY')}
-													</WarningCondition>
-												)
-											}
-											return (
-												<WarningCondition condition={false}>
-													{TEXTS.required_sgsst}
-												</WarningCondition>
-											)
-										})() :
-										<p>{GTEXTS.no_required}</p>
-									}
-								</Box>
-							}
-							/>
+							<p className="text-[14px] font-semibold">{TEXTS.label_card_id}</p>
+							<p className="text-[12px] text-[#767676]">{visitor.identification_number}</p>
 						</div>
-					</Box>
-					
-				</Box>
-			</Box>
+						{(visitor.address === 'No registra' || visitor.address === 'SN' || visitor.address === '') ? "" : (
+							<div>
+								<p className="text-[14px] font-semibold">{TEXTS.label_card_address}</p>
+								<p className="text-[12px] text-[#767676]">{visitor.address}</p>
+							</div>
+						)}
+						<div>
+							<p className="text-[14px] font-semibold">{TEXTS.label_card_phone}</p>
+							<p className="text-[12px] text-[#767676]">{visitor.phone}</p>
+						</div>
+						<p className="text-[14px]">{TEXTS.label_card_has_sgsst}</p>
+						<div className="flex">
+							{visitor?.requires_security_speak ?
+								(() => {
+									if (isBetweenDates(visitor.startdate_sgsst, visitor.enddate_sgsst, now())) {
+										return (
+											<>
+												{GTEXTS.yes}
+												<SpaceFields />
+												<EastIcon fontSize="small" />
+												<SpaceFields />
+												{formatsDate(visitor.startdate_sgsst, 'D MMMM, YYYY') + ' -- ' + formatsDate(visitor.enddate_sgsst, 'D MMMM, YYYY')}
+											</>
+										)
+									} else if (visitor.startdate_sgsst && visitor.enddate_sgsst) {
+										return (
+											<WarningCondition condition={false}>
+												{GTEXTS.no}
+												<EastIcon fontSize="small" />
+												{formatsDate(visitor.startdate_sgsst, 'D MMMM, YYYY') + ' -- ' + formatsDate(visitor.enddate_sgsst, 'D MMMM, YYYY')}
+											</WarningCondition>
+										)
+									}
+									return (
+										<WarningCondition condition={false}>
+											{TEXTS.required_sgsst}
+										</WarningCondition>
+									)
+								})() :
+								<p>{GTEXTS.no_required}</p>
+							}
+						</div>
+					</div>
+				</div>
+			</div>
 		</>
 	)
 }

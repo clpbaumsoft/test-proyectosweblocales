@@ -200,6 +200,7 @@ export type SelectProps = BaseComponentProps & {
 	disabled?: boolean;
 	onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 	options?: { label: string; value: string | number }[];
+	defaultValue?: string | number;
 }
 
 export type InputGroupProps = BaseComponentProps & {

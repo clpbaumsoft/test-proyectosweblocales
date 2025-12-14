@@ -52,7 +52,7 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 	} = useRegisterVisitForm(onClose, preFillFormData, visitId, onSaved)
 
   return (
-		<Dialog open={open} onClose={closeForm} className="relative z-10 font-inter">
+		<Dialog open={open} onClose={closeForm} className="relative z-[9999] font-inter">
 			<DialogBackdrop
 				transition
 				className="

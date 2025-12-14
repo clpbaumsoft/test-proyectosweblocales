@@ -1,12 +1,6 @@
-//Components
 import EntryControlForm from "@/components/molecules/EntryControlForm";
-
-//Hooks
 import useTranslation from "@/hooks/useTranslation";
 import TableVisitsProvider from "@/providers/TableVisitsProvider";
-
-//Styles
-import { TitlePage } from "@/styles/elements";
 
 //Texts
 const TRANS = {
@@ -17,13 +11,14 @@ const TRANS = {
 	},
 }
 export default function EntryDashboard() {
-
 	const TEXTS = useTranslation(TRANS)
 
 	return (
 		<> 
 			<TableVisitsProvider>
-				<TitlePage>{TEXTS.title}</TitlePage>
+				<h1 className="font-inter text-2xl font-bold mb-8">
+					{TEXTS.title}
+				</h1>
 				<EntryControlForm />
 			</TableVisitsProvider>
 		</>

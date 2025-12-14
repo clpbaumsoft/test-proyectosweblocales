@@ -3,7 +3,7 @@ import React from 'react'
 
 const Modal = ({ children, show, onClose }: { children: React.ReactNode; show: boolean; onClose: () => void }) => {
   return (
-    <Dialog open={show} onClose={onClose} className="relative z-10 font-inter">
+    <Dialog open={show} onClose={onClose} className="relative z-[9999] font-inter">
       <DialogBackdrop
         transition
         className="

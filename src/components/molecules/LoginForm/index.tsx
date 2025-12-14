@@ -43,7 +43,7 @@ export default function LoginForm() {
 	return (
 		<>
 			{isInnerLoading && <FullLoader />}
-			<div className="flex flex-1 flex-col justify-center py-5 shadow-md bg-white max-w-[40%] h-screen">
+			<div className="flex flex-1 flex-col justify-center py-5 shadow-md bg-white max-w-[50%] h-screen">
 				<div className="max-w-[600px] w-[500px] mx-auto">
 					<Image
 						src={Logo}

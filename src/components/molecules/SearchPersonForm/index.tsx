@@ -1,59 +1,23 @@
-import { Controller } from "react-hook-form";
-import {
-	Alert,
-	Box,
-	Button,
-	FormControl,
-	InputLabel,
-	TextField,
-} from "@mui/material";
-
-//Components
 import FullLoader from "@/components/atoms/FullLoader";
-import DropdownLoadedItems from "@/components/atoms/DropdownLoadedItems";
-
-//Constants
+import InputGroup from "@/components/atoms/InputGroup";
+import LabelForm from "@/components/atoms/LabelForm";
+import Select from "@/components/atoms/Select";
 import { GTRANS, IDENTIFICATION_TYPE_CODE_CC } from "@/constants/Globals";
-
-//Hooks
-import useSearchPersonForm from "./useSearchPersonForm";
 import useTranslation from "@/hooks/useTranslation";
-
-//Interfaces and types
 import { SearchPersonFormProps } from "@/interfaces/Molecules";
-
-//Styles
-import { BoxSearchPerson, SpaceFields } from "@/styles/elements";
 import { ErrorMessage } from "@hookform/error-message";
-
-//Texts
-const TRANS = {
-	label_document_type: {
-		id: "SearchPersonForm.InputLabel.DocumentType",
-		defaultMessage: "Tipo documento",
-		description: "",
-	},
-	label_document: {
-		id: "SearchPersonForm.TextField.Label.Document",
-		defaultMessage: "Documento / Nombre",
-		description: "",
-	},
-	search: {
-		id: "SearchPersonForm.Button.Search",
-		defaultMessage: "Buscar",
-		description: "",
-	},
-	help_text_document: {
-		id: "SearchPersonForm.TextField.HelpTextDocument",
-		defaultMessage: "Escribe aqui el documento o nombre de la persona.",
-		description: "",
-	},
-}
+import { Alert } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Controller } from "react-hook-form";
+import { TRANS } from "./constants";
+import useSearchPersonForm from "./useSearchPersonForm";
+import Button from "@/components/atoms/Button";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 export default function SearchPersonForm({ onSearch, onResult, onFail }: SearchPersonFormProps) {
-	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
+	const [typeDocumentsOptions, setTypeDocumentsOptions] = useState([])
 
 	const {
 		isInnerLoading,
@@ -65,82 +29,67 @@ export default function SearchPersonForm({ onSearch, onResult, onFail }: SearchP
 		loadIdentificationTypes,
 		getIdByCode,
 	} = useSearchPersonForm(onSearch, onResult, onFail)
+
+	useEffect(() => {
+		loadIdentificationTypes()
+			.then((options) => options.map((option) => ({
+				label: option.label,
+				value: option.value
+			})))
+			.then(setTypeDocumentsOptions)
+	}, [])
+
 	return (
-		<>
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<Box sx={{ position: 'relative' }}>
-					{
-						isInnerLoading && (
-							<FullLoader variant="absolute" />
-						)
-					}
+		<form onSubmit={handleSubmit(onSubmit)}>
+			<div className="relative">
+				{isInnerLoading && (
+					<FullLoader variant="absolute" />
+				)}
+				<div className="flex items-end gap-4">
 					<div>
-						<BoxSearchPerson>
-							<FormControl 
-								sx={(theme) => ({
-									display: 'table',
-									[theme.breakpoints.down('md')]: {
-										width: '100%',
-									},
-								})}
-							>
-								<InputLabel>{TEXTS.label_document_type}</InputLabel>
-								<Controller
-									name="document_type"
-									control={control}
-									rules={{
-										required: GTEXTS.required,
-									}}
-									render={({ field }) => (
-										<DropdownLoadedItems
-											fetchItems={loadIdentificationTypes} 
-											onChangeValue={(itemValue) => field.onChange(itemValue ? itemValue.value : itemValue)}
-											defaultValue={getIdByCode(IDENTIFICATION_TYPE_CODE_CC)} 
-											selectProps={{
-												label: TEXTS.label_document_type,
-												sx: { minWidth: '170px', width: '100%' },
-												displayEmpty: false,
-											}}
-											skeletonProps={{
-												height: '55px',
-												sx: { minWidth: '170px', width: '100%' },
-											}}
-										/>
-									)}
+						<LabelForm label={TEXTS.label_document_type} />
+						<Controller
+							name="document_type"
+							control={control}
+							rules={{ required: GTEXTS.required }}
+							render={({ field }) => (
+								<Select
+									{...field}
+									defaultValue={getIdByCode(IDENTIFICATION_TYPE_CODE_CC)}
+									onChange={(item) => field.onChange(item)}
+									options={typeDocumentsOptions}
 								/>
-								<ErrorMessage
-									errors={errors}
-									name="document_type"
-									render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-								/>
-							</FormControl>
-							<SpaceFields />
-							<Box sx={{ width: '100%' }}>
-								<TextField 
-									type="search"
-									label={TEXTS.label_document} 
-									variant="outlined" 
-									{...register("document_or_name", { required: GTEXTS.required })} 
-									helperText={TEXTS.help_text_document}
-									fullWidth
-								/>
-								<ErrorMessage
-									errors={errors}
-									name="document_or_name"
-									render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-								/>
-							</Box>
-						</BoxSearchPerson>
+							)}
+						/>
+						<ErrorMessage
+							errors={errors}
+							name="document_type"
+							render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
+						/>
 					</div>
-					<Button 
-						id="search-person-button"
-						type="submit" 
-						variant="contained"
-						fullWidth
-						sx={{ mt: '15px' }}
-					>{TEXTS.search}</Button>
-				</Box>
-			</form>
-		</>
+					<div>
+						<LabelForm label={TEXTS.label_document} />
+						<InputGroup
+							type="text"
+							placeholder={TEXTS.label_document}
+							{...register("document_or_name", { required: GTEXTS.required })}
+						/>
+						<ErrorMessage
+							errors={errors}
+							name="document_or_name"
+							render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
+						/>
+					</div>
+					<div>
+						<Button
+							type="submit"
+							text={TEXTS.search}
+							icon={<MagnifyingGlassIcon className="inline w-4 h-4" />}
+							className="h-[36px] flex items-center gap-2"
+						/>
+					</div>
+				</div>
+			</div>
+		</form>
 	)
 }
