@@ -2,34 +2,38 @@ import FormEntryEmployee from "@/components/molecules/FormEntryEmployee";
 import FormGiveEntryExternalEmployee from "@/components/molecules/FormGiveEntryExternalEmployee";
 import FormLeaveEmployeeVehicle from "@/components/molecules/FormLeaveEmployeeVehicle";
 import GiveEntryVehicleFormEmployee from "@/components/molecules/GiveEntryVehicleFormEmployee";
+import useMainSidebar from "@/components/molecules/MainSidebar/useMainSidebar";
+import { constructNavigationItems } from "@/components/molecules/MainSidebarV2/components/SidebarDesktop/utils";
 import { EMPLOYEE_TYPE_INTERNAL } from "@/constants/Globals";
 import TableVisitsProvider from "@/providers/TableVisitsProvider";
 import { useSearchParams } from "next/navigation";
+import { JSX } from "react";
 
 export default function ControlEmployeeDashboard() {
-	// const TEXTS = useTranslation(TRANS)
 	const searchParams = useSearchParams()
 	const currentTab = searchParams.get('tab')
+	const { loggedUser } = useMainSidebar()
+	const constructedItems = constructNavigationItems(loggedUser)
+	const tabsKeys: string[] = constructedItems[4]?.options?.map(option => option.currentTab) ?? []
 
-
-	const TABS = {
-		'ingresos': {
+	const TABS: Record<string, { title: string, component: JSX.Element }> = {
+		[tabsKeys[0]]: {
 			title: "Ingresos Empleado",
 			component: <FormEntryEmployee type={EMPLOYEE_TYPE_INTERNAL} />
 		},
-		'ingresosEmpleadoExterno':{
+		[tabsKeys[1]]:{
 			title: "Ingresos Empleado Externo",
 			component: <FormGiveEntryExternalEmployee />
 		},
-		'salidaEmpleadoExterno': {
+		[tabsKeys[2]]: {
 			title: "Salida Empleado Externo",
 			component: <FormEntryEmployee hideEntry={true} />
 		},
-		'entradaVehicularEmpleado': {
+		[tabsKeys[3]]: {
 			title: "Entrada Vehicular Empleado",
 			component: <GiveEntryVehicleFormEmployee />
 		},
-		'salidaVehicularEmpleado': {
+		[tabsKeys[4]]: {
 			title: "Salida Vehicular Empleado",
 			component: <FormLeaveEmployeeVehicle />
 		}

@@ -7,6 +7,7 @@ import NavWithOptions from './components/NavWithOptions'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useMemo } from 'react'
 import Link from 'next/link'
+import { NavWithOptionsProps } from '@/interfaces/Molecules'
 
 const SidebarDesktop = () => {
   const pathname = usePathname();
@@ -20,18 +21,23 @@ const SidebarDesktop = () => {
     onClickOpenModalRegisterVisit,
   } = useMainSidebar()
 
+  const updateOptions = (options: NavWithOptionsProps['options']) => {
+    return options.map(option => ({
+      ...option,
+      current: currentTab === option.currentTab,
+    }))
+  }
+
   const navigationItems = useMemo(() => {
-    const items = constructNavigationItems(loggedUser)
-    return items.map((item) => {
+    const constructedItems = constructNavigationItems(loggedUser)
+    return constructedItems.map((item) => {
       if (item.options) {
-        const updatedOptions = item.options.map(option => ({
-          ...option,
-          current: currentTab === option.currentTab,
-        }))
+        const updatedOptions = updateOptions(item.options);
+        const isCurrent = updatedOptions.some(opt => opt.current);
 
         return {
           ...item,
-          current: pathname === item.href && (currentTab === null || updatedOptions.some(opt => opt.current)),
+          current: pathname === item.href && (currentTab === null || isCurrent),
           options: updatedOptions,
         }
       }
