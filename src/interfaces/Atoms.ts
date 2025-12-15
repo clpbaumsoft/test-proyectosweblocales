@@ -196,8 +196,8 @@ export type ButtonProps = BaseComponentProps & {
 
 export type SelectProps = BaseComponentProps & {
 	name?: string;
-	value?: string | number;
-	disabled?: boolean;
+	value?: string | number | null;
+	disabled?: boolean | undefined;
 	onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 	options?: { label: string; value: string | number }[];
 	defaultValue?: string | number;

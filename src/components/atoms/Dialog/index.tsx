@@ -32,7 +32,7 @@ const Modal = ({ children, show, onClose }: { children: React.ReactNode; show: b
               text-left 
               shadow-xl
               max-w-[900px] 
-              w-full
+              w-[600px]
               transition-all 
               data-[closed]:translate-y-4 
               data-[closed]:opacity-0 
@@ -40,7 +40,7 @@ const Modal = ({ children, show, onClose }: { children: React.ReactNode; show: b
               data-[leave]:duration-200 
               data-[enter]:ease-out 
               data-[leave]:ease-in 
-              sm:my-8 sm:w-full sm:max-w-lg sm:p-8
+              sm:my-8 sm:p-8
               data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95
             "
           >

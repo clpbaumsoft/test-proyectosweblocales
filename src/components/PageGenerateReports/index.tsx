@@ -1,24 +1,16 @@
 "use client"
 
-//Components
-import MainSidebar from "@/components/molecules/MainSidebar";
-
-
-//Interfaces and types
 import { PageAuthProps } from "@/interfaces/General";
-
-//Providers
 import SessionProvider from "@/providers/SessionProvider";
 import GenerateReportsDashboard from "../organisms/GenerateReportsDashboard";
+import MainSidebarV2 from "../molecules/MainSidebarV2";
 
 export default function PageGenerateReports({ userLogged }: PageAuthProps) {
 	return (
-		<>
-			<SessionProvider serverUser={userLogged}>
-				<MainSidebar>
-					<GenerateReportsDashboard />
-				</MainSidebar>
-			</SessionProvider>
-		</>
+		<SessionProvider serverUser={userLogged}>
+			<MainSidebarV2>
+				<GenerateReportsDashboard />
+			</MainSidebarV2>
+		</SessionProvider>
 	)
 }

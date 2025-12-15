@@ -54,7 +54,7 @@ export default function VisitRowActions({ setRowData, rowData }: VisitRowActions
 
 	return (
 		<>
-			<div className="flex items-center gap-2">
+			<div className="flex items-center justify-center gap-2">
 				{loggedUser.canOr(['approvedocs_visit', 'read_visit']) && (
 					<Link href={PAGES.visits_id.replace('[id]', String(rowData.id))} passHref>
 						<Tooltip title={TEXTS.see} placement="top">

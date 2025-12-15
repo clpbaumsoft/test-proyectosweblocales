@@ -39,6 +39,7 @@ export default function Select({ name, value, disabled, options, onChange, ...pr
         {...props}
         onChange={onChange}
       >
+        <option value="" disabled>Seleccione una opción</option>
         {options && options.map(({ label, value }) => (
           <option key={value} value={value} className='text-black'>
             {label}

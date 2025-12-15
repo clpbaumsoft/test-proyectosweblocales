@@ -1,12 +1,5 @@
-
-//Components
 import SecurityTalkTrainingForm from "@/components/molecules/SecurityTalkTrainingForm";
-
-//Hooks
 import useTranslation from "@/hooks/useTranslation";
-
-//Styles
-import { TitlePage } from "@/styles/elements";
 
 //Texts
 const TRANS = {
@@ -18,12 +11,13 @@ const TRANS = {
 }
 
 export default function SecurityTrainingDashboard() {
-	
 	const TEXTS = useTranslation(TRANS)
 	
 	return (
 		<>
-			<TitlePage>{TEXTS.title}</TitlePage>
+			<h1 className="font-inter text-2xl font-bold mb-8">
+				{TEXTS.title}
+			</h1>
 			<SecurityTalkTrainingForm />
 		</>
 	)

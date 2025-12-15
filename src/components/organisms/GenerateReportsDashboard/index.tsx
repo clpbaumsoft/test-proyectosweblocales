@@ -1,15 +1,8 @@
 import { useState } from "react";
-
-//Components
 import FormGenerateHistoryVisitor from "@/components/molecules/FormGenerateHistoryVisitor";
 import FormGenerateVisitisReport from "@/components/molecules/FormGenerateVisitisReport";
-
-//Hooks
 import useTranslation from "@/hooks/useTranslation";
 import TableVisitsProvider from "@/providers/TableVisitsProvider";
-
-//Styles
-import { TitlePage } from "@/styles/elements";
 import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import FormGenerateHistoryEmployeeVehicle from "@/components/molecules/FormGenerateHistoryEmployeeVehicle";
@@ -59,7 +52,9 @@ export default function GenerateReportsDashboard() {
 	return (
 		<> 
 			<TableVisitsProvider>
-				<TitlePage>{TEXTS.title}</TitlePage>
+				<h1 className="font-inter text-2xl font-bold mb-8">
+					{TEXTS.title}
+				</h1>
 				<Grid size={{ xs: 12, md: 2 }}>
 					<Select
 						label="Seleccionar"

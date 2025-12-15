@@ -162,7 +162,7 @@ export default function useRegisterVisitForm(onClose: () => void, preFillFormDat
    * @returns 
    */
   const getBranches = () => {
-    const myCompany = companies.find(company => company.id === company_selected)
+    const myCompany = companies.find(company => company.id === Number(company_selected))
     return myCompany?.branches || []
   }
 
@@ -172,7 +172,7 @@ export default function useRegisterVisitForm(onClose: () => void, preFillFormDat
    */
   const getGates = () => {
     const branches = getBranches()
-    const myBranch = branches.find(branch => branch.id === branch_selected)
+    const myBranch = branches.find(branch => branch.id === Number(branch_selected))
     return myBranch?.gates || []
   }
 	

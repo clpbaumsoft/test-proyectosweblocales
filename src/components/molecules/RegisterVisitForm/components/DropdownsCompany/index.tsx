@@ -20,12 +20,12 @@ export default function DropdownsCompany({
 	companies,
 	company_selected,
 	branch_selected,
-	renderValueDropdown,
-	getCompany,
+	// renderValueDropdown,
+	// getCompany,
 	getBranches,
-	getBranch,
+	// getBranch,
 	getGates,
-	getGate,
+	// getGate,
 }: DropdownsCompanyProps) {
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
@@ -42,7 +42,7 @@ export default function DropdownsCompany({
 	return (
 		<>
 			{/* Field: Company */}
-			<Grid size={12}>
+			<div className="w-full">
 				<LabelForm label={TEXTS.label_company} />
 				{companies.length > 0 ? (
 					<Controller
@@ -60,7 +60,7 @@ export default function DropdownsCompany({
 						)}
 					/>
 				) : (
-					<p>{TEXTS.no_companies}</p>
+					<p className="font-inter text-sm mt-2">{TEXTS.no_companies}</p>
 				)
 				}
 				<ErrorMessage
@@ -68,12 +68,12 @@ export default function DropdownsCompany({
 					name="company_selected"
 					render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
 				/>
-			</Grid>
+			</div>
 			
 			{company_selected !== '' && (
 				<>
 					{ /* Field: Branch */}
-					<Grid size={{ xs: 12, md: 6 }}>
+					<div className="w-full">
 						<LabelForm label={TEXTS.label_branch} />
 						{getBranches().length > 0 ? (
 							<>
@@ -98,12 +98,12 @@ export default function DropdownsCompany({
 								/>
 							</>
 						) : (
-							<p>{TEXTS.no_branches}</p>
+							<p className="font-inter text-sm mt-2">{TEXTS.no_branches}</p>
 						)
 						}
-					</Grid>
+					</div>
 					{branch_selected !== '' && (
-						<Grid size={{ xs: 12, md: 6 }}>
+						<div className="w-full">
 							<LabelForm label={TEXTS.label_gate} />
 							{getGates().length > 0 ? (
 									<>
@@ -128,10 +128,10 @@ export default function DropdownsCompany({
 										/>
 									</>
 								) : (
-									<p>{TEXTS.no_gates}</p>
+									<p className="font-inter text-sm mt-2">{TEXTS.no_gates}</p>
 								)
 							}
-						</Grid>
+						</div>
 					)}
 				</>
 			)}
