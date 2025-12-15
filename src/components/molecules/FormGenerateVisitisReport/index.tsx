@@ -261,7 +261,6 @@ export default function FormGenerateVisitisReport() {
 										<TableCell sx={{ fontWeight: 'bold', minWidth: 150 }}>{TEXTS.table_interventor}</TableCell>
 										<TableCell sx={{ fontWeight: 'bold', minWidth: 100 }}>{TEXTS.table_visitors_count}</TableCell>
 										<TableCell sx={{ fontWeight: 'bold', minWidth: 150 }}>{TEXTS.table_approver}</TableCell>
-										<TableCell sx={{ fontWeight: 'bold', minWidth: 150 }}>{TEXTS.table_document_verifier}</TableCell>
 										<TableCell sx={{ fontWeight: 'bold', minWidth: 130 }}>{TEXTS.table_visitor_first_name}</TableCell>
 										<TableCell sx={{ fontWeight: 'bold', minWidth: 130 }}>{TEXTS.table_visitor_middle_name}</TableCell>
 										<TableCell sx={{ fontWeight: 'bold', minWidth: 130 }}>{TEXTS.table_visitor_first_last_name}</TableCell>
@@ -296,7 +295,6 @@ export default function FormGenerateVisitisReport() {
 												<TableCell>{visit.interventor_name || '-'}</TableCell>
 												<TableCell align="center">{visit.visitors_count}</TableCell>
 												<TableCell>{visit.approver_name || '-'}</TableCell>
-												<TableCell>{visit.document_verifier_name || '-'}</TableCell>
 												<TableCell>{visit.visitor_first_name || '-'}</TableCell>
 												<TableCell>{visit.visitor_middle_name || '-'}</TableCell>
 												<TableCell>{visit.visitor_first_last_name || '-'}</TableCell>

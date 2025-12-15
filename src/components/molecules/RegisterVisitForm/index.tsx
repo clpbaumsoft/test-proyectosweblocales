@@ -164,6 +164,7 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 									defaultValue={getInputDateValue('departure_date')}
 									onChange={(date: Moment | null) => onChangeInputDate('departure_date', date)}
 									minDate={minDateDeparture}
+									minTime={minDateDeparture}
 								/>
 							</Grid>
 							{ /* Field: Reason */}
