@@ -1,13 +1,4 @@
-import {
-	Paper,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableHead,
-	TableRow,
-	Typography,
-} from "@mui/material";
+import { Typography } from "@mui/material";
 import CardActiveEntry from "./components/CardActiveEntry";
 import CardActiveEntryVehicle from "@/components/molecules/VehicleControlForm/components/CardActiveEntryVehicle";
 import CardVisitorPhoto from "./components/CardVisitorPhoto";
@@ -22,6 +13,7 @@ import { ButtonViewRestrictedUser } from "@/components/atoms/ButtonViewRestricte
 import { TRANS } from "./constants";
 import Divider from "@/components/atoms/Divider";
 import { Fragment } from "react";
+import Table from "@/components/atoms/Table";
 
 export default function EntryControlForm() {
 	const TEXTS = useTranslation(TRANS)
@@ -33,6 +25,22 @@ export default function EntryControlForm() {
 		onLoadResult,
 		onSearchVisitor,
 	} = useEntryControlForm()
+
+	const tableHeads = [
+		TEXTS.label_id,
+		TEXTS.visitor_type,
+		TEXTS.label_description,
+		TEXTS.label_owner,
+		TEXTS.label_actions
+	]
+
+	const tableRows = visitor?.visits?.map((visit, index: number) => (
+		<VisitRowEntry
+			key={`visitRowEntry${index}`}
+			visitor={visitor}
+			visit={visit}
+		/>
+	))
 
 	return (
 		<Fragment>
@@ -65,37 +73,15 @@ export default function EntryControlForm() {
 							)}
 					</div>
 					{visitor.visits && visitor.visits.length > 0 && (
-						<div className="my-4">
+						<div className="mt-12 mb-6">
 							<Divider text="Visitas programadas" />
 						</div>
 					)}
 					{!visitor.is_currently_banned && visitor.visits && visitor.visits.length > 0 ? (
-						<TableContainer component={Paper}>
-							<Table sx={{ minWidth: 650 }} aria-label="simple table">
-								<TableHead>
-									<TableRow sx={{
-										fontSize: "14px"
-									}}>
-										<TableCell align="center">{TEXTS.label_id}</TableCell>
-										<TableCell align="left">{TEXTS.visitor_type}</TableCell>
-										<TableCell align="left">{TEXTS.label_description}</TableCell>
-										<TableCell align="center">{TEXTS.label_owner}</TableCell>
-										<TableCell align="center">{TEXTS.label_actions}</TableCell>
-									</TableRow>
-								</TableHead>
-								<TableBody>
-									{
-										visitor.visits?.map((visit, index: number) => (
-											<VisitRowEntry
-												key={`visitRowEntry${index}`}
-												visitor={visitor}
-												visit={visit}
-											/>
-										))
-									}
-								</TableBody>
-							</Table>
-						</TableContainer>
+							<Table
+								tableHeads={tableHeads}
+								tableRows={tableRows}
+							/>
 					) : (
 						<div className="my-4">
 							<Divider text={TEXTS.no_results_visits} />

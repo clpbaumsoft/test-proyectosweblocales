@@ -3,7 +3,6 @@ import {
 	Box,
 	Button,
 	ClickAwayListener,
-	FormHelperText,
 	Tooltip,
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
@@ -39,7 +38,7 @@ export default function RegisterTalkVisitor({ visitor }: RegisterTalkVisitorProp
 		handleTooltipOpen,
 	} = useRegisterTalkVisitor(visitor)
 	return (
-		<div className="mt-8 w-[550px]">
+		<div className="mt-8 w-[550px] font-inter">
 			{isInnerLoading && (
 				<FullLoader variant="absolute" />
 			)}
@@ -54,62 +53,69 @@ export default function RegisterTalkVisitor({ visitor }: RegisterTalkVisitorProp
 							/>
 							<h1 className="text-[18px] font-inter font-bold text-black">{stateVisitor?.fullname}</h1>
 						</div>
-						{
-							stateVisitor?.startdate_sgsst && (
-								<>
-									<LabelForm
-										label={TEXTS.label_startdate_sgsst}
-										required={false}
-									/>
-									<Box sx={{ display: 'flex', alignItems: 'center' }}>
-										<WarningCondition condition={now().startOf('day').isBefore(mInit(stateVisitor.enddate_sgsst).endOf('day'))}>
-											<Box sx={{ display: 'flex' }}>
-												<b>{formatsDate(stateVisitor.startdate_sgsst, 'D MMMM, YYYY')}</b><EastIcon sx={{ mx: '10px' }} /><b>{formatsDate(stateVisitor.enddate_sgsst, 'D MMMM, YYYY')}</b>
-											</Box>
-										</WarningCondition>
-										<ClickAwayListener onClickAway={handleTooltipClose}>
-											<div>
-												<Tooltip
-													onClose={handleTooltipClose}
-													open={isOpenTooltip}
-													disableFocusListener
-													disableHoverListener
-													disableTouchListener
-													title={TEXTS.tooltip_startdate_sgsst}
-													slotProps={{
-														popper: {
-															disablePortal: true,
-														},
-													}}
-													placement="top"
-												>
-													<Button onClick={handleTooltipOpen}><InfoIcon /></Button>
-												</Tooltip>
-											</div>
-										</ClickAwayListener>
-									</Box>
-								</>
-							)
-						}
+						<div className="my-8">
+							<h1 className="text-[18px] font-inter font-semibold text-black">
+								{TEXTS.range_dates_validity}
+							</h1>
+							<p className="mt-4 text-[14px]">
+								{TEXTS.select_period_dates}
+							</p>
+						</div>
+						{stateVisitor?.startdate_sgsst && (
+							<>
+								<LabelForm label={TEXTS.label_startdate_sgsst} required={false}/>
+								<Box sx={{ display: 'flex', alignItems: 'center' }}>
+									<WarningCondition condition={now().startOf('day').isBefore(mInit(stateVisitor.enddate_sgsst).endOf('day'))}>
+										<Box sx={{ display: 'flex' }}>
+											<b>{formatsDate(stateVisitor.startdate_sgsst, 'D MMMM, YYYY')}</b><EastIcon sx={{ mx: '10px' }} /><b>{formatsDate(stateVisitor.enddate_sgsst, 'D MMMM, YYYY')}</b>
+										</Box>
+									</WarningCondition>
+									<ClickAwayListener onClickAway={handleTooltipClose}>
+										<div>
+											<Tooltip
+												onClose={handleTooltipClose}
+												open={isOpenTooltip}
+												disableFocusListener
+												disableHoverListener
+												disableTouchListener
+												title={TEXTS.tooltip_startdate_sgsst}
+												slotProps={{
+													popper: {
+														disablePortal: true,
+													},
+												}}
+												placement="top"
+											>
+												<Button onClick={handleTooltipOpen}><InfoIcon /></Button>
+											</Tooltip>
+										</div>
+									</ClickAwayListener>
+								</Box>
+							</>
+						)}
 					</div>
-					<LabelForm
-						label={TEXTS.label_selectdates}
-						required={false}
-					/>
-					<Box sx={{ display: 'flex' }}>
-						<CustomDatePicker
-							label={TEXTS.label_startdate_field}
-							onChange={onChangeStartDate}
-							inputProps={{ size: 'small' }}
-						/>
-						<Box sx={{ width: '10px' }} />
-						<CustomDatePicker
-							label={TEXTS.label_enddate_field}
-							onChange={onChangeEndDate}
-							inputProps={{ size: 'small' }}
-						/>
-					</Box>
-					<FormHelperText>{TEXTS.help_text_form}</FormHelperText>
+					<div className="flex gap-8">
+						<div>
+							<LabelForm
+								label={TEXTS.label_startdate_field}
+								required={false}
+							/>
+							<CustomDatePicker
+								onChange={onChangeStartDate}
+								inputProps={{ size: 'small' }}
+							/>
+						</div>
+						<div>
+							<LabelForm
+								label={TEXTS.label_enddate_field}
+								required={false}
+							/>
+							<CustomDatePicker
+								onChange={onChangeEndDate}
+								inputProps={{ size: 'small' }}
+							/>
+						</div>
+					</div>
 					<FormMessages
 						message={message}
 						error={error}

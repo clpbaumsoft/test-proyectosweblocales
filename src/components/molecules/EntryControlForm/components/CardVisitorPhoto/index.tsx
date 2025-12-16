@@ -20,7 +20,7 @@ export default function CardVisitorPhoto({ visitor }: CardVisitorProps) {
 	if(!visitor) return null
 	return (
 		<>
-			<div className="w-[750px] mx-auto mt-8 border-2 border-[var(--proquinal-dark-teal)] rounded-lg overflow-hidden py-4">
+			<div className="w-[750px] mx-auto mt-8 rounded-lg overflow-hidden py-4">
 				<div className="flex">
 					<div className="w-[50%]">
 						<TakePhoto
@@ -29,7 +29,7 @@ export default function CardVisitorPhoto({ visitor }: CardVisitorProps) {
 							onSavePhoto={onSavePhotoVisitor}
 						/>
 					</div>
-					<div className="flex flex-col align-center justify-center px-4 w-[50%] gap-2 border-l-[1px] border-proquinal-teal">
+					<div className="flex flex-col align-center justify-center px-8 w-[50%] gap-2 border-l-[1px] border-proquinal-teal">
 						<h1 className="text-[24px] font-semibold font-inter">{visitor.fullname}</h1>
 						<div>
 							<p className="text-[14px] font-semibold">{TEXTS.label_card_id}</p>

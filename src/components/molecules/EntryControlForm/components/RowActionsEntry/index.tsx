@@ -1,24 +1,13 @@
-//React and modules
-
 import {
 	Button,
-	Dialog,
-	DialogContent,
 } from "@mui/material";
 import KeyIcon from "@mui/icons-material/Key";
-
-//Components
 import CreateEntryForm from "../CreateEntryForm";
-
-//Hooks
 import useRowActionsEntry from "./useRowActionsEntry";
 import useTranslation from "@/hooks/useTranslation";
-
-//Interfaces and types
 import { RowActionsEntryProps } from "@/interfaces/Molecules";
-
-//Styles
 import { BoxButtons } from "@/styles/elements";
+import Modal from "@/components/atoms/Dialog";
 
 //Texts
 const TRANS = {
@@ -30,7 +19,6 @@ const TRANS = {
 }
 
 export default function RowActionsEntry({ visit, visitor }: RowActionsEntryProps) {
-
 	const TEXTS = useTranslation(TRANS)
 
 	const {
@@ -48,18 +36,14 @@ export default function RowActionsEntry({ visit, visitor }: RowActionsEntryProps
 					color="success"
 				>{TEXTS.add_entry}</Button>
 			</BoxButtons>
-			
 
-			{/*  */}
-			<Dialog open={isOpenModalEntry} onClose={toggleModalEntry}>
-				<DialogContent>
-					<CreateEntryForm 
-						visit={visit} 
-						visitor={visitor} 
-						onClose={toggleModalEntry}
-					/>
-				</DialogContent>
-			</Dialog>
+			<Modal show={isOpenModalEntry} onClose={toggleModalEntry}>
+				<CreateEntryForm 
+					visit={visit} 
+					visitor={visitor} 
+					onClose={toggleModalEntry}
+				/>
+			</Modal>
 		</>
 	)
 }

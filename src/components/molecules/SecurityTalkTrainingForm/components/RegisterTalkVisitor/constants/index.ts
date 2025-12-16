@@ -12,12 +12,12 @@ export const TRANS = {
   },
   label_startdate_field: {
     id: "RegisterTalkVisitor.CustomDatePicker.Label.StartDate",
-    defaultMessage: "Inicio",
+    defaultMessage: "Fecha inicio:",
     description: "",
   },
   label_enddate_field: {
     id: "RegisterTalkVisitor.CustomDatePicker.Label.EndDate",
-    defaultMessage: "Fin",
+    defaultMessage: "Fecha fin:",
     description: "",
   },
   label_selectdates: {
@@ -30,4 +30,14 @@ export const TRANS = {
     defaultMessage: "Este rango de fecha corresponde al tiempo de duración que tendrá vigencia la charla de seguridad.",
     description: "",
   },
+  range_dates_validity: {
+    id: "RegisterTalkVisitor.ErrorMessage.RangeDatesValidity",
+    defaultMessage: "Rango de fechas de vigencia",
+    description: "",
+  },
+  select_period_dates: {
+    id: "RegisterTalkVisitor.ErrorMessage.SelectPeriodDates",
+    defaultMessage: "Selecciona el período durante el cual la charla de seguridad estará vigente.",
+    description: "",
+  }
 }
