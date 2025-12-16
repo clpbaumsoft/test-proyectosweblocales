@@ -1,19 +1,12 @@
 import {
 	Typography,
 } from "@mui/material";
-
-//Comoponents
 import RegisterTalkVisitor from "./components/RegisterTalkVisitor";
-
-//Constants
 import { GTRANS } from "@/constants/Globals";
-
-//Hooks
 import useSecurityTalkTrainingForm from "./useSecurityTalkTrainingForm";
 import useTranslation from "@/hooks/useTranslation";
-
-//Styles
 import SearchPersonForm from "../SearchPersonForm";
+import Divider from "@/components/atoms/Divider";
 
 //Texts
 const TRANS = {
@@ -25,7 +18,6 @@ const TRANS = {
 }
 
 export default function SecurityTalkTrainingForm() {
-	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
 	
@@ -42,22 +34,11 @@ export default function SecurityTalkTrainingForm() {
 				onSearch={onSearchVisitor}
 				onResult={onLoadResult}
 			/>
-			<hr/>
-			{
-				visitor && (
-					<>
-						<Typography variant="h6" sx={{ mb: '10px' }}>{TEXTS.heading_results} - {visitor.fullname}</Typography>
-						<RegisterTalkVisitor 
-							visitor={visitor}
-						/>
-					</>
-				)
-			}
-			{
-				!visitor && hasFinished && (
-					<Typography>{GTEXTS.no_results}</Typography>
-				)
-			}
+			<div className="my-8">
+				{visitor && <Divider text={`${TEXTS.heading_results} - ${visitor.fullname}`} />}
+			</div>
+			{visitor && <RegisterTalkVisitor visitor={visitor} />}
+			{!visitor && hasFinished && <Typography>{GTEXTS.no_results}</Typography>}
 		</>
 	)
 }

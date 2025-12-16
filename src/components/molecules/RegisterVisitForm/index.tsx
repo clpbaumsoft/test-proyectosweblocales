@@ -130,6 +130,7 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 											border-gray-300 
 											rounded-md 
 											p-2 
+											text-[14px]
 											resize-none 
 											focus:outline-none 
 											focus:ring-2 
