@@ -17,7 +17,7 @@ export const TRANS = {
   },
   label_identification_number: {
     id: "GenerateHistoryVisitorDashboard.label_identification_number",
-    defaultMessage: "Número de Identificación*",
+    defaultMessage: "Número de Identificación",
     description: "",
   },
   label_start_date: {

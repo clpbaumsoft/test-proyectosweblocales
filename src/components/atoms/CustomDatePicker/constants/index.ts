@@ -58,6 +58,7 @@ export const TRANS = {
 
 export const customStylesDatePicker = {
 	'& .MuiOutlinedInput-root': {
+		height: "36px",
 		borderRadius: '0.375rem',
 		'&:hover fieldset': {
 			borderColor: '#9ca3af',
