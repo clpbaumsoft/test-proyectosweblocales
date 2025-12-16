@@ -55,3 +55,26 @@ export const TRANS = {
 		description: "",
 	},
 }
+
+export const customStylesDatePicker = {
+	'& .MuiOutlinedInput-root': {
+		borderRadius: '0.375rem',
+		'&:hover fieldset': {
+			borderColor: '#9ca3af',
+		},
+		'&.Mui-focused fieldset': {
+			borderColor: '#00575f',
+			borderWidth: '2px',
+		},
+	},
+	'& .MuiInputBase-input': {
+		fontSize: '0.875rem',
+		padding: '0.625rem 0.875rem',
+	},
+	'& .MuiInputLabel-root': {
+		fontSize: '0.875rem',
+		'&.Mui-focused': {
+			color: '#00575f',
+		},
+	},
+}
