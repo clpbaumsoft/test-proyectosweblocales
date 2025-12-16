@@ -203,7 +203,8 @@ export default function CardActiveEntry({ visitor }: CardActiveEntryProps) {
 							)
 						}
 						<Button 
-							variant="contained" 
+							variant="contained"
+							disabled={isEntryToOtherBranchButtonEnabled} 
 							color="error"
 							startIcon={<ExitToAppIcon />}
 							onClick={onClickGiveLeave}
