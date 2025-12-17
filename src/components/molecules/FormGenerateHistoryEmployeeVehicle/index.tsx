@@ -72,7 +72,7 @@ export default function FormGenerateHistoryEmployeeVehicle() {
 							minLength: 3
 						})}
 						type="number"
-						placeholder={TEXTS.plate}
+						placeholder={TEXTS.label_plate}
 					/>
 					<span className="text-red-500 text-xs absolute top-20">
 						{errors.plate ? "Placa requerida (mín. 3 caracteres)" : ""}

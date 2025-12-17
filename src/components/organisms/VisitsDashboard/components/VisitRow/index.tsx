@@ -1,11 +1,11 @@
 import VisitRowActions from "../VisitRowActions";
-import WarningCondition from "@/components/atoms/WarningCondition";
 import { VISIT_STATUS_NAMES } from "@/constants/Visit";
-import { formatsDate, isBetweenDates, now } from "@/lib/Helpers";
+import { formatsDate } from "@/lib/Helpers";
 import useVisitRow from "./useVisitRow";
 import { VisitRowProps } from "@/interfaces/Molecules";
 import styles from "./VisitRow.module.scss";
 import { Fragment } from "react";
+import { InformationCircleIcon } from "@heroicons/react/24/outline";
 
 export default function VisitRow({ row }: VisitRowProps) {
 	const {
@@ -25,13 +25,18 @@ export default function VisitRow({ row }: VisitRowProps) {
 			</td>
 			<td className="text-start font-inter text-sm py-4">
 				<span>{stateVisit.reason}</span>
-				<WarningCondition 
-					severity="info" 
-					condition={!isBetweenDates(stateVisit.start_date, stateVisit.end_date, now())}
-					className="!text-xs"
-				>
-					{formatsDate(stateVisit.start_date)} - {formatsDate(stateVisit.end_date)}
-				</WarningCondition>
+				<div className="rounded-md bg-blue-50 px-4 py-2">
+					<div className="flex">
+						<div className="shrink-0">
+							<InformationCircleIcon aria-hidden="true" className="size-4 text-blue-400" />
+						</div>
+						<div className="ml-3 flex-1 md:flex md:justify-between">
+							<p className="text-xs text-blue-700">
+								{formatsDate(stateVisit.start_date)} - {formatsDate(stateVisit.end_date)}
+							</p>
+						</div>
+					</div>
+				</div>
 			</td>
 			<td className="text-center font-inter text-sm">
 				{stateVisit.company_name}
