@@ -144,7 +144,10 @@ export default function useGiveEntryVehicleFormEmployee(onSuccessEntryVehicle?: 
 	 */
 	const loadGates = useCallback(async () => {
 		const results = await Orchestra.gateService.all()
-		return results.map((gate) => {
+
+		const gatesForVehicles = results.filter((gate) => gate?.for_vehicles_only === 1)
+
+		return gatesForVehicles.map((gate) => {
 			return ({ label: `${gate.description} - ${gate?.branch?.company?.short_description || ""}`, value: gate.id })
 		})
 	}, [])

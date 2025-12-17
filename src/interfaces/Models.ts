@@ -22,6 +22,7 @@ export type VisitVisitorPivot = BaseModel & {
 
 export type Gate = BaseModel & {
 	description: string;
+	for_vehicles_only: number;
 	branch?: BranchByGate | null;
 }
 
