@@ -1,86 +1,22 @@
 import {
-	Alert,
-	Box,
 	Button,
-	TextField,
 } from "@mui/material";
-import Grid from "@mui/material/Grid2";
-import { ErrorMessage } from "@hookform/error-message";
 import { Controller } from "react-hook-form";
-
-//Components
 import CounterTextField from "@/components/atoms/CounterTextField";
 import FullLoader from "@/components/atoms/FullLoader";
 import FormMessages from "@/components/atoms/FormMessages";
 import GroupCheckboxInput from "@/components/atoms/GroupCheckboxInput";
 import LabelForm from "@/components/atoms/LabelForm";
 import SelectLoadedItems from "@/components/atoms/SelectLoadedItems";
-
-//Constants
 import { GTRANS } from "@/constants/Globals";
-
-//Hooks
 import useGiveEntryVehicleForm from "./useGiveEntryVehicleForm";
 import useTranslation from "@/hooks/useTranslation";
-
-//Interfaces and types
 import { GiveEntryVehicleFormProps } from "@/interfaces/Molecules";
-
-//Styles
-import { BoxButtonsForm, HeadingForm, SpaceBtn } from "@/styles/elements";
 import { green } from "@mui/material/colors";
-
-//Texts
-const TRANS = {
-	title: {
-		id: "GiveEntryVehicleForm.HeadingForm.TitleGiveEntryVehicle",
-		defaultMessage: "Ingresar Vehiculo",
-		description: "",
-	},
-	label_vehicle_number: {
-		id: "GiveEntryVehicleForm.Typography.Label.VehicleNumber",
-		defaultMessage: "Placa:",
-		description: "",
-	},
-	label_vehicle_type: {
-		id: "GiveEntryVehicleForm.Typography.Label.VehicleType",
-		defaultMessage: "Tipo del vehiculo:",
-		description: "",
-	},
-	label_vehicle_inspect_points: {
-		id: "GiveEntryVehicleForm.Typography.Label.VehicleInspectPoints",
-		defaultMessage: "Seleccione los puntos a inspeccionar:",
-		description: "",
-	},
-	label_gate: {
-		id: "GiveEntryVehicleForm.Typography.Label.Gate",
-		defaultMessage: "Portería:",
-		description: "",
-	},
-	label_entry_comments: {
-		id: "GiveEntryVehicleForm.Typography.Label.EntryComments",
-		defaultMessage: "Observaciones:",
-		description: "",
-	},
-	help_message_entry_comments: {
-		id: "GiveEntryVehicleForm.CounterTextField.HelpMessageEntryComments",
-		defaultMessage: "Máximo 200 caracteres.",
-		description: "",
-	},
-	NO_give_entry: {
-		id: "GiveEntryVehicleForm.Button.NOGiveEntryVehicle",
-		defaultMessage: "NO Apto/Rechazar",
-		description: "",
-	},
-	give_entry: {
-		id: "GiveEntryVehicleForm.Button.GiveEntryVehicle",
-		defaultMessage: "Apto/Ingresar",
-		description: "",
-	},
-}
+import { TRANS } from "./constants";
+import { Input } from "@/components/atomsv2/Input";
 
 export default function GiveEntryVehicleForm({ visitor, visit, isEmployee = false, onClose, onSuccessEntryVehicle }: GiveEntryVehicleFormProps) {
-
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
 	
@@ -99,173 +35,145 @@ export default function GiveEntryVehicleForm({ visitor, visit, isEmployee = fals
 	} = useGiveEntryVehicleForm(visitor, visit, isEmployee, onSuccessEntryVehicle)
 
 	return (
-		<>
-			<Box sx={{ position: 'relative' }}>
-				{
-					isInnerLoading && (
-						<FullLoader variant="absolute" />
-					)
-				}
-				<form>
-					<HeadingForm>{TEXTS.title}</HeadingForm>
-					<Box>
-						<Grid container spacing={3}>
-							{ /* Field: Vehicle number (placa) */}
-							<Grid size={12}>
-								<LabelForm
-									label={TEXTS.label_vehicle_number}
-								/>
-								<TextField
-									{...register("number", { required: GTEXTS.required })}
-									fullWidth
-									size="small"
-									onInput={(e) => {
-										const target = e.target as HTMLInputElement;
-										target.value = target.value.toUpperCase();
-									}}
-								/>
-								<ErrorMessage
-									errors={errors}
-									name="number"
-									render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-								/>
-							</Grid>
-							{ /* Field: Vehicle type */}
-							<Grid size={{ xs: 12, md: 12 }}>
-								<LabelForm
-									label={TEXTS.label_vehicle_type}
-								/>
-								<Controller
-									name="vehicle_type"
-									control={control}
-									rules={{
-										required: GTEXTS.required,
-									}}
-									render={({ field }) => (
-										<SelectLoadedItems
-											fetchItems={loadVehicleTypes} 
-											onChangeValue={(itemValue) => field.onChange(itemValue ? parseInt(String(itemValue.value)) : itemValue)}
-											defaultValue={field.value}
-											inputProps={{
-												fullWidth: true,
-												size: 'small',
-											}}
-										/>
-									)}
-								/>
-								<ErrorMessage
-									errors={errors}
-									name="vehicle_type"
-									render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-								/>
-							</Grid>
-							{ /* Field: Gate */}
-							<Grid size={12}>
-								<LabelForm
-									label={TEXTS.label_gate}
-								/>
-								<Controller
-									name="gate"
-									control={control}
-									rules={{
-										required: GTEXTS.required,
-									}}
-									render={({ field }) => (
-										<SelectLoadedItems
-											fetchItems={loadGates} 
-											onChangeValue={(itemValue) => field.onChange(itemValue ? parseInt(String(itemValue.value)) : itemValue)}
-											defaultValue={field.value}
-											inputProps={{
-												fullWidth: true,
-												size: 'small',
-											}}
-										/>
-									)}
-								/>
-								<ErrorMessage
-									errors={errors}
-									name="gate"
-									render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-								/>
-							</Grid>
-							{ /* Field: Vehicle inspect options */}
-							<Grid size={12}>
-								<LabelForm
-									label={TEXTS.label_vehicle_inspect_points}
-								/>
-								<Controller
-									name="vehicle_inspect_points"
-									control={control}
-									rules={{
-										required: GTEXTS.required,
-									}}
-									render={({ field }) => (
-										<GroupCheckboxInput
-											fetchItems={loadVehicleInspectPoints} 
-											onChange={(itemValues) => {
-												field.onChange(itemValues ? itemValues.map((item) => item.value) : [])
-											}}
-										/>
-									)}
-								/>
-								<ErrorMessage
-									errors={errors}
-									name="vehicle_inspect_points"
-									render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-								/>
-							</Grid>
-							{ /* Field: Entry comments */}
-							<Grid size={12}>
-								<LabelForm
-									label={TEXTS.label_entry_comments}
-									required={false}
-								/>
-								<CounterTextField
-									textFieldProps={{
-										id: "entry_comments",
-										...register("entry_comments"),
+		<div className="relative">
+			{isInnerLoading && (
+				<FullLoader variant="absolute" />
+			)}
+			<form>
+				<h1 className="font-inter text-[18px] font-semibold text-start mb-4">
+					{TEXTS.title}
+				</h1>
+				<div className="flex flex-col">
+					<div className="w-full">
+						<LabelForm label={TEXTS.label_vehicle_number} />
+						<Input 
+							type="text"
+							{...register("number", { required: GTEXTS.required })}
+							onChange={(e) => {
+								const target = e.target as HTMLInputElement;
+								target.value = target.value.toUpperCase();
+							}}
+						/>
+						<span className="text-red-500 text-xs">
+							{errors.number ? errors.number.message : ""}
+						</span>
+					</div>
+					<div className="w-full">
+						<LabelForm label={TEXTS.label_vehicle_type} />
+						<Controller
+							name="vehicle_type"
+							control={control}
+							rules={{
+								required: GTEXTS.required,
+							}}
+							render={({ field }) => (
+								<SelectLoadedItems
+									fetchItems={loadVehicleTypes}
+									onChangeValue={(itemValue) => field.onChange(itemValue ? parseInt(String(itemValue.value)) : itemValue)}
+									defaultValue={field.value}
+									inputProps={{
 										fullWidth: true,
-										multiline: true,
-										rows: 3,
+										size: 'small',
 									}}
-									helperText={TEXTS.help_message_entry_comments}
 								/>
-								<ErrorMessage
-									errors={errors}
-									name="entry_comments"
-									render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
+							)}
+						/>
+						<span className="text-red-500 text-xs">
+							{errors.vehicle_type ? errors.vehicle_type.message : ""}
+						</span>
+					</div>
+					<div className="w-full">
+						<LabelForm
+							label={TEXTS.label_gate}
+						/>
+						<Controller
+							name="gate"
+							control={control}
+							rules={{
+								required: GTEXTS.required,
+							}}
+							render={({ field }) => (
+								<SelectLoadedItems
+									fetchItems={loadGates}
+									onChangeValue={(itemValue) => field.onChange(itemValue ? parseInt(String(itemValue.value)) : itemValue)}
+									defaultValue={field.value}
+									inputProps={{
+										fullWidth: true,
+										size: 'small',
+									}}
 								/>
-							</Grid>
-						</Grid>
-					</Box>
-					<FormMessages
-						message={message}
-						error={error}
-					/>
-					<BoxButtonsForm>
-						<Button
-							variant="contained"
-							sx={{ background: "#CD181B" }}
-							onClick={handleReject}
-						>{TEXTS.NO_give_entry}
-						</Button>
-						<SpaceBtn />
-
-						<Button
-							variant="contained"
-							sx={{background: green}}
-							onClick={handleApprove}
-						>{TEXTS.give_entry}
-						</Button>
-						<SpaceBtn />
-
-						<Button
-							variant="outlined"
-							onClick={onClose}
-						>{GTEXTS.close}</Button>
-					</BoxButtonsForm>
-				</form>
-			</Box>
-		</>
+							)}
+						/>
+						<span className="text-red-500 text-xs">
+							{errors.gate ? errors.gate.message : ""}
+						</span>
+					</div>
+					<div className="w-full">
+						<LabelForm
+							label={TEXTS.label_vehicle_inspect_points}
+						/>
+						<Controller
+							name="vehicle_inspect_points"
+							control={control}
+							rules={{
+								required: GTEXTS.required,
+							}}
+							render={({ field }) => (
+								<GroupCheckboxInput
+									fetchItems={loadVehicleInspectPoints}
+									onChange={(itemValues) => {
+										field.onChange(itemValues ? itemValues.map((item) => item.value) : [])
+									}}
+								/>
+							)}
+						/>
+						<span className="text-red-500 text-xs">
+							{errors.vehicle_inspect_points ? errors.vehicle_inspect_points.message : ""}
+						</span>
+					</div>
+					<div className="w-full">
+						<LabelForm
+							label={TEXTS.label_entry_comments}
+							required={false}
+						/>
+						<CounterTextField
+							textFieldProps={{
+								id: "entry_comments",
+								...register("entry_comments"),
+								fullWidth: true,
+								multiline: true,
+								rows: 3,
+							}}
+							helperText={TEXTS.help_message_entry_comments}
+						/>
+						<span className="text-red-500 text-xs">
+							{errors.entry_comments ? errors.entry_comments.message : ""}
+						</span>
+					</div>
+				</div>
+				<FormMessages
+					message={message}
+					error={error}
+				/>
+				<div className="flex justify-end gap-2">
+					<Button
+						variant="contained"
+						sx={{ background: "#CD181B" }}
+						onClick={handleReject}
+					>{TEXTS.NO_give_entry}
+					</Button>
+					<Button
+						variant="contained"
+						sx={{ background: green }}
+						onClick={handleApprove}
+					>{TEXTS.give_entry}
+					</Button>
+					<Button
+						variant="outlined"
+						onClick={onClose}
+					>{GTEXTS.close}</Button>
+				</div>
+			</form>
+		</div>
 	)
 }

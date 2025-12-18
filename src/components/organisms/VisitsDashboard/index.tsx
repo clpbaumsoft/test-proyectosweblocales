@@ -59,7 +59,7 @@ export default function VisitsDashboard() {
 
 	return (
 		<Fragment>
-			<h1 className="text-2xl/8 font-semibold text-zinc-950 sm:text-xl/8 dark:text-white">
+			<h1 className="font-inter text-2xl font-bold mb-8 dark:text-white">
 				Visitas Programadas
 			</h1>
 			<TableVisitsProvider>

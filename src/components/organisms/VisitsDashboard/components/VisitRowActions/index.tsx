@@ -8,7 +8,7 @@ import {
 } from "@/constants/Visit";
 import useTranslation from "@/hooks/useTranslation";
 import { VisitRowActionsProps } from "@/interfaces/Molecules";
-import { ChevronDownIcon, DocumentDuplicateIcon, EllipsisHorizontalIcon, EyeIcon, PencilIcon, UserPlusIcon, XCircleIcon } from "@heroicons/react/24/outline";
+import { DocumentDuplicateIcon, EllipsisHorizontalIcon, EyeIcon, PencilIcon, UserPlusIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import CancelVisitForm from "./components/CancelVisitForm";
 import { TRANS } from "./constants";
 import useVisitRowActions from "./useVisitRowActions";

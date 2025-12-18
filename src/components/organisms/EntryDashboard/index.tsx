@@ -15,7 +15,7 @@ export default function EntryDashboard() {
 
 	return (
 		<TableVisitsProvider>
-			<h1 className="font-inter text-2xl font-bold mb-8">
+			<h1 className="font-inter text-2xl font-bold mb-8 dark:text-white">
 				{TEXTS.title}
 			</h1>
 			<EntryControlForm />

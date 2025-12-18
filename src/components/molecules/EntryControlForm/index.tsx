@@ -1,4 +1,3 @@
-import { Typography } from "@mui/material";
 import CardActiveEntry from "./components/CardActiveEntry";
 import CardActiveEntryVehicle from "@/components/molecules/VehicleControlForm/components/CardActiveEntryVehicle";
 import CardVisitorPhoto from "./components/CardVisitorPhoto";
@@ -53,7 +52,7 @@ export default function EntryControlForm() {
 			</div>
 			{!visitor ? (
 				hasFinished && (
-					<Typography>{GTEXTS.no_results}</Typography>
+					<p className="text-[14px]">{GTEXTS.no_results}</p>
 				)
 			) : (
 				<Fragment>

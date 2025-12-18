@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { ToastContainer } from "react-toastify";
-import LoaderPages from "@/components/atoms/LoaderPages";
 import MuiConfimModal from "@/packages/mui-confirm-modal/src/components/MuiConfirmModal";
 import MuiProvider from "@/providers/MuiProvider";
 import "./globals.css";
@@ -25,7 +24,7 @@ export default async function RootLayout({
   return (
     <html lang={locale} className={inter.className}>
       <body className={`${inter.className} antialiased`}>
-        <LoaderPages />
+        {/* <LoaderPages /> */}
         <ToastContainer />
         <MuiProvider>
           <MuiConfimModal />

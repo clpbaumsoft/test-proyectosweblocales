@@ -3,16 +3,11 @@
 import {
   ArrowRightStartOnRectangleIcon,
   ChevronUpIcon,
-  Cog8ToothIcon,
-  LightBulbIcon,
-  ShieldCheckIcon,
-  UserIcon,
 } from '@heroicons/react/16/solid'
 import {
   InboxIcon,
   MagnifyingGlassIcon,
   QuestionMarkCircleIcon,
-  SparklesIcon,
 } from '@heroicons/react/20/solid'
 import useMainSidebar from '../MainSidebar/useMainSidebar'
 import { SidebarLayout } from '@/components/atomsv2/SidebarLayout'
@@ -25,7 +20,6 @@ import {
 import { 
   Dropdown, 
   DropdownButton, 
-  DropdownDivider, 
   DropdownItem, 
   DropdownLabel, 
   DropdownMenu 
@@ -108,24 +102,6 @@ export default function MainSidebarV2({ children }: { children: React.ReactNode 
                 <Avatar avatarLetters={loggedUser.getFirstLetters()} square />
               </DropdownButton>
               <DropdownMenu className="min-w-64" anchor="bottom end">
-                <DropdownItem href="/my-profile">
-                  <UserIcon />
-                  <DropdownLabel>My profile</DropdownLabel>
-                </DropdownItem>
-                <DropdownItem href="/settings">
-                  <Cog8ToothIcon />
-                  <DropdownLabel>Settings</DropdownLabel>
-                </DropdownItem>
-                <DropdownDivider />
-                <DropdownItem href="/privacy-policy">
-                  <ShieldCheckIcon />
-                  <DropdownLabel>Privacy policy</DropdownLabel>
-                </DropdownItem>
-                <DropdownItem href="/share-feedback">
-                  <LightBulbIcon />
-                  <DropdownLabel>Share feedback</DropdownLabel>
-                </DropdownItem>
-                <DropdownDivider />
                 <DropdownItem href="/logout">
                   <ArrowRightStartOnRectangleIcon />
                   <DropdownLabel>Sign out</DropdownLabel>

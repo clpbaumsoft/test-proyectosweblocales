@@ -1,7 +1,3 @@
-import {
-	Alert,
-} from "@mui/material";
-import { ErrorMessage } from "@hookform/error-message";
 import { Controller } from "react-hook-form";
 import FullLoader from "@/components/atoms/FullLoader";
 import FormMessages from "@/components/atoms/FormMessages";
@@ -49,7 +45,7 @@ export default function GiveEntryToOtherBranch({ visitor, visit, onClose }: Give
 				<h1 className="font-inter text-[18px] font-semibold text-start mb-4">
 					{TEXTS.title}
 				</h1>
-				<div>
+				<div className="flex flex-col">
 					<LabelForm label={TEXTS.label_gate} />
 					<Controller
 						name="gate_selected"
@@ -77,11 +73,9 @@ export default function GiveEntryToOtherBranch({ visitor, visit, onClose }: Give
 							)
 						}}
 					/>
-					<ErrorMessage
-						errors={errors}
-						name="gate_selected"
-						render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-					/>
+					<span className="text-red-500 text-xs">
+						{errors.gate_selected ? errors.gate_selected.message : ""}
+					</span>
 				</div>
 				<FormMessages
 					message={message}

@@ -1,26 +1,12 @@
 "use client"
 import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-
-//Components
 import FullLoader from '@/components/atoms/FullLoader'
-
-//Constants
 import PAGES from '@/constants/Pages'
-
-//Services
 import AuthService from '@/services/Auth'
-
-//Hooks
 import useSessionProviderHook from '@/providers/SessionProvider/hooks'
-
-//Interfaces
 import { UserType } from '@/interfaces/Models'
-
-//Errors
 import AuthError from '@/errors/AuthError'
-
-//Libs
 import { setCookie } from '@/lib/Helpers'
 
 
