@@ -174,11 +174,7 @@ export default function MainSidebarV2({ children }: { children: React.ReactNode 
             <SidebarSection>
               <SidebarItem href="/support" disabled>
                 <QuestionMarkCircleIcon />
-                <SidebarLabel>Support</SidebarLabel>
-              </SidebarItem>
-              <SidebarItem href="/changelog" disabled>
-                <SparklesIcon />
-                <SidebarLabel>Changelog</SidebarLabel>
+                <SidebarLabel>Soporte</SidebarLabel>
               </SidebarItem>
             </SidebarSection>
           </SidebarBody>

@@ -16,7 +16,7 @@ export const AccordeonHistoryVisits = ({ visitor }: CardActiveEntryToOtherBranch
   if(visitorValidations) return null;
   return (
     <div className="mt-4">
-      <div className="w-full max-w-full mx-auto border-2 border-proquinal-teal rounded-lg my-4">
+      <div className="w-full max-w-full mx-auto border border-zinc-300 shadow-lg rounded-lg my-4">
         <Disclosure>
           <div className="overflow-hidden">
             <DisclosureButton className="
@@ -37,11 +37,11 @@ export const AccordeonHistoryVisits = ({ visitor }: CardActiveEntryToOtherBranch
                 focus-visible:ring-indigo-500
                 transition-colors
               ">
-              <h1 className="font-inter text-[18px] p-3 bg-proquinal-teal text-white">
+              <h1 className="font-inter text-[18px] p-3 bg-white text-black">
                 {TEXTS.label_entry_visitor_to_other_branchs}
               </h1>
               <ChevronDownIcon
-                className="h-5 w-5 text-white transition-transform duration-200"
+                className="h-5 w-5 text-black transition-transform duration-200"
               />
             </DisclosureButton>
             <DisclosurePanel className="
@@ -49,36 +49,44 @@ export const AccordeonHistoryVisits = ({ visitor }: CardActiveEntryToOtherBranch
                 pb-4 
                 pt-4 
                 text-sm 
-                text-gray-600
-                bg-gray-50
+                bg-white
               ">
               {visitor?.active_entry?.entry_gates?.map((item_entry_gates, index) => {
 
                 if (!item_entry_gates || item_entry_gates.active === 1) return null
                 return (
-                  <div key={item_entry_gates?.entry_id || index} className='flex flex-wrap justify-between'>
+                  <div key={item_entry_gates?.entry_id || index} className='
+                    flex 
+                    flex-wrap 
+                    gap-6 
+                    text-[14px] 
+                    text-zinc-500
+                    [&>div]:flex-1
+                    [&>div]:min-w-45
+                    '
+                  >
                     <div>
-                      <p className='font-semibold text-[16px]'>{TEXTS.label_other_brachs}</p>
+                      <p className='font-semibold'>{TEXTS.label_other_brachs}</p>
                       <span>{item_entry_gates?.gate?.branch?.short_description || ''}</span>
                     </div>
                     <div>
-                      <p className='font-semibold text-[16px]'>{TEXTS.label_other_gate}</p>
+                      <p className='font-semibold'>{TEXTS.label_other_gate}</p>
                       <span>{item_entry_gates?.gate?.description || ''}</span>
                     </div>
                     <div>
-                      <p className='font-semibold text-[16px]'>{TEXTS.label_entry_at}</p>
+                      <p className='font-semibold'>{TEXTS.label_entry_at}</p>
                       <span>{formatsDate(item_entry_gates?.creator_date || '')}</span>
                     </div>
                     <div>
-                      <p className='font-semibold text-[16px]'>{TEXTS.label_leave_entry_at}</p>
+                      <p className='font-semibold'>{TEXTS.label_leave_entry_at}</p>
                       <span>{formatsDate(item_entry_gates?.modifier_date || '')}</span>
                     </div>
                     <div>
-                      <p className='font-semibold text-[16px]'>{TEXTS.label_entry_approver}</p>
+                      <p className='font-semibold'>{TEXTS.label_entry_approver}</p>
                       <span>{item_entry_gates?.creator?.fullname}</span>
                     </div>
                     <div>
-                      <p className='font-semibold text-[16px]'>{TEXTS.label_leave_approver}</p>
+                      <p className='font-semibold'>{TEXTS.label_leave_approver}</p>
                       <span>{item_entry_gates?.modifier?.fullname}</span>
                     </div>
                   </div>

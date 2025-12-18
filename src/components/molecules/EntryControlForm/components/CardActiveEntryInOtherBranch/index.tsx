@@ -1,4 +1,3 @@
-import Button from "@/components/atoms/Button";
 import FormMessages from "@/components/atoms/FormMessages";
 import FullLoader from "@/components/atoms/FullLoader";
 import useTranslation from "@/hooks/useTranslation";
@@ -8,6 +7,7 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { useMemo } from "react";
 import { TRANS } from "./constants";
 import useCardActiveEntryInOtherBranch from "./useCardActiveEntryInOtherBranch";
+import { Button } from "@/components/atomsv2/Button";
 
 export default function CardActiveEntryInOtherBranch({ visitor }: CardActiveEntryToOtherBranchProps) {
 	const TEXTS = useTranslation(TRANS)
@@ -29,34 +29,34 @@ export default function CardActiveEntryInOtherBranch({ visitor }: CardActiveEntr
 
 	if(!actualGate) return null;
 	return (
-		<div className="border-2 border-proquinal-teal rounded-lg mt-4">
+		<div className="border border-zinc-300 shadow-lg rounded-lg mt-4">
 			{isInnerLoading && (
 				<FullLoader variant="absolute" />
 			)}
-			<h1 className="font-inter text-[18px] p-3 bg-proquinal-teal text-white">{TEXTS.label_entry_visitor}</h1>
+			<h1 className="font-inter text-[18px] p-3 bg-white text-black">{TEXTS.label_entry_visitor}</h1>
 			<div className="p-3">
 				<div className="flex flex-wrap justify-between">
 					<div className="w-3/12">
-						<div className="mb-[10px] text-gray-600">
-							<p className='font-semibold text-[16px]'>{TEXTS.label_other_brachs}</p>
+						<div className="mb-2.5 text-zinc-500 text-[14px]">
+							<p className='font-semibold'>{TEXTS.label_other_brachs}</p>
               <span>{actualGate?.gate?.branch?.short_description || ''}</span>
 						</div>
 					</div>
 					<div className="w-3/12">
-						<div className="mb-[10px] text-gray-600">
-							<p className='font-semibold text-[16px]'>{TEXTS.label_entry_at}</p>
+						<div className="mb-2.5 text-zinc-500 text-[14px]">
+							<p className='font-semibold'>{TEXTS.label_entry_at}</p>
               <span>{formatsDate(actualGate?.creator_date || '')}</span>
 						</div>
 					</div>
 					<div className="w-3/12">
-						<div className="mb-[10px] text-gray-600">
-							<p className='font-semibold text-[16px]'>{TEXTS.label_entry_current_time}</p>
+						<div className="mb-2.5 text-zinc-500 text-[14px]">
+							<p className='font-semibold'>{TEXTS.label_entry_current_time}</p>
               <span>{getTimeDiff(actualGate?.creator_date || '')}</span>
 						</div>
 					</div>
 					<div className="w-3/12">
-						<div className="mb-[10px] text-gray-600">
-							<p className='font-semibold text-[16px]'>{TEXTS.label_entry_approver}</p>
+						<div className="mb-2.5 text-zinc-500 text-[14px]">
+							<p className='font-semibold'>{TEXTS.label_entry_approver}</p>
               <span>{actualGate?.creator?.fullname}</span>
 						</div>
 					</div>
@@ -68,11 +68,12 @@ export default function CardActiveEntryInOtherBranch({ visitor }: CardActiveEntr
 				/>
 				<div className="flex justify-end">
 					<Button 
-						className="flex items-center h-[38px]"
-						icon={<ExitToAppIcon className="mr-3" />}
-						text={TEXTS.give_leave}
+						className="flex items-center h-9.5"
 						onClick={onClickGiveLeave}
-					/>
+					>
+						<ExitToAppIcon className="mr-3" />
+						{TEXTS.give_leave}
+					</Button>
 				</div>
 			</div>
 		</div>

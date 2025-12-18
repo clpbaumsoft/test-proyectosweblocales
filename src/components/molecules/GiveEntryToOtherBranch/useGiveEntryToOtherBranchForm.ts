@@ -34,8 +34,6 @@ const TRANS = {
 }
 
 export default function useGiveEntryToOtherBranchForm(visitor: Visitor, visit: Visit) {
-	console.log("🚀 ~ useGiveEntryToOtherBranchForm ~ visit:", visit)
-	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
 

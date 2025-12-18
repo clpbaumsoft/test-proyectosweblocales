@@ -118,3 +118,8 @@ body {
   box-shadow: none;
 }
 
+/* Sube TODAS las listas de opciones de Combobox por encima de los modales */
+[data-headlessui-state][role='listbox'] {
+  z-index: 14000 !important;
+}
+
