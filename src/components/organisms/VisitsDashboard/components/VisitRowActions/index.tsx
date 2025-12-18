@@ -8,18 +8,12 @@ import {
 } from "@/constants/Visit";
 import useTranslation from "@/hooks/useTranslation";
 import { VisitRowActionsProps } from "@/interfaces/Molecules";
-import { EyeIcon, PencilIcon, UserPlusIcon, XCircleIcon } from "@heroicons/react/24/outline";
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import {
-	Badge,
-	Button,
-	Tooltip,
-} from "@mui/material";
-import Link from "next/link";
+import { ChevronDownIcon, DocumentDuplicateIcon, EllipsisHorizontalIcon, EyeIcon, PencilIcon, UserPlusIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import CancelVisitForm from "./components/CancelVisitForm";
 import { TRANS } from "./constants";
 import useVisitRowActions from "./useVisitRowActions";
-import styles from "./VisitRowActions.module.scss";
+import { Dropdown, DropdownButton, DropdownItem, DropdownMenu } from "@/components/atomsv2/Dropdown";
+import { Badge } from "@mui/material";
 
 export default function VisitRowActions({ setRowData, rowData }: VisitRowActionsProps) {
 	const TEXTS = useTranslation(TRANS)
@@ -52,82 +46,63 @@ export default function VisitRowActions({ setRowData, rowData }: VisitRowActions
 		return currentDate >= compareDate;
 	}
 
+	const actions = [
+		{
+			label: TEXTS.see,
+			icon: <EyeIcon className="w-5 text-[#aeaeae] cursor-pointer" />,
+			href: PAGES.visits_id.replace('[id]', String(rowData.id)),
+			onClick: () => {},
+			disabled: !loggedUser.canOr(['approvedocs_visit', 'read_visit'])
+		},
+		{
+			label: TEXTS.edit,
+			icon: <PencilIcon className="w-5 text-[#aeaeae] cursor-pointer" />,
+			onClick: toggleModalEdit,
+			disabled: !loggedUser.can('update_visit')
+		},
+		{
+			label: TEXTS.duplicateVisit,
+			icon: <DocumentDuplicateIcon className="w-5 text-[#aeaeae] cursor-pointer" />,
+			onClick: toggleModalDuplicateVisit,
+			disabled: !loggedUser.can('update_visit') || !isVisitExpired()
+		},
+		{
+			label: TEXTS.cancel,
+			icon: <XCircleIcon className="w-5 text-[#aeaeae] cursor-pointer" />,
+			onClick: toggleIsOpenCancelForm,
+			disabled: !loggedUser.can('update_visit') || !(rowData.status !== VISIT_STATUS_CANCELLED)
+		},
+		{
+			label: TEXTS.add_visitor,
+			icon: <Badge badgeContent={rowData.visitors_count} color="primary" className="mr-4">
+				<UserPlusIcon className="w-5 text-[#aeaeae] cursor-pointer" />
+			</Badge>,
+			onClick: toggleModalAddVisitor,
+			disabled: !loggedUser.can('update_visit') || !(rowData.status !== VISIT_STATUS_CANCELLED)
+		}
+	]
+
 	return (
 		<>
-			<div className="flex items-center justify-center gap-2">
-				{loggedUser.canOr(['approvedocs_visit', 'read_visit']) && (
-					<Link href={PAGES.visits_id.replace('[id]', String(rowData.id))} passHref>
-						<Tooltip title={TEXTS.see} placement="top">
-							<EyeIcon 
-								className="
-									w-5 
-									text-[#aeaeae] 
-									cursor-pointer
-									hover:text-[var(--proquinal-dark-teal)]
-								" 
-							/>
-						</Tooltip>
-					</Link>
-				)}
-				{loggedUser.can('update_visit') && (
-					<>
-						<Tooltip title={TEXTS.edit} placement="top">
-							<PencilIcon
-								onClick={toggleModalEdit}
-								className="
-									w-5 
-									text-[#aeaeae] 
-									cursor-pointer
-									hover:text-[var(--proquinal-dark-teal)]
-								"
-							/>
-						</Tooltip>
-						{isVisitExpired() && (
-							<Tooltip title={TEXTS.duplicateVisit} placement="top">
-								<Button
-									className={`${styles.button_action_icon}`}
-									variant="outlined"
-									onClick={toggleModalDuplicateVisit}
-									startIcon={<ContentCopyIcon sx={{ margin: '0 !important' }} />}
-									sx={{
-										margin: '0px !important',
-									}}
-								>
-								</Button>
-							</Tooltip>
-						)}
-						{(rowData.status !== VISIT_STATUS_CANCELLED) && (
-							<Tooltip title={TEXTS.cancel} placement="top">
-								<XCircleIcon
-									className="
-										w-5 
-										text-[#aeaeae]
-										cursor-pointer
-										hover:text-[var(--proquinal-dark-teal)]
-									"
-									onClick={toggleIsOpenCancelForm}
-								/>
-							</Tooltip>
-						)}
-						{(rowData.status !== VISIT_STATUS_CANCELLED) && (
-							<Tooltip title={TEXTS.add_visitor} placement="top">
-								<Badge badgeContent={rowData.visitors_count} color="primary">
-									<UserPlusIcon 
-										className="
-											w-5 
-											text-[#aeaeae] 
-											cursor-pointer
-											hover:text-[var(--proquinal-dark-teal)]
-										"
-										onClick={toggleModalAddVisitor}
-									/>
-								</Badge>
-							</Tooltip>
-						)}
-					</>
-				)}
-			</div>
-
+			<Dropdown>
+				<DropdownButton color="white">
+					<EllipsisHorizontalIcon className="text-black!" />
+				</DropdownButton>
+				<DropdownMenu>
+					{actions.map((action, index) => (
+						<DropdownItem 
+							key={index} 
+							href={action?.href}
+							onClick={action.onClick} 
+							disabled={action.disabled} 
+							className="cursor-pointer"
+						>
+							{action.icon}
+							{action.label}
+						</DropdownItem>
+					))}
+				</DropdownMenu>
+			</Dropdown>
 
 			{ /* Form duplicate Visit */}
 			{ isOpenDuplicateForm &&

@@ -8,6 +8,7 @@ import { SpaceFields } from "@/styles/elements";
 import EastIcon from "@mui/icons-material/East";
 import { TRANS } from "./constants";
 import useCardVisitorPhoto from "./useCardVisitorPhoto";
+import { Badge } from "@/components/atomsv2/Badge";
 
 export default function CardVisitorPhoto({ visitor }: CardVisitorProps) {
 	const TEXTS = useTranslation(TRANS)
@@ -20,16 +21,16 @@ export default function CardVisitorPhoto({ visitor }: CardVisitorProps) {
 	if(!visitor) return null
 	return (
 		<>
-			<div className="w-[750px] mx-auto mt-8 rounded-lg overflow-hidden py-4">
-				<div className="flex">
-					<div className="w-[50%]">
+			<div className="w-full mt-8 rounded-lg overflow-hidden py-4">
+				<div className="flex w-full">
+					<div className="w-[40%]">
 						<TakePhoto
 							isButtonActive={visitor?.is_currently_banned ? false : true}
 							preview={visitor.photo_url ? mediaUrl(visitor.id, 'foto-visitante') : null}
 							onSavePhoto={onSavePhotoVisitor}
 						/>
 					</div>
-					<div className="flex flex-col align-center justify-center px-8 w-[50%] gap-2 border-l-[1px] border-proquinal-teal">
+					<div className="flex flex-col align-center justify-center px-8 w-[60%] gap-2 border-l border-zinc-300">
 						<h1 className="text-[24px] font-semibold font-inter">{visitor.fullname}</h1>
 						<div>
 							<p className="text-[14px] font-semibold">{TEXTS.label_card_id}</p>
@@ -45,8 +46,8 @@ export default function CardVisitorPhoto({ visitor }: CardVisitorProps) {
 							<p className="text-[14px] font-semibold">{TEXTS.label_card_phone}</p>
 							<p className="text-[12px] text-[#767676]">{visitor.phone}</p>
 						</div>
-						<p className="text-[14px]">{TEXTS.label_card_has_sgsst}</p>
-						<div className="flex">
+						<p className="text-[14px] font-semibold">{TEXTS.label_card_has_sgsst}</p>
+						<div className="flex flex-col">
 							{visitor?.requires_security_speak ?
 								(() => {
 									if (isBetweenDates(visitor.startdate_sgsst, visitor.enddate_sgsst, now())) {
@@ -61,17 +62,17 @@ export default function CardVisitorPhoto({ visitor }: CardVisitorProps) {
 										)
 									} else if (visitor.startdate_sgsst && visitor.enddate_sgsst) {
 										return (
-											<WarningCondition condition={false}>
+											<Badge color="red" className="bg-red-300">
 												{GTEXTS.no}
-												<EastIcon fontSize="small" />
+												<EastIcon className="size-3" />
 												{formatsDate(visitor.startdate_sgsst, 'D MMMM, YYYY') + ' -- ' + formatsDate(visitor.enddate_sgsst, 'D MMMM, YYYY')}
-											</WarningCondition>
+											</Badge>
 										)
 									}
 									return (
-										<WarningCondition condition={false}>
+										<Badge color="red" className="bg-red-300 mt-3 w-fit">
 											{TEXTS.required_sgsst}
-										</WarningCondition>
+										</Badge>
 									)
 								})() :
 								<p>{GTEXTS.no_required}</p>

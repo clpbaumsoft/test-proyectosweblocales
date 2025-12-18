@@ -50,7 +50,7 @@ export default function CardActiveEntry({ visitor }: CardActiveEntryProps) {
 				{isInnerLoading && (
 					<FullLoader variant="absolute" />
 				)}
-				<h1 className="font-inter text-[18px] p-3 bg-proquinal-teal text-white">{TEXTS.label_entry_visitor}</h1>
+				<h1 className="font-inter text-[18px] p-3 bg-black text-black">{TEXTS.label_entry_visitor}</h1>
 				<div className="p-3">
 					<div className="flex flex-wrap">
 						<div className="w-[33.3%]">

@@ -4,8 +4,8 @@ import { formatsDate } from "@/lib/Helpers";
 import useVisitRow from "./useVisitRow";
 import { VisitRowProps } from "@/interfaces/Molecules";
 import styles from "./VisitRow.module.scss";
-import { Fragment } from "react";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
+import { TableCell, TableRow } from "@/components/atomsv2/Table";
 
 export default function VisitRow({ row }: VisitRowProps) {
 	const {
@@ -14,16 +14,16 @@ export default function VisitRow({ row }: VisitRowProps) {
 	} = useVisitRow(row)
 
 	return (
-		<Fragment>
-			<td className="text-center font-inter text-sm">
+		<TableRow className="text-center">
+			<TableCell>
 				<b className="text-sm">{stateVisit.id}</b>
-			</td>
-			<td className="text-center font-inter text-sm">
+			</TableCell>
+			<TableCell>
 				<label className={`${styles.labelStatus} ${styles[`ref${stateVisit.status}`]}`}>
 					{VISIT_STATUS_NAMES[stateVisit.status]}
 				</label>
-			</td>
-			<td className="text-start font-inter text-sm py-4">
+			</TableCell>
+			<TableCell className="text-start">
 				<span>{stateVisit.reason}</span>
 				<div className="rounded-md bg-blue-50 px-4 py-2">
 					<div className="flex">
@@ -37,22 +37,22 @@ export default function VisitRow({ row }: VisitRowProps) {
 						</div>
 					</div>
 				</div>
-			</td>
-			<td className="text-center font-inter text-sm">
+			</TableCell>
+			<TableCell>
 				{stateVisit.company_name}
-			</td>
-			<td className="text-center font-inter text-sm">
+			</TableCell>
+			<TableCell>
 				{stateVisit.branch_name}
-			</td>
-			<td className="text-center font-inter text-sm">
+			</TableCell>
+			<TableCell>
 				{stateVisit.gate_name}
-			</td>
-			<td className="text-center font-inter text-sm">
+			</TableCell>
+			<TableCell>
 				<VisitRowActions
 					setRowData={setStateVisit}
 					rowData={stateVisit}
 				/>
-			</td>
-		</Fragment>
+			</TableCell>
+		</TableRow>
 	)
 }

@@ -40,7 +40,7 @@ export default function InputGroup({ name, type, placeholder, ...props }: InputG
           focus:outline-proquinal-teal 
           sm:text-sm/6 
           dark:bg-white/5 
-          dark:text-white 
+          dark:text-black 
           dark:outline-white/10 
           dark:placeholder:text-gray-500 
           dark:focus:outline-indigo-500

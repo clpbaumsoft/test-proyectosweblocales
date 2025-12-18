@@ -2,23 +2,13 @@
 
 import Image from "next/image";
 import { IntlProvider } from "react-intl";
-
 import {
 	Typography,
 	Box,
 } from "@mui/material";
-
-//Assets
-import Logo from "@/assets/logo.png";
-
-//Hooks
 import useLocale from "@/hooks/useLocale";
-
-//Interfaces and types
 import { FullScreenMessageProps } from "@/interfaces/Organisms";
 import useTranslation from "@/hooks/useTranslation";
-
-//Intl
 import TRANSLATIONS_MESSAGES from "@/intl";
 
 //Texts
@@ -31,10 +21,8 @@ const TRANS = {
 }
 
 export default function FullScreenMessage({ message, children }: FullScreenMessageProps) {
-
 	const { locale } = useLocale()
 	
-
 	return (
 		<>
 			<IntlProvider 
@@ -51,7 +39,6 @@ export default function FullScreenMessage({ message, children }: FullScreenMessa
 }
 
 function IntlFullScreenMessage({ message, children }: FullScreenMessageProps) {
-
 	const TEXTS = useTranslation(TRANS)
 
 	return (
@@ -59,12 +46,14 @@ function IntlFullScreenMessage({ message, children }: FullScreenMessageProps) {
 		<div>
 				<Box sx={{ mt: 5, display: 'flex', justifyContent: 'center' }}>
 					<Image
-						src={Logo}
+						src="/images/logos/logo.png"
 						alt="Proquinal"
 						priority={true}
 						style={{
 							objectFit: 'contain',
 						}}
+						width={300}
+						height={300}
 					/>
 				</Box>
 				<Box sx={{ mt: 5, display: 'flex', justifyContent: 'center' }}>

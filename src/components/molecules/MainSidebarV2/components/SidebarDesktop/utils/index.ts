@@ -1,13 +1,13 @@
 import PAGES from "@/constants/Pages";
 import User from "@/models/User";
+import { DocumentDuplicateIcon } from "@heroicons/react/16/solid";
 import {
   CalendarIcon,
   ChartPieIcon,
-  DocumentDuplicateIcon,
   FolderIcon,
   HomeIcon,
   UsersIcon,
-} from '@heroicons/react/24/outline'
+} from '@heroicons/react/24/solid'
 import ArticleIcon from '@mui/icons-material/Article';
 
 export const constructNavigationItems = (loggedUser: User) => ([
@@ -20,16 +20,17 @@ export const constructNavigationItems = (loggedUser: User) => ([
   },
   { 
     name: 'Programar Visita', 
-    href: '#', 
+    href: undefined, 
     icon: UsersIcon, 
     current: false, 
-    hide: loggedUser.can('create_entry') },
+    hide: loggedUser.can('create_entry') 
+  },
   { 
     name: 'Control Ingreso', 
     href: PAGES.dashboard_entry, 
     icon: FolderIcon, 
     current: false, 
-    hide: false
+    hide: true
   },
   { 
     name: 'Restringir/Habilitar usuarios', 

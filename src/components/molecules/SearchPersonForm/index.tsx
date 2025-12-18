@@ -11,8 +11,8 @@ import { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
 import { TRANS } from "./constants";
 import useSearchPersonForm from "./useSearchPersonForm";
-import Button from "@/components/atoms/Button";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { Button } from "@/components/atomsv2/Button";
 
 export default function SearchPersonForm({ onSearch, onResult, onFail }: SearchPersonFormProps) {
 	const TEXTS = useTranslation(TRANS)
@@ -81,12 +81,10 @@ export default function SearchPersonForm({ onSearch, onResult, onFail }: SearchP
 						/>
 					</div>
 					<div>
-						<Button
-							type="submit"
-							text={TEXTS.search}
-							icon={<MagnifyingGlassIcon className="inline w-4 h-4" />}
-							className="h-[36px] flex items-center gap-2"
-						/>
+						<Button type="submit" color="dark">
+							<MagnifyingGlassIcon className="inline w-4 h-4" />
+							{TEXTS.search}
+						</Button>
 					</div>
 				</div>
 			</div>

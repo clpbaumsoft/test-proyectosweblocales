@@ -9,46 +9,54 @@ export default function Select({ name, value, disabled, options, onChange, ...pr
         name={name}
         value={value}
         disabled={disabled}
+        onChange={onChange}
         className={`
           col-start-1 
           row-start-1 
           w-full 
           appearance-none 
           rounded-md 
-          bg-white 
           py-1.5 
           pl-3 
           pr-8 
           text-base
+          sm:text-sm
           font-inter 
+
+          /* light */
+          bg-white 
           text-black
-          outline 
-          outline-1 
-          -outline-offset-1 
-          outline-gray-300 
-          focus-visible:outline 
-          focus-visible:outline-2 
-          focus-visible:-outline-offset-2 
-          focus-visible:outline-proquinal-teal 
-          sm:text-sm/6 
-          dark:bg-white/5 
-          dark:text-white 
-          dark:outline-white/10 
-          dark:*:bg-gray-800 
+          border
+          border-gray-300
+
+          /* dark */
+          dark:bg-white
+          dark:text-black
         `}
         {...props}
-        onChange={onChange}
       >
         <option value="" disabled>Seleccione una opción</option>
         {options && options.map(({ label, value }) => (
-          <option key={value} value={value} className='text-black'>
+          <option key={value} value={value} className="text-black dark:text-black">
             {label}
           </option>
         ))}
       </select>
+
       <ChevronDownIcon
         aria-hidden="true"
-        className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4 dark:text-gray-400"
+        className="
+          pointer-events-none 
+          col-start-1 
+          row-start-1 
+          mr-2 
+          size-5 
+          self-center 
+          justify-self-end 
+          text-gray-500 
+          sm:size-4 
+          dark:text-gray-400
+        "
       />
     </div>
   )

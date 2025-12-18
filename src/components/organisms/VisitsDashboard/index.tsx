@@ -1,21 +1,18 @@
-import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 import VisitRow from "./components/VisitRow";
 import SkeletonVisitRow from "./components/SkeletonVisitRow";
-import { GTRANS } from "@/constants/Globals";
 import useVisitsDashboard from "./useVisitsDashboard";
 import useTranslation from "@/hooks/useTranslation";
 import TableVisitsProvider from "@/providers/TableVisitsProvider";
-import Select from "@/components/atoms/Select";
 import LabelForm from "@/components/atoms/LabelForm";
-import InputGroup from "@/components/atoms/InputGroup";
 import { TRANS } from "./constants";
-import Table from "@/components/atoms/Table";
 import { Fragment } from "react";
-import { TableFooter, TablePagination } from "@mui/material";
+import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/atomsv2/Table";
+import { Input } from "@/components/atomsv2/Input";
+import { Select } from "@/components/atomsv2/Select";
+import DataTablePagination from "@/components/atomsv2/DataTablePagination";
 
 export default function VisitsDashboard() {
 	const TEXTS = useTranslation(TRANS)
-	const GTEXTS = useTranslation(GTRANS)
 
 	const {
 		total,
@@ -45,35 +42,49 @@ export default function VisitsDashboard() {
 
   // Proccess table rows
   const tableRows = visitsRows.map((row) => (
-    <VisitRow key={`visitRow-${row.id}`} row={row} />
+		<VisitRow key={row.id} row={row} />
   ))
 
   if (isLoadingNewVisit)
     tableRows.push(<SkeletonVisitRow key="skeleton-new-visit" />)
 
+	const hasVisits = visitsRows.length > 0;
+	const isLoading = isInnerLoading || isInnerLoadingFirstTime;
+	const totalPages = Math.max(1, Math.ceil(total / rowsPerPage));
+
+	const goToPage = (nextPage: number) => {
+		if (nextPage < 0 || nextPage > totalPages - 1) return;
+		handleChangePage(null, nextPage);
+	};
+
 	return (
 		<Fragment>
-			<h1 className="font-inter text-2xl font-bold mb-8">
+			<h1 className="text-2xl/8 font-semibold text-zinc-950 sm:text-xl/8 dark:text-white">
 				Visitas Programadas
 			</h1>
 			<TableVisitsProvider>
-				<div className="my-[30px] flex gap-2 items-center">
-					<div className="flex flex-col">
+				<div className="my-7.5 flex gap-2 items-center">
+					<div className="flex flex-col gap-2">
 						<LabelForm label="Estado:" required={false} />
-						<Select 
+						<Select
 							value={filter}
 							disabled={isInnerLoading || isInnerLoadingFirstTime}
 							onChange={onChangeFilter}
-							options={[
+						>
+							{[
 								{ value: "activated", label: TEXTS.option_activated },
 								{ value: "cancelled", label: TEXTS.option_cancelled },
 								{ value: "expired", label: TEXTS.option_expired },
-							]}
-						/>
+							].map((option) => (
+								<option key={option.value} value={option.value}>
+									{option.label}
+								</option>
+							))}
+            </Select>
 					</div>
-					<div className="flex flex-col ml-6">
+					<div className="flex flex-col gap-2 ml-6">
 						<LabelForm label="Código de visita:" required={false} />
-						<InputGroup
+						<Input 
 							type="number"
 							value={visitIdFilter}
 							onChange={onChangeVisitIdFilter}
@@ -82,32 +93,46 @@ export default function VisitsDashboard() {
 						/>
 					</div>
 				</div>
-				<Table
-					tableHeads={tableHeads}
-					tableRows={tableRows}
-					isLoading={isInnerLoading || isInnerLoadingFirstTime}
-					loadingMessage="Cargando visitas..."
-					emptyMessage="No hay visitas registradas"
-				/>
-				<table className="w-full">
-					{(!(isInnerLoading || isInnerLoadingFirstTime) && visitsRows.length !== 0) && (
-						<TableFooter>
-							<tr>
-								<TablePagination
-									rowsPerPageOptions={[5, 10, 25]}
-									colSpan={7}
-									count={total}
-									rowsPerPage={rowsPerPage}
-									page={page}
-									labelRowsPerPage={GTEXTS.rows_per_page}
-									onPageChange={handleChangePage}
-									onRowsPerPageChange={handleChangeRowsPerPage}
-									ActionsComponent={TablePaginationActions}
-								/>
-							</tr>
-						</TableFooter>
+				<section>
+					{isLoading ? (
+						<div className="flex flex-col items-center gap-2">
+							<div
+								className="
+								animate-spin 
+								rounded-full 
+								h-8 
+								w-8 
+								border-b-2 
+								border-proquinal-teal
+							" />
+							<span>Cargando resultados...</span>
+						</div>
+					) : hasVisits ? (
+						<Table>
+							<TableHead>
+								<TableRow>
+									{tableHeads.map((head, index) => (
+										<TableHeader key={index} className="text-center">{head}</TableHeader>
+									))}
+								</TableRow>
+							</TableHead>
+							<TableBody>{tableRows}</TableBody>
+						</Table>
+					) : (
+						<p className="text-sm text-muted-foreground dark:text-white">
+							No hay visitas registradas
+						</p>
 					)}
-				</table>
+				</section>
+				{!isLoading && hasVisits && (
+					<DataTablePagination 
+						page={page}
+						rowsPerPage={rowsPerPage}
+						total={total}
+						onChangePage={goToPage}
+						onChangeRowsPerPage={handleChangeRowsPerPage}
+					/>
+				)}
 			</TableVisitsProvider>
 		</Fragment>
 	)

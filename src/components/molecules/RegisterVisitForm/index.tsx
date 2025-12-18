@@ -15,9 +15,9 @@ import useTranslation from "@/hooks/useTranslation";
 import useRegisterVisitForm from "./useRegisterVisitForm";
 import { RegisterVisitFormProps } from "@/interfaces/Organisms";
 import { TRANS } from "./constants";
-import Button from "@/components/atoms/Button";
 import Modal from "@/components/atoms/Dialog";
 import { customStylesDatePicker } from "@/components/atoms/CustomDatePicker/constants";
+import { Button } from "@/components/atomsv2/Button";
 
 export default function RegisterVisitForm({ visitId, open, onClose, preFillFormData, onSaved }: RegisterVisitFormProps) {
 	const TEXTS = useTranslation(TRANS)
@@ -116,6 +116,7 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 								focus:border-transparent
 							"
 							rows={3}
+							placeholder={TEXTS.label_reason}
 						/>
 						<ErrorMessage
 							errors={errors}
@@ -191,15 +192,17 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 					/>
 					<div className="flex justify-end gap-2">
 						<Button
-							text={GTEXTS.close}
 							onClick={closeForm}
-							variant="outlined"
-						/>
+							outline
+						>
+							{GTEXTS.close}
+						</Button>
 						<Button
 							type="submit"
-							text={TEXTS.save}
 							disabled={!isValidForm()}
-						/>
+						>
+							{TEXTS.save}
+						</Button>
 					</div>
 				</form>
 			</LocalizationProvider>

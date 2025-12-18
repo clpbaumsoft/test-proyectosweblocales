@@ -48,7 +48,7 @@ export default function EntryControlForm() {
 				onSearch={onSearchVisitor}
 				onResult={onLoadResult}
 			/>
-			<div className="my-4">
+			<div className="my-8">
 				{visitor && <Divider text={TEXTS.heading_results_for.replace('[NAME]', visitor.fullname)} />}
 			</div>
 			{!visitor ? (

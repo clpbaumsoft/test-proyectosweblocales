@@ -124,8 +124,7 @@ export default function useVisitsDashboard() {
 		setAllVisitsLoaded(false) // Reset flag to reload all visits if filter is used again
 		loadVisits(newPage, rowsPerPage)
 	}
-	const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-		const newRowsPerPage = parseInt(event.target.value)
+	const handleChangeRowsPerPage = (newRowsPerPage: number) => {
 		setRowsPerPage(newRowsPerPage)
 		setVisitIdFilter('') // Reset filter when changing rows per page
 		setAllVisitsLoaded(false) // Reset flag to reload all visits if filter is used again

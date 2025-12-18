@@ -9,7 +9,7 @@ export type BaseComponentProps = {
 }
 
 export type PageAuthProps = BaseComponentProps & {
-	userLogged: UserType;
+	userLogged?: UserType;
 }
 
 export type MaterialDateTimePickerType = {

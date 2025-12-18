@@ -1,7 +1,6 @@
 import Image from "next/image";
 import {
 	Box,
-	Button,
 	CircularProgress,
 	Dialog,
 	DialogActions,
@@ -9,24 +8,16 @@ import {
 } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import LocalSeeIcon from "@mui/icons-material/LocalSee";
-
-//Components
 import CapturePhoto from "./components/CapturePhoto";
 import FormMessages from "@/components/atoms/FormMessages";
 import PreviewImage from "@/components/atoms/PreviewImage";
-
-//Constants
 import { GTRANS } from "@/constants/Globals";
-
-//Styles
-import { BoxButtons, SpaceBtn, VisuallyHiddenInput } from "@/styles/elements";
-
-//Hooks
+import { SpaceBtn, VisuallyHiddenInput } from "@/styles/elements";
 import useTakePhoto from "./useTakePhoto";
 import useTranslation from "@/hooks/useTranslation";
-
-//Interfaces and types
 import { TakePhotoProps } from "@/interfaces/Atoms";
+import { Button } from "@/components/atomsv2/Button";
+import { useRef } from "react";
 
 //Texts
 const TRANS = {
@@ -53,7 +44,7 @@ const TRANS = {
 }
 
 export default function TakePhoto({ preview, onSavePhoto, isButtonActive = true }: TakePhotoProps) {
-	
+	const inputFileRef = useRef<HTMLInputElement>(null)
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
 	
@@ -73,75 +64,69 @@ export default function TakePhoto({ preview, onSavePhoto, isButtonActive = true 
 		onClickCapturePhoto,
 		onClickSavePhoto,
 	} = useTakePhoto(preview, onSavePhoto)
+
+	const openModalSelectPhoto = () => {
+		if(inputFileRef.current) {
+			inputFileRef.current.click()
+		}
+	}
 	
 	return (
 		<>
 			<Box>
-				
-				{/* Preview */}
-				{
-					imageSrc && (
-						<Box sx={{ mb: '10px' }}>
-							<PreviewImage width={150}>
-								{
-									isLoadingPreview && (
-										<span><CircularProgress size={20} /></span>
-									)
-								}
-								<Image 
-									src={imageSrc} 
-									alt={""}
-									priority={true}
-									fill
-									onLoad={onLoadPreviewImage}
-								/>
-							</PreviewImage>
+				{imageSrc && (
+					<Box sx={{ mb: '10px' }}>
+						<PreviewImage width={150}>
 							{
-								filePhoto && (
-									<Button
-										variant="contained"
-										color="success"
-										sx={{ mx: 'auto', display: 'table' }}
-										onClick={onClickSavePhoto}
-									>
-										{isSavingPhoto ? GTEXTS.saving_dots : TEXTS.upload_photo}
-									</Button>
+								isLoadingPreview && (
+									<span><CircularProgress size={20} /></span>
 								)
 							}
-						</Box>
-					)
-				}
+							<Image
+								src={imageSrc}
+								alt={""}
+								priority={true}
+								fill
+								onLoad={onLoadPreviewImage}
+							/>
+						</PreviewImage>
+						{
+							filePhoto && (
+								<Button onClick={onClickSavePhoto} color="dark">
+									{isSavingPhoto ? GTEXTS.saving_dots : TEXTS.upload_photo}
+								</Button>
+							)
+						}
+					</Box>
+				)}
 				<FormMessages
 					message={message}
 					error={error}
 				/>
-				{
-					isButtonActive &&
-					<BoxButtons>
-						<Button
-							component="label"
-							variant="outlined"
-							startIcon={<CloudUploadIcon />}
-							
-						>
-							{TEXTS.select_file_image}
-							<VisuallyHiddenInput
-								type="file"
-								accept={"image/*"}
-								onChange={onChangeInput}
-								multiple
-							/>
-						</Button>
-						<SpaceBtn />
-							<Button
-								variant="outlined"
-								startIcon={<LocalSeeIcon />}	
-								onClick={toggleIsOpenModalTakePhoto}
-							>
-								{TEXTS.take_photo_open}
+				<div className="w-full flex justify-center">
+					{isButtonActive &&
+						<div className="flex flex-col w-6/12">
+							<Button className="flex items-center" outline onClick={openModalSelectPhoto}>
+								<CloudUploadIcon />
+								{TEXTS.select_file_image}
+								<VisuallyHiddenInput
+									ref={inputFileRef}
+									type="file"
+									accept={"image/*"}
+									onChange={onChangeInput}
+									multiple
+								/>
 							</Button>
-					</BoxButtons>
-				}
+							<SpaceBtn />
+								<Button
+									className="flex items-center"
+									onClick={toggleIsOpenModalTakePhoto}
+								>
+									<LocalSeeIcon />
+									{TEXTS.take_photo_open}
+								</Button>
+						</div>}
+				</div>
 			</Box>
 			
 			<Dialog open={isOpenModalTakePhoto}>
@@ -152,12 +137,10 @@ export default function TakePhoto({ preview, onSavePhoto, isButtonActive = true 
 					/>
 					<DialogActions>
 						<Button 
-							variant="outlined"
-							color="primary"
+							color="dark"
 							onClick={toggleIsOpenModalTakePhoto}
 						>{GTEXTS.close}</Button>
 						<Button
-							variant="contained"
 							type="submit"
 							onClick={onClickCapturePhoto}
 						>

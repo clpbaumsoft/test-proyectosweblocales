@@ -6,20 +6,18 @@ import {
 	Alert,
 } from "@mui/material";
 import { ErrorMessage } from "@hookform/error-message";
-import Logo from "@/assets/logo.png";
 import FullLoader from "@/components/atoms/FullLoader";
 import RestorePasswordForm from "@/components/organisms/RestorePasswordForm";
 import LabelForm from "@/components/atoms/LabelForm";
 import { GTRANS } from "@/constants/Globals";
 import useLoginForm from "./useLoginForm";
 import useTranslation from "@/hooks/useTranslation";
-import Select from "@/components/atoms/Select";
 import { IDENTIFICATION_TYPES, TRANS } from "./constants";
 import InputGroup from "@/components/atoms/InputGroup";
 import Divider from "@/components/atoms/Divider";
-import Button from "@/components/atoms/Button";
 import { LogosMicrosoft } from "@/assets/icons/Microsoft";
-
+import { Button } from "@/components/atomsv2/Button";
+import Select from "@/components/atoms/Select";
 
 export default function LoginForm() {
 	const TEXTS = useTranslation(TRANS)
@@ -46,10 +44,12 @@ export default function LoginForm() {
 			<div className="flex flex-1 flex-col justify-center py-5 shadow-md bg-white max-w-[50%] h-screen">
 				<div className="max-w-[600px] w-[500px] mx-auto">
 					<Image
-						src={Logo}
+						src="/images/logos/logo.png"
 						alt="Proquinal"
 						priority={true}
-					  className="object-cover w-[303px] relative right-2"
+					  className="object-cover relative right-2"
+						width={303}
+						height={303}
 					/>
 				<div className="text-[24px] my-[50px] font-inter font-[500]">{TEXTS.title}</div>
 				<form 
@@ -62,6 +62,7 @@ export default function LoginForm() {
 							options={IDENTIFICATION_TYPES(TEXTS)}
 							{...register("dni_type", { required: GTEXTS.required })}
 						/>
+						
 						<ErrorMessage
 							errors={errors}
 							name="dni_type"
@@ -103,9 +104,10 @@ export default function LoginForm() {
 					<div className="flex flex-col gap-4 mt-8">
 						<Button 
 							type="submit" 
-							text="INGRESAR" 
 							disabled={!isValidForm()}
-						/>
+						>
+							INGRESAR
+						</Button>
 						<Divider />
 						<a
 							className="
