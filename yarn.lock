@@ -640,9 +640,9 @@
     "@tybys/wasm-util" "^0.10.0"
 
 "@netlify/plugin-nextjs@^5.11.1":
-  version "5.15.2"
-  resolved "https://registry.yarnpkg.com/@netlify/plugin-nextjs/-/plugin-nextjs-5.15.2.tgz#649e85c688872fd4e1e6e796bcd317bc0646400d"
-  integrity sha512-OJ+CbkAlS1ezKvP8okP5i4DGApXBPwUQ+LyapBqwOqx+A4Yl/LT8wiT16WduK0Pq10tkRxiicuQU38jUE6nxRQ==
+  version "5.15.3"
+  resolved "https://registry.yarnpkg.com/@netlify/plugin-nextjs/-/plugin-nextjs-5.15.3.tgz#f81526b777c24a6201a980cb8f04180dd8fd0a05"
+  integrity sha512-l3SicRpOy+27VTZbIhEgI89+uY+1Y3CsMZW3mfKBFC4A/sP7u33ftDZ45m6634dUcc6BnLNxPIxL6TiBdvqxOQ==
 
 "@next/env@15.1.9":
   version "15.1.9"

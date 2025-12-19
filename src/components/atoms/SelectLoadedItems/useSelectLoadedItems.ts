@@ -58,12 +58,6 @@ export default function useSelectLoadedItems(props: SelectLoadedItemsProps) {
 		 */
 		const loadItems = async () => {
 			debounce(async () => {
-			
-				if(items.length > 0) {
-					setIsInnerLoading(false)
-					return
-				}
-				
 				try {
 					let newList: ItemSelector[] = cachedKey ? getLocalCache(`${cachedKey}_select_loaded_items`, '[]', true) as ItemSelector[] : []
 					if(newList.length === 0) {
@@ -99,7 +93,7 @@ export default function useSelectLoadedItems(props: SelectLoadedItemsProps) {
 		}
 		loadItems()
 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [items.length, setItems, fetchItems, openModalLoginForm, showLocalError, defaultValue])
+	}, [setItems, fetchItems, openModalLoginForm, showLocalError, defaultValue])
 	
 	useEffect(() => {
 		if(defaultValue) {

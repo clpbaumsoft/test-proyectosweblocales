@@ -23,11 +23,13 @@ import VisitVisitorService from "./VisitVisitor";
 import VisitToOtherBranchService from "./VisitToOtherBranch";
 import RestrictecUsersService from "./RestrictedUsers";
 import GenerateReportsService from "./GenerateReports";
+import CountrySerivce from "./Country";
 
 const Orchestra = {
   authService: new AuthService(),
   arlCompanyService: new ArlCompanyService(),
   careCompanyService: new CareCompanyService(),
+  countrySerivce: new CountrySerivce(),
   cityService: new CityService(),
   companyService: new CompanyService(),
   documentTypeService: new DocumentTypeService(),

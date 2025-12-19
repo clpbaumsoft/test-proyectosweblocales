@@ -223,6 +223,11 @@ export type Role = BaseModel & {
 	list_permissions?: string[];
 }
 
+export type Country = BaseModel & {
+	name: string;
+	id: number;
+}
+
 export type City = BaseModel & {
 	name: string;
 }
