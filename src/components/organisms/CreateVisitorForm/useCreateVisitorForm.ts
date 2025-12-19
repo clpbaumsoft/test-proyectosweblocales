@@ -220,14 +220,6 @@ export default function useCreateVisitorForm(visitId: number, increaseVisitorsCo
 	}
 
 	/**
-	 * Returns photo's default value.
-	 */
-	const getPhotoDefaultValue = () : string | null => {
-		const preLoadedValue = getValues('photo')
-		return preLoadedValue instanceof File ? null : preLoadedValue
-	}
-	
-	/**
 	 * Loads the care companies.
 	 */
 	const loadCareCompanies = useCallback(async () => {
@@ -252,6 +244,14 @@ export default function useCreateVisitorForm(visitId: number, increaseVisitorsCo
 			? results.filter((c) => c.name.toLowerCase().includes(searchCity.toLowerCase()))
 			: results.slice(0, 10)
 
+		if (filteredCities.length === 0 && searchCity) {
+			return [{
+				label: 'No se encontraron resultados',
+				value: '',
+				disabled: true
+			}]
+		}
+
 		return filteredCities.map((city) => ({
 			label: city.name,
 			value: city.id
@@ -263,6 +263,14 @@ export default function useCreateVisitorForm(visitId: number, increaseVisitorsCo
 		const filteredCountries = searchTerm
 			? results.filter((c) => c.name.toLowerCase().includes(searchTerm.toLowerCase()))
 			: results.slice(0, 10)
+
+		if (filteredCountries.length === 0 && searchTerm) {
+			return [{
+				label: 'No se encontraron resultados',
+				value: '',
+				disabled: true
+			}]
+		}
 
 		return filteredCountries.map((country) => ({
 			label: country.name,
@@ -319,7 +327,6 @@ export default function useCreateVisitorForm(visitId: number, increaseVisitorsCo
 		onError,
 		isValidForm,
 		onBlurIdentificationNumber,
-		getPhotoDefaultValue,
 		loadCareCompanies,
 		loadArlCompanies,
 		loadCountries,

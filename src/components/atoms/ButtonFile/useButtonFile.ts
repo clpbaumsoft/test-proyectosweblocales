@@ -1,9 +1,9 @@
 //React and modules
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import type { ChangeEvent } from "react"
 
 export default function useButtonFile(emitOnChange: (theFile: File) => void, defaultValueImage: null | string = null) {
-	
+	const inputRef = useRef<HTMLInputElement>(null)
 	const [preview, setPreview] = useState('')
 	const [imageSrc, setImageSrc] = useState<string | null>(defaultValueImage);
 	const [imageLoaded, setImageLoaded] = useState(false);
@@ -37,6 +37,22 @@ export default function useButtonFile(emitOnChange: (theFile: File) => void, def
 		setIsLoadingPreview(false)
 	}
 
+	const clearImage = () => {
+		if (imageSrc && imageLoaded) {
+			URL.revokeObjectURL(imageSrc);
+		}
+
+		setImageSrc(null);
+		setPreview('');
+		setImageLoaded(false);
+		setIsLoadingPreview(true);
+		emitOnChange(null);
+
+		if (inputRef.current) {
+			inputRef.current.value = '';
+		}
+	};
+
 	useEffect(() => {
     return () => {
       if (imageSrc && imageLoaded) {
@@ -46,18 +62,32 @@ export default function useButtonFile(emitOnChange: (theFile: File) => void, def
   }, [imageSrc, imageLoaded]);
 
 	useEffect(() => {
-		if(defaultValueImage) {
-			setImageSrc(defaultValueImage)
-		} else {
-			setImageSrc(null)
-			setPreview('')
+		if (defaultValueImage === null || defaultValueImage === undefined) {
+			if (imageSrc && imageSrc.startsWith('blob:')) {
+				URL.revokeObjectURL(imageSrc);
+			}
+			setImageSrc(null);
+			setPreview('');
+			setImageLoaded(false);
+			setIsLoadingPreview(true);
+
+			if (inputRef.current) {
+				inputRef.current.value = '';
+			}
 		}
-	}, [defaultValueImage])
-	
+		else if (typeof defaultValueImage === 'string' && defaultValueImage !== imageSrc) {
+			setImageSrc(defaultValueImage);
+			setIsLoadingPreview(true);
+			setImageLoaded(false);
+		}
+}, [defaultValueImage]);
+
 	return {
+		inputRef,
 		imageSrc,
 		preview,
 		isLoadingPreview,
+		clearImage,
 		onChangeInput,
 		onLoadPreviewImage,
 	}

@@ -158,7 +158,6 @@ export default function CreateVisitorForm({
 		onError,
 		isValidForm,
 		onBlurIdentificationNumber,
-		getPhotoDefaultValue,
 		setSearchTerm,
 		setSearchCity,
 		loadCareCompanies,
@@ -492,13 +491,11 @@ export default function CreateVisitorForm({
 										<Controller
 											name="photo"
 											control={control}
-											// rules={{
-											// 	required: GTEXTS.required,
-											// }}
 											render={({ field }) => (
 												<ButtonFile
+													defaultValue={field.value}
 													onChange={field.onChange}
-													defaultValueImage={getPhotoDefaultValue()}
+													defaultValueImage={field.value as string}
 													buttonProps={{
 														fullWidth: true,
 													}}
