@@ -1,6 +1,6 @@
 
 //React and Modules
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 
@@ -25,6 +25,7 @@ import { VisitorFormType } from "@/interfaces/Organisms";
 //Services
 import Orchestra from "@/services/Orchestra";
 import { Visitor } from "@/interfaces/Models";
+import useDebounce from "@/hooks/useDebounce";
 
 //Texts
 const TRANS = {
@@ -54,6 +55,7 @@ const EMPTY_FIELDS_FORM = {
 	emergency_contact_name: "",
 	emergency_contact_phone: "",
 	photo: null,
+	country: "",
 	city: "",
 	social_security: "",
 	arl: "",
@@ -62,6 +64,9 @@ const EMPTY_FIELDS_FORM = {
 export default function useCreateVisitorForm(visitId: number, increaseVisitorsCounter: () => void, isNewVisitorBasicForm: boolean) {
 	const TEXTS = useTranslation(TRANS)
 	const [currentVisitorData, setCurrentVisitorData] = useState<Visitor>()
+	const [searchTerm, setSearchTerm] = useState('')
+	const [searchCity, setSearchCity] = useState('')
+	const [debounce] = useDebounce(300)
 
 	const {
 		openModalLoginForm,
@@ -75,11 +80,14 @@ export default function useCreateVisitorForm(visitId: number, increaseVisitorsCo
 		handleSubmit,
 		getValues,
 		setValue,
+		watch,
 		formState: { errors },
 	} = useForm<VisitorFormType>({
 		defaultValues: { ...EMPTY_FIELDS_FORM },
 		//mode: 'onSubmit',
 	})
+
+	const countryId = watch('country');
 
 	const {
 		listVisitorTypes,
@@ -239,9 +247,28 @@ export default function useCreateVisitorForm(visitId: number, increaseVisitorsCo
 	 * Loads the cities.
 	 */
 	const loadCities = useCallback(async () => {
-		const results = await Orchestra.cityService.all()
-		return results.map((city) => ({ label: city.name, value: city.id }))
-	}, [])
+		const results = await Orchestra.cityService.citiesByCountryId(countryId, searchCity)
+		const filteredCities = searchCity
+			? results.filter((c) => c.name.toLowerCase().includes(searchCity.toLowerCase()))
+			: results.slice(0, 10)
+
+		return filteredCities.map((city) => ({
+			label: city.name,
+			value: city.id
+		}))
+	}, [countryId, searchCity])
+
+	const loadCountries = useCallback(async () => {
+		const results = await Orchestra.countrySerivce.all()
+		const filteredCountries = searchTerm
+			? results.filter((c) => c.name.toLowerCase().includes(searchTerm.toLowerCase()))
+			: results.slice(0, 10)
+
+		return filteredCountries.map((country) => ({
+			label: country.name,
+			value: country.id
+		}))
+	}, [searchTerm])
 	
 	/**
 	 * Loads the visitor types.
@@ -266,18 +293,28 @@ export default function useCreateVisitorForm(visitId: number, increaseVisitorsCo
 		setListIdentificationTypes([...results])
 		return results.map((itype) => ({ label: itype.code, value: itype.id }))
 	}, [listIdentificationTypes, setListIdentificationTypes])
-	
+
+	useEffect(() => {
+		if (searchTerm) debounce(() => loadCountries())
+		if (searchCity) debounce(() => loadCities())
+	}, [searchTerm,	searchCity, loadCities, loadCountries, debounce])
 	
 	return {
+		searchTerm,
+		searchCity,
+		countryId,
 		message: okMessage,
 		error: errorMessage,
 		isInnerLoading,
 		errors,
 		control,
+		watch,
 		reset,
 		register,
 		handleSubmit,
 		setValue,
+		setSearchTerm,
+		setSearchCity,
 		onSubmit,
 		onError,
 		isValidForm,
@@ -285,6 +322,7 @@ export default function useCreateVisitorForm(visitId: number, increaseVisitorsCo
 		getPhotoDefaultValue,
 		loadCareCompanies,
 		loadArlCompanies,
+		loadCountries,
 		loadCities,
 		loadVisitorTypes,
 		loadIdentificationTypes,

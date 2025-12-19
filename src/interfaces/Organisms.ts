@@ -46,6 +46,7 @@ export type VisitorFormType = {
 	emergency_contact_name: string;
 	emergency_contact_phone: string;
 	photo: null | File | string;
+	country: string | number;
 	city: string | number;
 	social_security: string | number;
 	arl: string | number;

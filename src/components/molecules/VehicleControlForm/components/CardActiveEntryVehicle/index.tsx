@@ -55,7 +55,7 @@ const TRANS = {
 	},
 	label_entry_at: {
 		id: "CardActiveEntryVehicle.BoldLabel.Label.EntryAt",
-		defaultMessage: "Ingresó a las 555555:",
+		defaultMessage: "Ingresó a las:",
 		description: "",
 	},
 	label_NO_entry_at: {

@@ -48,6 +48,7 @@ export default function SelectLoadedItems(props: SelectLoadedItemsProps) {
 						options={items}
 						onChange={onChange}
 						renderInput={(params) => <TextField {...params} />}
+						onInputChange={props?.onInputChange}
 						noOptionsText={GTEXTS.no_results}
 						loadingText={GTEXTS.loading+'...'}
 						{...props.inputProps}

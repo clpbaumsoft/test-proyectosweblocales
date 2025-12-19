@@ -97,6 +97,11 @@ const TRANS = {
 		defaultMessage: "Teléfono contacto de emergencia",
 		description: "",
 	},
+	label_country: {
+		id: "CreateVisitorForm.Typography.Label.Country",
+		defaultMessage: "País",
+		description: "",
+	},
 	label_city: {
 		id: "CreateVisitorForm.Typography.Label.City",
 		defaultMessage: "Ciudad",
@@ -137,11 +142,11 @@ export default function CreateVisitorForm({
 	optionalFields = false, 
 	cutomTitleForm, 
 	isNewVisitorBasicForm = false }: CreateVisitorFormProps) {
-	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
 	
 	const {
+		countryId,
 		message,
 		error,
 		isInnerLoading,
@@ -154,8 +159,11 @@ export default function CreateVisitorForm({
 		isValidForm,
 		onBlurIdentificationNumber,
 		getPhotoDefaultValue,
+		setSearchTerm,
+		setSearchCity,
 		loadCareCompanies,
 		loadArlCompanies,
+		loadCountries,
 		loadCities,
 		loadVisitorTypes,
 		loadIdentificationTypes,
@@ -394,9 +402,34 @@ export default function CreateVisitorForm({
 											render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
 										/>
 									</Grid> */}
-									
-									{/***************************************************/}
-									{/* Field: City */}
+
+									<Grid size={{ xs: 12, md: 6 }}>
+										<LabelForm
+											label={TEXTS.label_country}
+											required={false}
+										/>
+										<Controller
+											name="country"
+											control={control}
+											render={({ field }) => (
+												<SelectLoadedItems
+													fetchItems={loadCountries}
+													onChangeValue={(itemValue) => field.onChange(itemValue ? itemValue.value : '')}
+													defaultValue={field.value}
+													inputProps={{
+														fullWidth: true,
+														size: 'small',
+													}}
+													onInputChange={(search) => setSearchTerm(search.target.value)}
+												/>
+											)}
+										/>
+										<ErrorMessage
+											errors={errors}
+											name="country"
+											render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
+										/>
+									</Grid>
 									<Grid size={{ xs: 12, md: 6 }}>
 										<LabelForm
 											label={TEXTS.label_city}
@@ -405,18 +438,17 @@ export default function CreateVisitorForm({
 										<Controller
 											name="city"
 											control={control}
-											// rules={{
-											// 	required: GTEXTS.required,
-											// }}
 											render={({ field }) => (
 												<SelectLoadedItems
 													fetchItems={loadCities} 
+													disabled={!countryId}
 													onChangeValue={(itemValue) => field.onChange(itemValue ? itemValue.value : '')}
 													defaultValue={field.value}
 													inputProps={{
 														fullWidth: true,
 														size: 'small',
 													}}
+													onInputChange={(search) => setSearchCity(search.target.value)}
 												/>
 											)}
 										/>
@@ -429,7 +461,7 @@ export default function CreateVisitorForm({
 
 									{/***************************************************/}
 									{/* Field: Phone */}
-									<Grid size={{ xs: 12, md: 6 }}>
+									<Grid size={{ xs: 12, md: 12 }}>
 										<LabelForm
 											label={TEXTS.label_phone}
 											required={false}

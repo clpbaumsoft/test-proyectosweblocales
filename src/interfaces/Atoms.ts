@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
 import { PickerChangeHandlerContext } from "@mui/x-date-pickers";
 
-import type { RefObject } from "react";
+import type { RefObject, SyntheticEvent } from "react";
 import type { Moment } from "moment";
-import type { AlertColor, ButtonProps, InputProps, SxProps, TextFieldProps, Theme } from "@mui/material";
+import type { AlertColor, AutocompleteInputChangeReason, ButtonProps, InputProps, SxProps, TextFieldProps, Theme } from "@mui/material";
 
 import {
 	ArrayActionsType,
@@ -124,6 +124,7 @@ export type WarningConditionProps = BaseComponentProps & {
 export type SelectLoadedItemsProps = BaseComponentProps & {
 	fetchItems: () => Promise<ItemSelector[]>;
 	onChangeValue: (value: ItemSelector | null) => void;
+	onInputChange?:	((event: SyntheticEvent<Element, Event>, value: string, reason: AutocompleteInputChangeReason) => void) | undefined
 	defaultValue?: string | number | null;
 	inputProps?: Pick<InputProps, 'fullWidth' | 'size'>;
 	cachedKey?: string;
