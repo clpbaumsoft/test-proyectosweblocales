@@ -55,6 +55,11 @@ const TRANS = {
 		defaultMessage: "Dar salida",
 		description: "",
 	},
+	employee_state: {
+		id: "CardEmployee.BoldLabel.EmployeeState",
+		defaultMessage: "Estado:",
+		description: "",
+	}
 }
 
 export default function CardEmployee({ employee, hideEntry = false }: CardEmployeeProps) {
@@ -107,6 +112,23 @@ export default function CardEmployee({ employee, hideEntry = false }: CardEmploy
 						/>
 					)
 				}
+				{
+					stateEmployee.code && (
+						<BoldLabel
+							label={TEXTS.label_employee_code}
+							value={stateEmployee.code}
+						/>
+					)
+				}
+				<BoldLabel
+					sx={{ my: '10px' }}
+					label={TEXTS.employee_state}
+					value={
+						stateEmployee.status && stateEmployee.status === "1" 
+							? <span style={{ color: 'green' }}>Activo</span>
+							: <span style={{ color: 'red' }}>Inactivo</span>
+					}
+				/>
 				<FormMessages
 					message={message}
 					error={error}

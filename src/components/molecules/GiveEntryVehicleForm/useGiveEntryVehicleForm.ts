@@ -23,6 +23,7 @@ import { EntryVehicle, Visit, Visitor } from "@/interfaces/Models";
 
 //Services
 import Orchestra from "@/services/Orchestra";
+import { toast } from "react-toastify";
 
 //Texts
 const TRANS = {
@@ -34,6 +35,11 @@ const TRANS = {
 	rejection_entry_vehicle: {
 		id: "GiveEntryVehicleForm.SuccessMessage.NOCreateEntryVehicleSuccessfully",
 		defaultMessage: "Rechazo vehicular exitoso.",
+		description: "",
+	},
+	info_technical_contact: {
+		id: "GiveEntryVehicleFormEmployee.InfoMessage.TechnicalContact",
+		defaultMessage: "Favor comunicarse con Técnico de seguridad o Interventor",
 		description: "",
 	},
 }
@@ -86,6 +92,9 @@ export default function useGiveEntryVehicleForm(visitor: Visitor, visit: Visit, 
 				// Show different message based on allowed status
 				const successMessage = data.allowed === false ? TEXTS.rejection_entry_vehicle : TEXTS.success_entry_vehicle
 				changeOkMessage(successMessage)
+
+				if (!data.allowed)
+					toast.info(TEXTS.info_technical_contact)
 				
 				if(onSuccessEntryVehicle) {
 					onSuccessEntryVehicle(entryVehicle)
@@ -100,6 +109,9 @@ export default function useGiveEntryVehicleForm(visitor: Visitor, visit: Visit, 
 				// Show different message based on allowed status
 				const successMessage = data.allowed === false ? TEXTS.rejection_entry_vehicle : TEXTS.success_entry_vehicle
 				changeOkMessage(successMessage)
+
+				if (!data.allowed)
+					toast.info(TEXTS.info_technical_contact)
 				
 				if(onSuccessEntryVehicle) {
 					onSuccessEntryVehicle(entryVehicle)
@@ -158,7 +170,10 @@ export default function useGiveEntryVehicleForm(visitor: Visitor, visit: Visit, 
 	 */
 	const loadGates = useCallback(async () => {
 		const results = await Orchestra.gateService.all()
-		return results.map((gate) => {
+
+		const gatesForVehicles = results.filter((gate) => gate?.for_vehicles_only === 1)
+
+		return gatesForVehicles.map((gate) => {
 			return ({ label: `${gate.description} - ${gate?.branch?.company?.short_description || ""}`, value: gate.id })
 		})
 	}, [])

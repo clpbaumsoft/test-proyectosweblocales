@@ -10,7 +10,9 @@ import styles from "./PreviewImage.module.scss";
 export default function PreviewImage({ children, width }: PreviewImageProps) {
 	return (
 		<>
-			<Box className={styles.previewImage} sx={{ width: width, height: width, border: 1, borderRadius: "10px" }}>
+			<Box 
+				className={styles.previewImage} 
+				sx={{ width: width, height: width, borderRadius: "10px", position: "relative", overflow: "visible" }}>
 				{children}
 			</Box>
 		</>
