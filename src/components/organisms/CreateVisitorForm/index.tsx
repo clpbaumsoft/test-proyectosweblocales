@@ -420,7 +420,7 @@ export default function CreateVisitorForm({
 														fullWidth: true,
 														size: 'small',
 													}}
-													onInputChange={(search) => setSearchTerm(search.target.value)}
+													onInputChange={(search) => setSearchTerm((search.target as HTMLInputElement).value)}
 												/>
 											)}
 										/>
@@ -448,7 +448,7 @@ export default function CreateVisitorForm({
 														fullWidth: true,
 														size: 'small',
 													}}
-													onInputChange={(search) => setSearchCity(search.target.value)}
+													onInputChange={(search) => setSearchCity((search.target as HTMLInputElement).value)}
 												/>
 											)}
 										/>
