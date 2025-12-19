@@ -1,13 +1,6 @@
 import Image from "next/image";
-import {
-	Dialog,
-	DialogContent,
-	DialogTitle,
-	Alert,
-} from "@mui/material";
-import { ErrorMessage } from "@hookform/error-message";
 import FullLoader from "@/components/atoms/FullLoader";
-import RestorePasswordForm from "@/components/organisms/RestorePasswordForm";
+// import RestorePasswordForm from "@/components/organisms/RestorePasswordForm";
 import LabelForm from "@/components/atoms/LabelForm";
 import { GTRANS } from "@/constants/Globals";
 import useLoginForm from "./useLoginForm";
@@ -18,6 +11,8 @@ import Divider from "@/components/atoms/Divider";
 import { LogosMicrosoft } from "@/assets/icons/Microsoft";
 import { Button } from "@/components/atomsv2/Button";
 import Select from "@/components/atoms/Select";
+import FieldErrorMessage from "@/components/atomsv2/FieldErrorMessage";
+import { XCircleIcon } from "@heroicons/react/16/solid";
 
 export default function LoginForm() {
 	const TEXTS = useTranslation(TRANS)
@@ -42,7 +37,7 @@ export default function LoginForm() {
 		<>
 			{isInnerLoading && <FullLoader />}
 			<div className="flex flex-1 flex-col justify-center py-5 shadow-md bg-white max-w-[50%] h-screen">
-				<div className="max-w-[600px] w-[500px] mx-auto">
+				<div className="max-w-150 w-125 mx-auto">
 					<Image
 						src="/images/logos/logo.png"
 						alt="Proquinal"
@@ -51,7 +46,7 @@ export default function LoginForm() {
 						width={303}
 						height={303}
 					/>
-				<div className="text-[24px] my-[50px] font-inter font-[500]">{TEXTS.title}</div>
+				<div className="text-[24px] my-12.5 font-inter font-medium">{TEXTS.title}</div>
 				<form 
 				 	className="flex flex-col gap-6"
 					onSubmit={handleSubmit(onSubmit)}
@@ -62,12 +57,7 @@ export default function LoginForm() {
 							options={IDENTIFICATION_TYPES(TEXTS)}
 							{...register("dni_type", { required: GTEXTS.required })}
 						/>
-						
-						<ErrorMessage
-							errors={errors}
-							name="dni_type"
-							render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-						/>
+						<FieldErrorMessage errorMessage={errors?.dni_type?.message} />
 					</div>
 					<div className="flex flex-col gap-1">
 						<LabelForm label={TEXTS.label_dni} />
@@ -76,11 +66,7 @@ export default function LoginForm() {
 							placeholder={TEXTS.label_dni}
 							{...register("dni", { required: GTEXTS.required })}
 						/>
-						<ErrorMessage
-							errors={errors}
-							name="dni"
-							render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-						/>
+						<FieldErrorMessage errorMessage={errors?.dni?.message} />
 					</div>
 					<div className="flex flex-col gap-1">
 						<LabelForm label={TEXTS.label_password} />
@@ -89,18 +75,24 @@ export default function LoginForm() {
 							placeholder={TEXTS.label_password}
 							{...register("password", { required: GTEXTS.required })}
 						/>
-						<ErrorMessage
-							errors={errors}
-							name="password"
-							render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-						/>
+						<FieldErrorMessage errorMessage={errors?.password?.message} />
 					</div>
 					{isVisibleErrorMessage && (
-							<div className="w-full">
-								<Alert severity="error" onClose={() => setIsVisibleErrorMessage(false)}>{errorMessage}</Alert>
+						<div className="w-full">
+							<div className="rounded-md bg-red-50 p-3">
+								<div className="flex justify-between">
+									<div className="ml-3">
+										<h3 className="text-sm font-medium text-red-800">
+											{errorMessage}
+										</h3>
+									</div>
+									<div className="shrink-0">
+										<XCircleIcon aria-hidden="true" className="size-5 text-red-400 cursor-pointer" onClick={() => setIsVisibleErrorMessage(false)} />
+									</div>
+								</div>
 							</div>
-						)
-					}
+						</div>
+					)}
 					<div className="flex flex-col gap-4 mt-8">
 						<Button 
 							type="submit" 
@@ -143,12 +135,12 @@ export default function LoginForm() {
 						</Typography>
 					</Grid> */}
 				</form>
-				<Dialog open={openRecovery} onClose={handleCloseRecovery}>
+				{/* <Dialog open={openRecovery} onClose={handleCloseRecovery}>
 					<DialogTitle>{TEXTS.title_recovery_password}</DialogTitle>
 					<DialogContent>
 						<RestorePasswordForm onCancel={handleCloseRecovery} />
 					</DialogContent>
-				</Dialog>
+				</Dialog> */}
 				</div>
 			</div>
 		</>

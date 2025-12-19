@@ -10,6 +10,7 @@ import { TRANS } from "./constants";
 import { Button } from "@/components/atomsv2/Button";
 import { useEffect, useState } from "react";
 import { Combobox, ComboboxLabel, ComboboxOption } from "@/components/atomsv2/Combobox";
+import FieldErrorMessage from "@/components/atomsv2/FieldErrorMessage";
 
 export default function GiveEntryToOtherBranch({ visitor, visit, onClose }: GiveEntryToOtherBranchProps) {
 	const [loadedGates, setLoadedGates] = useState<{ label: string, value: number }[]>([])
@@ -73,9 +74,7 @@ export default function GiveEntryToOtherBranch({ visitor, visit, onClose }: Give
 							)
 						}}
 					/>
-					<span className="text-red-500 text-xs">
-						{errors.gate_selected ? errors.gate_selected.message : ""}
-					</span>
+					<FieldErrorMessage errorMessage={errors?.gate_selected?.message} />
 				</div>
 				<FormMessages
 					message={message}

@@ -7,8 +7,8 @@ import {
   FolderIcon,
   HomeIcon,
   UsersIcon,
+  NewspaperIcon,
 } from '@heroicons/react/24/solid'
-import ArticleIcon from '@mui/icons-material/Article';
 
 export const constructNavigationItems = (loggedUser: User) => ([
   { 
@@ -88,7 +88,7 @@ export const constructNavigationItems = (loggedUser: User) => ([
   { 
     name: 'Generar Reportes', 
     href: PAGES.dashboard_generate_reports, 
-    icon: ArticleIcon, 
+    icon: NewspaperIcon,
     current: false,
     hide: loggedUser.can('generate_reports') || loggedUser.can('create_entry')
   },

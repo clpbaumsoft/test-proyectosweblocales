@@ -1,3 +1,4 @@
+import { Heading } from "@/components/atomsv2/Heading";
 import EntryControlForm from "@/components/molecules/EntryControlForm";
 import useTranslation from "@/hooks/useTranslation";
 import TableVisitsProvider from "@/providers/TableVisitsProvider";
@@ -15,9 +16,9 @@ export default function EntryDashboard() {
 
 	return (
 		<TableVisitsProvider>
-			<h1 className="font-inter text-2xl font-bold mb-8 dark:text-white">
+			<Heading level={1} className="mb-8">
 				{TEXTS.title}
-			</h1>
+			</Heading>
 			<EntryControlForm />
 		</TableVisitsProvider>
 	)

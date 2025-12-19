@@ -1,27 +1,15 @@
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
-
-//Constants
 import { GTRANS } from "@/constants/Globals";
-
-//Errors
 import AuthError from "@/errors/AuthError";
 import LocalError from "@/errors/LocalError";
 import ValidationError from "@/errors/ValidationError";
-
-//Events
 import EntryControlEvents from "@/events/EntryControlEvents";
-
-//Hooks
 import useFormMessages from "@/hooks/useFormMessages";
 import useSessionProviderHook from "@/providers/SessionProvider/hooks";
 import useTranslation from "@/hooks/useTranslation";
-
-//Interfaces and types
 import { GiveEntryVehicleFormType } from "@/interfaces/Forms";
 import { EntryVehicle, Visit, Visitor } from "@/interfaces/Models";
-
-//Services
 import Orchestra from "@/services/Orchestra";
 
 //Texts
@@ -39,7 +27,6 @@ const TRANS = {
 }
 
 export default function useGiveEntryVehicleForm(visitor: Visitor, visit: Visit, isEmployee: boolean, onSuccessEntryVehicle?: (entryVehicle: EntryVehicle) => void) {
-
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
 

@@ -1,8 +1,6 @@
 import moment from "moment";
 import type { Moment } from "moment";
-import { ErrorMessage } from "@hookform/error-message";
 import { Controller } from "react-hook-form";
-import { Alert } from "@mui/material";
 import DropdownsCompany from "./components/DropdownsCompany";
 import FormMessages from "@/components/atoms/FormMessages";
 import FullLoader from "@/components/atoms/FullLoader";
@@ -18,6 +16,7 @@ import { TRANS } from "./constants";
 import Modal from "@/components/atoms/Dialog";
 import { customStylesDatePicker } from "@/components/atoms/CustomDatePicker/constants";
 import { Button } from "@/components/atomsv2/Button";
+import FieldErrorMessage from "@/components/atomsv2/FieldErrorMessage";
 
 export default function RegisterVisitForm({ visitId, open, onClose, preFillFormData, onSaved }: RegisterVisitFormProps) {
 	const TEXTS = useTranslation(TRANS)
@@ -78,6 +77,7 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 								}}
 								sx={customStylesDatePicker}
 							/>
+							<FieldErrorMessage errorMessage={errors?.entry_date?.message} />
 						</div>
 						<div className="w-6/12">
 							<LabelForm label={TEXTS.label_departure_date} />
@@ -96,6 +96,7 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 								}}
 								sx={customStylesDatePicker}
 							/>
+							<FieldErrorMessage errorMessage={errors?.departure_date?.message} />
 						</div>
 					</div>
 					<div className="w-full">
@@ -118,11 +119,7 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 							rows={3}
 							placeholder={TEXTS.label_reason}
 						/>
-						<ErrorMessage
-							errors={errors}
-							name="reason"
-							render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-						/>
+						<FieldErrorMessage errorMessage={errors?.reason?.message} />
 					</div>
 					<div className="w-full">
 						<LabelForm label={TEXTS.label_interventor} required={true} />
@@ -139,14 +136,9 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 										defaultValue={field.value}
 									/>
 								)
-							}
-							}
+							}}
 						/>
-						<ErrorMessage
-							errors={errors}
-							name="reason"
-							render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-						/>
+						<FieldErrorMessage errorMessage={errors?.email_interventor?.message} />
 					</div>
 					{ /* Field: Approver - temporal disabled */}
 					{/* <Grid size={12}>
@@ -191,16 +183,10 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 						error={error}
 					/>
 					<div className="flex justify-end gap-2">
-						<Button
-							onClick={closeForm}
-							outline
-						>
+						<Button onClick={closeForm} outline>
 							{GTEXTS.close}
 						</Button>
-						<Button
-							type="submit"
-							disabled={!isValidForm()}
-						>
+						<Button type="submit" disabled={!isValidForm()}>
 							{TEXTS.save}
 						</Button>
 					</div>

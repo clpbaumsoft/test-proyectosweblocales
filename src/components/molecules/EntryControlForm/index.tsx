@@ -12,7 +12,7 @@ import { ButtonViewRestrictedUser } from "@/components/atoms/ButtonViewRestricte
 import { TRANS } from "./constants";
 import Divider from "@/components/atoms/Divider";
 import { Fragment } from "react";
-import Table from "@/components/atoms/Table";
+import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/atomsv2/Table";
 
 export default function EntryControlForm() {
 	const TEXTS = useTranslation(TRANS)
@@ -77,10 +77,16 @@ export default function EntryControlForm() {
 						</div>
 					)}
 					{!visitor.is_currently_banned && visitor.visits && visitor.visits.length > 0 ? (
-							<Table
-								tableHeads={tableHeads}
-								tableRows={tableRows}
-							/>
+							<Table>
+								<TableHead>
+									<TableRow>
+										{tableHeads.map((head, index) => (
+											<TableHeader key={index} className="text-center">{head}</TableHeader>
+										))}
+									</TableRow>
+								</TableHead>
+								<TableBody>{tableRows}</TableBody>
+							</Table>
 					) : (
 						<div className="my-4">
 							<Divider text={TEXTS.no_results_visits} />

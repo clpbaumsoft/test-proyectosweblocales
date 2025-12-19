@@ -10,6 +10,7 @@ import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components
 import { Input } from "@/components/atomsv2/Input";
 import { Select } from "@/components/atomsv2/Select";
 import DataTablePagination from "@/components/atomsv2/DataTablePagination";
+import { Heading } from "@/components/atomsv2/Heading";
 
 export default function VisitsDashboard() {
 	const TEXTS = useTranslation(TRANS)
@@ -59,9 +60,7 @@ export default function VisitsDashboard() {
 
 	return (
 		<Fragment>
-			<h1 className="font-inter text-2xl font-bold mb-8 dark:text-white">
-				Visitas Programadas
-			</h1>
+			<Heading level={1}>Visitas Programadas</Heading>
 			<TableVisitsProvider>
 				<div className="my-7.5 flex gap-2 items-center">
 					<div className="flex flex-col gap-2">

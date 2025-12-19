@@ -1,3 +1,4 @@
+import { SidebarItem } from '@/components/atomsv2/Sidebar'
 import { NavWithOptionsProps } from '@/interfaces/Molecules'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react'
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
@@ -7,7 +8,7 @@ import React from 'react'
 
 const NavWithOptions = ({ item }: { item: NavWithOptionsProps }) => {
   return (
-    <Disclosure as="div" className="w-full font-inter" defaultOpen={item.current}>
+    <Disclosure as="div" className="w-full font-inter group" defaultOpen={item.current}>
       <DisclosureButton
         className={classNames({
           'text-black hover:bg-white/5 hover:text-black': !item.current,
@@ -15,7 +16,7 @@ const NavWithOptions = ({ item }: { item: NavWithOptionsProps }) => {
           'dark:text-white dark:hover:bg-white/5 dark:hover:text-white': true
         })}
       >
-        <item.icon aria-hidden="true" className="size-6 shrink-0 text-zinc-500" />
+        <item.icon aria-hidden="true" className="size-6 text-zinc-500 shrink-0 group-hover:text-black" />
         {item.name}
         <ChevronRightIcon
           aria-hidden="true"
@@ -24,21 +25,14 @@ const NavWithOptions = ({ item }: { item: NavWithOptionsProps }) => {
       </DisclosureButton>
       <DisclosurePanel as="ul" className="mt-1 px-2 font-inter">
         {item.options.map((subItem) => (
-          <li key={subItem.name}>
+          <SidebarItem key={subItem.name} current={subItem.current} href={subItem.href}>
             <Link
               href={subItem.href}
-              className={classNames(
-                {
-                  'bg-white/5 text-black': subItem.current,
-                  'text-black hover:bg-white/5 hover:text-black': !subItem.current,
-                  'group flex items-center gap-x-3 rounded-md p-2 text-black py-2 pl-9 pr-2 text-sm/6 w-full cursor-pointer': true,
-                  'dark:text-white dark:hover:bg-white/5 dark:hover:text-white': true
-                }
-              )}
+              className="pl-9 text-sm/4 font-normal"
             >
               {subItem.name}
             </Link>
-          </li>
+          </SidebarItem>
         ))}
       </DisclosurePanel>
     </Disclosure>

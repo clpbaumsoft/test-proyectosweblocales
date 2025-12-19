@@ -8,6 +8,7 @@ import { useMemo } from "react";
 import { TRANS } from "./constants";
 import useCardActiveEntryInOtherBranch from "./useCardActiveEntryInOtherBranch";
 import { Button } from "@/components/atomsv2/Button";
+import { Divider } from "@/components/atomsv2/Divider";
 
 export default function CardActiveEntryInOtherBranch({ visitor }: CardActiveEntryToOtherBranchProps) {
 	const TEXTS = useTranslation(TRANS)
@@ -35,33 +36,33 @@ export default function CardActiveEntryInOtherBranch({ visitor }: CardActiveEntr
 			)}
 			<h1 className="font-inter text-[18px] p-3 bg-white text-black">{TEXTS.label_entry_visitor}</h1>
 			<div className="p-3">
-				<div className="flex flex-wrap justify-between">
-					<div className="w-3/12">
+				<div className="flex flex-wrap gap-4 [&>div]:flex-1 [&>div]:min-w-45">
+					<div>
 						<div className="mb-2.5 text-zinc-500 text-[14px]">
 							<p className='font-semibold'>{TEXTS.label_other_brachs}</p>
               <span>{actualGate?.gate?.branch?.short_description || ''}</span>
 						</div>
 					</div>
-					<div className="w-3/12">
+					<div>
 						<div className="mb-2.5 text-zinc-500 text-[14px]">
 							<p className='font-semibold'>{TEXTS.label_entry_at}</p>
               <span>{formatsDate(actualGate?.creator_date || '')}</span>
 						</div>
 					</div>
-					<div className="w-3/12">
+					<div>
 						<div className="mb-2.5 text-zinc-500 text-[14px]">
 							<p className='font-semibold'>{TEXTS.label_entry_current_time}</p>
               <span>{getTimeDiff(actualGate?.creator_date || '')}</span>
 						</div>
 					</div>
-					<div className="w-3/12">
+					<div>
 						<div className="mb-2.5 text-zinc-500 text-[14px]">
 							<p className='font-semibold'>{TEXTS.label_entry_approver}</p>
               <span>{actualGate?.creator?.fullname}</span>
 						</div>
 					</div>
 				</div>
-				<hr />
+				<Divider className="mt-3 mb-0" />
 				<FormMessages
 					message={message}
 					error={error}

@@ -8,6 +8,7 @@ import FormGenerateHistoryVisitorVehicle from "@/components/molecules/FormGenera
 import FormGenerateReportEmployeesWithoutIdCards from "@/components/molecules/FormGenerateReportEmployeesWithoutIdCards";
 import Select from "@/components/atoms/Select";
 import { optionsReports } from "./constants";
+import { Heading } from "@/components/atomsv2/Heading";
 
 //Texts
 const TRANS = {
@@ -28,9 +29,9 @@ export default function GenerateReportsDashboard() {
 
 	return (
 		<TableVisitsProvider>
-			<h1 className="font-inter text-2xl font-bold mb-8">
+			<Heading level={1} className="mb-8">
 				{TEXTS.title}
-			</h1>
+			</Heading>
 			<div className="w-full">
 				<Select
 					value={currentOptionReportSelected}

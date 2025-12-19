@@ -5,6 +5,9 @@
   --font-sans--font-feature-settings: 'cv11';
 }
 
+/* Desactiva las clases dark: */
+@variant dark (&:not(*));
+
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;
@@ -93,7 +96,6 @@
 
 html {
   height: 100%;
-  color-scheme: light !important;
 }
 
 body {

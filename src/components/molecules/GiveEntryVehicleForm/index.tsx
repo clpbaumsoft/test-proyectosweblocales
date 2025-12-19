@@ -15,6 +15,7 @@ import { GiveEntryVehicleFormProps } from "@/interfaces/Molecules";
 import { green } from "@mui/material/colors";
 import { TRANS } from "./constants";
 import { Input } from "@/components/atomsv2/Input";
+import FieldErrorMessage from "@/components/atomsv2/FieldErrorMessage";
 
 export default function GiveEntryVehicleForm({ visitor, visit, isEmployee = false, onClose, onSuccessEntryVehicle }: GiveEntryVehicleFormProps) {
 	const TEXTS = useTranslation(TRANS)
@@ -54,9 +55,7 @@ export default function GiveEntryVehicleForm({ visitor, visit, isEmployee = fals
 								target.value = target.value.toUpperCase();
 							}}
 						/>
-						<span className="text-red-500 text-xs">
-							{errors.number ? errors.number.message : ""}
-						</span>
+						<FieldErrorMessage errorMessage={errors?.number?.message} />
 					</div>
 					<div className="w-full">
 						<LabelForm label={TEXTS.label_vehicle_type} />
@@ -78,14 +77,10 @@ export default function GiveEntryVehicleForm({ visitor, visit, isEmployee = fals
 								/>
 							)}
 						/>
-						<span className="text-red-500 text-xs">
-							{errors.vehicle_type ? errors.vehicle_type.message : ""}
-						</span>
+						<FieldErrorMessage errorMessage={errors?.vehicle_type?.message} />
 					</div>
 					<div className="w-full">
-						<LabelForm
-							label={TEXTS.label_gate}
-						/>
+						<LabelForm label={TEXTS.label_gate} />
 						<Controller
 							name="gate"
 							control={control}
@@ -104,14 +99,10 @@ export default function GiveEntryVehicleForm({ visitor, visit, isEmployee = fals
 								/>
 							)}
 						/>
-						<span className="text-red-500 text-xs">
-							{errors.gate ? errors.gate.message : ""}
-						</span>
+						<FieldErrorMessage errorMessage={errors?.gate?.message} />
 					</div>
 					<div className="w-full">
-						<LabelForm
-							label={TEXTS.label_vehicle_inspect_points}
-						/>
+						<LabelForm label={TEXTS.label_vehicle_inspect_points} />
 						<Controller
 							name="vehicle_inspect_points"
 							control={control}
@@ -127,9 +118,7 @@ export default function GiveEntryVehicleForm({ visitor, visit, isEmployee = fals
 								/>
 							)}
 						/>
-						<span className="text-red-500 text-xs">
-							{errors.vehicle_inspect_points ? errors.vehicle_inspect_points.message : ""}
-						</span>
+						<FieldErrorMessage errorMessage={errors?.vehicle_inspect_points?.message} />
 					</div>
 					<div className="w-full">
 						<LabelForm
@@ -146,9 +135,7 @@ export default function GiveEntryVehicleForm({ visitor, visit, isEmployee = fals
 							}}
 							helperText={TEXTS.help_message_entry_comments}
 						/>
-						<span className="text-red-500 text-xs">
-							{errors.entry_comments ? errors.entry_comments.message : ""}
-						</span>
+						<FieldErrorMessage errorMessage={errors?.entry_comments?.message} />
 					</div>
 				</div>
 				<FormMessages

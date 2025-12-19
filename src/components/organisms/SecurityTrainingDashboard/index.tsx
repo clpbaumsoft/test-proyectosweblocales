@@ -1,5 +1,7 @@
+import { Heading } from "@/components/atomsv2/Heading";
 import SecurityTalkTrainingForm from "@/components/molecules/SecurityTalkTrainingForm";
 import useTranslation from "@/hooks/useTranslation";
+import { Fragment } from "react";
 
 //Texts
 const TRANS = {
@@ -14,11 +16,11 @@ export default function SecurityTrainingDashboard() {
 	const TEXTS = useTranslation(TRANS)
 	
 	return (
-		<>
-			<h1 className="font-inter text-2xl font-bold mb-8">
+		<Fragment>
+			<Heading level={1} className="mb-8">
 				{TEXTS.title}
-			</h1>
+			</Heading>
 			<SecurityTalkTrainingForm />
-		</>
+		</Fragment>
 	)
 }

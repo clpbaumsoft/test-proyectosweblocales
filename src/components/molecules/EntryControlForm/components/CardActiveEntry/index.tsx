@@ -53,20 +53,20 @@ export default function CardActiveEntry({ visitor }: CardActiveEntryProps) {
 				)}
 				<h1 className="font-inter text-[18px] p-3 bg-white text-black">{TEXTS.label_entry_visitor}</h1>
 				<div className="p-3">
-					<div className="flex flex-wrap">
-						<div className="w-[33.3%]">
+					<div className="flex flex-wrap gap-5 [&>div]:flex-1 [&>div]:min-w-45">
+						<div>
 							<div className="mb-2.5 text-zinc-500 text-[14px]">
 								<p className='font-semibold text-[14px] text-zinc-500'>{TEXTS.label_card_number}</p>
                 <span>{visitor.active_entry.card_number}</span>
 							</div>
 						</div>
-						<div className="w-[33.3%]">
+						<div>
 							<div className="mb-2.5 text-zinc-500 text-[14px]">
 								<p className='font-semibold text-[14px] text-zinc-500'>{TEXTS.label_entry_at}</p>
                 <span>{formatsDate(visitor.active_entry.creator_date)}</span>
 							</div>
 						</div>
-						<div className="w-[33.3%]">
+						<div>
 							<div className="mb-2.5 text-zinc-500 text-[14px]">
 								<p className='font-semibold text-[14px] text-zinc-500'>{TEXTS.label_entry_approver}</p>
                 <span className="block">{visitor.creator?.fullname}</span>

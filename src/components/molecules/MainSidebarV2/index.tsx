@@ -184,6 +184,15 @@ export default function MainSidebarV2({ children }: { children: React.ReactNode 
       <RegisterVisitForm
         open={showForm}
         onClose={handleCloseForm}
+        // preFillFormData={{
+        //   entry_date: '',
+        //   departure_date: '',
+        //   reason: '',
+        //   email_interventor: "",
+        //   company_selected: '',
+        //   branch_selected: '',
+        //   gate_selected: '',
+        // }}
       />
       {children}
     </SidebarLayout>

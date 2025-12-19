@@ -5,19 +5,18 @@ import Select from "@/components/atoms/Select";
 import { GTRANS, IDENTIFICATION_TYPE_CODE_CC } from "@/constants/Globals";
 import useTranslation from "@/hooks/useTranslation";
 import { SearchPersonFormProps } from "@/interfaces/Molecules";
-import { ErrorMessage } from "@hookform/error-message";
-import { Alert } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
 import { TRANS } from "./constants";
 import useSearchPersonForm from "./useSearchPersonForm";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Button } from "@/components/atomsv2/Button";
+import FieldErrorMessage from "@/components/atomsv2/FieldErrorMessage";
 
 export default function SearchPersonForm({ onSearch, onResult, onFail }: SearchPersonFormProps) {
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
-	const [typeDocumentsOptions, setTypeDocumentsOptions] = useState([])
+	const [typeDocumentsOptions, setTypeDocumentsOptions] = useState<{ label: string, value: string | number }[]>([])
 
 	const {
 		isInnerLoading,
@@ -37,7 +36,7 @@ export default function SearchPersonForm({ onSearch, onResult, onFail }: SearchP
 				value: option.value
 			})))
 			.then(setTypeDocumentsOptions)
-	}, [])
+	}, [loadIdentificationTypes])
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
@@ -46,7 +45,7 @@ export default function SearchPersonForm({ onSearch, onResult, onFail }: SearchP
 					<FullLoader variant="absolute" />
 				)}
 				<div className="flex items-end gap-4">
-					<div>
+					<div className="relative">
 						<LabelForm label={TEXTS.label_document_type} />
 						<Controller
 							name="document_type"
@@ -61,11 +60,7 @@ export default function SearchPersonForm({ onSearch, onResult, onFail }: SearchP
 								/>
 							)}
 						/>
-						<ErrorMessage
-							errors={errors}
-							name="document_type"
-							render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-						/>
+						<FieldErrorMessage className="absolute" errorMessage={errors?.document_type?.message} />
 					</div>
 					<div>
 						<LabelForm label={TEXTS.label_document} />
@@ -74,11 +69,7 @@ export default function SearchPersonForm({ onSearch, onResult, onFail }: SearchP
 							placeholder={TEXTS.label_document}
 							{...register("document_or_name", { required: GTEXTS.required })}
 						/>
-						<ErrorMessage
-							errors={errors}
-							name="document_or_name"
-							render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-						/>
+						<FieldErrorMessage className="absolute" errorMessage={errors?.document_or_name?.message} />
 					</div>
 					<div>
 						<Button type="submit" color="dark">

@@ -1,6 +1,4 @@
-import { Alert } from "@mui/material";
 import { Controller } from "react-hook-form";
-import { ErrorMessage } from "@hookform/error-message";
 import ButtonFile from "@/components/atoms/ButtonFile";
 import FormMessages from "@/components/atoms/FormMessages";
 import FullLoader from "@/components/atoms/FullLoader";
@@ -14,7 +12,8 @@ import { TRANS } from "./constants";
 import Select from "@/components/atoms/Select";
 import useLoadData from "./hooks/useLoadData";
 import InputGroup from "@/components/atoms/InputGroup";
-import Button from "@/components/atoms/Button";
+import FieldErrorMessage from "@/components/atomsv2/FieldErrorMessage";
+import { Button } from "@/components/atomsv2/Button";
 
 export default function CreateVisitorForm({ 
 	visitId, 
@@ -75,11 +74,7 @@ export default function CreateVisitorForm({
 										/>
 									)}
 								/>
-								<ErrorMessage
-									errors={errors}
-									name="id_visitor_type"
-									render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-								/>
+								<FieldErrorMessage errorMessage={errors?.id_visitor_type?.message} />
 							</div>
 						)}
 						<div className="w-6/12">
@@ -102,11 +97,7 @@ export default function CreateVisitorForm({
 									/>
 								)}
 							/>
-							<ErrorMessage
-								errors={errors}
-								name="id_identity_type"
-								render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-							/>
+							<FieldErrorMessage errorMessage={errors?.id_identity_type?.message} />
 						</div>
 					</section>
 					<section className="flex gap-6">
@@ -116,11 +107,7 @@ export default function CreateVisitorForm({
 								{...register("identity_number", { required: GTEXTS.required })}
 								type="number"
 							/>
-							<ErrorMessage
-								errors={errors}
-								name="identity_number"
-								render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-							/>
+							<FieldErrorMessage errorMessage={errors?.identity_number?.message} />
 						</div>
 						<div className="w-full">
 							<LabelForm label="¿Requiere charla de seguridad?" />
@@ -140,11 +127,7 @@ export default function CreateVisitorForm({
 									/>
 								)}
 							/>
-							<ErrorMessage
-								errors={errors}
-								name="requires_security_speak"
-								render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-							/>
+							<FieldErrorMessage errorMessage={errors?.requires_security_speak?.message} />
 						</div>
 					</section>
 					<section className="flex gap-6">
@@ -154,11 +137,7 @@ export default function CreateVisitorForm({
 								{...register("first_name", { required: GTEXTS.required })}
 								type="text"
 							/>
-							<ErrorMessage
-								errors={errors}
-								name="first_name"
-								render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-							/>
+							<FieldErrorMessage errorMessage={errors?.first_name?.message} />
 						</div>
 						<div className="w-full">
 							<LabelForm label={TEXTS.label_middle_name} required={false} />
@@ -166,11 +145,7 @@ export default function CreateVisitorForm({
 								{...register("middle_name", { required: GTEXTS.required })}
 								type="text"
 							/>
-							<ErrorMessage
-								errors={errors}
-								name="middle_name"
-								render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-							/>
+							<FieldErrorMessage errorMessage={errors?.middle_name?.message} />
 						</div>
 					</section>
 					<section className="flex gap-6">
@@ -180,11 +155,7 @@ export default function CreateVisitorForm({
 								{...register("first_last_name", { required: GTEXTS.required })}
 								type="text"
 							/>
-							<ErrorMessage
-								errors={errors}
-								name="first_last_name"
-								render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-							/>
+							<FieldErrorMessage errorMessage={errors?.first_last_name?.message} />
 						</div>
 						<div className="w-full">
 							<LabelForm label={TEXTS.label_second_last_name} required={false} />
@@ -192,11 +163,7 @@ export default function CreateVisitorForm({
 								{...register("second_last_name", { required: GTEXTS.required })}
 								type="text"
 							/>
-							<ErrorMessage
-								errors={errors}
-								name="second_last_name"
-								render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-							/>
+							<FieldErrorMessage errorMessage={errors?.second_last_name?.message} />
 						</div>
 					</section>
 					{currentVisitorData?.is_currently_banned ?
@@ -223,11 +190,7 @@ export default function CreateVisitorForm({
 												/>
 											)}
 										/>
-										<ErrorMessage
-											errors={errors}
-											name="city"
-											render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-										/>
+										<FieldErrorMessage errorMessage={errors?.city?.message} />
 									</div>
 									<div className="w-full">
 										<LabelForm label={TEXTS.label_phone} required={false} />
@@ -235,11 +198,7 @@ export default function CreateVisitorForm({
 											{...register("phone")}
 											type="number"
 										/>
-										<ErrorMessage
-											errors={errors}
-											name="phone"
-											render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-										/>
+										<FieldErrorMessage errorMessage={errors?.phone?.message} />
 									</div>
 								</section>
 								<div className="w-full">
@@ -257,11 +216,7 @@ export default function CreateVisitorForm({
 											>{TEXTS.choose_photo}</ButtonFile>
 										)}
 									/>
-									<ErrorMessage
-										errors={errors}
-										name="photo"
-										render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-									/>
+									<FieldErrorMessage errorMessage={errors?.photo?.message} />
 								</div>
 								<section className="flex gap-6">
 									<div className="w-full">
@@ -270,11 +225,7 @@ export default function CreateVisitorForm({
 											{...register("emergency_contact_name")}
 											type="text"
 										/>
-										<ErrorMessage
-											errors={errors}
-											name="emergency_contact_name"
-											render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-										/>
+										<FieldErrorMessage errorMessage={errors?.emergency_contact_name?.message} />
 									</div>
 									<div className="w-full">
 										<LabelForm label={TEXTS.label_emergency_contact_phone} required={false} />
@@ -282,11 +233,7 @@ export default function CreateVisitorForm({
 											{...register("emergency_contact_phone")}
 											type="number"
 										/>
-										<ErrorMessage
-											errors={errors}
-											name="emergency_contact_phone"
-											render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-										/>
+										<FieldErrorMessage errorMessage={errors?.emergency_contact_phone?.message} />
 									</div>
 								</section>
 								<section className="flex gap-6">
@@ -306,11 +253,7 @@ export default function CreateVisitorForm({
 												/>
 											)}
 										/>
-										<ErrorMessage
-											errors={errors}
-											name="social_security"
-											render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-										/>
+										<FieldErrorMessage errorMessage={errors?.social_security?.message} />
 									</div>
 									<div className="w-full">
 										<LabelForm label={TEXTS.label_arl} required={false} />
@@ -328,11 +271,7 @@ export default function CreateVisitorForm({
 												/>
 											)}
 										/>
-										<ErrorMessage
-											errors={errors}
-											name="arl"
-											render={({ message }) => <Alert icon={false} severity="error">{message}</Alert>}
-										/>
+										<FieldErrorMessage errorMessage={errors?.arl?.message} />
 									</div>
 								</section>
 							</>
@@ -344,8 +283,12 @@ export default function CreateVisitorForm({
 				/>
 				{!currentVisitorData?.is_currently_banned && (
 					<div className="flex gap-4 justify-end mt-4">
-						<Button variant="outlined" text={GTEXTS.close} onClick={onCancel} />
-						<Button text={TEXTS.save} type="submit" disabled={!isValidForm()} />
+						<Button outline onClick={onCancel}>
+							{GTEXTS.close}
+						</Button>
+						<Button type="submit" disabled={!isValidForm()}>
+							{TEXTS.save}
+						</Button>
 					</div>
 				)}
 			</form>

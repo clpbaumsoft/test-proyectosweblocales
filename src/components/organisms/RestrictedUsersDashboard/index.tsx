@@ -1,3 +1,4 @@
+import { Heading } from "@/components/atomsv2/Heading";
 import ControlFormRestrictedUsers from "@/components/molecules/ControlFormRestrictedUsers";
 import useTranslation from "@/hooks/useTranslation";
 import TableVisitsProvider from "@/providers/TableVisitsProvider";
@@ -15,9 +16,9 @@ export default function RestrictedUsersDashboard() {
 
 	return (
 		<TableVisitsProvider>
-			<h1 className="font-inter text-2xl font-bold mb-8">
+			<Heading level={1} className="mb-8">
 				{TEXTS.title}
-			</h1>
+			</Heading>
 			<ControlFormRestrictedUsers />
 		</TableVisitsProvider>
 	)
