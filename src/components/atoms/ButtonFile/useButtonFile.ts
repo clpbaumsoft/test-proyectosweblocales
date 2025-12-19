@@ -46,7 +46,6 @@ export default function useButtonFile(emitOnChange: (theFile: File) => void, def
 		setPreview('');
 		setImageLoaded(false);
 		setIsLoadingPreview(true);
-		emitOnChange(null);
 
 		if (inputRef.current) {
 			inputRef.current.value = '';
