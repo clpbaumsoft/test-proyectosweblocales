@@ -274,7 +274,7 @@ export default function CreateVisitorForm({
 							<Controller
 								name="requires_security_speak"
 								control={control}
-								defaultValue={1}
+								defaultValue={0}
 								rules={{
 								required: GTEXTS.required,
 								}}
