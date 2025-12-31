@@ -282,7 +282,7 @@ export default function useRegisterVisitForm(onClose: () => void, preFillFormDat
 	 */
 	const emitGetOptionsInterventor = async (criteriaSearch: string) : Promise<ItemSelector[]> => {
 		const results = await Orchestra.userService.searchInterventor(criteriaSearch)
-		return results.map((user) => ({ label: `${user.first_name} (${user.email})`, value: user.email }))
+		return results.map((user) => ({ label: `${user.name}`, value: user.id }))
 	}
 
 	/**

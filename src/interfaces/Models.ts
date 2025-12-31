@@ -211,6 +211,13 @@ export type UserType = Omit<BaseModel, 'id'> & {
 	unique_permissions: string[];
 }
 
+export type EmployeeType = Omit<BaseModel, 'id'> & {
+	identification_number: string;
+	name: string;
+	id: number;
+}
+
+
 export type Permission = BaseModel & {
 	name: string;
 	uuid: string;
