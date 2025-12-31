@@ -10,7 +10,7 @@ import LocalError from "@/errors/LocalError";
 
 //Interfaces and types
 import { ErrorResponseDataType } from "@/interfaces/General";
-import { UserType } from "@/interfaces/Models";
+import { UserType, EmployeeType } from "@/interfaces/Models";
 
 //Libs
 import apiRequest from "@/lib/ApiRequest";
@@ -38,7 +38,7 @@ export default class UserService {
 	/**
 	 * Searches an interventor user.
 	 */
-	async searchInterventor(search: string, accessToken: string = '') : Promise<UserType[]> {
+	async searchInterventor(search: string, accessToken: string = '') : Promise<EmployeeType[]> {
 		try {
 			return await apiRequest(accessToken).get(`/search/interventor/?s=${search}`).then((res) => res.data)
 		} catch(catchError) {

@@ -11,7 +11,7 @@ export type VisitFormType = {
 	entry_date: string;
 	departure_date: string;
 	reason: string;
-	email_interventor?: string;
+	id_employee?: number;
 	email_approver?: string;
 	company_selected: string | number;
 	branch_selected: string | number;
