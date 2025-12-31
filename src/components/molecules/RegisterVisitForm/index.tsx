@@ -192,22 +192,18 @@ export default function RegisterVisitForm({ visitId, open, onClose, preFillFormD
 									required={true}
 								/>
 								<Controller
-									name="email_interventor"
+									name="id_interventor_employee"
 									control={control}
 									rules={{ required: TEXTS.required }}
 									render={({ field }) =>{
-										
 										return  (
 										<InputAutocomplete
-											onChange={(val) => field.onChange(val ? val.value : field.value)}
+											onChange={(val) => field.onChange(val || '')}
 											emitGetOptions={emitGetOptionsInterventor}
 											helpText={TEXTS.help_text_search_interventor}
 											defaultValue={field.value}
 										/>
-									)
-
-									}
-									}
+									)}}
 								/>
 								<ErrorMessage
 									errors={errors}

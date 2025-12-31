@@ -12,8 +12,9 @@ import useSessionProviderHook from "@/providers/SessionProvider/hooks";
 
 //Interfaces and types
 import { ItemSelector } from "@/interfaces/General";
+import { InputAutocompleteProps } from "@/interfaces/Atoms";
 
-export default function useInputAutocomplete(onChange: (newVal: ItemSelector) => void, emitGetOptions: (criteria: string) => Promise<ItemSelector[]>, defaultValue: string | number | null = null) {
+export default function useInputAutocomplete(onChange: (newVal: ItemSelector) => void, emitGetOptions: (criteria: string) => Promise<ItemSelector[]>, defaultValue: InputAutocompleteProps["defaultValue"] = null) {
 
 	const {
 		openModalLoginForm,
@@ -56,15 +57,17 @@ export default function useInputAutocomplete(onChange: (newVal: ItemSelector) =>
 	}
 	
 	useEffect(() => {
-		if(defaultValue) {
-			if(options.length > 0) {
+		if (typeof defaultValue !== 'object' && defaultValue) {
+			if (options.length > 0) {
 				const optionFound = options.find((option) => option.value === defaultValue)
-				if(optionFound) {
+				if (optionFound) {
 					setSelectedValue(optionFound)
 				}
 			}
-		} else {
-			setSelectedValue(null)
+		}
+
+		if (typeof defaultValue === 'object') {
+			setSelectedValue(defaultValue)
 		}
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [defaultValue])

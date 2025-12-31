@@ -36,6 +36,7 @@ import { VisitRowActionsProps } from "@/interfaces/Molecules";
 import { BoxButtons } from "@/styles/elements";
 import DuplicateVisitForm from "@/components/molecules/DuplicateVisitForm";
 import styles from "./VisitRowActions.module.scss";
+import { ItemSelector } from "@/interfaces/General";
 
 //Texts
 const TRANS = {
@@ -218,7 +219,10 @@ export default function VisitRowActions({ setRowData, rowData }: VisitRowActions
 							departure_date: rowData.end_date,
 							reason: rowData.reason,
 							email_approver: rowData.approver_docs?.email || "",
-							email_interventor: rowData.interventor?.email || "",
+							id_interventor_employee: 
+								rowData.interventor?.id 
+									? { value: rowData.interventor.id, label: rowData.interventor.name } as ItemSelector 
+									: rowData.interventor?.email || "",
 							company_selected: rowData.company.id,
 							branch_selected: rowData.branch.id,
 							gate_selected: rowData.gate.id,

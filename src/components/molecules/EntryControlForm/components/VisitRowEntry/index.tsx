@@ -16,6 +16,8 @@ import { VisitRowEntryProps } from "@/interfaces/Molecules";
 import { formatsDate } from "@/lib/Helpers";
 
 export default function VisitRowEntry({ visitor, visit }: VisitRowEntryProps) {
+	const isInterventorEmployee = !!visit.interventor?.name
+
 	return (
 		<>
 			<TableRow
@@ -36,8 +38,14 @@ export default function VisitRowEntry({ visitor, visit }: VisitRowEntryProps) {
 				
 				<TableCell component="th" scope="row" align="center">
 					<Box sx={{ display: 'table', mx: 'auto' }}>
-						<Typography variant="body2">{visit.interventor?.fullname}</Typography>
-						<FormHelperText>{visit.interventor?.email}</FormHelperText>
+						{isInterventorEmployee ? (
+							<Typography variant="body2">{visit.interventor?.name}</Typography>
+						) : (
+							<>
+								<Typography variant="body2">{visit.interventor?.fullname}</Typography>
+								<FormHelperText>{visit.interventor?.email}</FormHelperText>
+							</>
+						)}
 					</Box>
 				</TableCell>
 				

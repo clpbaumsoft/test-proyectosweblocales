@@ -1,5 +1,3 @@
-//React and Modules
-
 import {
 	Avatar,
 	Box,
@@ -8,22 +6,19 @@ import {
 	Typography,
 } from "@mui/material";
 import EastIcon from "@mui/icons-material/East";
-
-//Components
 import VisitorRowActions from "../VisitorRowActions";
 import WarningCondition from "@/components/atoms/WarningCondition";
-
-//Interfaces and types
 import { VisitorRowProps } from "@/interfaces/Molecules";
-
-//Lib
 import { formatsDate, mediaUrl, mInit, now } from "@/lib/Helpers";
-
-//Styles
 import styles from "./VisitorRow.module.scss";
+import useVisitorRow from "./useVisitorRow";
 
 
 export default function VisitorRow({ row, documentTypes, visitStartDate }: VisitorRowProps) {
+	// const { loadedData } = useVisitorRow(row);
+	const startDateSgsst = row.visitor.startdate_sgsst;
+	const endDateSgsst = row.visitor.enddate_sgsst;
+	const requiredSecurityTraining = !!row.visitor.requires_security_speak ? "SI" : "NO";
 
 	return (
 		<>
@@ -42,19 +37,17 @@ export default function VisitorRow({ row, documentTypes, visitStartDate }: Visit
 				<TableCell align="center">{`${row.visitor.identification_type.code} ${row.visitor.identification_number}`}</TableCell>
 				<TableCell align="center">{`${row.visitor.fullname}`}</TableCell>
 				<TableCell align="center">
-					{
-						row.visitor.startdate_sgsst && row.visitor.enddate_sgsst ? (
-							<Box sx={{ display: 'flex', justifyContent: 'center' }}>
-								<WarningCondition condition={now().startOf('day').isBefore(mInit(row.visitor.enddate_sgsst).endOf('day'))}>
-									<Box sx={{ display: 'flex' }}>
-										<b>{formatsDate(row.visitor.startdate_sgsst, 'D MMMM, YYYY')}</b><EastIcon sx={{ mx: '10px' }} /><b>{formatsDate(row.visitor.enddate_sgsst, 'D MMMM, YYYY')}</b>
-									</Box>
-								</WarningCondition>
-							</Box>
-						) : (
-							<>- - -</>
-						)
-					}
+					{startDateSgsst && endDateSgsst ? (
+						<Box sx={{ display: 'flex', justifyContent: 'center' }}>
+							<WarningCondition condition={now().startOf('day').isBefore(mInit(endDateSgsst).endOf('day'))}>
+								<Box sx={{ display: 'flex' }}>
+									<b>{formatsDate(startDateSgsst, 'D MMMM, YYYY')}</b><EastIcon sx={{ mx: '10px' }} /><b>{formatsDate(endDateSgsst, 'D MMMM, YYYY')}</b>
+								</Box>
+							</WarningCondition>
+						</Box>
+					) : (
+						<>{requiredSecurityTraining}</>
+					)}
 				</TableCell>
 				<TableCell align="center">
 					<VisitorRowActions

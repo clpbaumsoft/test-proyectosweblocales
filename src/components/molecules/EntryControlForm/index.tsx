@@ -78,7 +78,6 @@ export default function EntryControlForm() {
 		onSearchVisitor,
 	} = useEntryControlForm()
 
-
 	return (
 		<>
 			<SearchPersonForm

@@ -36,7 +36,7 @@ const TRANS = {
 	},
 	label_gate: {
 		id: "GiveEntryVehicleForm.Typography.Label.Gate",
-		defaultMessage: "Portería:",
+		defaultMessage: "Portería/Área:",
 		description: "",
 	},
 	give_entry: {

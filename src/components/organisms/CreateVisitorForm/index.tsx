@@ -274,19 +274,19 @@ export default function CreateVisitorForm({
 							<Controller
 								name="requires_security_speak"
 								control={control}
-								defaultValue={0}
 								rules={{
-								required: GTEXTS.required,
+									required: GTEXTS.required,
 								}}
 								render={({ field }) => (
-								<TextField
+									<TextField
+									{...field}
 									select
 									fullWidth
 									size="small"
-									{...field}
+									value={field.value}
 								>
-									<MenuItem value="1">SI</MenuItem>
-									<MenuItem value="0">NO</MenuItem>
+									<MenuItem value={1}>SI</MenuItem>
+									<MenuItem value={0}>NO</MenuItem>
 								</TextField>
 								)}
 							/>

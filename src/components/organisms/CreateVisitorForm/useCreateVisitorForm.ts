@@ -145,7 +145,6 @@ export default function useCreateVisitorForm(visitId: number, increaseVisitorsCo
 				changeErrorMessage(TEXTS.error_saving_visitor)
 			}
 		}
-		
 	}
 
 	/**
