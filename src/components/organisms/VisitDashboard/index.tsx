@@ -125,6 +125,26 @@ const TRANS = {
 		defaultMessage: "Acciones",
 		description: "",
 	},
+	label_care_company: {
+		id: "VisitDashboard.BoldLabel.CareCompany",
+		defaultMessage: "EPS",
+		description: "",
+	},
+	label_arl_company: {
+		id: "VisitDashboard.BoldLabel.ArlCompany",
+		defaultMessage: "ARL",
+		description: "",
+	},
+	label_country: {
+		id: "VisitDashboard.BoldLabel.Country",
+		defaultMessage: "País",
+		description: "",
+	},
+	label_city: {
+		id: "VisitDashboard.BoldLabel.City",
+		defaultMessage: "Ciudad",
+		description: "",
+	},
 }
 
 export default function VisitDashboard({ visit }: VisitDashboardProps) {

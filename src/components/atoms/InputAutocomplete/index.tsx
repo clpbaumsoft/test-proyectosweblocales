@@ -30,7 +30,6 @@ export default function InputAutocomplete({
 	emitGetOptions,
 	helpText,
 }: InputAutocompleteProps) {
-
 	const GTEXTS = useTranslation(GTRANS)
 	const TEXTS = useTranslation(TRANS)
 
@@ -41,6 +40,7 @@ export default function InputAutocomplete({
 		onChangeAutocomplete,
 		onInputChange,
 	} = useInputAutocomplete(onChange, emitGetOptions, defaultValue)
+	console.log(selectedValue, "ASDASD")
 
 	return (
 		<Autocomplete
@@ -62,7 +62,7 @@ export default function InputAutocomplete({
 			renderInput={(params) => (
 				<TextField 
 					{...params} 
-					placeholder={defaultValue || TEXTS.search_dots} 
+					placeholder={typeof defaultValue === 'string' && defaultValue || TEXTS.search_dots} 
 					fullWidth 
 					size="small" 
 					helperText={helpText} 

@@ -1,3 +1,4 @@
+import { ItemSelector } from "./General";
 import { Employee } from "./Models";
 
 export type LoginFormType = {
@@ -11,7 +12,7 @@ export type VisitFormType = {
 	entry_date: string;
 	departure_date: string;
 	reason: string;
-	id_employee?: number;
+	id_interventor_employee?: ItemSelector | string | number;
 	email_approver?: string;
 	company_selected: string | number;
 	branch_selected: string | number;

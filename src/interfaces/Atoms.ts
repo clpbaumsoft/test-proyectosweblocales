@@ -98,7 +98,7 @@ export type ItemListFileProps = BaseComponentProps & {
 }
 
 export type InputAutocompleteProps = BaseComponentProps & {
-	defaultValue?: string;
+	defaultValue?: string | number | ItemSelector | null;
 	onChange: (newVal: ItemSelector) => void;
 	emitGetOptions: (criteria: string) => Promise<ItemSelector[]>;
 	helpText?: string;

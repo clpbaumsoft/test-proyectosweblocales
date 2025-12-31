@@ -87,6 +87,8 @@ export type Visit = BaseModel & {
 }
 
 export type InterventorType = {
+	id?: number
+	name?: string
   identification_number: string
   first_name: string | null
   middle_name: string | null

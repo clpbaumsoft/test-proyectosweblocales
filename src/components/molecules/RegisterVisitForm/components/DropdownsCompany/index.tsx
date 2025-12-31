@@ -50,7 +50,7 @@ const TRANS = {
 	},
 	label_gate: {
 		id: "RegisterVisitForm.Typography.Label.Gate",
-		defaultMessage: "Portería:",
+		defaultMessage: "Portería/Área:",
 		description: "",
 	},
 }

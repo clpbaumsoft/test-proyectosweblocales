@@ -57,18 +57,27 @@ const TRANS = {
 }
 
 export default function CardVisitorPhoto({ visitor }: CardVisitorProps) {
-	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
+	const { onSavePhotoVisitor } = useCardVisitorPhoto(visitor)
+
+	const requires = visitor?.requires_security_speak;
+	const start = visitor?.startdate_sgsst;
+	const end = visitor?.enddate_sgsst;
+
+	const hasDates = !!start && !!end;
+	const isValidToday = hasDates && isBetweenDates(start, end, now());
 	
-	const {
-		onSavePhotoVisitor,
-	} = useCardVisitorPhoto(visitor)
+	const DateRange = hasDates ? (
+		<>
+			<SpaceFields />
+			<EastIcon fontSize="small" />
+			<SpaceFields />
+			{formatsDate(start, "D MMMM, YYYY")} {" -- "} {formatsDate(end, "D MMMM, YYYY")}
+		</>
+	) : null;
 	
-	if(!visitor) {
-		return <></>
-	}
-	
+	if(!visitor) return null;
 	return (
 		<>
 			<Box 
@@ -139,41 +148,27 @@ export default function CardVisitorPhoto({ visitor }: CardVisitorProps) {
 							<LabelItem sx={{ mb: '15px' }} 
 								label={TEXTS.label_card_has_sgsst} 
 								value={
-								<Box sx={{ display: 'flex' }}>
-									{
-										visitor?.requires_security_speak ?
-										(() => {
-											if(isBetweenDates(visitor.startdate_sgsst, visitor.enddate_sgsst, now())) {
-												return (
-													<>
-														{GTEXTS.yes}
-														<SpaceFields />
-														<EastIcon fontSize="small" />
-														<SpaceFields />
-														{formatsDate(visitor.startdate_sgsst, 'D MMMM, YYYY')+' -- '+formatsDate(visitor.enddate_sgsst, 'D MMMM, YYYY')}
-													</>
-												)
-											} else if(visitor.startdate_sgsst && visitor.enddate_sgsst) {
-												return (
-													<WarningCondition condition={false}>
-														{GTEXTS.no}
-														<SpaceFields />
-														<EastIcon fontSize="small" />
-														<SpaceFields />
-														{formatsDate(visitor.startdate_sgsst, 'D MMMM, YYYY')+' -- '+formatsDate(visitor.enddate_sgsst, 'D MMMM, YYYY')}
-													</WarningCondition>
-												)
-											}
-											return (
-												<WarningCondition condition={false}>
-													{TEXTS.required_sgsst}
-												</WarningCondition>
-											)
-										})() :
-										<p>{GTEXTS.no_required}</p>
-									}
-								</Box>
-							}
+									<Box sx={{ display: 'flex' }}>
+										{!requires && <p>{GTEXTS.no_required}</p>}
+										{requires && isValidToday && (
+											<>
+												{GTEXTS.yes}
+												{DateRange}
+											</>
+										)}
+										{requires && hasDates && !isValidToday && (
+											<WarningCondition condition={false}>
+												{GTEXTS.no}
+												{DateRange}
+											</WarningCondition>
+										)}
+										{requires && !hasDates && (
+											<WarningCondition condition={false}>
+												{TEXTS.required_sgsst}
+											</WarningCondition>
+										)}
+									</Box>
+								}
 							/>
 						</div>
 					</Box>

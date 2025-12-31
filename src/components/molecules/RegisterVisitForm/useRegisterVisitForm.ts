@@ -58,7 +58,7 @@ const EMPTY_FIELDS_FORM = {
 	entry_date: '',
 	departure_date: '',
 	reason: '',
-	email_interventor: '',
+	id_interventor_employee: '',
 	email_approver: '',
 	company_selected: '',
 	branch_selected: '',
@@ -66,7 +66,6 @@ const EMPTY_FIELDS_FORM = {
 }
 
 export default function useRegisterVisitForm(onClose: () => void, preFillFormData: VisitFormType = EMPTY_FIELDS_FORM, visitId?: number, onSaved?: (data: VisitFormType) => Promise<void>) {
-	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
 	const { getLoggedUser } = useSessionProviderHook();
@@ -74,7 +73,7 @@ export default function useRegisterVisitForm(onClose: () => void, preFillFormDat
 
 	const defaultValues = {
 		...preFillFormData,
-		email_interventor: preFillFormData.email_interventor || loggedUser?.email || ''
+		id_interventor_employee: preFillFormData.id_interventor_employee || loggedUser?.email || ''
 	};
 
 	const {
@@ -208,6 +207,13 @@ export default function useRegisterVisitForm(onClose: () => void, preFillFormDat
    * @returns 
    */
   const onSubmit: SubmitHandler<VisitFormType> = async (data) => {
+		const { email_approver, id_interventor_employee, ...rest } = data
+		const interventorEmployeeId = typeof id_interventor_employee === 'object' ? Number(id_interventor_employee?.value) : id_interventor_employee
+		
+		let newData;
+		if (interventorEmployeeId) newData = { ...rest, id_interventor_employee: interventorEmployeeId }
+		else newData = { ...rest, email_approver: loggedUser?.email || '' }
+
 		try {
 			if(isInnerLoading) {
 				return
@@ -216,9 +222,9 @@ export default function useRegisterVisitForm(onClose: () => void, preFillFormDat
 			hideMessages()
 			let result
 			if(visitId) {
-				result = await Orchestra.visitService.update(visitId, data)
+				result = await Orchestra.visitService.update(visitId, newData)
 			} else {
-				result = await Orchestra.visitService.create(data)
+				result = await Orchestra.visitService.create(newData)
 			}
 			if(result) {
 				if(onSaved) {
@@ -254,7 +260,6 @@ export default function useRegisterVisitForm(onClose: () => void, preFillFormDat
 			}
 			changeErrorMessage(GTEXTS.error_something_went_wrong)
 		}
-    
   }
 
 	/**
@@ -340,8 +345,8 @@ export default function useRegisterVisitForm(onClose: () => void, preFillFormDat
 	}, [branch_selected, setValue, preFillFormData.gate_selected])
 	
 	useEffect(() => {
-		if (!getValues('email_interventor')) {
-			setValue('email_interventor', loggedUser?.email || '')
+		if (!getValues('email_approver')) {
+			setValue('email_approver', loggedUser?.email || '')
 		}
 	}, [setValue, loggedUser?.email, getValues])
 	

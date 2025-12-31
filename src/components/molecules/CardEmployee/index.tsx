@@ -112,14 +112,6 @@ export default function CardEmployee({ employee, hideEntry = false }: CardEmploy
 						/>
 					)
 				}
-				{
-					stateEmployee.code && (
-						<BoldLabel
-							label={TEXTS.label_employee_code}
-							value={stateEmployee.code}
-						/>
-					)
-				}
 				<BoldLabel
 					sx={{ my: '10px' }}
 					label={TEXTS.employee_state}
