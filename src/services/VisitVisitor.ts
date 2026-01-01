@@ -56,7 +56,7 @@ export default class VisitVisitorService {
         phone: visitor.phone || " 000000",
 		emergency_contact_name: visitor.emergency_contact_name || " No registra",
 		emergency_contact_phone: visitor.emergency_contact_phone || "000000",
-		requires_security_speak: visitor.requires_security_speak || 1,
+		requires_security_speak: visitor.requires_security_speak,
 		startdate_sgsst: startdate_sgsst || '',
 		enddate_sgsst: enddate_sgsst || '',
     };
