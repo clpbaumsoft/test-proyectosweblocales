@@ -40,7 +40,6 @@ export default function InputAutocomplete({
 		onChangeAutocomplete,
 		onInputChange,
 	} = useInputAutocomplete(onChange, emitGetOptions, defaultValue)
-	console.log(selectedValue, "ASDASD")
 
 	return (
 		<Autocomplete
@@ -62,7 +61,7 @@ export default function InputAutocomplete({
 			renderInput={(params) => (
 				<TextField 
 					{...params} 
-					placeholder={typeof defaultValue === 'string' && defaultValue || TEXTS.search_dots} 
+					placeholder={TEXTS.search_dots} 
 					fullWidth 
 					size="small" 
 					helperText={helpText} 
