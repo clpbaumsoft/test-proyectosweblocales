@@ -23,6 +23,7 @@ import { Visit, Visitor } from "@/interfaces/Models";
 
 //Services
 import Orchestra from "@/services/Orchestra";
+import { triggerSearchButtonClick } from "@/utils/updateUIControlPage";
 
 //Texts
 const TRANS = {
@@ -76,6 +77,10 @@ export default function useCreateEntryForm(visit: Visit, visitor: Visitor) {
 				EntryControlEvents.updateVisitor.emit('update_visitor', newVisitor)
 				changeOkMessage(TEXTS.success_give_entry)
 				setIsInnerLoading(false)
+
+				setTimeout(() => {
+					triggerSearchButtonClick()
+				}, 2000)
 			}
 		} catch(catchError) {
 			setIsInnerLoading(false)
