@@ -58,8 +58,8 @@ const EMPTY_FIELDS_FORM = {
 	entry_date: '',
 	departure_date: '',
 	reason: '',
-	id_interventor_employee: '',
-	email_approver: '',
+	id_interventor_employee: 0,
+	email_interventor: '',
 	company_selected: '',
 	branch_selected: '',
 	gate_selected: '',
@@ -73,7 +73,7 @@ export default function useRegisterVisitForm(onClose: () => void, preFillFormDat
 
 	const defaultValues = {
 		...preFillFormData,
-		id_interventor_employee: preFillFormData.id_interventor_employee || loggedUser?.email || ''
+		id_interventor_employee: preFillFormData.id_interventor_employee || 0
 	};
 
 	const {
@@ -197,22 +197,32 @@ export default function useRegisterVisitForm(onClose: () => void, preFillFormDat
    * Function to return the value of an input date.
    * @returns 
    */
-  const getInputDateValue = (key: keyof VisitFormType) => {
+	const getInputDateValue = (key: keyof VisitFormType) => {
 		const valStrDate = getValues(key)
-		return valStrDate ? moment(valStrDate) : null
-  }
+		if (!valStrDate) return null
+
+		let valueToParse: string | number | undefined
+		if (typeof valStrDate === 'object' && valStrDate !== null) {
+			valueToParse = (valStrDate as ItemSelector).value
+		} else {
+			valueToParse = valStrDate as string | number
+		}
+
+		return valueToParse ? moment(valueToParse) : null
+	}
 	
 	/**
    * Function to handle the submit of the form. Saving the visit data.
    * @returns 
    */
-  const onSubmit: SubmitHandler<VisitFormType> = async (data) => {
-		const { email_approver, id_interventor_employee, ...rest } = data
-		const interventorEmployeeId = typeof id_interventor_employee === 'object' ? Number(id_interventor_employee?.value) : id_interventor_employee
+	const onSubmit: SubmitHandler<VisitFormType> = async (data) => {
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		const { email_interventor, id_interventor_employee, ...rest } = data
+		const interventorEmployeeId = typeof id_interventor_employee === 'object' && Number(id_interventor_employee?.value)
 		
-		let newData;
-		if (interventorEmployeeId) newData = { ...rest, id_interventor_employee: interventorEmployeeId }
-		else newData = { ...rest, email_approver: loggedUser?.email || '' }
+		let payload;
+		if (interventorEmployeeId) payload = { ...rest, id_interventor_employee: interventorEmployeeId }
+		else payload = { ...rest, email_interventor: loggedUser?.email || '' }
 
 		try {
 			if(isInnerLoading) {
@@ -222,9 +232,9 @@ export default function useRegisterVisitForm(onClose: () => void, preFillFormDat
 			hideMessages()
 			let result
 			if(visitId) {
-				result = await Orchestra.visitService.update(visitId, newData)
+				result = await Orchestra.visitService.update(visitId, payload)
 			} else {
-				result = await Orchestra.visitService.create(newData)
+				result = await Orchestra.visitService.create(payload)
 			}
 			if(result) {
 				if(onSaved) {
@@ -345,8 +355,8 @@ export default function useRegisterVisitForm(onClose: () => void, preFillFormDat
 	}, [branch_selected, setValue, preFillFormData.gate_selected])
 	
 	useEffect(() => {
-		if (!getValues('email_approver')) {
-			setValue('email_approver', loggedUser?.email || '')
+		if (!getValues('email_interventor')) {
+			setValue('email_interventor', loggedUser?.email || '')
 		}
 	}, [setValue, loggedUser?.email, getValues])
 	

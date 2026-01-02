@@ -23,6 +23,7 @@ import useTranslation from "@/hooks/useTranslation";
 //Interfaces and types
 import { DuplicateVisitFormType, VisitFormType } from "@/interfaces/Forms";
 import type { Moment } from "moment";
+import type { ItemSelector } from "@/interfaces/General";
 
 //Services
 import Orchestra from "@/services/Orchestra";
@@ -108,10 +109,19 @@ export default function useDuplicateVisitForm(onClose: () => void, preFillFormDa
    * Function to return the value of an input date.
    * @returns 
    */
-  const getInputDateValue = (key: keyof VisitFormType) => {
+	const getInputDateValue = (key: keyof VisitFormType) => {
 		const valStrDate = getValues(key)
-		return valStrDate ? moment(valStrDate) : null
-  }
+		if (!valStrDate) return null
+
+		let valueToParse: string | number | undefined
+		if (typeof valStrDate === 'object' && valStrDate !== null) {
+			valueToParse = (valStrDate as ItemSelector).value
+		} else {
+			valueToParse = valStrDate as string | number
+		}
+
+		return valueToParse ? moment(valueToParse) : null
+	}
 	
 	/**
    * Function to handle the submit of the form. Saving the visit data.

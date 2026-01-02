@@ -218,11 +218,10 @@ export default function VisitRowActions({ setRowData, rowData }: VisitRowActions
 							entry_date: rowData.start_date,
 							departure_date: rowData.end_date,
 							reason: rowData.reason,
-							email_approver: rowData.approver_docs?.email || "",
+							email_interventor: rowData.approver_docs?.email || "",
 							id_interventor_employee: 
 								rowData.interventor?.id 
-									? { value: rowData.interventor.id, label: rowData.interventor.name } as ItemSelector 
-									: rowData.interventor?.email || "",
+									&& { value: rowData.interventor.id, label: rowData.interventor.name } as ItemSelector,
 							company_selected: rowData.company.id,
 							branch_selected: rowData.branch.id,
 							gate_selected: rowData.gate.id,

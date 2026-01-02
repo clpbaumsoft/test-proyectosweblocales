@@ -12,8 +12,8 @@ export type VisitFormType = {
 	entry_date: string;
 	departure_date: string;
 	reason: string;
-	id_interventor_employee?: ItemSelector | string | number;
-	email_approver?: string;
+	id_interventor_employee?: ItemSelector | number;
+	email_interventor?: string;
 	company_selected: string | number;
 	branch_selected: string | number;
 	gate_selected: string | number;
