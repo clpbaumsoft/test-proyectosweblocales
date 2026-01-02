@@ -197,10 +197,19 @@ export default function useRegisterVisitForm(onClose: () => void, preFillFormDat
    * Function to return the value of an input date.
    * @returns 
    */
-  const getInputDateValue = (key: keyof VisitFormType) => {
+	const getInputDateValue = (key: keyof VisitFormType) => {
 		const valStrDate = getValues(key)
-		return valStrDate ? moment(valStrDate) : null
-  }
+		if (!valStrDate) return null
+
+		let valueToParse: string | number | undefined
+		if (typeof valStrDate === 'object' && valStrDate !== null) {
+			valueToParse = (valStrDate as ItemSelector).value
+		} else {
+			valueToParse = valStrDate as string | number
+		}
+
+		return valueToParse ? moment(valueToParse) : null
+	}
 	
 	/**
    * Function to handle the submit of the form. Saving the visit data.
