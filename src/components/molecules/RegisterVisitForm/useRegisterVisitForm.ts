@@ -206,8 +206,8 @@ export default function useRegisterVisitForm(onClose: () => void, preFillFormDat
    * Function to handle the submit of the form. Saving the visit data.
    * @returns 
    */
-  const onSubmit: SubmitHandler<VisitFormType> = async (data) => {
-		const { email_approver, id_interventor_employee, ...rest } = data
+	const onSubmit: SubmitHandler<VisitFormType> = async (data) => {
+		const { id_interventor_employee, ...rest } = data
 		const interventorEmployeeId = typeof id_interventor_employee === 'object' ? Number(id_interventor_employee?.value) : id_interventor_employee
 		
 		let newData;
