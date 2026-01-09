@@ -10,6 +10,9 @@ import {
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import LocalSeeIcon from "@mui/icons-material/LocalSee";
 
+//Assets
+import imgPlaceholder from "./Assets/img_placeholder.png";
+
 //Components
 import CapturePhoto from "./components/CapturePhoto";
 import FormMessages from "@/components/atoms/FormMessages";
@@ -42,7 +45,7 @@ const TRANS = {
 	},
 	take_photo_open: {
 		id: "TakePhoto.Button.TakePhotoOpen",
-		defaultMessage: "Tomar foto",
+		defaultMessage: "Tomar foto 55",
 		description: "",
 	},
 	upload_photo: {
@@ -79,38 +82,34 @@ export default function TakePhoto({ preview, onSavePhoto, isButtonActive = true 
 			<Box>
 				
 				{/* Preview */}
-				{
-					imageSrc && (
-						<Box sx={{ mb: '10px' }}>
-							<PreviewImage width={150}>
-								{
-									isLoadingPreview && (
-										<span><CircularProgress size={20} /></span>
-									)
-								}
-								<Image 
-									src={imageSrc} 
-									alt={""}
-									priority={true}
-									fill
-									onLoad={onLoadPreviewImage}
-								/>
-							</PreviewImage>
-							{
-								filePhoto && (
-									<Button
-										variant="contained"
-										color="success"
-										sx={{ mx: 'auto', display: 'table' }}
-										onClick={onClickSavePhoto}
-									>
-										{isSavingPhoto ? GTEXTS.saving_dots : TEXTS.upload_photo}
-									</Button>
-								)
-							}
-						</Box>
-					)
-				}
+				<Box sx={{ mb: '10px' }}>
+					<PreviewImage width={150}>
+						{
+							isLoadingPreview && (
+								<span><CircularProgress size={20} /></span>
+							)
+						}
+						<Image 
+							src={imageSrc || imgPlaceholder} 
+							alt={""}
+							priority={true}
+							fill
+							onLoad={onLoadPreviewImage}
+						/>
+					</PreviewImage>
+					{
+						filePhoto && (
+							<Button
+								variant="contained"
+								color="success"
+								sx={{ mx: 'auto', display: 'table' }}
+								onClick={onClickSavePhoto}
+							>
+								{isSavingPhoto ? GTEXTS.saving_dots : TEXTS.upload_photo}
+							</Button>
+						)
+					}
+				</Box>
 				<FormMessages
 					message={message}
 					error={error}

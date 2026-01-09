@@ -57,6 +57,7 @@ const TRANS = {
 }
 
 export default function CardVisitorPhoto({ visitor }: CardVisitorProps) {
+
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
 	const { onSavePhotoVisitor } = useCardVisitorPhoto(visitor)
@@ -106,7 +107,7 @@ export default function CardVisitorPhoto({ visitor }: CardVisitorProps) {
 						<Box sx={{ display: 'table', minWidth:'260px' }}>
 							<TakePhoto
 								isButtonActive={visitor?.is_currently_banned ? false : true}
-								preview={visitor.photo_url ? mediaUrl(visitor.id, 'foto-visitante') : null}
+								preview={visitor?.photo_url ? mediaUrl(visitor?.id, 'foto-visitante') : null}
 								onSavePhoto={onSavePhotoVisitor}
 							/>
 						</Box>

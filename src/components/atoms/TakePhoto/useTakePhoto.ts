@@ -127,6 +127,8 @@ export default function useTakePhoto(preview?: string | null, onSavePhoto?: (the
 		if(preview) {
 			setIsLoadingPreview(true)
 			setImageSrc(preview)
+		} else {
+			setImageSrc(null)
 		}
 	}, [preview])
 	
