@@ -110,6 +110,10 @@ export default function useTakePhoto(preview?: string | null, onSavePhoto?: (the
 				changeOkMessage(TEXTS.success_upload_photo)
 				setFilePhoto(null)
 				setIsSavingPhoto(false)
+				// Ocultar mensaje de éxito después de 2 segundos
+				setTimeout(() => {
+					hideMessages()
+				}, 2000)
 			} catch(catchError) {
 				setIsSavingPhoto(false)
 				if(catchError instanceof AuthError) {
@@ -125,6 +129,7 @@ export default function useTakePhoto(preview?: string | null, onSavePhoto?: (the
 	
 	useEffect(() => {
 		setIsLoadingPreview(true)
+		setFilePhoto(null)
 		if(preview) {
 			setImageSrc(preview)
 		} else {
