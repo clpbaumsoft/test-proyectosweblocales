@@ -124,8 +124,8 @@ export default function useTakePhoto(preview?: string | null, onSavePhoto?: (the
 	}
 	
 	useEffect(() => {
+		setIsLoadingPreview(true)
 		if(preview) {
-			setIsLoadingPreview(true)
 			setImageSrc(preview)
 		} else {
 			setImageSrc(null)

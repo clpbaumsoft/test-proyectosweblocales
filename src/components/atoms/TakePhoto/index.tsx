@@ -45,7 +45,7 @@ const TRANS = {
 	},
 	take_photo_open: {
 		id: "TakePhoto.Button.TakePhotoOpen",
-		defaultMessage: "Tomar foto 55",
+		defaultMessage: "Tomar foto",
 		description: "",
 	},
 	upload_photo: {
@@ -76,7 +76,7 @@ export default function TakePhoto({ preview, onSavePhoto, isButtonActive = true 
 		onClickCapturePhoto,
 		onClickSavePhoto,
 	} = useTakePhoto(preview, onSavePhoto)
-	
+
 	return (
 		<>
 			<Box>
