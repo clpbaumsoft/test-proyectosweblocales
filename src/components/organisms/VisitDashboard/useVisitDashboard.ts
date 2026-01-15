@@ -1,27 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 import type { ChangeEvent, MouseEvent } from "react";
-
-//Contants
 import { ROWS_PER_PAGE } from "@/constants/Globals";
-
-//Errors
 import AuthError from "@/errors/AuthError";
 import LocalError from "@/errors/LocalError";
 import ValidationError from "@/errors/ValidationError";
-
-//Hooks
 import useDebounce from "@/hooks/useDebounce";
 import useSessionProviderHook from "@/providers/SessionProvider/hooks";
-
-//Interfaces and types
 import { DocumentType, Visit, VisitVisitor } from "@/interfaces/Models";
-
-//Services
 import Orchestra from "@/services/Orchestra";
 
-
 export default function useVisitDashboard(visit: Visit) {
-
 	const {
 		isLoggedIn,
 		openModalLoginForm,
@@ -41,12 +29,8 @@ export default function useVisitDashboard(visit: Visit) {
 	 * Loads the visits
 	 */
 	const loadVisitors = useCallback(async (currentPage: number, currentRowsPerPage: number) => {
-		if(!isLoggedIn) {
-			return
-		}
-		if(isInnerLoading) {
-			return
-		}
+		if(!isLoggedIn || isInnerLoading) return
+	
 		setIsInnerLoading(true)
 		debounce(async () => {
 			try {

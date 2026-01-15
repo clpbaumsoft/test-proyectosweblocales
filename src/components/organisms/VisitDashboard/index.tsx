@@ -148,7 +148,6 @@ const TRANS = {
 }
 
 export default function VisitDashboard({ visit }: VisitDashboardProps) {
-	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
 
@@ -274,7 +273,7 @@ export default function VisitDashboard({ visit }: VisitDashboardProps) {
 						</TableHead>
 						<TableBody>
 							{
-								(isInnerLoading || isInnerLoadingFirstTime) ? (
+								(isInnerLoading && isInnerLoadingFirstTime) ? (
 									<TableRow>
 										<TableCell colSpan={8} align="center">
 											<CircularProgress />
@@ -300,7 +299,7 @@ export default function VisitDashboard({ visit }: VisitDashboardProps) {
 							}
 						</TableBody>
 						{
-							(!(isInnerLoading || isInnerLoadingFirstTime) && visitorsRows.length !== 0) && (
+							(!(isInnerLoading && isInnerLoadingFirstTime) && visitorsRows.length !== 0) && (
 								<TableFooter>
 									<TableRow>
 										<TablePagination
