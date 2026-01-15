@@ -1,27 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 import type { ChangeEvent, MouseEvent } from "react";
-
-//Contants
 import { ROWS_PER_PAGE } from "@/constants/Globals";
-
-//Errors
 import AuthError from "@/errors/AuthError";
 import LocalError from "@/errors/LocalError";
 import ValidationError from "@/errors/ValidationError";
-
-//Hooks
 import useDebounce from "@/hooks/useDebounce";
 import useSessionProviderHook from "@/providers/SessionProvider/hooks";
-
-//Interfaces and types
 import { DocumentType, Visit, VisitVisitor } from "@/interfaces/Models";
-
-//Services
 import Orchestra from "@/services/Orchestra";
 
-
 export default function useVisitDashboard(visit: Visit) {
-
 	const {
 		isLoggedIn,
 		openModalLoginForm,
@@ -41,76 +29,75 @@ export default function useVisitDashboard(visit: Visit) {
 	 * Loads the visits
 	 */
 	const loadVisitors = useCallback(async (currentPage: number, currentRowsPerPage: number) => {
-		if(!isLoggedIn) {
-			return
-		}
-		if(isInnerLoading) {
-			return
-		}
+		if(!isLoggedIn) return
+	
 		setIsInnerLoading(true)
-		debounce(async () => {
+
+		await debounce(async () => {
 			try {
 				const responsePaginateVisitors = await Orchestra.visitorService.getVisitors(visit, currentPage, currentRowsPerPage)
+				const responseDocumentTypes = await Orchestra.documentTypeService.all()
+
 				setTotal(responsePaginateVisitors.total)
 				setVisitorsRows([...responsePaginateVisitors.data])
-				const responseDocumentTypes = await Orchestra.documentTypeService.all()
 				setDocumentTypes([...responseDocumentTypes])
 			} catch(catchError) {
 				if(catchError instanceof AuthError) {
-					return openModalLoginForm()
+					openModalLoginForm()
 				}
 				if(catchError instanceof LocalError || catchError instanceof ValidationError) {
-					return showLocalError(catchError)
+					showLocalError(catchError)
 				}
-				throw catchError
-			} finally {
-				setIsInnerLoading(false)
+				console.error(catchError)
 			}
 		})
-	}, [isLoggedIn, isInnerLoading, visit, debounce, openModalLoginForm, showLocalError])
+
+		setIsInnerLoading(false)
+	}, [isLoggedIn, visit, debounce, openModalLoginForm, showLocalError])
 
 	/**
 	 * Loads the visits
 	 */
 	const loadVisitorsFirstTime = useCallback(async (currentPage: number, currentRowsPerPage: number) => {
-		if(!isLoggedIn) {
-			return
-		}
-		debounce(async () => {
+		if(!isLoggedIn) return
+
+		await debounce(async () => {
 			try {
 				const responsePaginateVisitors = await Orchestra.visitorService.getVisitors(visit, currentPage, currentRowsPerPage)
+				const responseDocumentTypes = await Orchestra.documentTypeService.all()
+
 				setTotal(responsePaginateVisitors.total)
 				setVisitorsRows([...responsePaginateVisitors.data])
-				const responseDocumentTypes = await Orchestra.documentTypeService.all()
 				setDocumentTypes([...responseDocumentTypes])
 			} catch(catchError) {
 				if(catchError instanceof AuthError) {
-					return openModalLoginForm()
+					openModalLoginForm()
 				}
 				if(catchError instanceof LocalError || catchError instanceof ValidationError) {
-					return showLocalError(catchError)
+					showLocalError(catchError)
 				}
-				throw catchError
-			} finally {
-				setIsInnerLoadingFirstTime(false)
+
+				console.error(catchError)
 			}
 		})
+		
+		setIsInnerLoadingFirstTime(false)
 	}, [isLoggedIn, visit, debounce, openModalLoginForm, showLocalError])
 	
 
-	const handleChangePage = (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+	const handleChangePage = async (event: MouseEvent<HTMLButtonElement> | null, newPage: number) => {
 		setPage(newPage)
-		loadVisitors(newPage, rowsPerPage)
+		await loadVisitors(newPage, rowsPerPage)
 	}
-	const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+	const handleChangeRowsPerPage = async (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 		const newRowsPerPage = parseInt(event.target.value)
 		setRowsPerPage(newRowsPerPage)
-		loadVisitors(page, newRowsPerPage)
+		await loadVisitors(page, newRowsPerPage)
 	}
 
 	useEffect(() => {
-		loadVisitorsFirstTime(page, rowsPerPage)
-	}, [page, rowsPerPage, loadVisitorsFirstTime])
+		loadVisitorsFirstTime(0, ROWS_PER_PAGE)
+	}, [loadVisitorsFirstTime])
 
 	return {
 		isInnerLoading,
