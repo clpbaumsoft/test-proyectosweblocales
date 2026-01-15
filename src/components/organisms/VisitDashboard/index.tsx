@@ -273,7 +273,7 @@ export default function VisitDashboard({ visit }: VisitDashboardProps) {
 						</TableHead>
 						<TableBody>
 							{
-								(isInnerLoading && isInnerLoadingFirstTime) ? (
+								(isInnerLoading || isInnerLoadingFirstTime) ? (
 									<TableRow>
 										<TableCell colSpan={8} align="center">
 											<CircularProgress />
