@@ -105,8 +105,7 @@ export default function CardVisitorPhoto({ visitor }: CardVisitorProps) {
 				>
 					<Box sx={{ mb: '15px' }}>
 						<Box sx={{ display: 'table', minWidth:'260px' }}>
-							<TakePhoto
-								isButtonActive={visitor?.is_currently_banned ? false : true}
+							<TakePhoto key={visitor?.id || 'no-visitor'} isButtonActive={visitor?.is_currently_banned ? false : true}
 								preview={visitor?.photo_url ? mediaUrl(visitor?.id, 'foto-visitante') : null}
 								onSavePhoto={onSavePhotoVisitor}
 							/>

@@ -37,9 +37,9 @@ export default function useTakePhoto(preview?: string | null, onSavePhoto?: (the
 	
 	const [okMessage, errorMessage, changeOkMessage, changeErrorMessage, hideMessages] = useFormMessages()
 		
-	const [isLoadingPreview, setIsLoadingPreview] = useState(false)
+	const [isLoadingPreview, setIsLoadingPreview] = useState(!!preview)
 	const [isSavingPhoto, setIsSavingPhoto] = useState(false)
-	const [imageSrc, setImageSrc] = useState(preview)
+	const [imageSrc, setImageSrc] = useState<string | null>(null)
 	const [filePhoto, setFilePhoto] = useState<File | null>(null)
 	const [isOpenModalTakePhoto, toggleIsOpenModalTakePhoto] = useToggleBoolean(false)
 	
@@ -128,19 +128,18 @@ export default function useTakePhoto(preview?: string | null, onSavePhoto?: (the
 	}
 	
 	useEffect(() => {
-		// Resetear primero la imagen a null para evitar que se quede pegada
 		setImageSrc(null)
 		setFilePhoto(null)
 		
 		if(preview) {
 			setIsLoadingPreview(true)
-			// Establecer la nueva imagen después de un pequeño delay
-			const timeoutId = setTimeout(() => {
+			const frameId = requestAnimationFrame(() => {
 				setImageSrc(preview)
-			}, 10)
-			return () => clearTimeout(timeoutId)
+			})
+			return () => cancelAnimationFrame(frameId)
 		} else {
 			setIsLoadingPreview(false)
+			setImageSrc(null)
 		}
 	}, [preview])
 	
