@@ -128,12 +128,19 @@ export default function useTakePhoto(preview?: string | null, onSavePhoto?: (the
 	}
 	
 	useEffect(() => {
-		setIsLoadingPreview(true)
+		// Resetear primero la imagen a null para evitar que se quede pegada
+		setImageSrc(null)
 		setFilePhoto(null)
+		
 		if(preview) {
-			setImageSrc(preview)
+			setIsLoadingPreview(true)
+			// Establecer la nueva imagen después de un pequeño delay
+			const timeoutId = setTimeout(() => {
+				setImageSrc(preview)
+			}, 10)
+			return () => clearTimeout(timeoutId)
 		} else {
-			setImageSrc(null)
+			setIsLoadingPreview(false)
 		}
 	}, [preview])
 	
