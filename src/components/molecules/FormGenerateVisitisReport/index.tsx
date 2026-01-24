@@ -287,10 +287,18 @@ export default function FormGenerateVisitisReport() {
 												</TableCell>
 												<TableCell>{visit.status || '-'}</TableCell>
 												<TableCell>
-													{visit.start_date ? dayjs(visit.start_date).format('DD/MM/YYYY') : '-'}
+													{visit.start_date ? (
+														visit.start_date.length > 10
+															? dayjs(visit.start_date).format('DD/MM/YYYY HH:mm')
+															: dayjs(visit.start_date).format('DD/MM/YYYY')
+													) : '-'}
 												</TableCell>
 												<TableCell>
-													{visit.end_date ? dayjs(visit.end_date).format('DD/MM/YYYY') : '-'}
+													{visit.end_date ? (
+														visit.end_date.length > 10
+															? dayjs(visit.end_date).format('DD/MM/YYYY HH:mm')
+															: dayjs(visit.end_date).format('DD/MM/YYYY')
+													) : '-'}
 												</TableCell>
 												<TableCell>{visit.interventor_name || '-'}</TableCell>
 												<TableCell align="center">{visit.visitors_count}</TableCell>
