@@ -388,16 +388,16 @@ export default function FormGenerateHistoryVisitor() {
 												<TableCell>{item.first_last_name || '-'}</TableCell>
 												<TableCell>{item.second_last_name || '-'}</TableCell>
 												<TableCell>
-													{item.company_entry_date ? dayjs(item.company_entry_date).format('DD/MM/YYYY') : '-'}
+													{item.company_entry_date ? dayjs(item.company_entry_date).format('DD/MM/YYYY HH:mm') : '-'}
 												</TableCell>
 												<TableCell>
-													{item.company_exit_date ? dayjs(item.company_exit_date).format('DD/MM/YYYY') : '-'}
+													{item.company_exit_date ? dayjs(item.company_exit_date).format('DD/MM/YYYY HH:mm') : '-'}
 												</TableCell>
 												<TableCell>
-													{item.visit_start_date ? dayjs(item.visit_start_date).format('DD/MM/YYYY') : '-'}
+													{item.visit_start_date ? dayjs(item.visit_start_date).format('DD/MM/YYYY HH:mm') : '-'}
 												</TableCell>
 												<TableCell>
-													{item.visit_end_date ? dayjs(item.visit_end_date).format('DD/MM/YYYY') : '-'}
+													{item.visit_end_date ? dayjs(item.visit_end_date).format('DD/MM/YYYY HH:mm') : '-'}
 												</TableCell>
 												<TableCell>{item.eps || '-'}</TableCell>
 												<TableCell>{item.arl || '-'}</TableCell>
