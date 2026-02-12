@@ -65,6 +65,16 @@ const TRANS = {
 		defaultMessage: "Motivo:",
 		description: "",
 	},
+	label_visit_creator: {
+		id: "VisitDashboard.BoldLabel.VisitCreator",
+		defaultMessage: "Creador de Visita:",
+		description: "",
+	},
+	label_visit_interventor: {
+		id: "VisitDashboard.BoldLabel.VisitInterventor",
+		defaultMessage: "Interventor:",
+		description: "",
+	},
 	label_start_date: {
 		id: "VisitDashboard.BoldLabel.StartDate",
 		defaultMessage: "Fecha inicio:",
@@ -120,6 +130,16 @@ const TRANS = {
 		defaultMessage: "Documento",
 		description: "",
 	},
+	label_visitor_emergency_contact_name: {
+		id: "VisitDashboard.TableCell.EmergencyContactName",
+		defaultMessage: "Contacto de emergencia",
+		description: "",
+	},
+	label_visitor_emergency_contact_phone: {
+		id: "VisitDashboard.TableCell.EmergencyContactPhone",
+		defaultMessage: "Teléfono contacto de emergencia",
+		description: "",
+	},
 	label_visitor_actions: {
 		id: "VisitDashboard.TableCell.Actions",
 		defaultMessage: "Acciones",
@@ -150,7 +170,7 @@ const TRANS = {
 export default function VisitDashboard({ visit }: VisitDashboardProps) {
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
-
+	
 	const {
 		isInnerLoading,
 		isInnerLoadingFirstTime,
@@ -188,17 +208,42 @@ export default function VisitDashboard({ visit }: VisitDashboardProps) {
 			</Box>
 			<Card>
 				<CardContent>
-					<BoldLabel
-						label={TEXTS.label_reason}
-						value={
-							<Typography variant="h6" component="div">
-								{visit.reason}
-							</Typography>
-						}
-					/>
+					<Grid container spacing={3}>
+						<Grid size={{ xs: 12, md: 5 }}>
+							<BoldLabel
+								label={TEXTS.label_reason}
+								value={
+									<Typography variant="h6" component="div">
+										{visit.reason}
+									</Typography>
+								}
+							/>
+						</Grid>
+						<Grid size={{ xs: 12, md: 3 }}>
+							<BoldLabel
+								label={TEXTS.label_visit_interventor}
+								value={
+									<Typography variant="h6" component="div">
+										{visit.interventor?.fullname}
+									</Typography>
+								}
+							/>
+						</Grid>
+						<Grid size={{ xs: 12, md: 3 }}>
+							<BoldLabel
+								label={TEXTS.label_visit_creator}
+								value={
+									<Typography variant="h6" component="div">
+										{visit.interventor?.fullname}
+									</Typography>
+								}
+							/>
+						</Grid>
+					</Grid>
+					
 					<br/>
 					<Grid container spacing={3}>
-						<Grid size={{ xs: 12, md: 6 }}>
+						<Grid size={{ xs: 12, md: 5 }}>
 							<BoldLabel
 								label={TEXTS.label_start_date}
 								value={formatsDate(visit.start_date)}
@@ -268,6 +313,8 @@ export default function VisitDashboard({ visit }: VisitDashboardProps) {
 								<TableCell align="center">{TEXTS.label_visitor_dni_number}</TableCell>
 								<TableCell align="center">{TEXTS.label_visitor_full_name}</TableCell>
 								<TableCell align="center">{TEXTS.label_security_training}</TableCell>
+								<TableCell align="center">{TEXTS.label_visitor_emergency_contact_name}</TableCell>
+								<TableCell align="center">{TEXTS.label_visitor_emergency_contact_phone}</TableCell>
 								<TableCell align="center">{TEXTS.label_visitor_actions}</TableCell>
 							</TableRow>
 						</TableHead>

@@ -47,6 +47,8 @@ export default function VisitorRow({ row, documentTypes, visitStartDate }: Visit
 						<>{requiredSecurityTraining}</>
 					)}
 				</TableCell>
+				<TableCell align="center">{`${row.visitor.emergency_contact_name}`}</TableCell>
+				<TableCell align="center">{`${row.visitor.emergency_contact_phone}`}</TableCell>
 				<TableCell align="center">
 					<VisitorRowActions
 						visitVisitor={row}
