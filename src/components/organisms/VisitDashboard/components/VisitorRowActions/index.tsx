@@ -9,10 +9,12 @@ import {
 	DialogContent,
 	DialogTitle,
 	styled,
+	Tooltip,
 } from "@mui/material";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import DoDisturbAltIcon from "@mui/icons-material/DoDisturbAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 //Components
 import ListVisitVisitorDocs from "@/components/molecules/ListVisitVisitorDocs";
@@ -35,6 +37,9 @@ import { VisitorRowActionsProps } from "@/interfaces/Molecules";
 //Hooks
 import useVisitorRowActions from "./useVisitorRowActions";
 import useTranslation from "@/hooks/useTranslation";
+
+//Styles
+import styles from "./VisitorRowActions.module.scss";
 
 //Texts
 const TRANS = {
@@ -115,6 +120,14 @@ export default function VisitorRowActions({ visitVisitor, documentTypes, visitSt
 	return (
 		<>
 			<BoxButtons>
+				{/* <Tooltip title={TEXTS.see} placement="top">
+					<Button
+						className={styles.button_action_icon}
+						variant="outlined" 
+						color="success"
+						startIcon={<VisibilityIcon color="success" />}
+					/>
+				</Tooltip> */}
 				{
 					isInnerLoading && (
 						<FullLoader variant="absolute" size="small" />

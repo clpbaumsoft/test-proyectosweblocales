@@ -43,6 +43,9 @@ interface VisitorHistoryData {
   id_arlcompany: number | null;
   status: string | null;
   creator_date: string | null;
+  creator: {
+    fullname: string;
+  };
   carecompany: {
     id: number | null,
     name: string | null,
@@ -76,6 +79,9 @@ interface VisitorHistoryData {
     id: number;
     visitor_type_description: string;
     visit: {
+      creator: {
+      fullname: string;
+    };
       id: number;
       start_date: string;
       end_date: string;
@@ -108,6 +114,7 @@ interface VisitorHistoryData {
 
 // Interface for processed data to show in table
 interface ProcessedVisitorHistoryData {
+  visit_creator_name: string;
   id: number;
   visit_id: number;
   identification_type: string;
@@ -254,7 +261,7 @@ export default function useFormGenerateHistoryVisitor() {
    * Formats the API response data to match our interface
    */
   const formatHistoryData = (rawData: VisitorHistoryData[]): ProcessedVisitorHistoryData[] => {
-    
+
     return rawData?.map((item: VisitorHistoryData) => {
       const visitor = item.visit_visitor.visitor;
       const visit = item.visit_visitor.visit;
@@ -279,6 +286,7 @@ export default function useFormGenerateHistoryVisitor() {
         emergency_contact_phone: item.emergency_contact_phone || visitor.emergency_contact_phone || '',
         visitor_type: item.visit_visitor.visitor_type.short_description || '',
         interventor_name: visit.interventor?.fullname || '',
+        visit_creator_name: visit.creator?.fullname || '',
         visit_id_reference: visit.id,
       };
     });
@@ -329,11 +337,7 @@ export default function useFormGenerateHistoryVisitor() {
         console.warn('Unexpected API response structure:', response);
         rawData = [];
       }
-
-      // Get the identification type code to pass to formatHistoryData
-      const identificationTypeCode = getCodeById(identificationTypeId.toString()) || identificationTypeId.toString();
-      console.log("🚀 ~ onSubmit ~ identificationTypeCode:", identificationTypeCode)
-
+      
       const formattedData = formatHistoryData(rawData);
 
       setHistoryData(formattedData);
@@ -395,6 +399,7 @@ export default function useFormGenerateHistoryVisitor() {
       'Teléfono Emergencia': item.emergency_contact_phone || '',
       'Tipo Visitante': item.visitor_type || '',
       'Interventor': item.interventor_name || '',
+      'Creador de Visita': item.visit_creator_name || '',
       'ID Visita': item.visit_id_reference || ''
     }));
 
@@ -442,6 +447,7 @@ export default function useFormGenerateHistoryVisitor() {
       'Teléfono Emergencia',
       'Tipo Visitante',
       'Interventor',
+      'Creador de Visita',
       'ID Visita'
     ];
     // Add BOM to support UTF-8 encoding for accents and special characters
@@ -466,6 +472,7 @@ export default function useFormGenerateHistoryVisitor() {
         `"${item.emergency_contact_phone}"`,
         `"${item.visitor_type}"`,
         `"${item.interventor_name}"`,
+        `"${item.visit_creator_name}"`,
         item.visit_id_reference
       ].join(','))
     ].join('\n');

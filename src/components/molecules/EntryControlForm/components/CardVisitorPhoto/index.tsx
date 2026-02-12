@@ -44,6 +44,16 @@ const TRANS = {
 		defaultMessage: "Dirección:",
 		description: "",
 	},
+	label_card_creator: {
+		id: "EntryControlForm.LabelItem.Label.label_card_creator",
+		defaultMessage: "Creador de Visita:",
+		description: "",
+	},
+	label_card_interventor: {
+		id: "EntryControlForm.LabelItem.Label.label_card_interventor",
+		defaultMessage: "Interventor:",
+		description: "",
+	},
 	label_card_has_sgsst: {
 		id: "EntryControlForm.LabelItem.Label.LabelHasSgsst",
 		defaultMessage: "¿Tiene charla de seguridad vigente?",
@@ -144,7 +154,7 @@ export default function CardVisitorPhoto({ visitor }: CardVisitorProps) {
 								label={TEXTS.label_card_phone} 
 								value={visitor.phone} 
 							/>
-
+							
 							<LabelItem sx={{ mb: '15px' }} 
 								label={TEXTS.label_card_has_sgsst} 
 								value={
@@ -170,6 +180,18 @@ export default function CardVisitorPhoto({ visitor }: CardVisitorProps) {
 									</Box>
 								}
 							/>
+
+							<LabelItem 
+								sx={{ mb: '15px' }} 
+								label={TEXTS.label_card_interventor} 
+								value={visitor?.visits?.[0]?.interventor?.fullname} 
+							/>
+							<LabelItem 
+								sx={{ mb: '15px' }} 
+								label={TEXTS.label_card_creator} 
+								value={visitor?.creator?.fullname} 
+							/>
+
 						</div>
 					</Box>
 					
