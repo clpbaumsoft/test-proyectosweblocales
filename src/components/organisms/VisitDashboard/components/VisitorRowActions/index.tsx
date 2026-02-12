@@ -9,12 +9,12 @@ import {
 	DialogContent,
 	DialogTitle,
 	styled,
-	Tooltip,
+	// Tooltip,
 } from "@mui/material";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import DoDisturbAltIcon from "@mui/icons-material/DoDisturbAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+// import VisibilityIcon from "@mui/icons-material/Visibility";
 
 //Components
 import ListVisitVisitorDocs from "@/components/molecules/ListVisitVisitorDocs";
@@ -39,7 +39,7 @@ import useVisitorRowActions from "./useVisitorRowActions";
 import useTranslation from "@/hooks/useTranslation";
 
 //Styles
-import styles from "./VisitorRowActions.module.scss";
+// import styles from "./VisitorRowActions.module.scss";
 
 //Texts
 const TRANS = {
