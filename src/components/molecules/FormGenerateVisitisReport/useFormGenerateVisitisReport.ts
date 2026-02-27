@@ -69,6 +69,13 @@ interface VisitorData {
   };
 }
 
+interface InterventorEmployee {
+  id: number;
+  name: string;
+  identification_number?: string;
+  code?: string;
+}
+
 interface VisitVisitor {
   id: number;
   id_visitor_type: number;
@@ -83,6 +90,7 @@ interface VisitVisitor {
   visitor_type_description: string;
   visitor_type: VisitorType;
   visitor?: VisitorData;
+  visitor_data?: VisitorData;
 }
 
 interface ApiVisitResponseItem {
@@ -107,8 +115,18 @@ interface ApiVisitResponseItem {
   modifier_date: string;
   id_interventor_user: number | null;
   interventor: BaseUser | null;
+  interventor_employee?: InterventorEmployee | null;
   visit_visitors: VisitVisitor[];
   approver_docs: BaseUser | null;
+}
+
+export interface VisitHistoryPaginationMeta {
+  current_page: number;
+  last_page: number;
+  per_page: number;
+  total: number;
+  from: number;
+  to: number;
 }
 
 // Interface for the processed visit report data (what we show in the table)
@@ -162,7 +180,9 @@ export default function useFormGenerateVisitisReport() {
   const [isInnerLoading, setIsInnerLoading] = useState(false);
   const [visitsData, setVisitsData] = useState<VisitReportData[]>([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(50);
+  const [paginationMeta, setPaginationMeta] = useState<VisitHistoryPaginationMeta | null>(null);
+  const [isExporting, setIsExporting] = useState(false);
 
   const [okMessage, errorMessage, changeOkMessage, changeErrorMessage, hideMessages] = useFormMessages();
 
@@ -209,6 +229,11 @@ export default function useFormGenerateVisitisReport() {
         return statusMap[status] || status;
       };
 
+      const interventorName =
+        visitItem.interventor?.fullname ||
+        visitItem.interventor_employee?.name ||
+        '';
+
       // If there are no visitors, create one row with visit info only
       if (!visitItem.visit_visitors || visitItem.visit_visitors.length === 0) {
         result.push({
@@ -218,9 +243,9 @@ export default function useFormGenerateVisitisReport() {
           status: getStatusDescription(visitItem.status),
           start_date: visitItem.start_date,
           end_date: visitItem.end_date,
-          interventor_name: visitItem.interventor?.fullname || '',
+          interventor_name: interventorName,
           visitors_count: 0,
-          approver_name: visitItem.interventor?.fullname || '',
+          approver_name: interventorName,
           document_verifier_name: visitItem.approver_docs?.fullname || '',
           visitor_first_name: '',
           visitor_middle_name: '',
@@ -231,10 +256,10 @@ export default function useFormGenerateVisitisReport() {
           visitor_type: '',
         });
       } else {
-        // Create one row per visitor
+        // Create one row per visitor (support visitor or visitor_data from API)
         visitItem.visit_visitors.forEach((visitVisitor) => {
-          const visitor = visitVisitor.visitor;
-          
+          const visitor = visitVisitor.visitor ?? visitVisitor.visitor_data;
+
           result.push({
             id: visitItem.id,
             created_at: visitItem.creator_date,
@@ -242,14 +267,14 @@ export default function useFormGenerateVisitisReport() {
             status: getStatusDescription(visitItem.status),
             start_date: visitItem.start_date,
             end_date: visitItem.end_date,
-            interventor_name: visitItem.interventor?.fullname || '',
+            interventor_name: interventorName,
             visitors_count: visitItem.visit_visitors.length,
-            approver_name: visitItem.interventor?.fullname || '',
+            approver_name: interventorName,
             document_verifier_name: visitItem.approver_docs?.fullname || '',
             visitor_first_name: visitor?.first_name || '',
-            visitor_middle_name: visitor?.middle_name || '',
+            visitor_middle_name: visitor?.middle_name ?? '',
             visitor_first_last_name: visitor?.first_last_name || '',
-            visitor_second_last_name: visitor?.second_last_name || '',
+            visitor_second_last_name: visitor?.second_last_name ?? '',
             identification_type: visitor?.identification_type?.code || '',
             identification_number: visitor?.identification_number || '',
             visitor_type: visitVisitor.visitor_type?.short_description || '',
@@ -262,11 +287,86 @@ export default function useFormGenerateVisitisReport() {
   };
 
   /**
-   * Handles the form submission and fetches visits data
+   * Fetches a page of visits from the API (server-side pagination).
+   * API uses 1-based page.
+   */
+  const fetchVisitsPage = async (
+    startDate: string,
+    endDate: string,
+    apiPage: number,
+    perPage: number
+  ): Promise<{ data: VisitReportData[]; meta: VisitHistoryPaginationMeta } | null> => {
+    const response = await Orchestra.generateReportsService.allVisits(
+      startDate,
+      endDate,
+      apiPage,
+      perPage
+    );
+
+    let rawData: ApiVisitResponseItem[] = [];
+    let meta: VisitHistoryPaginationMeta | null = null;
+
+    if (response.data && Array.isArray(response.data)) {
+      rawData = response.data;
+      meta = response.meta ?? null;
+    } else if (Array.isArray(response)) {
+      rawData = response;
+    } else if (response.visits && Array.isArray(response.visits)) {
+      rawData = response.visits;
+      meta = response.meta ?? null;
+    } else {
+      console.warn('Unexpected API response structure:', response);
+      return null;
+    }
+
+    const formattedData = formatVisitData(rawData);
+    const resolvedMeta =
+      meta ??
+      ({
+        current_page: 1,
+        last_page: 1,
+        per_page: perPage,
+        total: formattedData.length,
+        from: 1,
+        to: formattedData.length,
+      } as VisitHistoryPaginationMeta);
+
+    return { data: formattedData, meta: resolvedMeta };
+  };
+
+  /**
+   * Fetches ALL visits in the date range (no pagination). Used for CSV/XLSX export.
+   */
+  const fetchAllVisits = async (
+    startDate: string,
+    endDate: string
+  ): Promise<VisitReportData[]> => {
+    const response = await Orchestra.generateReportsService.allVisits(
+      startDate,
+      endDate,
+      1,
+      "all"
+    );
+
+    let rawData: ApiVisitResponseItem[] = [];
+    if (response.data && Array.isArray(response.data)) {
+      rawData = response.data;
+    } else if (Array.isArray(response)) {
+      rawData = response;
+    } else if (response.visits && Array.isArray(response.visits)) {
+      rawData = response.visits;
+    } else {
+      return [];
+    }
+    return formatVisitData(rawData);
+  };
+
+  /**
+   * Handles the form submission and fetches first page of visits
    */
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    
+
     try {
       if (isInnerLoading) {
         return;
@@ -279,32 +379,20 @@ export default function useFormGenerateVisitisReport() {
       setIsInnerLoading(true);
       hideMessages();
 
-      const startDate = valueStart?.format('YYYY-MM-DD');
-      const endDate = valueEnd?.format('YYYY-MM-DD');
+      const startDate = valueStart!.format('YYYY-MM-DD');
+      const endDate = valueEnd!.format('YYYY-MM-DD');
 
-      const response = await Orchestra.generateReportsService.allVisits(startDate!, endDate!);
-      
-      // Handle the API response - it could be wrapped in a data property or be the raw array
-      let rawData: ApiVisitResponseItem[] = [];
-      if (Array.isArray(response)) {
-        rawData = response;
-      } else if (response.data && Array.isArray(response.data)) {
-        rawData = response.data;
-      } else if (response.visits && Array.isArray(response.visits)) {
-        rawData = response.visits;
-      } else {
-        console.warn('Unexpected API response structure:', response);
-        rawData = [];
+      const result = await fetchVisitsPage(startDate, endDate, 1, rowsPerPage);
+
+      if (result) {
+        setVisitsData(result.data);
+        setPaginationMeta(result.meta);
+        setPage(0);
+        changeOkMessage(
+          `${TEXTS.success_generate_report} (${result.meta.total} registros en total)`
+        );
       }
-      
-      const formattedData = formatVisitData(rawData);
-      
-      setVisitsData(formattedData);
-      setPage(0);
-      changeOkMessage(`${TEXTS.success_generate_report} (${formattedData.length} registros encontrados)`);
-      setIsInnerLoading(false);
     } catch (catchError) {
-      setIsInnerLoading(false);
       if (catchError instanceof AuthError) {
         return openModalLoginForm();
       }
@@ -313,138 +401,262 @@ export default function useFormGenerateVisitisReport() {
       } else {
         changeErrorMessage(GTEXTS.error_something_went_wrong);
       }
+    } finally {
+      setIsInnerLoading(false);
     }
   };
 
   /**
-   * Handles page change for pagination
+   * Handles page change - fetches new page from server
    */
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = async (event: unknown, newPage: number) => {
+    const startDate = valueStart?.format('YYYY-MM-DD');
+    const endDate = valueEnd?.format('YYYY-MM-DD');
+    if (!startDate || !endDate || !paginationMeta) {
+      setPage(newPage);
+      return;
+    }
+
     setPage(newPage);
+    try {
+      setIsInnerLoading(true);
+      const result = await fetchVisitsPage(
+        startDate,
+        endDate,
+        newPage + 1,
+        rowsPerPage
+      );
+      if (result) {
+        setVisitsData(result.data);
+        setPaginationMeta(result.meta);
+      }
+    } catch (catchError) {
+      if (catchError instanceof AuthError) {
+        return openModalLoginForm();
+      }
+      changeErrorMessage(GTEXTS.error_something_went_wrong);
+    } finally {
+      setIsInnerLoading(false);
+    }
   };
 
   /**
-   * Handles rows per page change for pagination
+   * Handles rows per page change - fetches first page with new size from server
    */
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+  const handleChangeRowsPerPage = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newRowsPerPage = parseInt(event.target.value, 10);
+    const startDate = valueStart?.format('YYYY-MM-DD');
+    const endDate = valueEnd?.format('YYYY-MM-DD');
+
+    setRowsPerPage(newRowsPerPage);
     setPage(0);
-  };
 
-  /**
-   * Exports visits data to XLSX
-   */
-  const exportToXLSX = () => {
-    if (visitsData.length === 0) {
-      changeErrorMessage("No hay datos para exportar");
+    if (!startDate || !endDate || !paginationMeta) {
       return;
     }
 
-    const data = visitsData.map(visit => ({
-      'ID Visita': visit.id || '',
-      'Fecha Creación': visit.created_at || '',
-      'Descripción': visit.reason || '',
-      'Estado': visit.status || '',
-      'Fecha Inicial': visit.start_date || '',
-      'Fecha Final': visit.end_date || '',
-      'Interventor': visit.interventor_name || '',
-      'Cant. Visitantes': visit.visitors_count || '',
-      'Aprobó': visit.approver_name || '',
-      'Verificador Docs': visit.document_verifier_name || '',
-      'Primer Nombre': visit.visitor_first_name || '',
-      'Segundo Nombre': visit.visitor_middle_name || '',
-      'Primer Apellido': visit.visitor_first_last_name || '',
-      'Segundo Apellido': visit.visitor_second_last_name || '',
-      'Tipo Identificación': visit.identification_type || '',
-      'Número Identificación': visit.identification_number || '',
-      'Tipo Visitante': visit.visitor_type || ''
-    }));
-
-    const worksheet = XLSX.utils.json_to_sheet(data);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Reporte Visitas');
-
-    // Auto-adjust column widths
-    const colWidths = Object.keys(data[0] || {}).map(header => ({
-      wch: Math.max(header.length, 20)
-    }));
-    worksheet['!cols'] = colWidths;
-
-    // Generate filename with current date
-    const filename = `reporte_visitas_${dayjs().format('YYYY-MM-DD_HH-mm')}.xlsx`;
-    
-    XLSX.writeFile(workbook, filename);
-    changeOkMessage("Archivo Excel descargado exitosamente");
+    try {
+      setIsInnerLoading(true);
+      const result = await fetchVisitsPage(
+        startDate,
+        endDate,
+        1,
+        newRowsPerPage
+      );
+      if (result) {
+        setVisitsData(result.data);
+        setPaginationMeta(result.meta);
+      }
+    } catch (catchError) {
+      if (catchError instanceof AuthError) {
+        return openModalLoginForm();
+      }
+      changeErrorMessage(GTEXTS.error_something_went_wrong);
+    } finally {
+      setIsInnerLoading(false);
+    }
   };
 
   /**
-   * Exports visits data to CSV
+   * Exports ALL visits in the date range to XLSX (calls API with per_page=all).
    */
-  const exportToCSV = () => {
-    if (visitsData.length === 0) {
-      changeErrorMessage("No hay datos para exportar");
+  const exportToXLSX = async () => {
+    if (!valueStart || !valueEnd) {
+      changeErrorMessage(TEXTS.error_date_required);
+      return;
+    }
+    if (valueEnd.isBefore(valueStart)) {
+      changeErrorMessage(TEXTS.error_invalid_date_range);
       return;
     }
 
-    const headers = [
-      'ID Visita',
-      'Fecha Creación',
-      'Descripción',
-      'Estado',
-      'Fecha Inicial',
-      'Fecha Final',
-      'Interventor',
-      'Cant. Visitantes',
-      'Aprobó',
-      'Verificador Docs',
-      'Primer Nombre',
-      'Segundo Nombre',
-      'Primer Apellido',
-      'Segundo Apellido',
-      'Tipo Identificación',
-      'Número Identificación',
-      'Tipo Visitante'
-    ];
-    
-    // Add BOM to support UTF-8 encoding for accents and special characters
-    const BOM = '\uFEFF';
-    const csvContent = BOM + [
-      headers.join(','),
-      ...visitsData.map(visit => [
-        visit.id,
-        `"${visit.created_at}"`,
-        `"${visit.reason.replace(/"/g, '""')}"`,
-        `"${visit.status}"`,
-        `"${visit.start_date}"`,
-        `"${visit.end_date}"`,
-        `"${visit.interventor_name}"`,
-        visit.visitors_count,
-        `"${visit.approver_name}"`,
-        `"${visit.document_verifier_name}"`,
-        `"${visit.visitor_first_name}"`,
-        `"${visit.visitor_middle_name}"`,
-        `"${visit.visitor_first_last_name}"`,
-        `"${visit.visitor_second_last_name}"`,
-        `"${visit.identification_type}"`,
-        `"${visit.identification_number}"`,
-        `"${visit.visitor_type}"`
-      ].join(','))
-    ].join('\n');
+    try {
+      setIsExporting(true);
+      hideMessages();
 
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    
-    link.setAttribute('href', url);
-    link.setAttribute('download', `reporte_visitas_${dayjs().format('YYYY-MM-DD_HH-mm')}.csv`);
-    link.style.visibility = 'hidden';
-    
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    
-    changeOkMessage("Archivo CSV descargado exitosamente");
+      const startDate = valueStart.format("YYYY-MM-DD");
+      const endDate = valueEnd.format("YYYY-MM-DD");
+      const allData = await fetchAllVisits(startDate, endDate);
+
+      if (allData.length === 0) {
+        changeErrorMessage("No hay datos para exportar en el rango de fechas seleccionado.");
+        return;
+      }
+
+      const data = allData.map((visit) => ({
+        "ID Visita": visit.id || "",
+        "Fecha Creación": visit.created_at || "",
+        Descripción: visit.reason || "",
+        Estado: visit.status || "",
+        "Fecha Inicial": visit.start_date || "",
+        "Fecha Final": visit.end_date || "",
+        Interventor: visit.interventor_name || "",
+        "Cant. Visitantes": visit.visitors_count || "",
+        Aprobó: visit.approver_name || "",
+        "Verificador Docs": visit.document_verifier_name || "",
+        "Primer Nombre": visit.visitor_first_name || "",
+        "Segundo Nombre": visit.visitor_middle_name || "",
+        "Primer Apellido": visit.visitor_first_last_name || "",
+        "Segundo Apellido": visit.visitor_second_last_name || "",
+        "Tipo Identificación": visit.identification_type || "",
+        "Número Identificación": visit.identification_number || "",
+        "Tipo Visitante": visit.visitor_type || "",
+      }));
+
+      const worksheet = XLSX.utils.json_to_sheet(data);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Reporte Visitas");
+
+      const colWidths = Object.keys(data[0] || {}).map((header) => ({
+        wch: Math.max(header.length, 20),
+      }));
+      worksheet["!cols"] = colWidths;
+
+      const filename = `reporte_visitas_${dayjs().format("YYYY-MM-DD_HH-mm")}.xlsx`;
+      XLSX.writeFile(workbook, filename);
+      changeOkMessage(`Archivo Excel descargado exitosamente (${allData.length} registros).`);
+    } catch (catchError) {
+      if (catchError instanceof AuthError) {
+        return openModalLoginForm();
+      }
+      if (catchError instanceof LocalError || catchError instanceof ValidationError) {
+        changeErrorMessage(catchError.message);
+      } else {
+        changeErrorMessage(GTEXTS.error_something_went_wrong);
+      }
+    } finally {
+      setIsExporting(false);
+    }
   };
+
+  /**
+   * Exports ALL visits in the date range to CSV (calls API with per_page=all).
+   */
+  const exportToCSV = async () => {
+    if (!valueStart || !valueEnd) {
+      changeErrorMessage(TEXTS.error_date_required);
+      return;
+    }
+    if (valueEnd.isBefore(valueStart)) {
+      changeErrorMessage(TEXTS.error_invalid_date_range);
+      return;
+    }
+
+    try {
+      setIsExporting(true);
+      hideMessages();
+
+      const startDate = valueStart.format("YYYY-MM-DD");
+      const endDate = valueEnd.format("YYYY-MM-DD");
+      const allData = await fetchAllVisits(startDate, endDate);
+
+      if (allData.length === 0) {
+        changeErrorMessage("No hay datos para exportar en el rango de fechas seleccionado.");
+        return;
+      }
+
+      const headers = [
+        "ID Visita",
+        "Fecha Creación",
+        "Descripción",
+        "Estado",
+        "Fecha Inicial",
+        "Fecha Final",
+        "Interventor",
+        "Cant. Visitantes",
+        "Aprobó",
+        "Verificador Docs",
+        "Primer Nombre",
+        "Segundo Nombre",
+        "Primer Apellido",
+        "Segundo Apellido",
+        "Tipo Identificación",
+        "Número Identificación",
+        "Tipo Visitante",
+      ];
+
+      const BOM = "\uFEFF";
+      const csvContent =
+        BOM +
+        [
+          headers.join(","),
+          ...allData.map((visit) =>
+            [
+              visit.id,
+              `"${visit.created_at}"`,
+              `"${(visit.reason || "").replace(/"/g, '""')}"`,
+              `"${visit.status}"`,
+              `"${visit.start_date}"`,
+              `"${visit.end_date}"`,
+              `"${visit.interventor_name}"`,
+              visit.visitors_count,
+              `"${visit.approver_name}"`,
+              `"${visit.document_verifier_name}"`,
+              `"${visit.visitor_first_name}"`,
+              `"${visit.visitor_middle_name}"`,
+              `"${visit.visitor_first_last_name}"`,
+              `"${visit.visitor_second_last_name}"`,
+              `"${visit.identification_type}"`,
+              `"${visit.identification_number}"`,
+              `"${visit.visitor_type}"`,
+            ].join(",")
+          ),
+        ].join("\n");
+
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+
+      link.setAttribute("href", url);
+      link.setAttribute(
+        "download",
+        `reporte_visitas_${dayjs().format("YYYY-MM-DD_HH-mm")}.csv`
+      );
+      link.style.visibility = "hidden";
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      changeOkMessage(`Archivo CSV descargado exitosamente (${allData.length} registros).`);
+    } catch (catchError) {
+      if (catchError instanceof AuthError) {
+        return openModalLoginForm();
+      }
+      if (catchError instanceof LocalError || catchError instanceof ValidationError) {
+        changeErrorMessage(catchError.message);
+      } else {
+        changeErrorMessage(GTEXTS.error_something_went_wrong);
+      }
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const totalRows = paginationMeta?.total ?? 0;
 
   return {
     valueStart,
@@ -452,9 +664,11 @@ export default function useFormGenerateVisitisReport() {
     valueEnd,
     setValueEnd,
     isInnerLoading,
+    isExporting,
     visitsData,
     page,
     rowsPerPage,
+    totalRows,
     message: okMessage,
     error: errorMessage,
     hideMessages,

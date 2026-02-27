@@ -157,9 +157,11 @@ export default function FormGenerateVisitisReport() {
 		valueEnd,
 		setValueEnd,
 		isInnerLoading,
+		isExporting,
 		visitsData,
 		page,
 		rowsPerPage,
+		totalRows,
 		message,
 		error,
 		onSubmit,
@@ -223,30 +225,58 @@ export default function FormGenerateVisitisReport() {
 
 				{/* Results Table */}
 				{visitsData.length > 0 && (
-					<Box sx={{ marginTop: 4 }}>
+					<Box sx={{ marginTop: 4, position: 'relative' }}>
 						<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 }}>
 							<Typography variant="h6">
-								Resultados del Reporte ({visitsData.length} registros)
+								Resultados del Reporte ({totalRows} registros en total, mostrando página actual)
 							</Typography>
 							<Box sx={{ display: 'flex', gap: 1 }}>
 								<Button
 									variant="outlined"
-									startIcon={<Download />}
-									onClick={exportToCSV}
-									disabled={isInnerLoading}
+									startIcon={isExporting ? <CircularProgress size={20} /> : <Download />}
+									onClick={() => exportToCSV()}
+									disabled={isInnerLoading || isExporting}
 								>
 									{TEXTS.export_csv}
 								</Button>
 								<Button
 									variant="outlined"
-									startIcon={<Download />}
-									onClick={exportToXLSX}
-									disabled={isInnerLoading}
+									startIcon={isExporting ? <CircularProgress size={20} /> : <Download />}
+									onClick={() => exportToXLSX()}
+									disabled={isInnerLoading || isExporting}
 								>
 									{TEXTS.export_xlsx}
 								</Button>
 							</Box>
 						</Box>
+
+						{/* Loading overlay al cambiar de página: evita doble clic y muestra feedback */}
+						{isInnerLoading && (
+							<Box
+								sx={{
+									position: 'absolute',
+									top: 0,
+									left: 0,
+									right: 0,
+									bottom: 0,
+									display: 'flex',
+									flexDirection: 'column',
+									alignItems: 'center',
+									justifyContent: 'center',
+									bgcolor: 'rgba(255, 255, 255, 0.85)',
+									zIndex: 10,
+									borderRadius: 1,
+								}}
+								aria-hidden="false"
+								role="status"
+								aria-label="Cargando página"
+							>
+								<CircularProgress size={48} sx={{ mb: 1 }} />
+								<Typography variant="body2" color="text.secondary">
+									Cargando página...
+								</Typography>
+							</Box>
+						)}
 						
 						<TableContainer component={Paper} sx={{ maxHeight: 600, overflow: 'auto' }}>
 							<Table stickyHeader sx={{ minWidth: 1200 }} aria-label="visits table">
@@ -271,9 +301,7 @@ export default function FormGenerateVisitisReport() {
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									{visitsData
-										.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-										.map((visit, index) => (
+									{visitsData.map((visit, index) => (
 											<TableRow 
 												key={`${visit.id}-${index}`}
 												sx={{ '&:nth-of-type(odd)': { backgroundColor: 'action.hover' } }}
@@ -317,9 +345,9 @@ export default function FormGenerateVisitisReport() {
 						</TableContainer>
 
 						<TablePagination
-							rowsPerPageOptions={[5, 10, 25, 50, 100]}
+							rowsPerPageOptions={[10, 25, 50, 100]}
 							component="div"
-							count={visitsData.length}
+							count={totalRows}
 							rowsPerPage={rowsPerPage}
 							page={page}
 							onPageChange={handleChangePage}
