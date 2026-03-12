@@ -16,14 +16,28 @@ import apiRequest from "@/lib/ApiRequest";
 
 export default class GenerateReportsService {
   /**
-   * Requests all visits in a date range.
+   * Requests visits in a date range.
+   * Paginated: pass page (1-based) and per_page (number).
+   * All results: pass per_page === 'all' (page is ignored).
+   * @param start_date - Start date (YYYY-MM-DD)
+   * @param end_date - End date (YYYY-MM-DD)
+   * @param page - 1-based page number (used only when per_page is a number)
+   * @param per_page - Items per page (number) or 'all' for no pagination
    */
-  async allVisits(start_date: string, end_date: string) {
+  async allVisits(
+    start_date: string,
+    end_date: string,
+    page: number = 1,
+    per_page: number | "all" = 50
+  ) {
     try {
+      const base = `/reports/visit-history/?start_date=${start_date}&end_date=${end_date}`;
+      const url =
+        per_page === "all"
+          ? `${base}&per_page=all`
+          : `${base}&page=${page}&per_page=${per_page}`;
       return await apiRequest()
-        .get(
-          `/reports/visit-history/?start_date=${start_date}&end_date=${end_date}`
-        )
+        .get(url)
         .then((res) => res.data);
     } catch (catchError) {
       const error = catchError as AxiosError;
