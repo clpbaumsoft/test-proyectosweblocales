@@ -123,7 +123,7 @@ export default function VisitorDetails({ visitVisitor }: VisitorDetailsProps) {
 							{TEXTS.visitor_country}
 						</Typography>
 						<Typography variant="body2" sx={{ fontWeight: 500 }}>
-							{"-"}
+							{visitVisitor.visitor_data?.city?.country?.name || "-"}
 						</Typography>
 					</Box>
 
@@ -133,7 +133,7 @@ export default function VisitorDetails({ visitVisitor }: VisitorDetailsProps) {
 							{TEXTS.visitor_eps}
 						</Typography>
 						<Typography variant="body2" sx={{ fontWeight: 500 }}>
-							{"-"}
+							{visitVisitor.visitor_data?.carecompany || "-"}
 						</Typography>
 					</Box>
                 </Grid>
@@ -165,7 +165,7 @@ export default function VisitorDetails({ visitVisitor }: VisitorDetailsProps) {
 							{TEXTS.visitor_city}
 						</Typography>
 						<Typography variant="body2" sx={{ fontWeight: 500 }}>
-							{"-"}
+							{visitVisitor.visitor_data?.city?.name || "-"}
 						</Typography>
 					</Box>
 
@@ -175,7 +175,7 @@ export default function VisitorDetails({ visitVisitor }: VisitorDetailsProps) {
 							{TEXTS.arl_company}
 						</Typography>
 						<Typography variant="body2" sx={{ fontWeight: 500 }}>
-							{"-"}
+							{visitVisitor.visitor_data?.arlcompany || "-"}
 						</Typography>
 					</Box>
 
