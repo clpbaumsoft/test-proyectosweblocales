@@ -127,6 +127,14 @@ export type VisitVisitor = BaseModel & {
 	visitor: Visitor;
 	visitor_type: VisitorType;
 	visit: Visit;
+	visitor_data: {
+		arlcompany?: string;
+		carecompany?: string;
+		city?: {
+			country: Country;
+			name: string;
+		}
+	};
 }
 
 export type Visitor = BaseModel & {

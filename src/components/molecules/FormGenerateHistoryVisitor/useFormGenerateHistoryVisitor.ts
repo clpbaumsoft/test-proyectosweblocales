@@ -159,6 +159,11 @@ const TRANS = {
     defaultMessage: "El número de identificación debe tener al menos 3 caracteres.",
     description: "",
   },
+  no_results_for_search: {
+    id: "FormGenerateHistoryVisitor.Message.NoResultsForSearch",
+    defaultMessage: "No se encontraron resultados para la búsqueda.",
+    description: "",
+  },
 };
 
 export default function useFormGenerateHistoryVisitor() {
@@ -307,6 +312,7 @@ export default function useFormGenerateHistoryVisitor() {
 
       setIsInnerLoading(true);
       hideMessages();
+      setHistoryData([]); // Limpiar resultados anteriores antes de la nueva búsqueda
 
       const identificationTypeId = data.identification_type;
       if (!identificationTypeId) {
@@ -346,14 +352,23 @@ export default function useFormGenerateHistoryVisitor() {
       setIsInnerLoading(false);
     } catch (catchError) {
       setIsInnerLoading(false);
+      setHistoryData([]); // Asegurar que no se muestren datos previos ante error
       if (catchError instanceof AuthError) {
         return openModalLoginForm();
       }
-      if (catchError instanceof LocalError || catchError instanceof ValidationError) {
+      if (catchError instanceof ValidationError) {
         changeErrorMessage(catchError.message);
-      } else {
-        changeErrorMessage(GTEXTS.error_something_went_wrong);
+        return;
       }
+      if (catchError instanceof LocalError) {
+        // Si el backend devuelve mensaje genérico, mostrar mensaje de "sin resultados"
+        const msg = (catchError as LocalError).message;
+        const isGenericError =
+          msg === GTEXTS.error_something_went_wrong || msg === "Algo salió mal." || msg === "Algo salió mal";
+        changeErrorMessage(isGenericError ? TEXTS.no_results_for_search : msg);
+        return;
+      }
+      changeErrorMessage(TEXTS.no_results_for_search);
     }
   };
 

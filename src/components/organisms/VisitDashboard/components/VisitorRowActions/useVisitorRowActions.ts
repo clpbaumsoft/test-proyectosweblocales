@@ -73,9 +73,11 @@ export default function useVisitorRowActions(visitVisitor: VisitVisitor) {
 	const [isInnerLoading, setIsInnerLoading] = useState(false)
 	const [isOpenModalAddDocuments, setIsOpenModalAddDocuments] = useState(false)
 	const [isOpenListVisitVisitorDocs, setIsOpenListVisitVisitorDocs] = useState(false)
+	const [isOpenModalVisitorDetails, setIsOpenModalVisitorDetails] = useState(false)
 	const [stateRowVisitVisitor, setKeyStateRowVisitVisitor] = useRecordState<VisitVisitor>({ ...visitVisitor })
 
 	const toggleModalAddDocuments = () => setIsOpenModalAddDocuments(!isOpenModalAddDocuments)
+	const toggleModalVisitorDetails = () => setIsOpenModalVisitorDetails(!isOpenModalVisitorDetails)
 
 	/**
 	 * Uploads all the files to a visitor.
@@ -201,12 +203,14 @@ export default function useVisitorRowActions(visitVisitor: VisitVisitor) {
 		isInnerLoading,
 		files,
 		actions,
+		isOpenModalVisitorDetails,
 		isOpenModalAddDocuments,
 		isOpenListVisitVisitorDocs,
 		stateRowVisitVisitor,
 		setKeyStateRowVisitVisitor,
 		toogleListVisitVisitorDocs,
 		toggleModalAddDocuments,
+		toggleModalVisitorDetails,
 		uploadAllDocuments,
 		onClickCancelVisitor,
 	}
