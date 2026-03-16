@@ -81,7 +81,7 @@ export default function VisitorDetails({ visitVisitor }: VisitorDetailsProps) {
 	const visitor = visitVisitor.visitor;
 	const visitorType = visitVisitor.visitor_type;
 	const identType = visitor.identification_type;
-    console.log("VisitorDetails -> visitVisitor", visitVisitor)
+	
 	return (
 		<Box sx={{ p: 2 }}>
 			<Grid container spacing={2}>

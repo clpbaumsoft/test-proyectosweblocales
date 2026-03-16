@@ -22,7 +22,6 @@ import User from "@/models/User";
  */
 export const getSessionToken = async () => {
   const cookieStore = await cookies()
-  // console.log("🎯🎯🎯🎯🎯🎯🎯🎯 ~ getSessionToken ~ cookieStore:", cookieStore)
   const accessToken = cookieStore.get('auth_token')?.value || ""
   return accessToken
 }

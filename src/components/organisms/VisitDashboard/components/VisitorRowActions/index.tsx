@@ -124,7 +124,7 @@ export default function VisitorRowActions({ visitVisitor, documentTypes, visitSt
 		isOpenModalVisitorDetails,
 		toggleModalVisitorDetails,
 	} = useVisitorRowActions(visitVisitor)
-console.log('visitVisitor', visitVisitor);
+
 	return (
 		<>
 			<BoxButtons>
