@@ -190,7 +190,7 @@ export default function VisitorDetails({ visitVisitor }: VisitorDetailsProps) {
             </Box>
             <Grid container spacing={2}>
 				{/* Column 1 */}
-				<Grid item xs={12} sm={6}>
+				<Grid size={{ xs: 12, sm: 6 }}>
 					{/* Emergency Contact Name */}
                     <Box sx={{ mb: 2 }}>
                         <Typography variant="caption" color="textSecondary">
@@ -202,7 +202,7 @@ export default function VisitorDetails({ visitVisitor }: VisitorDetailsProps) {
                     </Box>
                 </Grid>
 				{/* Column 2 */}
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                     {/* Emergency Contact Phone */}
 					<Box sx={{ mb: 2 }}>
 						<Typography variant="caption" color="textSecondary">
@@ -213,11 +213,6 @@ export default function VisitorDetails({ visitVisitor }: VisitorDetailsProps) {
 						</Typography>
 					</Box>
 				</Grid>
-                
-            {/* </Grid> */}
-        {/* </Grid> */}
-				
-
 				
 			</Grid>
 		</Box>

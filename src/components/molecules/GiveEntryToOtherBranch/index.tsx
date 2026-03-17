@@ -2,7 +2,6 @@ import {
 	Alert,
 	Box,
 	Button,
-	// TextField,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { ErrorMessage } from "@hookform/error-message";
@@ -46,7 +45,7 @@ const TRANS = {
 	},
 }
 
-export default function GiveEntryToOtherBranch({ visitor, visit, onClose }: GiveEntryToOtherBranchProps) {
+export default function GiveEntryToOtherBranch({ visitor, onClose }: GiveEntryToOtherBranchProps) {
 
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)
@@ -57,11 +56,10 @@ export default function GiveEntryToOtherBranch({ visitor, visit, onClose }: Give
 		message,
 		error,
 		control,
-		// register,
 		handleSubmit,
 		onSubmit,
 		loadGates,
-	} = useGiveEntryToOtherBranchForm(visitor, visit)
+	} = useGiveEntryToOtherBranchForm(visitor)
 
 	return (
 		<>
