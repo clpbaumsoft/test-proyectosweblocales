@@ -220,8 +220,7 @@ export default function useFormGenerateReportEmployeesWithoutIdCards() {
   /**
    * Handles the form submission and fetches employee report data
    */
-  const onSubmit = async (data: EmployeeReportFormType) => {
-    console.log("🚀 ~ onSubmit ~ data:", data)
+  const onSubmit = async () => {
     try {
       if (isInnerLoading) {
         return;

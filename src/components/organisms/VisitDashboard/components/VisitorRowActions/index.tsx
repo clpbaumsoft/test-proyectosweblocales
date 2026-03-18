@@ -9,10 +9,12 @@ import {
 	DialogContent,
 	DialogTitle,
 	styled,
+	Tooltip,
 } from "@mui/material";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import DoDisturbAltIcon from "@mui/icons-material/DoDisturbAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 //Components
 import ListVisitVisitorDocs from "@/components/molecules/ListVisitVisitorDocs";
@@ -20,6 +22,7 @@ import ModalFullScreen from "@/components/atoms/ModalFullScreen";
 import UploadDocuments from "@/components/atoms/UploadDocuments";
 import FullLoader from "@/components/atoms/FullLoader";
 import WarningCondition from "@/components/atoms/WarningCondition";
+import VisitorDetails from "../VisitorDetails";
 
 //Constants
 import { GTRANS } from "@/constants/Globals";
@@ -36,11 +39,19 @@ import { VisitorRowActionsProps } from "@/interfaces/Molecules";
 import useVisitorRowActions from "./useVisitorRowActions";
 import useTranslation from "@/hooks/useTranslation";
 
+//Styles
+import styles from "./VisitorRowActions.module.scss";
+
 //Texts
 const TRANS = {
 	title_modal_upload_documents: {
 		id: "VisitorRowActions.ModalFullScreen.UploadDocuments",
 		defaultMessage: "Subir documentos",
+		description: "",
+	},
+	title_modal_visitor_details: {
+		id: "VisitorRowActions.ModalFullScreen.VisitorDetails",
+		defaultMessage: "Detalles del visitante",
 		description: "",
 	},
 	title_list_visit_visitor_docs: {
@@ -110,11 +121,22 @@ export default function VisitorRowActions({ visitVisitor, documentTypes, visitSt
 		uploadAllDocuments,
 		setKeyStateRowVisitVisitor,
 		onClickCancelVisitor,
+		isOpenModalVisitorDetails,
+		toggleModalVisitorDetails,
 	} = useVisitorRowActions(visitVisitor)
 
 	return (
 		<>
 			<BoxButtons>
+				<Tooltip title={TEXTS.see} placement="top">
+					<Button
+						className={styles.button_action_icon}
+						variant="outlined" 
+						color="success"
+						onClick={toggleModalVisitorDetails}
+						startIcon={<VisibilityIcon color="success" />}
+					/>
+				</Tooltip>
 				{
 					isInnerLoading && (
 						<FullLoader variant="absolute" size="small" />
@@ -185,6 +207,15 @@ export default function VisitorRowActions({ visitVisitor, documentTypes, visitSt
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={toogleListVisitVisitorDocs}>{GTEXTS.close}</Button>
+				</DialogActions>
+			</Dialog>
+			<Dialog open={isOpenModalVisitorDetails} onClose={toggleModalVisitorDetails}>
+				<DialogTitle>{TEXTS.title_modal_visitor_details}</DialogTitle>
+				<DialogContent>
+					<VisitorDetails visitVisitor={visitVisitor} />
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={toggleModalVisitorDetails}>{GTEXTS.close}</Button>
 				</DialogActions>
 			</Dialog>
 			

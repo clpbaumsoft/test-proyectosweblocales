@@ -49,7 +49,6 @@ export default class User implements UserType {
 
 	public can(keysPermissions: string | string[]) {
 		
-		// console.log("🐍🐍🐍🐍🐍🐍🐍🐍🐍 ~ User ~ can ~ keysPermissions:", keysPermissions)
 
 		if(!Array.isArray(keysPermissions)) {
 			keysPermissions = [keysPermissions]

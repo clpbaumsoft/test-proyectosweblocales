@@ -24,8 +24,6 @@ export default function Home() {
 		loggedUser,
 	} = useHome()
 	
-	console.log("🪪🪪🪪🪪🪪🪪🪪🪪🪪 --->  ~ Home ~ loggedUser:", loggedUser)
-
 	if(loggedUser.can('read_visit')) {
 		return <VisitsDashboard />
 	}

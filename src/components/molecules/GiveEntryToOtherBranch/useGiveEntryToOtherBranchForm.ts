@@ -19,7 +19,7 @@ import useTranslation from "@/hooks/useTranslation";
 
 //Interfaces and types
 import { VisitFormToOtherBranchType } from "@/interfaces/Forms";
-import { Visit, Visitor } from "@/interfaces/Models";
+import { Visitor } from "@/interfaces/Models";
 
 //Services
 import Orchestra from "@/services/Orchestra";
@@ -33,8 +33,7 @@ const TRANS = {
 	},
 }
 
-export default function useGiveEntryToOtherBranchForm(visitor: Visitor, visit: Visit) {
-	console.log("🚀 ~ useGiveEntryToOtherBranchForm ~ visit:", visit)
+export default function useGiveEntryToOtherBranchForm(visitor: Visitor) {
 	
 	const TEXTS = useTranslation(TRANS)
 	const GTEXTS = useTranslation(GTRANS)

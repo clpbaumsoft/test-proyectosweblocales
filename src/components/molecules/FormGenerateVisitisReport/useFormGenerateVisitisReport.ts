@@ -110,6 +110,7 @@ interface ApiVisitResponseItem {
   status: string;
   soft_delete: boolean;
   id_creator_user: number;
+  creator: BaseUser | null;
   creator_date: string;
   id_modifier_user: number | null;
   modifier_date: string;
@@ -138,6 +139,7 @@ interface VisitReportData {
   start_date: string;
   end_date: string;
   interventor_name: string;
+  visit_creator_name: string;
   visitors_count: number;
   approver_name: string;
   document_verifier_name: string;
@@ -244,6 +246,7 @@ export default function useFormGenerateVisitisReport() {
           start_date: visitItem.start_date,
           end_date: visitItem.end_date,
           interventor_name: interventorName,
+          visit_creator_name: visitItem.creator?.fullname || '',
           visitors_count: 0,
           approver_name: interventorName,
           document_verifier_name: visitItem.approver_docs?.fullname || '',
@@ -268,6 +271,7 @@ export default function useFormGenerateVisitisReport() {
             start_date: visitItem.start_date,
             end_date: visitItem.end_date,
             interventor_name: interventorName,
+            visit_creator_name: visitItem.creator?.fullname || '',
             visitors_count: visitItem.visit_visitors.length,
             approver_name: interventorName,
             document_verifier_name: visitItem.approver_docs?.fullname || '',
@@ -513,6 +517,7 @@ export default function useFormGenerateVisitisReport() {
         "Fecha Inicial": visit.start_date || "",
         "Fecha Final": visit.end_date || "",
         Interventor: visit.interventor_name || "",
+        'Creador de visita': visit.visit_creator_name || '',
         "Cant. Visitantes": visit.visitors_count || "",
         Aprobó: visit.approver_name || "",
         "Verificador Docs": visit.document_verifier_name || "",
@@ -585,6 +590,7 @@ export default function useFormGenerateVisitisReport() {
         "Fecha Inicial",
         "Fecha Final",
         "Interventor",
+        'Creador de visita',
         "Cant. Visitantes",
         "Aprobó",
         "Verificador Docs",
@@ -611,6 +617,7 @@ export default function useFormGenerateVisitisReport() {
               `"${visit.start_date}"`,
               `"${visit.end_date}"`,
               `"${visit.interventor_name}"`,
+              `"${visit.visit_creator_name}"`,
               visit.visitors_count,
               `"${visit.approver_name}"`,
               `"${visit.document_verifier_name}"`,
