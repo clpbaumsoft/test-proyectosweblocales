@@ -113,6 +113,7 @@ export type CounterTextFieldProps = BaseComponentProps & {
 export type CustomDatePickerProps<TValue, TError> = BaseComponentProps & {
 	label?: string;
 	inputProps?: TextFieldProps;
+	minDate?: Moment;
 	onChange?: (value: TValue, context: PickerChangeHandlerContext<TError>) => void;
 }
 

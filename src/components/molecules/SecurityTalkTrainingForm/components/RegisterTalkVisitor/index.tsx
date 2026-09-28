@@ -79,6 +79,7 @@ export default function RegisterTalkVisitor({ visitor }: RegisterTalkVisitorProp
 		error,
 		isOpenTooltip,
 		handleSubmit,
+		minStartDate,
 		onSubmit,
 		onChangeStartDate,
 		onChangeEndDate,
@@ -157,6 +158,7 @@ export default function RegisterTalkVisitor({ visitor }: RegisterTalkVisitorProp
 							<CustomDatePicker 
 								label={TEXTS.label_startdate_field}
 								onChange={onChangeStartDate}
+								minDate={minStartDate}
 								inputProps={{ size: 'small' }}
 							/>
 							<Box sx={{ width: '10px'}} />

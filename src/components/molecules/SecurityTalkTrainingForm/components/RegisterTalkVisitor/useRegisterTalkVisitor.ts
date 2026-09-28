@@ -61,6 +61,7 @@ export default function useRegisterTalkVisitor(visitor: Visitor) {
 	const [okMessage, errorMessage, changeOkMessage, changeErrorMessage, hideMessages] = useFormMessages()
 	const [isOpenTooltip, setIsOpenTooltip] = useState(false)
 	const [stateVisitor, setKeyStateVisitor, , setStateVisitor] = useRecordState<Visitor>({ ...visitor })
+	const minStartDate = now().startOf('day').subtract(3, 'days')
 
 	/**
 	 * Submit funtion to send the start and end date of the person received the security training.
@@ -69,10 +70,10 @@ export default function useRegisterTalkVisitor(visitor: Visitor) {
 	 */
 	const onSubmit = async (data: RegisterTalkVisitorFormType) => {
 		try {
-			const momentStartDate = mInit(data.start_date).endOf('day')
-			const momentEndDate = mInit(data.end_date).endOf('day')
+			const momentStartDate = mInit(data.start_date).startOf('day')
+			const momentEndDate = mInit(data.end_date).startOf('day')
 
-			if(!data.start_date || !data.end_date || momentStartDate.isBefore(now()) || momentEndDate.isSameOrBefore(momentStartDate)) {
+			if(!data.start_date || !data.end_date || momentStartDate.isBefore(minStartDate) || momentEndDate.isSameOrBefore(momentStartDate)) {
 				return changeErrorMessage(TEXTS.error_invalid_dates)
 			}
 
@@ -134,6 +135,7 @@ export default function useRegisterTalkVisitor(visitor: Visitor) {
 		error: errorMessage,
 		isOpenTooltip,
 		stateVisitor,
+		minStartDate,
 		register,
 		handleSubmit,
 		onSubmit,

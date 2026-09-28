@@ -68,7 +68,7 @@ const TRANS = {
 	},
 }
 
-export default function CustomDatePicker({ label, onChange, inputProps }: CustomDatePickerProps<Moment | null, DateValidationError>) {
+export default function CustomDatePicker({ label, onChange, inputProps, minDate }: CustomDatePickerProps<Moment | null, DateValidationError>) {
 
 	const TEXTS = useTranslation(TRANS)
 	return (
@@ -77,6 +77,7 @@ export default function CustomDatePicker({ label, onChange, inputProps }: Custom
 				<DatePicker
 					label={label}
 					onChange={onChange}
+					minDate={minDate}
 					localeText={{
 						toolbarTitle: TEXTS.toolbar_title,
 						previousMonth: TEXTS.previous_month,
