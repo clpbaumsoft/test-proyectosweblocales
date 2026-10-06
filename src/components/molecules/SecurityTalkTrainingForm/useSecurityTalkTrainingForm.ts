@@ -19,7 +19,7 @@ export default function useSecurityTalkTrainingForm() {
 	 * @returns 
 	 */
 	const onSearchVisitor = async (data: SearchPersonFormType) : Promise<Person> => {
-		return await Orchestra.visitorService.searchVisitor(data.document_type, data.document_or_name)
+		return await Orchestra.visitorService.searchVisitor(data.document_type, data.document_or_name, ['security_training_history'])
 	}
 
 	/**

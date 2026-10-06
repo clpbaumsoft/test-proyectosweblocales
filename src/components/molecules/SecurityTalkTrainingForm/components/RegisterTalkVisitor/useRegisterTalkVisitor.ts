@@ -60,7 +60,7 @@ export default function useRegisterTalkVisitor(visitor: Visitor) {
 	const [isInnerLoading, setIsInnerLoading] = useState(false)
 	const [okMessage, errorMessage, changeOkMessage, changeErrorMessage, hideMessages] = useFormMessages()
 	const [isOpenTooltip, setIsOpenTooltip] = useState(false)
-	const [stateVisitor, setKeyStateVisitor, , setStateVisitor] = useRecordState<Visitor>({ ...visitor })
+	const [stateVisitor, , , setStateVisitor] = useRecordState<Visitor>({ ...visitor })
 	const minStartDate = now().startOf('day').subtract(4, 'days')
 
 	/**
@@ -83,10 +83,9 @@ export default function useRegisterTalkVisitor(visitor: Visitor) {
 			setIsInnerLoading(true)
 			hideMessages()
 
-			await Orchestra.visitorService.saveSecurityTraining(visitor.id, data)
+			const updatedVisitor = await Orchestra.visitorService.saveSecurityTraining(visitor.id, data)
+			setStateVisitor({ ...updatedVisitor })
 			changeOkMessage(TEXTS.success_set_dates)
-			setKeyStateVisitor('startdate_sgsst', data.start_date)
-			setKeyStateVisitor('enddate_sgsst', data.end_date)
 			setIsInnerLoading(false)
 		} catch(catchError) {
 			setIsInnerLoading(false)
