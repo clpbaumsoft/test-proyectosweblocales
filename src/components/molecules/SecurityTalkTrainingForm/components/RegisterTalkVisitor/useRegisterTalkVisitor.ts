@@ -61,7 +61,7 @@ export default function useRegisterTalkVisitor(visitor: Visitor) {
 	const [okMessage, errorMessage, changeOkMessage, changeErrorMessage, hideMessages] = useFormMessages()
 	const [isOpenTooltip, setIsOpenTooltip] = useState(false)
 	const [stateVisitor, setKeyStateVisitor, , setStateVisitor] = useRecordState<Visitor>({ ...visitor })
-	const minStartDate = now().startOf('day').subtract(3, 'days')
+	const minStartDate = now().startOf('day').subtract(4, 'days')
 
 	/**
 	 * Submit funtion to send the start and end date of the person received the security training.
