@@ -91,7 +91,7 @@ export default class VisitorService {
 	 * Saves the date of the training about security.
 	 * @returns 
 	 */
-	async saveSecurityTraining(visitorId: number, data: RegisterTalkVisitorFormType) {
+	async saveSecurityTraining(visitorId: number, data: RegisterTalkVisitorFormType) : Promise<Visitor> {
 		try {
 			return await apiRequest().patch(`/visitors/${visitorId}/security-training`,  data).then((res) => res.data);
 		} catch(catchError) {

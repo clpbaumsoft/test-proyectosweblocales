@@ -4,6 +4,12 @@ import {
 	Button,
 	ClickAwayListener,
 	FormHelperText,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
 	Tooltip,
 	Typography,
 } from "@mui/material";
@@ -65,6 +71,26 @@ const TRANS = {
 		defaultMessage: "Este rango de fecha corresponde al tiempo de duración que tendrá vigencia la charla de seguridad.",
 		description: "",
 	},
+	history_heading: {
+		id: "RegisterTalkVisitor.History.Heading",
+		defaultMessage: "Historial de charlas de seguridad",
+		description: "",
+	},
+	history_document: {
+		id: "RegisterTalkVisitor.History.Document",
+		defaultMessage: "Documento",
+		description: "",
+	},
+	history_archived_at: {
+		id: "RegisterTalkVisitor.History.ArchivedAt",
+		defaultMessage: "Fecha de actualización",
+		description: "",
+	},
+	history_empty: {
+		id: "RegisterTalkVisitor.History.Empty",
+		defaultMessage: "No hay fechas anteriores registradas para esta persona.",
+		description: "",
+	},
 }
 
 export default function RegisterTalkVisitor({ visitor }: RegisterTalkVisitorProps) {
@@ -79,6 +105,7 @@ export default function RegisterTalkVisitor({ visitor }: RegisterTalkVisitorProp
 		error,
 		isOpenTooltip,
 		handleSubmit,
+		minStartDate,
 		onSubmit,
 		onChangeStartDate,
 		onChangeEndDate,
@@ -157,6 +184,7 @@ export default function RegisterTalkVisitor({ visitor }: RegisterTalkVisitorProp
 							<CustomDatePicker 
 								label={TEXTS.label_startdate_field}
 								onChange={onChangeStartDate}
+								minDate={minStartDate}
 								inputProps={{ size: 'small' }}
 							/>
 							<Box sx={{ width: '10px'}} />
@@ -179,6 +207,38 @@ export default function RegisterTalkVisitor({ visitor }: RegisterTalkVisitorProp
 						>{GTEXTS.save}</Button>
 					</BoxButtonsForm>
 				</form>
+			</Box>
+			<Box sx={{ mt: '20px' }}>
+				<Typography variant="h6" sx={{ mb: '5px' }}>{TEXTS.history_heading}</Typography>
+				<Typography variant="body2" sx={{ mb: '10px' }}>
+					{TEXTS.history_document}: {stateVisitor.identification_type?.code} {stateVisitor.identification_number}
+				</Typography>
+				<TableContainer sx={{ maxHeight: 360, border: '1px solid', borderColor: 'divider', borderRadius: 1 }}>
+					<Table size="small" stickyHeader aria-label={TEXTS.history_heading}>
+						<TableHead>
+							<TableRow>
+								<TableCell>{TEXTS.label_startdate_field}</TableCell>
+								<TableCell>{TEXTS.label_enddate_field}</TableCell>
+								<TableCell>{TEXTS.history_archived_at}</TableCell>
+							</TableRow>
+						</TableHead>
+						<TableBody>
+							{stateVisitor.security_training_history?.length ? (
+								stateVisitor.security_training_history.map((record) => (
+									<TableRow key={record.id}>
+										<TableCell>{record.startdate_sgsst ? formatsDate(record.startdate_sgsst, 'DD/MM/YYYY') : '—'}</TableCell>
+										<TableCell>{record.enddate_sgsst ? formatsDate(record.enddate_sgsst, 'DD/MM/YYYY') : '—'}</TableCell>
+										<TableCell>{formatsDate(record.archived_at, 'DD/MM/YYYY HH:mm')}</TableCell>
+									</TableRow>
+								))
+							) : (
+								<TableRow>
+									<TableCell colSpan={3}>{TEXTS.history_empty}</TableCell>
+								</TableRow>
+							)}
+						</TableBody>
+					</Table>
+				</TableContainer>
 			</Box>
 		</>
 	)

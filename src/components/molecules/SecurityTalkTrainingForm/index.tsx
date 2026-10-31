@@ -48,6 +48,7 @@ export default function SecurityTalkTrainingForm() {
 					<>
 						<Typography variant="h6" sx={{ mb: '10px' }}>{TEXTS.heading_results} - {visitor.fullname}</Typography>
 						<RegisterTalkVisitor 
+							key={visitor.id}
 							visitor={visitor}
 						/>
 					</>

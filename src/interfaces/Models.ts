@@ -137,6 +137,17 @@ export type VisitVisitor = BaseModel & {
 	};
 }
 
+export type VisitorRecordSgsst = {
+	id: number;
+	id_visitor: number;
+	id_identification_type: number;
+	identification_number: string | null;
+	startdate_sgsst: string | null;
+	enddate_sgsst: string | null;
+	archived_at: string;
+	id_archiver_user: number | null;
+}
+
 export type Visitor = BaseModel & {
 	fullname: string;
 	first_name: string;
@@ -149,6 +160,7 @@ export type Visitor = BaseModel & {
 	emergency_contact_phone: string;
 	startdate_sgsst: string;
 	enddate_sgsst: string;
+	security_training_history?: VisitorRecordSgsst[];
 	id_carecompany: number | null;
 	id_arlcompany: number | null;
 	id_city: number | null;
